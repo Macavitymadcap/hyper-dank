@@ -71,10 +71,10 @@ bun run test:a11y
 For user-facing UI changes, add PR screenshots:
 
 ```bash
-bun run screenshots:pr
+bun run screenshots:pr -- --persist
 ```
 
-The screenshot script captures Samsung Galaxy A5-sized states for light and dark mode and updates the PR image table when GitHub credentials are available.
+The screenshot script captures Samsung Galaxy A5-sized states for light and dark mode. A plain `bun run screenshots:pr` writes ignored local images to `.cache/pr-screenshots/<branch>/` for quick review. Add `--persist` when the PR needs repo-hosted screenshots; persisted images are written to `docs/pr-screenshots/<branch>/`, force-staged, and used to update the PR image table when GitHub credentials are available.
 
 ## Templates
 

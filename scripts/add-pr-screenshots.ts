@@ -19,10 +19,11 @@ interface ScreenshotState {
 const args = new Set(process.argv.slice(2));
 const port = Number(process.env.PR_SCREENSHOT_PORT ?? 4100);
 const branch = run("git", ["branch", "--show-current"]);
-const screenshotRoot = normalizePath(process.env.PR_SCREENSHOT_DIR ?? `docs/pr-screenshots/${branch}`);
-const shouldStage = !args.has("--no-stage");
-const shouldUpdatePr = !args.has("--no-update-pr");
 const shouldCommitAndPush = args.has("--commit-and-push");
+const shouldPersist = args.has("--persist") || shouldCommitAndPush || args.has("--update-pr-only");
+const screenshotRoot = normalizePath(process.env.PR_SCREENSHOT_DIR ?? (shouldPersist ? `docs/pr-screenshots/${branch}` : `.cache/pr-screenshots/${branch}`));
+const shouldStage = shouldPersist && !args.has("--no-stage");
+const shouldUpdatePr = shouldPersist && !args.has("--no-update-pr");
 
 const themes: Theme[] = ["light", "dark"];
 const sampleWalks: SampleWalk[] = [
@@ -101,7 +102,7 @@ try {
   await browser.close();
 
   if (shouldStage || shouldCommitAndPush) {
-    run("git", ["add", screenshotRoot]);
+    run("git", ["add", "-f", screenshotRoot]);
   }
 
   if (shouldCommitAndPush && hasChanges(screenshotRoot)) {
@@ -112,8 +113,10 @@ try {
   if (shouldUpdatePr) {
     const pr = await updatePullRequest(screenshots);
     console.log(`Updated PR screenshots: ${pr.html_url}`);
-  } else {
+  } else if (shouldPersist) {
     console.log(buildImagesSection({ branch, repo: getGitHubRepo(), screenshots, states }));
+  } else {
+    console.log("PR update skipped. Screenshots were kept in the ignored local cache; use --persist to write repo-hosted PR images.");
   }
 
   console.log(`Screenshots written to ${screenshotRoot}`);

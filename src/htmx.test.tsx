@@ -26,7 +26,7 @@ describe("HTMX contracts", () => {
     expect(harness.repository.getAllWalks()).toHaveLength(1);
     expect(html).toStartWith("<div class=\"walks-history\">");
     expect(html).toContain("<span class=\"history-count\">1 walk</span>");
-    expect(html).toContain("<table class=\"walks-table\">");
+    expect(html).toContain("<table class=\"scrollable-table walks-table\">");
     expect(html).toContain("<tbody>");
     expect(html).not.toContain("<html");
     expect(html).not.toContain("<main");

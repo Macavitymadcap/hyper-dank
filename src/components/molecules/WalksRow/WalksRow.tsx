@@ -20,17 +20,22 @@ export const WalksRow = ({
   speed,
   pace
 }: WalksRowProps) => {
+  const createdDateTime = formatCreatedDateTime(createdAt);
+
   return (
-    <tr className="walks-row">
+    <tr className="scrollable-table-row walks-row">
       <td className="walks-cell">
-        <time dateTime={createdAt}>{formatCreatedTime(createdAt)}</time>
+        <time className="walk-created-at" dateTime={createdAt}>
+          <span>{createdDateTime.date}</span>
+          <span>{createdDateTime.time}</span>
+        </time>
       </td>
       <WalksCell value={miles.toFixed(1)} />
       <WalksCell value={minutes} />
       <WalksCell value={seconds} />
       <WalksCell value={speed > 0 ? speed.toFixed(1) : '--'} />
       <WalksCell value={pace > 0 ? pace.toFixed(1) : '--'} />
-      <td>
+      <td data-action-column="true">
         <Button
           className="clear-walk-btn"
           type="button"
@@ -49,9 +54,17 @@ export const WalksRow = ({
   );
 }
 
-function formatCreatedTime(createdAt: string) {
-  const match = createdAt.match(/\b(\d{2}):(\d{2})/);
-  if (!match) return createdAt;
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
 
-  return `${match[1]}:${match[2]}`;
+function formatCreatedDateTime(createdAt: string) {
+  const match = createdAt.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/);
+  if (!match) return { date: createdAt, time: "" };
+
+  const [, , month, day, hour, minute] = match;
+  const monthName = months[Number(month) - 1] ?? month;
+
+  return {
+    date: `${Number(day)} ${monthName}`,
+    time: `${hour}:${minute}`,
+  };
 }

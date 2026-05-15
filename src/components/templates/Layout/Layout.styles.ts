@@ -100,10 +100,10 @@ body {
 .button,
 .history-count,
 .walks-cell,
-.walks-table,
-.walks-table tbody,
-.walks-table th,
-.walks-table td,
+.scrollable-table,
+.scrollable-table tbody,
+.scrollable-table th,
+.scrollable-table td,
 .empty-state {
   transition:
     background-color var(--theme-transition),

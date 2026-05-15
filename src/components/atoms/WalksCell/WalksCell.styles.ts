@@ -4,4 +4,10 @@ export const walksCellStyles = /* css */`
   padding: var(--size-2);
   color: var(--table-text);
 }
+
+@media (max-width: 480px) {
+  .walks-cell {
+    padding: var(--size-1);
+  }
+}
 `;

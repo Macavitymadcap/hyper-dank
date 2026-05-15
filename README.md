@@ -8,6 +8,12 @@ For the design and template patterns behind the app, see [ARCHITECTURE.md](./ARC
 
 For the protected branch workflow, Conventional Commit PR titles, and release/versioning process, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
+## Screenshots
+
+| Light | Dark |
+| --- | --- |
+| ![Walking Pace Tracker in light mode](./docs/images/walking-pace-light.png) | ![Walking Pace Tracker in dark mode](./docs/images/walking-pace-dark.png) |
+
 ## Requirements
 
 - [Bun](https://bun.sh/)
@@ -67,10 +73,10 @@ bun run test:a11y
 Capture Samsung Galaxy A5-sized PR screenshots and update the open pull request image table:
 
 ```bash
-bun run screenshots:pr
+bun run screenshots:pr -- --persist
 ```
 
-The script writes screenshots to `docs/pr-screenshots/<branch>/`, stages them by default, and updates the PR body when GitHub credentials are available. Use `bun run screenshots:pr -- --commit-and-push` to also commit and push the generated images, or `bun run screenshots:pr -- --update-pr-only` to reuse already-pushed screenshots and only update the PR body.
+By default, `bun run screenshots:pr` writes ignored local review images to `.cache/pr-screenshots/<branch>/`. Use `--persist` when a pull request needs repo-hosted images in its screenshot table. Persisted screenshots are written to `docs/pr-screenshots/<branch>/`, staged with `git add -f`, and used to update the PR body when GitHub credentials are available. Use `bun run screenshots:pr -- --commit-and-push` to also commit and push generated images, or `bun run screenshots:pr -- --update-pr-only` to reuse already-pushed persisted screenshots and only update the PR body.
 
 The test suite covers:
 
@@ -112,7 +118,7 @@ src/
 ├── htmx.test.tsx              # HTMX fragment contract tests
 ├── components/                # server-rendered JSX components
 │   ├── atoms/                 # primitive controls, cards, cells, styles, and tests
-│   ├── molecules/             # composed UI pieces such as stats and table rows
+│   ├── molecules/             # composed UI pieces such as stats, rows, and reusable tables
 │   ├── organisms/             # feature sections such as forms and tables
 │   ├── pages/                 # full-page compositions
 │   ├── templates/             # document shell and shared assets

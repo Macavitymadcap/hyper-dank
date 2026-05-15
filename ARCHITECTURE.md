@@ -38,6 +38,7 @@ src/
 │   │   ├── Button/            # component, styles, tests, and export
 │   │   └── Card/              # reusable surface container with CSS variable sizing
 │   ├── molecules/             # small composed UI pieces
+│   │   ├── ScrollableTable/    # generic sticky-header table shell
 │   │   └── WalksRow/          # component, styles, tests, and export
 │   ├── organisms/             # feature sections and regions
 │   ├── pages/                 # full page compositions
@@ -116,7 +117,7 @@ Actual HTMX runtime behavior belongs in browser or end-to-end tests if the app g
 Components are grouped by how they are used:
 
 - **Atoms** are primitive controls, surfaces, or cells such as `Button`, `Card`, `Switch`, and `WalksCell`.
-- **Molecules** compose atoms into small pieces such as `InputGroup`, `Stat`, and `WalksRow`.
+- **Molecules** compose atoms into small pieces such as `InputGroup`, `Stat`, `ScrollableTable`, and `WalksRow`.
 - **Organisms** represent feature-level UI such as `WalkForm`, `Stats`, and `WalksTable`.
 - **Pages** compose feature sections into a screen.
 - **Templates** own the HTML document shell, shared scripts, linked assets, and style injection.
@@ -136,6 +137,8 @@ That local folder shape keeps the implementation, tests, styles, and public expo
 The app uses semantic HTML where possible. The home page uses the reusable `Card` atom rendered as a `main` region, with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body.
 
 `Card` is the template surface primitive. It can fill the available viewport space or take fixed dimensions through props that set CSS custom properties such as `--card-width`, `--card-height`, `--card-min-height`, and `--card-max-height`.
+
+`ScrollableTable` is the reusable table shell. It owns the sticky header, scrollable body, border model, row sizing, and responsive column custom properties. Feature tables such as `WalksTable` provide columns, rows, empty states, and HTMX actions without reimplementing the table mechanics.
 
 ## Styling
 
