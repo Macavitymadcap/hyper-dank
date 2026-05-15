@@ -18,6 +18,7 @@ export const walksTableStyles = /* css */`
   width: 100%;
   --walks-table-columns: minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(4rem, 1fr) minmax(5rem, 1fr) minmax(5.5rem, 0.85fr);
   --walks-row-height: 3rem;
+  --walks-table-inner-radius: calc(var(--radius-2) - var(--border-size-1));
 }
 
 .walks-table {
@@ -26,7 +27,7 @@ export const walksTableStyles = /* css */`
   width: 100%;
   height: max-content;
   max-height: 100%;
-  background-color: transparent;
+  background-color: var(--table-row-bg);
   border: var(--border-size-1) solid var(--table-border);
   border-radius: var(--radius-2);
   outline: 0;
@@ -41,6 +42,9 @@ export const walksTableStyles = /* css */`
 }
 
 .walks-table tbody {
+  background-color: var(--table-row-bg);
+  border-end-start-radius: var(--walks-table-inner-radius);
+  border-end-end-radius: var(--walks-table-inner-radius);
   min-height: 0;
   overflow-y: auto;
   scrollbar-gutter: stable;
@@ -99,6 +103,14 @@ export const walksTableStyles = /* css */`
 
 .walks-table tbody .walks-row:last-child > td {
   border-bottom: 0;
+}
+
+.walks-table tbody .walks-row:last-child > td:first-child {
+  border-end-start-radius: var(--walks-table-inner-radius);
+}
+
+.walks-table tbody .walks-row:last-child > td:last-child {
+  border-end-end-radius: var(--walks-table-inner-radius);
 }
 
 .walks-table tbody tr:hover td {

@@ -1,9 +1,11 @@
 #!/usr/bin/env bun
-import { spawn, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import puppeteer, { type Page } from "puppeteer";
+import { createApp } from "../src/app";
+import { Repository } from "../src/db";
 
 type Theme = "light" | "dark";
 
@@ -89,22 +91,11 @@ if (args.has("--update-pr-only")) {
   process.exit(0);
 }
 
-const server = spawn("bun", ["src/index.ts"], {
-  cwd: root,
-  env: {
-    ...process.env,
-    DB_PATH: ":memory:",
-    PORT: String(port),
-  },
-  stdio: ["ignore", "pipe", "pipe"],
-});
-
-let serverOutput = "";
-server.stdout.on("data", (chunk) => {
-  serverOutput += chunk.toString();
-});
-server.stderr.on("data", (chunk) => {
-  serverOutput += chunk.toString();
+const walksRepository = new Repository({ filename: ":memory:" });
+const app = createApp({ walksRepository });
+const server = Bun.serve({
+  port,
+  fetch: app.fetch,
 });
 
 try {
@@ -146,7 +137,7 @@ try {
 
   console.log(`Screenshots written to ${screenshotRoot}`);
 } finally {
-  server.kill();
+  server.stop(true);
 }
 
 async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {
@@ -314,14 +305,10 @@ async function waitForServer() {
     } catch {
     }
 
-    if (server.exitCode !== null) {
-      throw new Error(`Server exited before it was ready:\n${serverOutput}`);
-    }
-
     await delay(500);
   }
 
-  throw new Error(`Timed out waiting for ${baseUrl}\n${serverOutput}`);
+  throw new Error(`Timed out waiting for ${baseUrl}`);
 }
 
 async function updatePullRequest(screenshots: ScreenshotResult[]): Promise<GitHubPullRequest> {

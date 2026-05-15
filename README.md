@@ -6,6 +6,8 @@ The app records walks, calculates average speed and median pace, supports light/
 
 For the design and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
+For the protected branch workflow, Conventional Commit PR titles, and release/versioning process, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 ## Requirements
 
 - [Bun](https://bun.sh/)
@@ -82,13 +84,13 @@ The test suite covers:
 
 CI is configured in `.github/workflows/ci.yml` and runs `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`.
 
-`main` should be protected as PR-only with passing CI and at least one approval required. After pushing this branch, apply the repository protection with:
+`main` should be protected as PR-only with passing CI, a Conventional Commit PR title, resolved conversations, and code owner approval from `@Macavitymadcap`. After pushing this branch, apply the repository protection with:
 
 ```bash
 scripts/configure-main-protection.sh
 ```
 
-See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact settings.
+See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact settings. Version bumps are prepared by release-please after merges to `main`.
 
 ## Configuration
 

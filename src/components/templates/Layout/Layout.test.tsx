@@ -32,10 +32,13 @@ describe("Layout", () => {
     expect(html).toContain("--table-action-divider: var(--gray-6)");
     expect(html).toContain("height: 3.5rem;");
     expect(html).toContain("--walks-row-height: 3rem");
+    expect(html).toContain("--walks-table-inner-radius: calc(var(--radius-2) - var(--border-size-1))");
     expect(html).toContain("height: max-content;");
     expect(html).toContain("border: var(--border-size-1) solid var(--table-border);");
     expect(html).toContain("min-height: var(--walks-row-height);");
     expect(html).toContain(".walks-table tbody .walks-row:last-child > td");
+    expect(html).toContain("border-end-start-radius: var(--walks-table-inner-radius)");
+    expect(html).toContain("border-end-end-radius: var(--walks-table-inner-radius)");
     expect(html).toContain("border-inline-start: var(--border-size-2) solid var(--table-action-divider)");
     expect(html).toContain("background-size: 280% 100%");
     expect(html).toContain("transition: color var(--theme-text-transition);");

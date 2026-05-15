@@ -5,9 +5,10 @@ This repo is set up for a feature-branch workflow:
 - CI runs on every branch push.
 - CI runs again for pull requests targeting `main`.
 - `main` should only accept changes through pull requests.
-- Pull requests require at least one approval.
-- The required `test` check must pass before merging.
+- Pull requests require at least one code owner approval from `@Macavitymadcap`.
+- The required `test` and `lint-pr-title` checks must pass before merging.
 - Direct pushes and force pushes to `main` should be blocked.
+- Conversations must be resolved before merging.
 
 ## Apply Protection
 
