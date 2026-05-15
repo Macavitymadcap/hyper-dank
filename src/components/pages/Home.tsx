@@ -2,7 +2,7 @@ import type { WalkWithStats, Stats } from "../../db"
 import { Layout } from "../templates/Layout";
 import { Stats as StatsSection} from "../organisms/Stats";
 import { WalkForm } from "../organisms/WalkForm";
-import { WalksList } from "../organisms/WalksList";
+import { WalksTable } from "../organisms/WalksTable";
 
 interface HomeProps { walks: WalkWithStats[]; stats: Stats }
 
@@ -32,7 +32,7 @@ export const Home = ({walks, stats}: HomeProps) => {
           <section class="page-section" aria-labelledby="history-heading">
             <h3 id="history-heading" class="section-title">Walk history</h3>
             <div id="walks-list">
-              <WalksList walks={walks} />
+              <WalksTable walks={walks} />
             </div>
           </section>
         </div>

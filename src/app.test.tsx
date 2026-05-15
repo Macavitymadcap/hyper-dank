@@ -51,7 +51,7 @@ describe("app", () => {
 
     expect(response.status).toBe(200);
     expect(repository.getAllWalks()).toHaveLength(1);
-    expect(html).toContain("<table>");
+    expect(html).toContain("<table class=\"walks-table\">");
     expect(html).toContain("15.8");
   });
 

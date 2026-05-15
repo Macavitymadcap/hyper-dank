@@ -1,7 +1,7 @@
 import type { WalkWithStats } from "../../db";
-import { WalkItem } from "../molecules/WalkItem";
+import { WalksRow } from "../molecules/WalksRow";
 
-export const WalksList = ({ walks }: { walks: WalkWithStats[] }) => {
+export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
   if (walks.length === 0) {
     return (
       <div class="empty-state">
@@ -12,9 +12,9 @@ export const WalksList = ({ walks }: { walks: WalkWithStats[] }) => {
   
   return (
     <div class="table-container">
-      <table>
+      <table class="walks-table">
         <thead>
-          <tr>
+          <tr class="walks-row">
             <th>Mi</th>
             <th>Min</th>
             <th>Sec</th>
@@ -25,7 +25,7 @@ export const WalksList = ({ walks }: { walks: WalkWithStats[] }) => {
         </thead>
         <tbody>
           {walks.map(walk => (
-            <WalkItem 
+            <WalksRow 
               key={walk.id} 
               id={walk.id} 
               miles={walk.miles} 

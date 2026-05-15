@@ -162,23 +162,39 @@ button:active {
 }
 
 .table-container {
-  max-height: clamp(16rem, calc(100vh - 360px), 34rem);
-  overflow: auto;
   background: var(--gray-9);
   border-radius: var(--radius-2);
-  scrollbar-gutter: stable;
+  overflow: hidden;
+  --walks-table-columns: minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(4rem, 1fr) minmax(5rem, 1fr) minmax(3.25rem, 0.65fr);
 }
 
-table {
+.walks-table {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
 
-th {
-  position: sticky;
-  top: 0;
-  z-index: var(--layer-2);
+.walks-table thead,
+.walks-table tbody {
+  display: block;
+  scrollbar-gutter: stable;
+}
+
+.walks-table tbody {
+  max-height: clamp(16rem, calc(100vh - 360px), 34rem);
+  overflow-y: auto;
+}
+
+.walks-row {
+  display: grid;
+  grid-template-columns: var(--walks-table-columns);
+  align-items: center;
+  width: 100%;
+}
+
+.walks-table th {
   padding: var(--size-2);
   background: var(--gray-9);
   text-align: center;
@@ -190,19 +206,19 @@ th {
   box-shadow: 0 var(--border-size-1) 0 var(--gray-7);
 }
 
-td {
+.walks-table td {
   border-bottom: var(--border-size-1) solid var(--gray-7);
 }
 
-tbody tr:last-child td {
+.walks-table tbody tr:last-child td {
   border-bottom: 0;
 }
 
-tbody tr {
+.walks-table tbody tr {
   background: var(--gray-8);
 }
 
-tbody tr:hover {
+.walks-table tbody tr:hover {
   background: var(--gray-7);
 }
 
@@ -222,7 +238,7 @@ tbody tr:hover {
   background: var(--red-7);
 }
 
-.walk-value {
+.walks-cell {
   text-align: center;
   padding: var(--size-2);
   color: var(--gray-0);

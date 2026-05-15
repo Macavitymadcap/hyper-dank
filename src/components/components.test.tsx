@@ -1,6 +1,17 @@
 import { describe, expect, test } from "bun:test";
-import { Home, StatsSection, WalkForm, WalksList } from "./index";
 import type { WalkWithStats } from "../db";
+import { Button } from "./atoms/Button";
+import { WalksCell } from "./atoms/WalksCell";
+import { InputGroup } from "./molecules/InputGroup";
+import { Stat } from "./molecules/Stat";
+import { WalksRow } from "./molecules/WalksRow";
+import { Stats as StatsSection } from "./organisms/Stats";
+import { WalkForm } from "./organisms/WalkForm";
+import { WalksTable } from "./organisms/WalksTable";
+import { Home } from "./pages/Home";
+import { Layout } from "./templates/Layout";
+
+const render = (node: unknown): string => String(node);
 
 const sampleWalks: WalkWithStats[] = [
   {
@@ -14,43 +25,129 @@ const sampleWalks: WalkWithStats[] = [
   },
 ];
 
-describe("components", () => {
-  test("renders the full page with semantic sections and shared styles", () => {
-    const html = String(<Home walks={sampleWalks} stats={{ avgSpeed: 3.8, medianPace: 15.8, count: 1 }} />);
+describe("atoms", () => {
+  test("Button renders standard and HTMX attributes", () => {
+    const html = render(
+      <Button type="button" className="delete-btn" hxDelete="/walks/1" hxTarget="#walks-list">
+        Del
+      </Button>
+    );
 
-    expect(html).toContain("<main class=\"container\">");
-    expect(html).toContain("<h3 id=\"summary-heading\" class=\"section-title\">Summary</h3>");
-    expect(html).toContain("<h3 id=\"entry-heading\" class=\"section-title\">Add walk</h3>");
-    expect(html).toContain("<h3 id=\"history-heading\" class=\"section-title\">Walk history</h3>");
-    expect(html).toContain(".app-header");
-    expect(html).toContain("position: sticky");
+    expect(html).toContain("<button");
+    expect(html).toContain("class=\"delete-btn\"");
+    expect(html).toContain("type=\"button\"");
+    expect(html).toContain("hx-delete=\"/walks/1\"");
+    expect(html).toContain("hx-target=\"#walks-list\"");
+    expect(html).toContain(">Del</button>");
   });
 
-  test("renders the add-walk form with HTMX attributes", () => {
-    const html = String(<WalkForm />);
+  test("WalksCell renders a table cell", () => {
+    expect(render(<WalksCell value="15.8" />)).toBe("<td class=\"walks-cell\">15.8</td>");
+  });
+});
+
+describe("molecules", () => {
+  test("InputGroup renders a connected label and input", () => {
+    const html = render(
+      <InputGroup type="number" name="miles" label="Mi" step={0.1} min={0} max={100} placeholder="0.0" />
+    );
+
+    expect(html).toContain("<label class=\"input-label\" for=\"miles\">Mi</label>");
+    expect(html).toContain("type=\"number\"");
+    expect(html).toContain("id=\"miles\"");
+    expect(html).toContain("name=\"miles\"");
+    expect(html).toContain("step=\"0.1\"");
+    expect(html).toContain("required=\"\"");
+  });
+
+  test("Stat renders formatted output values", () => {
+    const html = render(<Stat label="Avg mph" value={4.321} />);
+
+    expect(html).toContain("<output class=\"stat-label\">Avg mph</output>");
+    expect(html).toContain("<output class=\"stat-value\">4.3</output>");
+  });
+
+  test("Stat renders placeholders for empty values", () => {
+    expect(render(<Stat label="Avg mph" value={0} />)).toContain("<output class=\"stat-value\">--</output>");
+  });
+
+  test("WalksRow renders row cells and delete behavior", () => {
+    const html = render(
+      <WalksRow id={1} miles={1.2} minutes={18} seconds={55} speed={3.8} pace={15.8} />
+    );
+
+    expect(html).toContain("<tr class=\"walks-row\">");
+    expect(html).toContain("<td class=\"walks-cell\">1.2</td>");
+    expect(html).toContain("<td class=\"walks-cell\">15.8</td>");
+    expect(html).toContain("hx-delete=\"/walks/1\"");
+    expect(html).toContain("hx-target=\"#walks-list\"");
+  });
+});
+
+describe("organisms", () => {
+  test("StatsSection renders both summary stats", () => {
+    const html = render(<StatsSection avgSpeed={4.321} medianPace={15.82} />);
+
+    expect(html).toContain("<div class=\"stats\">");
+    expect(html).toContain("Avg mph");
+    expect(html).toContain("Med min/mi");
+    expect(html).toContain("<output class=\"stat-value\">4.3</output>");
+    expect(html).toContain("<output class=\"stat-value\">15.8</output>");
+  });
+
+  test("WalkForm renders the HTMX form contract", () => {
+    const html = render(<WalkForm />);
 
     expect(html).toContain("hx-post=\"/walks\"");
     expect(html).toContain("hx-target=\"#walks-list\"");
+    expect(html).toContain("hx-swap=\"innerHTML\"");
+    expect(html).toContain("htmx.trigger(&#39;#stats&#39;, &#39;refresh&#39;)");
     expect(html).toContain("name=\"miles\"");
     expect(html).toContain("name=\"minutes\"");
     expect(html).toContain("name=\"seconds\"");
   });
 
-  test("renders stats with formatted values", () => {
-    const html = String(<StatsSection avgSpeed={4.321} medianPace={15.82} />);
+  test("WalksTable renders a table with a scrollable body contract", () => {
+    const html = render(<WalksTable walks={sampleWalks} />);
 
-    expect(html).toContain("<output class=\"stat-label\">Avg mph</output>");
-    expect(html).toContain("<output class=\"stat-value\">4.3</output>");
-    expect(html).toContain("<output class=\"stat-value\">15.8</output>");
+    expect(html).toContain("<div class=\"table-container\">");
+    expect(html).toContain("<table class=\"walks-table\">");
+    expect(html).toContain("<thead>");
+    expect(html).toContain("<tbody>");
+    expect(html).toContain("<tr class=\"walks-row\">");
+    expect(html).toContain("hx-delete=\"/walks/1\"");
   });
 
-  test("renders walk table and empty states", () => {
-    const list = String(<WalksList walks={sampleWalks} />);
-    const empty = String(<WalksList walks={[]} />);
+  test("WalksTable renders an empty state", () => {
+    expect(render(<WalksTable walks={[]} />)).toContain("No walks recorded yet.");
+  });
+});
 
-    expect(list).toContain("<thead>");
-    expect(list).toContain("hx-delete=\"/walks/1\"");
-    expect(list).toContain("<td class=\"walk-value\">15.8</td>");
-    expect(empty).toContain("No walks recorded yet.");
+describe("templates and pages", () => {
+  test("Layout renders document chrome and shared CSS", () => {
+    const html = render(
+      <Layout>
+        <main>Body</main>
+      </Layout>
+    );
+
+    expect(html).toContain("<html lang=\"en\">");
+    expect(html).toContain("<title>Walking Pace Tracker</title>");
+    expect(html).toContain("<style>");
+    expect(html).toContain(".walks-table tbody");
+    expect(html).toContain("<main>Body</main>");
+  });
+
+  test("Home renders semantic sections and page-level HTMX anchors", () => {
+    const html = render(<Home walks={sampleWalks} stats={{ avgSpeed: 3.8, medianPace: 15.8, count: 1 }} />);
+
+    expect(html).toContain("<main class=\"container\">");
+    expect(html).toContain("<header class=\"app-header\">");
+    expect(html).toContain("<section class=\"page-section\" aria-labelledby=\"summary-heading\">");
+    expect(html).toContain("<h3 id=\"summary-heading\" class=\"section-title\">Summary</h3>");
+    expect(html).toContain("<h3 id=\"entry-heading\" class=\"section-title\">Add walk</h3>");
+    expect(html).toContain("<h3 id=\"history-heading\" class=\"section-title\">Walk history</h3>");
+    expect(html).toContain("id=\"stats\" hx-get=\"/stats\"");
+    expect(html).toContain("id=\"walks-list\"");
   });
 });

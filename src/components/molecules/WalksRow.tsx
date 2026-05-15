@@ -1,7 +1,7 @@
 import { Button } from "../atoms/Button";
-import { WalkValue } from "../atoms/WalkValue";
+import { WalksCell } from "../atoms/WalksCell";
 
-interface WalkItemProps {
+interface WalksRowProps {
   id: number;
   miles: number;
   minutes: number;
@@ -10,21 +10,21 @@ interface WalkItemProps {
   pace: number;
 }
 
-export const WalkItem = ({
+export const WalksRow = ({
   id, 
   miles, 
   minutes, 
   seconds, 
   speed, 
   pace 
-}: WalkItemProps) => {
+}: WalksRowProps) => {
   return (
-    <tr className="walk-item">
-      <WalkValue value={miles.toFixed(1)} />
-      <WalkValue value={minutes} />
-      <WalkValue value={seconds} />
-      <WalkValue value={speed > 0 ? speed.toFixed(1) : '--'} />
-      <WalkValue value={pace > 0 ? pace.toFixed(1) : '--'} />
+    <tr className="walks-row">
+      <WalksCell value={miles.toFixed(1)} />
+      <WalksCell value={minutes} />
+      <WalksCell value={seconds} />
+      <WalksCell value={speed > 0 ? speed.toFixed(1) : '--'} />
+      <WalksCell value={pace > 0 ? pace.toFixed(1) : '--'} />
       <td>
         <Button 
           className="delete-btn"

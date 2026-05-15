@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import type { WalkRepository } from './db';
 import { Repository } from './db';
-import { Home, StatsSection, WalksList } from './components';
+import { Home, StatsSection, WalksTable } from './components';
 import { validateWalkInput } from './walks/validation';
 
 export interface AppDependencies {
@@ -34,7 +34,7 @@ export const createApp = ({ walksRepository = new Repository() }: AppDependencie
     walksRepository.addWalk(validation.value);
     const walks = walksRepository.getAllWalks();
     
-    return context.html(<WalksList walks={walks} />);
+    return context.html(<WalksTable walks={walks} />);
   });
 
   app.delete('/walks/:id', (context) => {
@@ -47,7 +47,7 @@ export const createApp = ({ walksRepository = new Repository() }: AppDependencie
     walksRepository.deleteWalk(id);
     const walks = walksRepository.getAllWalks();
 
-    return context.html(<WalksList walks={walks} />);
+    return context.html(<WalksTable walks={walks} />);
   });
 
   return app;

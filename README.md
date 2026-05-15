@@ -92,7 +92,7 @@ sequenceDiagram
     App->>App: Validate form body
     App->>Repo: addWalk(input)
     App->>Repo: getAllWalks()
-    App->>View: <WalksList walks={walks} />
+    App->>View: <WalksTable walks={walks} />
     View-->>App: HTML fragment
     App-->>HTMX: Fragment response
     HTMX-->>Browser: Swap #walks-list
