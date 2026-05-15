@@ -49,7 +49,7 @@ describe("HTMX contracts", () => {
     expect(html).not.toContain("<html");
   });
 
-  test("delete buttons return an updated walks table fragment", async () => {
+  test("clear buttons return an updated walks table fragment", async () => {
     harness.repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
     const [walk] = harness.repository.getAllWalks();
     if (!walk) throw new Error("Expected inserted walk");

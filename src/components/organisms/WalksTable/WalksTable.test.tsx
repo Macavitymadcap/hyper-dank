@@ -29,6 +29,7 @@ describe("WalksTable", () => {
     expect(html).toContain("hx-delete=\"/walks\"");
     expect(html).toContain("Clear all");
     expect(html).toContain("hx-delete=\"/walks/1\"");
+    expect(html).toContain(">Clear</button>");
   });
 
   test("renders an empty state", () => {

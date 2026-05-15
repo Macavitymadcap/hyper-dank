@@ -1,6 +1,6 @@
 export const statStyles = /* css */`
 .stat {
-  background: var(--surface-raised);
+  background-color: var(--surface-raised);
   padding: var(--size-3);
   border-radius: var(--radius-2);
   text-align: center;

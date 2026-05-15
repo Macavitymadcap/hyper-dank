@@ -7,7 +7,6 @@ dist
 *.tgz
 
 # database
-walking-pace-db
 *.sqlite
 *.sqlite3
 *.sqlite-shm

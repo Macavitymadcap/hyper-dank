@@ -1,4 +1,5 @@
 import { buttonStyles } from "./atoms/Button/Button.styles";
+import { cardStyles } from "./atoms/Card/Card.styles";
 import { switchStyles } from "./atoms/Switch/Switch.styles";
 import { walksCellStyles } from "./atoms/WalksCell/WalksCell.styles";
 import { inputGroupStyles } from "./molecules/InputGroup/InputGroup.styles";
@@ -13,6 +14,7 @@ import { layoutStyles } from "./templates/Layout/Layout.styles";
 export const appStyles = [
   layoutStyles,
   buttonStyles,
+  cardStyles,
   switchStyles,
   walksCellStyles,
   inputGroupStyles,

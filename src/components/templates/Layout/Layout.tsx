@@ -48,6 +48,14 @@ const themeScript = /* js */`
     const currentTheme = document.documentElement.dataset.theme || getPreferredTheme();
     syncToggle(currentTheme);
 
+    toggle?.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter") return;
+
+      event.preventDefault();
+      toggle.checked = !toggle.checked;
+      toggle.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
     toggle?.addEventListener("change", () => {
       const nextTheme = toggle.checked ? "dark" : "light";
       storeTheme(nextTheme);

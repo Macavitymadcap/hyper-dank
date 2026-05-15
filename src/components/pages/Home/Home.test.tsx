@@ -20,7 +20,7 @@ describe("Home", () => {
   test("renders semantic sections and page-level HTMX anchors", () => {
     const html = render(<Home walks={sampleWalks} stats={{ avgSpeed: 3.8, medianPace: 15.8, count: 1 }} />);
 
-    expect(html).toContain("<main class=\"container\">");
+    expect(html).toContain("<main class=\"card app-card\" data-fill=\"true\">");
     expect(html).toContain("<header class=\"app-header\">");
     expect(html).toContain("id=\"theme-toggle\"");
     expect(html).toContain("role=\"switch\"");

@@ -3,6 +3,7 @@ import { Layout } from "../../templates/Layout";
 import { Stats as StatsSection} from "../../organisms/Stats";
 import { WalkForm } from "../../organisms/WalkForm";
 import { WalksTable } from "../../organisms/WalksTable";
+import { Card } from "../../atoms/Card";
 import { Switch } from "../../atoms/Switch";
 
 interface HomeProps { walks: WalkWithStats[]; stats: Stats }
@@ -10,7 +11,7 @@ interface HomeProps { walks: WalkWithStats[]; stats: Stats }
 export const Home = ({walks, stats}: HomeProps) => {
   return(
     <Layout>
-      <main class="container">
+      <Card as="main" fill className="app-card">
         <header class="app-header">
           <h1 class="title">Walking Pace Tracker</h1>
           <Switch id="theme-toggle" label="Color mode" dataThemeToggle />
@@ -38,7 +39,7 @@ export const Home = ({walks, stats}: HomeProps) => {
             </div>
           </section>
         </div>
-      </main>
+      </Card>
     </Layout>
   );
 }

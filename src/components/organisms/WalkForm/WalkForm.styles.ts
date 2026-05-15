@@ -1,6 +1,6 @@
 export const walkFormStyles = /* css */`
 .form-section {
-  background: var(--primary);
+  background-color: var(--primary);
   padding: var(--size-4);
   color: var(--primary-text);
   border-radius: var(--radius-2);

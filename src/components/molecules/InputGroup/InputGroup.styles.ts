@@ -13,14 +13,20 @@ export const inputGroupStyles = /* css */`
 }
 
 input[type="number"] {
+  appearance: textfield;
   padding: var(--size-2);
   border: var(--border-size-2) solid var(--border-subtle);
   border-radius: var(--radius-2);
   font-size: var(--font-size-2);
   text-align: center;
   width: 100%;
-  background: var(--surface);
+  background-color: var(--surface);
   color: var(--text);
+  transition:
+    background-color var(--theme-transition),
+    border-color var(--theme-transition),
+    box-shadow var(--theme-transition),
+    color var(--theme-text-transition);
 }
 
 input[type="number"]:focus {

@@ -35,6 +35,7 @@ PORT=3100 DB_PATH=/tmp/walking-pace.sqlite3 bun run dev
 ```bash
 bun run dev
 bun run test
+bun run test:a11y
 bun run test:watch
 bun run typecheck
 ```
@@ -53,17 +54,24 @@ Run the TypeScript checker:
 bun run typecheck
 ```
 
+Run the pa11y accessibility check against a temporary in-memory app server:
+
+```bash
+bun run test:a11y
+```
+
 The test suite covers:
 
 - component rendering contracts
 - Hono full-page and error route behavior
 - HTMX fragment mutation contracts
+- WCAG 2 AA accessibility checks with pa11y
 - SQLite repository behavior with in-memory databases
 - validation and pace calculations
 
 ## Repository Workflow
 
-CI is configured in `.github/workflows/ci.yml` and runs `bun run typecheck` plus `bun run test` on branch pushes and pull requests to `main`.
+CI is configured in `.github/workflows/ci.yml` and runs `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`.
 
 `main` should be protected as PR-only with passing CI and at least one approval required. After pushing this branch, apply the repository protection with:
 

@@ -7,28 +7,32 @@ export const walksTableStyles = /* css */`
 }
 
 .table-container {
-  background: transparent;
+  background-color: transparent;
   border: 0;
   outline: 0;
-  border-radius: var(--radius-2);
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex: 1;
+  align-items: flex-start;
   min-height: 0;
+  width: 100%;
   --walks-table-columns: minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(4rem, 1fr) minmax(5rem, 1fr) minmax(5.5rem, 0.85fr);
+  --walks-row-height: 3rem;
 }
 
 .walks-table {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   width: 100%;
-  height: 100%;
-  min-height: 0;
-  background: transparent;
-  border: 0;
+  height: max-content;
+  max-height: 100%;
+  background-color: transparent;
+  border: var(--border-size-1) solid var(--table-border);
+  border-radius: var(--radius-2);
   outline: 0;
   border-collapse: separate;
   border-spacing: 0;
+  overflow: hidden;
 }
 
 .walks-table thead,
@@ -42,13 +46,22 @@ export const walksTableStyles = /* css */`
   scrollbar-gutter: stable;
 }
 
+.walks-table tbody .walks-row {
+  min-height: var(--walks-row-height);
+}
+
 .walks-table th {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  height: 3.5rem;
   padding: var(--size-2);
-  background: var(--table-header-bg);
+  background-color: var(--table-header-bg);
   text-align: center;
   color: var(--table-text);
   font-weight: var(--font-weight-7);
   font-size: var(--font-size-1);
+  line-height: var(--font-lineheight-0);
   text-transform: uppercase;
   letter-spacing: var(--font-letterspacing-2);
   border-bottom: var(--border-size-1) solid var(--table-border);
@@ -56,7 +69,11 @@ export const walksTableStyles = /* css */`
 }
 
 .walks-table td {
-  background: var(--table-row-bg);
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  min-height: var(--walks-row-height);
+  background-color: var(--table-row-bg);
   border-inline-end: var(--border-size-1) solid var(--table-border);
   border-bottom: var(--border-size-1) solid var(--table-border);
 }
@@ -68,41 +85,44 @@ export const walksTableStyles = /* css */`
 
 .walks-table td:last-child,
 .walks-table th:last-child {
-  display: grid;
-  place-items: center;
   border-inline-start: var(--border-size-2) solid var(--table-action-divider);
   border-inline-end: 0;
 }
 
 .walks-table th:last-child {
-  background: var(--table-header-bg);
+  background-color: var(--table-header-bg);
 }
 
 .walks-table td:last-child {
-  background: var(--table-row-bg);
+  background-color: var(--table-row-bg);
 }
 
-.walks-table tbody tr:last-child td {
+.walks-table tbody .walks-row:last-child > td {
   border-bottom: 0;
 }
 
 .walks-table tbody tr:hover td {
-  background: var(--table-row-hover-bg);
+  background-color: var(--table-row-hover-bg);
 }
 
 .clear-walks-btn {
-  padding: var(--size-1) var(--size-2);
-  background: transparent;
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  height: 2rem;
+  min-block-size: 0;
+  padding: 0 var(--size-2);
+  background-color: transparent;
   border: var(--border-size-1) solid var(--table-border);
   color: var(--table-text);
   font-size: var(--font-size-0);
-  line-height: 1;
+  line-height: var(--font-lineheight-0);
   text-transform: none;
   letter-spacing: 0;
   white-space: nowrap;
 }
 
 .clear-walks-btn:hover {
-  background: var(--table-row-hover-bg);
+  background-color: var(--table-row-hover-bg);
 }
 `;

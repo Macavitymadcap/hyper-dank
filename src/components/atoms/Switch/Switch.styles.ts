@@ -40,8 +40,8 @@ export const switchStyles = /* css */`
   background-position: 0% 50%;
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-round);
-  color: var(--switch-icon);
-  transition: background-position 720ms var(--ease-3), border-color var(--speed-2), color var(--speed-2);
+  color: var(--switch-icon-dark);
+  transition: background-position var(--theme-transition), border-color var(--theme-transition), color var(--theme-text-transition);
 }
 
 .switch-track::before {
@@ -52,7 +52,7 @@ export const switchStyles = /* css */`
   background-size: 260% 100%;
   background-position: 0% 50%;
   opacity: 0.48;
-  transition: background-position 720ms var(--ease-3), opacity 720ms var(--ease-3);
+  transition: background-position var(--theme-transition), opacity var(--theme-transition);
 }
 
 .switch-thumb {
@@ -65,7 +65,7 @@ export const switchStyles = /* css */`
   background-size: 280% 100%;
   background-position: 0% 50%;
   box-shadow: var(--shadow-2);
-  transition: transform 720ms var(--ease-3), background-position 720ms var(--ease-3), box-shadow var(--speed-2);
+  transition: transform var(--theme-transition), background-position var(--theme-transition), box-shadow var(--theme-transition);
   z-index: 0;
 }
 
@@ -76,7 +76,7 @@ export const switchStyles = /* css */`
   border-radius: inherit;
   background: radial-gradient(circle, rgb(255 255 255 / 0.65), transparent 62%);
   opacity: 0.8;
-  transition: opacity 720ms var(--ease-3);
+  transition: opacity var(--theme-transition);
 }
 
 .switch-icon {
@@ -86,32 +86,32 @@ export const switchStyles = /* css */`
   place-items: center;
   font-size: var(--font-size-3);
   line-height: 1;
-  transition: opacity var(--speed-2), transform 720ms var(--ease-3), color var(--speed-2);
+  transition: color var(--theme-text-transition);
 }
 
 .switch-icon-light {
-  color: var(--yellow-9);
+  color: var(--switch-icon-light);
 }
 
 .switch-icon-dark {
-  color: var(--gray-0);
+  color: var(--switch-icon-dark);
 }
 
-.switch-input:checked + .switch-track {
+:root[data-theme="dark"] .switch-input + .switch-track {
   background-position: 100% 50%;
 }
 
-.switch-input:checked + .switch-track::before {
+:root[data-theme="dark"] .switch-input + .switch-track::before {
   background-position: 100% 50%;
   opacity: 0.68;
 }
 
-.switch-input:checked + .switch-track .switch-thumb {
+:root[data-theme="dark"] .switch-input + .switch-track .switch-thumb {
   transform: translateX(2rem);
   background-position: 100% 50%;
 }
 
-.switch-input:checked + .switch-track .switch-thumb::before {
+:root[data-theme="dark"] .switch-input + .switch-track .switch-thumb::before {
   opacity: 0.22;
 }
 
@@ -120,9 +120,4 @@ export const switchStyles = /* css */`
   outline-offset: var(--size-1);
 }
 
-.switch-input:not(:checked) + .switch-track .switch-icon-dark,
-.switch-input:checked + .switch-track .switch-icon-light {
-  opacity: 0.42;
-  transform: scale(0.84);
-}
 `;

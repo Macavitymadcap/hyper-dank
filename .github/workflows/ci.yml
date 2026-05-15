@@ -32,3 +32,6 @@ jobs:
 
       - name: Test
         run: bun run test
+
+      - name: Accessibility
+        run: bun run test:a11y

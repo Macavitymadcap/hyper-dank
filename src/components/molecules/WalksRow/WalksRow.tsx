@@ -27,14 +27,15 @@ export const WalksRow = ({
       <WalksCell value={pace > 0 ? pace.toFixed(1) : '--'} />
       <td>
         <Button 
-          className="delete-btn"
+          className="clear-walk-btn"
           type="button"
           hxDelete={`/walks/${id}`}
           hxTarget="#walks-list"
           hxSwap="innerHTML"
+          hxConfirm="Clear this walk?"
           hxOn="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
         >
-          Del
+          Clear
         </Button>
       </td>
     </tr>

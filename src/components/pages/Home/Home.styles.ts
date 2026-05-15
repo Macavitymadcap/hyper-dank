@@ -1,23 +1,10 @@
 export const homeStyles = /* css */`
-.container {
-  background: var(--surface);
-  border-radius: var(--radius-3);
-  box-shadow: var(--shadow-3);
-  overflow: auto;
-  scrollbar-gutter: stable;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-height: calc(100vh - (var(--size-4) * 2));
-  max-height: calc(100vh - (var(--size-4) * 2));
-}
-
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--size-3);
-  background: var(--surface);
+  background-color: var(--surface);
   padding: var(--size-4);
   border-bottom: var(--border-size-2) solid var(--primary);
   position: sticky;
@@ -42,6 +29,8 @@ export const homeStyles = /* css */`
   padding: var(--size-5) var(--size-2);
   flex: 1;
   min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .page-section {
