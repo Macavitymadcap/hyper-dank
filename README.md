@@ -28,7 +28,8 @@ Runtime and app:
 - [Hono](https://hono.dev/) for the HTTP app and route composition.
 - [HTMX](https://htmx.org/) for HTML-over-the-wire form submission and fragment swaps.
 - [TypeScript](https://www.typescriptlang.org/) and [JSX](https://www.typescriptlang.org/docs/handbook/jsx.html) for typed server-rendered components.
-- [SQLite](https://www.sqlite.org/) through Bun's SQLite APIs for simple local persistence.
+- [SQLite](https://www.sqlite.org/) through Bun's SQLite APIs for simple local/test persistence.
+- [PostgreSQL](https://www.postgresql.org/) for production persistence when `DATABASE_URL` is configured.
 
 Styling and verification:
 
@@ -58,11 +59,18 @@ You can change the port or database path with environment variables:
 PORT=3100 DB_PATH=/tmp/walking-pace.sqlite3 bun run dev
 ```
 
+Set `DATABASE_URL` to use Postgres instead of SQLite:
+
+```bash
+DATABASE_URL=postgres://user:password@localhost:5432/pace bun run dev
+```
+
 ## Scripts
 
 ```bash
 bun run dev
 bun run check
+bun run db:migrate
 bun run format
 bun run format:check
 bun run lint
@@ -135,6 +143,7 @@ See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact
 | --- | --- | --- |
 | `PORT` | `3000` | HTTP port used by Bun |
 | `DB_PATH` | `walking-pace.sqlite3` | SQLite database file path |
+| `DATABASE_URL` | unset | Postgres connection string; when set, the app uses Postgres instead of SQLite |
 
 SQLite database files and sidecar files are ignored by Git.
 

@@ -1,12 +1,15 @@
 import { createApp } from "../app";
-import { Repository } from "../db";
+import { createSqliteDatabaseProvider } from "../db";
 
 export const htmxHeaders = {
   "HX-Request": "true",
 };
 
-export const createAppHarness = () => {
-  const repository = new Repository({ filename: ":memory:" });
+export const createAppHarness = async () => {
+  const databaseProvider = createSqliteDatabaseProvider({ filename: ":memory:" });
+  await databaseProvider.migrate();
+
+  const repository = databaseProvider.createWalkRepository();
   const app = createApp({ walksRepository: repository });
 
   const postWalk = (values: Record<string, string>, headers: Record<string, string> = {}) => {
@@ -20,11 +23,12 @@ export const createAppHarness = () => {
     });
   };
 
-  const close = () => repository.close();
+  const close = () => databaseProvider.close();
 
   return {
     app,
     close,
+    databaseProvider,
     postWalk,
     repository,
   };

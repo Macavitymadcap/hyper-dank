@@ -130,7 +130,7 @@ if (args.has("--update-pr-only")) {
   process.exit(0);
 }
 
-const server = startInMemoryAppServer(port);
+const server = await startInMemoryAppServer(port);
 
 try {
   await waitForHttp(server.url);
@@ -175,7 +175,7 @@ try {
 
   console.log(`Screenshots written to ${screenshotRoot}`);
 } finally {
-  server.stop();
+  await server.stop();
 }
 
 async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {

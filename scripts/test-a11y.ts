@@ -3,7 +3,7 @@ import { addWalk, startInMemoryAppServer, waitForHttp } from "./lib/app-server";
 import { runAsync } from "./lib/process";
 
 const port = Number(process.env.A11Y_PORT ?? 3999);
-const server = startInMemoryAppServer(port);
+const server = await startInMemoryAppServer(port);
 
 try {
   await waitForHttp(server.url, 30, 1000);
@@ -13,5 +13,5 @@ try {
     stdio: "inherit",
   });
 } finally {
-  server.stop();
+  await server.stop();
 }

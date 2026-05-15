@@ -2,22 +2,21 @@ import { Database } from "bun:sqlite";
 import { Calculator } from "./calculator";
 import type { Stats, Walk, WalkInput, WalkRepository, WalkWithStats } from "./model";
 
-export interface RepositoryOptions {
+export interface SqliteWalkRepositoryOptions {
   db?: Database;
   filename?: string;
 }
 
 const DEFAULT_DATABASE_FILENAME = "walking-pace-db";
 
-export class Repository implements WalkRepository {
+export class SqliteWalkRepository implements WalkRepository {
   private readonly db: Database;
 
-  constructor({ db, filename = DEFAULT_DATABASE_FILENAME }: RepositoryOptions = {}) {
+  constructor({ db, filename = DEFAULT_DATABASE_FILENAME }: SqliteWalkRepositoryOptions = {}) {
     this.db = db ?? new Database(filename, { create: true });
-    this.initDb();
   }
 
-  private initDb() {
+  migrate(): void {
     this.db.run(`
       CREATE TABLE IF NOT EXISTS walks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,7 +29,7 @@ export class Repository implements WalkRepository {
     `);
   }
 
-  getAllWalks(): WalkWithStats[] {
+  async getAllWalks(): Promise<WalkWithStats[]> {
     const query = this.db.query(`
       SELECT id, miles, minutes, seconds, created_at
       FROM walks
@@ -45,24 +44,24 @@ export class Repository implements WalkRepository {
     }));
   }
 
-  addWalk({ miles, minutes, seconds }: WalkInput): void {
+  async addWalk({ miles, minutes, seconds }: WalkInput): Promise<void> {
     const query = this.db.query("INSERT INTO walks (miles, minutes, seconds) VALUES (?, ?, ?)");
     query.run(miles, minutes, seconds);
   }
 
-  deleteWalk(id: number): boolean {
+  async deleteWalk(id: number): Promise<boolean> {
     const query = this.db.query("DELETE FROM walks WHERE id = ?");
     const result = query.run(id) as { changes?: number };
     return Number(result.changes ?? 0) > 0;
   }
 
-  clearWalks(): number {
+  async clearWalks(): Promise<number> {
     const result = this.db.query("DELETE FROM walks").run() as { changes?: number };
     return Number(result.changes ?? 0);
   }
 
-  getStats(): Stats {
-    const walks = this.getAllWalks();
+  async getStats(): Promise<Stats> {
+    const walks = await this.getAllWalks();
     const count = walks.length;
 
     if (count === 0) {
@@ -90,3 +89,5 @@ export class Repository implements WalkRepository {
     this.db.close();
   }
 }
+
+export { SqliteWalkRepository as Repository };

@@ -1,14 +1,14 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { createAppHarness, htmxHeaders } from "./test/appHarness";
 
-let harness: ReturnType<typeof createAppHarness>;
+let harness: Awaited<ReturnType<typeof createAppHarness>>;
 
-beforeEach(() => {
-  harness = createAppHarness();
+beforeEach(async () => {
+  harness = await createAppHarness();
 });
 
-afterEach(() => {
-  harness?.close();
+afterEach(async () => {
+  await harness?.close();
 });
 
 describe("HTMX contracts", () => {
@@ -23,7 +23,7 @@ describe("HTMX contracts", () => {
     const html = await response.text();
 
     expect(response.status).toBe(200);
-    expect(harness.repository.getAllWalks()).toHaveLength(1);
+    expect(await harness.repository.getAllWalks()).toHaveLength(1);
     expect(html).toStartWith('<div class="walks-history">');
     expect(html).toContain('<span class="chip history-count">1 walk</span>');
     expect(html).toContain('<table class="scrollable-table walks-table">');
@@ -33,7 +33,7 @@ describe("HTMX contracts", () => {
   });
 
   test("stats refresh returns only the stats fragment", async () => {
-    harness.repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
+    await harness.repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
 
     const response = await harness.app.request("/stats", {
       headers: {
@@ -51,8 +51,8 @@ describe("HTMX contracts", () => {
   });
 
   test("clear buttons return an updated walks table fragment", async () => {
-    harness.repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
-    const [walk] = harness.repository.getAllWalks();
+    await harness.repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
+    const [walk] = await harness.repository.getAllWalks();
     if (!walk) throw new Error("Expected inserted walk");
 
     const response = await harness.app.request(`/walks/${walk.id}`, {
@@ -65,15 +65,15 @@ describe("HTMX contracts", () => {
     const html = await response.text();
 
     expect(response.status).toBe(200);
-    expect(harness.repository.getAllWalks()).toHaveLength(0);
+    expect(await harness.repository.getAllWalks()).toHaveLength(0);
     expect(html).toContain('<span class="chip history-count">0 walks</span>');
     expect(html).toContain("No walks recorded yet.");
     expect(html).not.toContain("<html");
   });
 
   test("clear all returns an empty walks fragment and leaves stats refreshable", async () => {
-    harness.repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
-    harness.repository.addWalk({ miles: 2, minutes: 30, seconds: 0 });
+    await harness.repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
+    await harness.repository.addWalk({ miles: 2, minutes: 30, seconds: 0 });
 
     const response = await harness.app.request("/walks", {
       method: "DELETE",
@@ -93,7 +93,7 @@ describe("HTMX contracts", () => {
     const statsHtml = await stats.text();
 
     expect(response.status).toBe(200);
-    expect(harness.repository.getAllWalks()).toHaveLength(0);
+    expect(await harness.repository.getAllWalks()).toHaveLength(0);
     expect(html).toContain('<span class="chip history-count">0 walks</span>');
     expect(html).toContain("No walks recorded yet.");
     expect(html).not.toContain("<html");

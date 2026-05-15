@@ -1,9 +1,11 @@
 import { createApp } from "./app";
-import { Repository } from "./db";
+import { createDatabaseProvider } from "./db";
 
 const port = Number(process.env.PORT ?? 3000);
-const dbPath = process.env.DB_PATH ?? "walking-pace.sqlite3";
-const walksRepository = new Repository({ filename: dbPath });
+const databaseProvider = createDatabaseProvider();
+await databaseProvider.migrate();
+
+const walksRepository = databaseProvider.createWalkRepository();
 const app = createApp({ walksRepository });
 
 console.log(`🚶 Walking Pace Tracker running at http://localhost:${port}`);

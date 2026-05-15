@@ -1,14 +1,14 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { createAppHarness } from "./test/appHarness";
 
-let harness: ReturnType<typeof createAppHarness>;
+let harness: Awaited<ReturnType<typeof createAppHarness>>;
 
-beforeEach(() => {
-  harness = createAppHarness();
+beforeEach(async () => {
+  harness = await createAppHarness();
 });
 
-afterEach(() => {
-  harness?.close();
+afterEach(async () => {
+  await harness?.close();
 });
 
 describe("app", () => {
@@ -29,7 +29,7 @@ describe("app", () => {
 
     expect(response.status).toBe(400);
     expect(await response.text()).toContain("Miles must be greater than zero.");
-    expect(harness.repository.getAllWalks()).toHaveLength(0);
+    expect(await harness.repository.getAllWalks()).toHaveLength(0);
   });
 
   test("rejects invalid delete ids", async () => {

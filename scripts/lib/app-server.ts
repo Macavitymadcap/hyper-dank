@@ -1,6 +1,6 @@
 import { setTimeout as delay } from "node:timers/promises";
 import { createApp } from "../../src/app";
-import { Repository } from "../../src/db";
+import { createSqliteDatabaseProvider } from "../../src/db";
 
 export interface SampleWalk {
   miles: string;
@@ -8,8 +8,11 @@ export interface SampleWalk {
   seconds: string;
 }
 
-export function startInMemoryAppServer(port: number) {
-  const walksRepository = new Repository({ filename: ":memory:" });
+export async function startInMemoryAppServer(port: number) {
+  const databaseProvider = createSqliteDatabaseProvider({ filename: ":memory:" });
+  await databaseProvider.migrate();
+
+  const walksRepository = databaseProvider.createWalkRepository();
   const app = createApp({ walksRepository });
   const server = Bun.serve({
     port,
@@ -19,7 +22,10 @@ export function startInMemoryAppServer(port: number) {
   return {
     port,
     url: `http://localhost:${port}`,
-    stop: () => server.stop(true),
+    stop: async () => {
+      server.stop(true);
+      await databaseProvider.close();
+    },
   };
 }
 

@@ -1,25 +1,24 @@
 import { Hono } from "hono";
 import { Home, StatsSection, WalksTable } from "./components";
 import type { WalkRepository } from "./db";
-import { Repository } from "./db";
 import { validateWalkInput } from "./walks/validation";
 
 export interface AppDependencies {
-  walksRepository?: WalkRepository;
+  walksRepository: WalkRepository;
 }
 
-export const createApp = ({ walksRepository = new Repository() }: AppDependencies = {}) => {
+export const createApp = ({ walksRepository }: AppDependencies) => {
   const app = new Hono();
 
-  app.get("/", (context) => {
-    const walks = walksRepository.getAllWalks();
-    const stats = walksRepository.getStats();
+  app.get("/", async (context) => {
+    const walks = await walksRepository.getAllWalks();
+    const stats = await walksRepository.getStats();
 
     return context.html(<Home walks={walks} stats={stats} />);
   });
 
-  app.get("/stats", (context) => {
-    const stats = walksRepository.getStats();
+  app.get("/stats", async (context) => {
+    const stats = await walksRepository.getStats();
     return context.html(<StatsSection avgSpeed={stats.avgSpeed} medianPace={stats.medianPace} />);
   });
 
@@ -31,26 +30,26 @@ export const createApp = ({ walksRepository = new Repository() }: AppDependencie
       return context.text(validation.message, 400);
     }
 
-    walksRepository.addWalk(validation.value);
-    const walks = walksRepository.getAllWalks();
+    await walksRepository.addWalk(validation.value);
+    const walks = await walksRepository.getAllWalks();
 
     return context.html(<WalksTable walks={walks} />);
   });
 
-  app.delete("/walks", (context) => {
-    walksRepository.clearWalks();
+  app.delete("/walks", async (context) => {
+    await walksRepository.clearWalks();
     return context.html(<WalksTable walks={[]} />);
   });
 
-  app.delete("/walks/:id", (context) => {
+  app.delete("/walks/:id", async (context) => {
     const id = Number(context.req.param("id"));
 
     if (!Number.isInteger(id) || id <= 0) {
       return context.text("Walk id must be a positive integer.", 400);
     }
 
-    walksRepository.deleteWalk(id);
-    const walks = walksRepository.getAllWalks();
+    await walksRepository.deleteWalk(id);
+    const walks = await walksRepository.getAllWalks();
 
     return context.html(<WalksTable walks={walks} />);
   });

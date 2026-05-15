@@ -31,13 +31,15 @@ Those influences are intentionally applied lightly. The app should be understand
 
 The app has two entry points with different responsibilities:
 
-- `src/index.ts` is the runtime entrypoint. It reads environment variables, creates the SQLite repository, creates the Hono app, and exports Bun's `fetch` handler.
+- `src/index.ts` is the runtime entrypoint. It reads environment variables, creates a database provider, runs migrations, creates repositories, creates the Hono app, and exports Bun's `fetch` handler.
 - `src/app.tsx` exports `createApp()`. It receives dependencies, registers routes, and returns a Hono app without owning process setup.
 
 That split keeps production startup simple while making tests cheap:
 
 ```ts
-const repository = new Repository({ filename: ":memory:" });
+const provider = createSqliteDatabaseProvider({ filename: ":memory:" });
+await provider.migrate();
+const repository = provider.createWalkRepository();
 const app = createApp({ walksRepository: repository });
 ```
 
@@ -199,16 +201,17 @@ Theme motion is also tokenized. Shared surfaces use `--theme-transition`; text s
 
 ```ts
 export interface WalkRepository {
-  getAllWalks(): WalkWithStats[];
-  addWalk(walk: WalkInput): void;
-  deleteWalk(id: number): boolean;
-  clearWalks(): number;
-  getStats(): Stats;
-  close?(): void;
+  getAllWalks(): Promise<WalkWithStats[]>;
+  addWalk(walk: WalkInput): Promise<void>;
+  deleteWalk(id: number): Promise<boolean>;
+  clearWalks(): Promise<number>;
+  getStats(): Promise<Stats>;
 }
 ```
 
-`Repository` is the SQLite implementation. It owns table creation, inserts, deletes, and reads. Pace calculations are delegated to `Calculator`, keeping math pure and easy to test.
+`DatabaseProvider` owns connection setup, migrations, repository creation, and connection cleanup. `SqliteDatabaseProvider` powers in-memory tests and local file storage, while `PostgresDatabaseProvider` supports production deployments through `DATABASE_URL`.
+
+Repository implementations own inserts, deletes, and reads. Pace calculations are delegated to `Calculator`, keeping math pure and easy to test.
 
 The database also enforces core constraints:
 
