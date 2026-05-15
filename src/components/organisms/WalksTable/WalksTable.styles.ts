@@ -153,7 +153,12 @@ export const walksTableStyles = /* css */`
 
   .walks-table {
     height: max-content;
-    max-height: calc(2.75rem + (3 * var(--walks-row-height)));
+    max-height: none;
+  }
+
+  .table-container[data-scrollable="true"] .walks-table {
+    height: calc(2.75rem + (2.65 * var(--walks-row-height)));
+    max-height: calc(2.75rem + (2.65 * var(--walks-row-height)));
   }
 
   .walks-table tbody .walks-row {

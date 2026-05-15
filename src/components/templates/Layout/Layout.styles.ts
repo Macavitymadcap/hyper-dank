@@ -101,6 +101,8 @@ body {
 .clear-walk-btn,
 .clear-walks-btn,
 .walks-cell,
+.walks-table,
+.walks-table tbody,
 .walks-table th,
 .walks-table td,
 .empty-state {

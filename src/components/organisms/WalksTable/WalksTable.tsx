@@ -9,9 +9,10 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
       </div>
     );
   }
+  const isScrollable = walks.length > 3;
   
   return (
-    <div class="table-container">
+    <div class="table-container" data-scrollable={isScrollable ? "true" : undefined}>
       <table class="walks-table">
         <thead>
           <tr class="walks-row">

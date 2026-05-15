@@ -4,16 +4,23 @@ import { WalksTable } from "./WalksTable";
 
 const render = (node: unknown): string => String(node);
 
-const sampleWalks: WalkWithStats[] = [
-  {
-    id: 1,
-    miles: 1.2,
-    minutes: 18,
-    seconds: 55,
-    created_at: "2026-05-15 10:00:00",
-    speed: 3.8,
-    pace: 15.8,
-  },
+const sampleWalk: WalkWithStats = {
+  id: 1,
+  miles: 1.2,
+  minutes: 18,
+  seconds: 55,
+  created_at: "2026-05-15 10:00:00",
+  speed: 3.8,
+  pace: 15.8,
+};
+
+const sampleWalks: WalkWithStats[] = [sampleWalk];
+
+const manyWalks: WalkWithStats[] = [
+  sampleWalk,
+  { ...sampleWalk, id: 2 },
+  { ...sampleWalk, id: 3 },
+  { ...sampleWalk, id: 4 },
 ];
 
 describe("WalksTable", () => {
@@ -30,6 +37,13 @@ describe("WalksTable", () => {
     expect(html).toContain("Clear all");
     expect(html).toContain("hx-delete=\"/walks/1\"");
     expect(html).toContain(">Clear</button>");
+    expect(html).not.toContain("data-scrollable=\"true\"");
+  });
+
+  test("marks tables with enough rows as scrollable", () => {
+    const html = render(<WalksTable walks={manyWalks} />);
+
+    expect(html).toContain("<div class=\"table-container\" data-scrollable=\"true\">");
   });
 
   test("renders an empty state", () => {
