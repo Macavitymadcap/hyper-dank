@@ -12,12 +12,13 @@ interface ScrollableTableProps {
   columnsTemplate: string;
   headerHeight?: string;
   isScrollable?: boolean;
-  minBodyRows?: number;
   mobileColumnsTemplate?: string;
   mobileHeaderHeight?: string;
   mobileRowHeight?: string;
+  mobileScrollBodyRows?: number;
   rowClassName?: string;
   rowHeight?: string;
+  scrollBodyRows?: number;
 }
 
 export const ScrollableTable = ({
@@ -27,12 +28,13 @@ export const ScrollableTable = ({
   columnsTemplate,
   headerHeight,
   isScrollable = false,
-  minBodyRows,
   mobileColumnsTemplate,
   mobileHeaderHeight,
   mobileRowHeight,
+  mobileScrollBodyRows,
   rowClassName,
   rowHeight,
+  scrollBodyRows,
 }: ScrollableTableProps) => {
   const tableClasses = ["scrollable-table", className].filter(Boolean).join(" ");
   const headerRowClasses = ["scrollable-table-row", rowClassName].filter(Boolean).join(" ");
@@ -43,7 +45,8 @@ export const ScrollableTable = ({
     mobileHeaderHeight && `--scrollable-table-mobile-header-height: ${mobileHeaderHeight}`,
     rowHeight && `--scrollable-table-row-height: ${rowHeight}`,
     mobileRowHeight && `--scrollable-table-mobile-row-height: ${mobileRowHeight}`,
-    minBodyRows && `--scrollable-table-min-body-rows: ${minBodyRows}`,
+    scrollBodyRows && `--scrollable-table-scroll-body-rows: ${scrollBodyRows}`,
+    mobileScrollBodyRows && `--scrollable-table-mobile-scroll-body-rows: ${mobileScrollBodyRows}`,
   ].filter(Boolean).join("; ");
 
   return (

@@ -14,9 +14,10 @@ describe("ScrollableTable", () => {
         ]}
         columnsTemplate="1fr auto"
         isScrollable
-        minBodyRows={2}
         mobileColumnsTemplate="minmax(0, 1fr) auto"
+        mobileScrollBodyRows={2}
         rowClassName="example-row"
+        scrollBodyRows={3}
       >
         <tr className="scrollable-table-row example-row">
           <td>Ada</td>
@@ -28,7 +29,8 @@ describe("ScrollableTable", () => {
     expect(html).toContain("<div class=\"scrollable-table-container\" data-scrollable=\"true\"");
     expect(html).toContain("--scrollable-table-columns: 1fr auto");
     expect(html).toContain("--scrollable-table-mobile-columns: minmax(0, 1fr) auto");
-    expect(html).toContain("--scrollable-table-min-body-rows: 2");
+    expect(html).toContain("--scrollable-table-scroll-body-rows: 3");
+    expect(html).toContain("--scrollable-table-mobile-scroll-body-rows: 2");
     expect(html).toContain("<table class=\"scrollable-table example-table\">");
     expect(html).toContain("<tr class=\"scrollable-table-row example-row\">");
     expect(html).toContain("<th scope=\"col\">Name</th>");

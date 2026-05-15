@@ -6,18 +6,16 @@ export const scrollableTableStyles = /* css */`
   --scrollable-table-mobile-header-height: 2.75rem;
   --scrollable-table-row-height: 3rem;
   --scrollable-table-mobile-row-height: 2.5rem;
-  --scrollable-table-min-body-rows: 2;
+  --scrollable-table-scroll-body-rows: 4;
+  --scrollable-table-mobile-scroll-body-rows: 3;
+  --scrollable-table-current-scroll-body-rows: var(--scrollable-table-scroll-body-rows);
   --scrollable-table-inner-radius: calc(var(--radius-2) - var(--border-size-1));
-  --scrollable-table-min-height: calc(
-    var(--scrollable-table-header-height) +
-    (var(--scrollable-table-min-body-rows) * var(--scrollable-table-row-height))
-  );
   background-color: transparent;
   border: 0;
   display: flex;
-  flex: 1 1 0;
-  height: 100%;
-  min-height: var(--scrollable-table-min-height);
+  flex: 0 1 auto;
+  height: auto;
+  min-height: 0;
   min-width: 0;
   outline: 0;
   overflow: hidden;
@@ -31,10 +29,10 @@ export const scrollableTableStyles = /* css */`
   border-radius: var(--radius-2);
   border-spacing: 0;
   display: grid;
-  grid-template-rows: var(--scrollable-table-header-height) minmax(0, 1fr);
-  height: 100%;
+  grid-template-rows: var(--scrollable-table-header-height) auto;
+  height: auto;
   max-height: 100%;
-  min-height: var(--scrollable-table-min-height);
+  min-height: 0;
   outline: 0;
   overflow: hidden;
   width: 100%;
@@ -59,12 +57,20 @@ export const scrollableTableStyles = /* css */`
   flex-direction: column;
   min-height: 0;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: visible;
 }
 
 .scrollable-table-container[data-scrollable="true"] .scrollable-table thead,
 .scrollable-table-container[data-scrollable="true"] .scrollable-table tbody {
   scrollbar-gutter: stable;
+}
+
+.scrollable-table-container[data-scrollable="true"] .scrollable-table tbody {
+  max-height: calc(
+    var(--scrollable-table-current-scroll-body-rows) *
+    var(--scrollable-table-row-height)
+  );
+  overflow-y: auto;
 }
 
 .scrollable-table-row {
@@ -115,6 +121,10 @@ export const scrollableTableStyles = /* css */`
   min-height: 0;
 }
 
+.scrollable-table tbody .scrollable-table-row:last-child > td {
+  border-bottom: 0;
+}
+
 .scrollable-table tbody tr:hover td {
   background-color: var(--table-row-hover-bg);
 }
@@ -127,12 +137,9 @@ export const scrollableTableStyles = /* css */`
 
 @media (max-width: 640px) {
   .scrollable-table-container {
+    --scrollable-table-current-scroll-body-rows: var(--scrollable-table-mobile-scroll-body-rows);
     --scrollable-table-header-height: var(--scrollable-table-mobile-header-height);
     --scrollable-table-row-height: var(--scrollable-table-mobile-row-height);
-    --scrollable-table-min-height: calc(
-      var(--scrollable-table-header-height) +
-      (var(--scrollable-table-min-body-rows) * var(--scrollable-table-row-height))
-    );
   }
 
   .scrollable-table-row {

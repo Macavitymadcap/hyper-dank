@@ -79,10 +79,11 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
         ]}
         columnsTemplate={columnsTemplate}
         isScrollable={isScrollable}
-        minBodyRows={2}
         mobileColumnsTemplate={mobileColumnsTemplate}
         mobileRowHeight="3.25rem"
+        mobileScrollBodyRows={3}
         rowClassName="walks-row"
+        scrollBodyRows={4}
       >
         {walks.map(walk => (
           <WalksRow
