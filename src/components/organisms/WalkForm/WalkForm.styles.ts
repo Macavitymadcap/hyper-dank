@@ -1,9 +1,8 @@
 export const walkFormStyles = /* css */`
 .form-section {
   background-color: var(--form-bg);
-  padding: var(--size-4);
   color: var(--form-text);
-  border-radius: var(--radius-2);
+  border-color: transparent;
 }
 
 .input-row {
@@ -19,10 +18,6 @@ export const walkFormStyles = /* css */`
 }
 
 @media (max-width: 480px) {
-  .form-section {
-    padding: var(--size-3);
-  }
-
   .input-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(3.75rem, 0.8fr);

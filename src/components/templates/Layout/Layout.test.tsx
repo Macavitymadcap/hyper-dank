@@ -46,6 +46,7 @@ describe("Layout", () => {
     expect(html).toContain("border-inline-start: var(--border-size-2) solid var(--table-action-divider)");
     expect(html).toContain(".table-container[data-scrollable=\"true\"] .walks-table");
     expect(html).toContain(".walks-table tbody,");
+    expect(html).toContain(".history-count,");
     expect(html).toContain("background-size: 280% 100%");
     expect(html).toContain("transition: color var(--theme-text-transition);");
     expect(html).not.toContain("transition: opacity var(--theme-transition), transform var(--theme-transition), color var(--theme-transition)");

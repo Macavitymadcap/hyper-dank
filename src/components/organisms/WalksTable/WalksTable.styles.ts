@@ -6,6 +6,36 @@ export const walksTableStyles = /* css */`
   font-size: var(--font-size-2);
 }
 
+.walks-history {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: var(--size-3);
+  min-height: 0;
+  width: 100%;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-3);
+}
+
+.history-count {
+  display: inline-grid;
+  place-items: center;
+  min-height: 1.75rem;
+  padding: 0 var(--size-2);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-round);
+  color: var(--text-muted);
+  font-size: var(--font-size-0);
+  font-weight: var(--font-weight-7);
+  line-height: var(--font-lineheight-0);
+  white-space: nowrap;
+}
+
 .table-container {
   background-color: transparent;
   border: 0;
@@ -16,7 +46,7 @@ export const walksTableStyles = /* css */`
   align-items: flex-start;
   min-height: 0;
   width: 100%;
-  --walks-table-columns: minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(4rem, 1fr) minmax(5rem, 1fr) minmax(5.5rem, 0.85fr);
+  --walks-table-columns: minmax(4.5rem, 0.9fr) minmax(3.5rem, 0.7fr) minmax(3.5rem, 0.7fr) minmax(3.5rem, 0.7fr) minmax(4rem, 0.85fr) minmax(5rem, 1fr) minmax(5.5rem, 0.9fr);
   --walks-row-height: 3rem;
   --walks-table-inner-radius: calc(var(--radius-2) - var(--border-size-1));
 }
@@ -82,8 +112,8 @@ export const walksTableStyles = /* css */`
   border-bottom: var(--border-size-1) solid var(--table-border);
 }
 
-.walks-table td:nth-child(5),
-.walks-table th:nth-child(5) {
+.walks-table td:nth-child(6),
+.walks-table th:nth-child(6) {
   border-inline-end: 0;
 }
 
@@ -117,30 +147,19 @@ export const walksTableStyles = /* css */`
   background-color: var(--table-row-hover-bg);
 }
 
-.clear-walks-btn {
-  box-sizing: border-box;
-  display: inline-grid;
-  place-items: center;
-  height: 2rem;
-  min-block-size: 0;
-  padding: 0 var(--size-2);
-  background-color: transparent;
-  border: var(--border-size-1) solid var(--table-border);
-  color: var(--table-text);
-  font-size: var(--font-size-0);
-  line-height: var(--font-lineheight-0);
-  text-transform: none;
-  letter-spacing: 0;
-  white-space: nowrap;
-}
-
-.clear-walks-btn:hover {
-  background-color: var(--table-row-hover-bg);
-}
-
 @media (max-width: 480px) {
+  .walks-history {
+    gap: var(--size-2);
+  }
+
+  .history-count {
+    min-height: 1.5rem;
+    padding: 0 var(--size-1);
+    font-size: var(--font-size-00);
+  }
+
   .table-container {
-    --walks-table-columns: minmax(2.4rem, 0.7fr) minmax(2.7rem, 0.75fr) minmax(2.7rem, 0.75fr) minmax(3rem, 0.8fr) minmax(3.9rem, 1fr) minmax(4.25rem, 0.9fr);
+    --walks-table-columns: minmax(3.3rem, 0.95fr) minmax(2.1rem, 0.58fr) minmax(2.35rem, 0.62fr) minmax(2.35rem, 0.62fr) minmax(2.6rem, 0.72fr) minmax(3.25rem, 0.85fr) minmax(3.75rem, 0.95fr);
     --walks-row-height: 2.5rem;
   }
 
@@ -168,13 +187,7 @@ export const walksTableStyles = /* css */`
   .walks-table td {
     height: var(--walks-row-height);
     min-height: 0;
-    font-size: var(--font-size-1);
-  }
-
-  .clear-walks-btn {
-    height: 1.6rem;
-    padding: 0 var(--size-1);
-    font-size: var(--font-size-00);
+    font-size: var(--font-size-0);
   }
 }
 `;

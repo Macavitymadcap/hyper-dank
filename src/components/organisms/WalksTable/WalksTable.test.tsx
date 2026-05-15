@@ -27,12 +27,17 @@ describe("WalksTable", () => {
   test("renders a table with a scrollable body contract", () => {
     const html = render(<WalksTable walks={sampleWalks} />);
 
+    expect(html).toContain("<div class=\"walks-history\">");
+    expect(html).toContain("<h3 id=\"history-heading\" class=\"section-title\">Walk history</h3>");
+    expect(html).toContain("<span class=\"history-count\">1 walk</span>");
     expect(html).toContain("<div class=\"table-container\">");
     expect(html).toContain("<table class=\"walks-table\">");
     expect(html).toContain("<thead>");
     expect(html).toContain("<tbody>");
+    expect(html).toContain("<th>Time</th>");
     expect(html).toContain("<tr class=\"walks-row\">");
-    expect(html).toContain("class=\"clear-walks-btn\"");
+    expect(html).toContain("class=\"button clear-walks-btn\"");
+    expect(html).toContain("data-variant=\"outline\"");
     expect(html).toContain("hx-delete=\"/walks\"");
     expect(html).toContain("Clear all");
     expect(html).toContain("hx-delete=\"/walks/1\"");
@@ -43,10 +48,14 @@ describe("WalksTable", () => {
   test("marks tables with enough rows as scrollable", () => {
     const html = render(<WalksTable walks={manyWalks} />);
 
+    expect(html).toContain("<span class=\"history-count\">4 walks</span>");
     expect(html).toContain("<div class=\"table-container\" data-scrollable=\"true\">");
   });
 
   test("renders an empty state", () => {
-    expect(render(<WalksTable walks={[]} />)).toContain("No walks recorded yet.");
+    const html = render(<WalksTable walks={[]} />);
+
+    expect(html).toContain("<span class=\"history-count\">0 walks</span>");
+    expect(html).toContain("No walks recorded yet.");
   });
 });

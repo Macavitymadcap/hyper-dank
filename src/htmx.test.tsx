@@ -24,7 +24,8 @@ describe("HTMX contracts", () => {
 
     expect(response.status).toBe(200);
     expect(harness.repository.getAllWalks()).toHaveLength(1);
-    expect(html).toStartWith("<div class=\"table-container\">");
+    expect(html).toStartWith("<div class=\"walks-history\">");
+    expect(html).toContain("<span class=\"history-count\">1 walk</span>");
     expect(html).toContain("<table class=\"walks-table\">");
     expect(html).toContain("<tbody>");
     expect(html).not.toContain("<html");
@@ -65,6 +66,7 @@ describe("HTMX contracts", () => {
 
     expect(response.status).toBe(200);
     expect(harness.repository.getAllWalks()).toHaveLength(0);
+    expect(html).toContain("<span class=\"history-count\">0 walks</span>");
     expect(html).toContain("No walks recorded yet.");
     expect(html).not.toContain("<html");
   });
@@ -92,6 +94,7 @@ describe("HTMX contracts", () => {
 
     expect(response.status).toBe(200);
     expect(harness.repository.getAllWalks()).toHaveLength(0);
+    expect(html).toContain("<span class=\"history-count\">0 walks</span>");
     expect(html).toContain("No walks recorded yet.");
     expect(html).not.toContain("<html");
     expect(statsHtml).toContain("<output class=\"stat-value\">--</output>");

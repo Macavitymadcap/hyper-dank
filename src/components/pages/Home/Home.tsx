@@ -20,20 +20,21 @@ export const Home = ({walks, stats}: HomeProps) => {
         <div class="content-sections">
           <section class="page-section" aria-labelledby="summary-heading">
             <h3 id="summary-heading" class="section-title">Summary</h3>
-            <div id="stats" hx-get="/stats" hx-trigger="refresh from:body">
-              <StatsSection avgSpeed={stats.avgSpeed} medianPace={stats.medianPace} />
-            </div>
+            <Card className="section-card summary-card" radius="var(--radius-2)" shadow="none">
+              <div id="stats" hx-get="/stats" hx-trigger="refresh from:body">
+                <StatsSection avgSpeed={stats.avgSpeed} medianPace={stats.medianPace} />
+              </div>
+            </Card>
           </section>
 
           <section class="page-section" aria-labelledby="entry-heading">
             <h3 id="entry-heading" class="section-title">Add walk</h3>
-            <div class="form-section">
+            <Card className="section-card form-section" radius="var(--radius-2)" shadow="none">
               <WalkForm />
-            </div>
+            </Card>
           </section>
 
           <section class="page-section" aria-labelledby="history-heading">
-            <h3 id="history-heading" class="section-title">Walk history</h3>
             <div id="walks-list">
               <WalksTable walks={walks} />
             </div>

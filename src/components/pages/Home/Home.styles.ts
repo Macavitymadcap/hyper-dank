@@ -39,6 +39,11 @@ export const homeStyles = /* css */`
   gap: var(--size-3);
 }
 
+.section-card {
+  padding: var(--size-4);
+  border: var(--border-size-1) solid var(--border-subtle);
+}
+
 .page-section:last-child {
   flex: 1 1 0;
   min-height: 0;
@@ -77,6 +82,10 @@ export const homeStyles = /* css */`
 
   .page-section {
     gap: var(--size-2);
+  }
+
+  .section-card {
+    padding: var(--size-3);
   }
 
   .page-section:last-child {

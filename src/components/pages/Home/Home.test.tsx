@@ -27,8 +27,11 @@ describe("Home", () => {
     expect(html).toContain("data-theme-toggle=\"\"");
     expect(html).toContain("<section class=\"page-section\" aria-labelledby=\"summary-heading\">");
     expect(html).toContain("<h3 id=\"summary-heading\" class=\"section-title\">Summary</h3>");
+    expect(html).toContain("class=\"card section-card summary-card\"");
     expect(html).toContain("<h3 id=\"entry-heading\" class=\"section-title\">Add walk</h3>");
+    expect(html).toContain("class=\"card section-card form-section\"");
     expect(html).toContain("<h3 id=\"history-heading\" class=\"section-title\">Walk history</h3>");
+    expect(html).toContain("<span class=\"history-count\">1 walk</span>");
     expect(html).toContain("id=\"stats\" hx-get=\"/stats\"");
     expect(html).toContain("id=\"walks-list\"");
   });

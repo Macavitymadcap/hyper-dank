@@ -4,12 +4,16 @@ interface ButtonProps extends HtmxProps {
   type: 'submit' | 'reset' | 'button';
   children: unknown;
   className?: string;
+  size?: "default" | "compact";
+  variant?: "primary" | "danger" | "outline";
 }
 
 export const Button = ({
   className, 
   type, 
   children,
+  size = "default",
+  variant = "primary",
   hxGet,
   hxPost,
   hxOn,
@@ -52,6 +56,8 @@ export const Button = ({
     <button
       className={classes}
       type={type}
+      data-size={size}
+      data-variant={variant}
       hx-get={hxGet}
       hx-post={hxPost}
       hx-on={hxOn}
