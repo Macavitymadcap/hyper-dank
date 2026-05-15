@@ -27,6 +27,7 @@ export interface WalkRepository {
   getAllWalks(): WalkWithStats[];
   addWalk(walk: WalkInput): void;
   deleteWalk(id: number): boolean;
+  clearWalks(): number;
   getStats(): Stats;
   close?(): void;
 }

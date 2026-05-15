@@ -46,9 +46,11 @@ export const Button = ({
   hxValidate,
   hxVars,
 }: ButtonProps) => {
+  const classes = ["button", className].filter(Boolean).join(" ");
+
   return (
     <button
-      className={className}
+      className={classes}
       type={type}
       hx-get={hxGet}
       hx-post={hxPost}

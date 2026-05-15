@@ -55,6 +55,11 @@ export class Repository implements WalkRepository {
     const result = query.run(id) as { changes?: number };
     return Number(result.changes ?? 0) > 0;
   }
+
+  clearWalks(): number {
+    const result = this.db.query('DELETE FROM walks').run() as { changes?: number };
+    return Number(result.changes ?? 0);
+  }
   
   getStats(): Stats {
     const walks = this.getAllWalks();

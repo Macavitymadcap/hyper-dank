@@ -81,4 +81,32 @@ describe("HTMX contracts", () => {
     expect(html).toContain("No walks recorded yet.");
     expect(html).not.toContain("<html");
   });
+
+  test("clear all returns an empty walks fragment and leaves stats refreshable", async () => {
+    await postWalkFromHtmx({ miles: "1", minutes: "20", seconds: "0" });
+    await postWalkFromHtmx({ miles: "2", minutes: "30", seconds: "0" });
+
+    const response = await app.request("/walks", {
+      method: "DELETE",
+      headers: {
+        ...htmxHeaders,
+        "HX-Target": "walks-list",
+      },
+    });
+    const html = await response.text();
+    const stats = await app.request("/stats", {
+      headers: {
+        ...htmxHeaders,
+        "HX-Trigger": "refresh",
+        "HX-Target": "stats",
+      },
+    });
+    const statsHtml = await stats.text();
+
+    expect(response.status).toBe(200);
+    expect(repository.getAllWalks()).toHaveLength(0);
+    expect(html).toContain("No walks recorded yet.");
+    expect(html).not.toContain("<html");
+    expect(statsHtml).toContain("<output class=\"stat-value\">--</output>");
+  });
 });

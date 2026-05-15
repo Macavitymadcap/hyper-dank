@@ -3,6 +3,7 @@ import { Layout } from "../templates/Layout";
 import { Stats as StatsSection} from "../organisms/Stats";
 import { WalkForm } from "../organisms/WalkForm";
 import { WalksTable } from "../organisms/WalksTable";
+import { Switch } from "../atoms/Switch";
 
 interface HomeProps { walks: WalkWithStats[]; stats: Stats }
 
@@ -12,6 +13,7 @@ export const Home = ({walks, stats}: HomeProps) => {
       <main class="container">
         <header class="app-header">
           <h1 class="title">Walking Pace Tracker</h1>
+          <Switch id="theme-toggle" label="Color mode" dataThemeToggle />
         </header>
 
         <div class="content-sections">

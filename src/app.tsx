@@ -37,6 +37,11 @@ export const createApp = ({ walksRepository = new Repository() }: AppDependencie
     return context.html(<WalksTable walks={walks} />);
   });
 
+  app.delete('/walks', (context) => {
+    walksRepository.clearWalks();
+    return context.html(<WalksTable walks={[]} />);
+  });
+
   app.delete('/walks/:id', (context) => {
     const id = Number(context.req.param('id'));
 

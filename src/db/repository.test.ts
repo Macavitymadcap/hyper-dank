@@ -35,6 +35,15 @@ describe("Repository", () => {
     expect(repository.getAllWalks()).toHaveLength(0);
   });
 
+  test("clears all walks and reports how many rows changed", () => {
+    repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
+    repository.addWalk({ miles: 2, minutes: 30, seconds: 0 });
+
+    expect(repository.clearWalks()).toBe(2);
+    expect(repository.clearWalks()).toBe(0);
+    expect(repository.getAllWalks()).toHaveLength(0);
+  });
+
   test("calculates aggregate stats from persisted walks", () => {
     repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
     repository.addWalk({ miles: 2, minutes: 30, seconds: 0 });

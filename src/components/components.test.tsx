@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import type { WalkWithStats } from "../db";
 import { Button } from "./atoms/Button";
+import { Switch } from "./atoms/Switch";
 import { WalksCell } from "./atoms/WalksCell";
 import { InputGroup } from "./molecules/InputGroup";
 import { Stat } from "./molecules/Stat";
@@ -34,7 +35,7 @@ describe("atoms", () => {
     );
 
     expect(html).toContain("<button");
-    expect(html).toContain("class=\"delete-btn\"");
+    expect(html).toContain("class=\"button delete-btn\"");
     expect(html).toContain("type=\"button\"");
     expect(html).toContain("hx-delete=\"/walks/1\"");
     expect(html).toContain("hx-target=\"#walks-list\"");
@@ -43,6 +44,27 @@ describe("atoms", () => {
 
   test("WalksCell renders a table cell", () => {
     expect(render(<WalksCell value="15.8" />)).toBe("<td class=\"walks-cell\">15.8</td>");
+  });
+
+  test("Switch renders a checkbox-backed icon toggle", () => {
+    const html = render(<Switch id="theme-toggle" label="Color mode" dataThemeToggle />);
+
+    expect(html).toContain("<label class=\"switch\" for=\"theme-toggle\">");
+    expect(html).toContain("<input");
+    expect(html).toContain("type=\"checkbox\"");
+    expect(html).toContain("role=\"switch\"");
+    expect(html).toContain("aria-label=\"Color mode\"");
+    expect(html).toContain("data-theme-toggle=\"\"");
+    expect(html).toContain("light_mode");
+    expect(html).toContain("dark_mode");
+    expect(html).toContain("material-symbols-outlined");
+  });
+
+  test("Switch can render checked state for dark mode", () => {
+    const html = render(<Switch id="theme-toggle" label="Color mode" checked dataThemeToggle />);
+
+    expect(html).toContain("checked=\"\"");
+    expect(html).toContain("aria-checked=\"true\"");
   });
 });
 
@@ -115,6 +137,9 @@ describe("organisms", () => {
     expect(html).toContain("<thead>");
     expect(html).toContain("<tbody>");
     expect(html).toContain("<tr class=\"walks-row\">");
+    expect(html).toContain("class=\"clear-walks-btn\"");
+    expect(html).toContain("hx-delete=\"/walks\"");
+    expect(html).toContain("Clear all");
     expect(html).toContain("hx-delete=\"/walks/1\"");
   });
 
@@ -133,7 +158,12 @@ describe("templates and pages", () => {
 
     expect(html).toContain("<html lang=\"en\">");
     expect(html).toContain("<title>Walking Pace Tracker</title>");
+    expect(html).toContain("pace-calculator-theme");
+    expect(html).toContain("fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
     expect(html).toContain("<style>");
+    expect(html).toContain(":root[data-theme=\"dark\"]");
+    expect(html).toContain("--table-header-bg: var(--gray-1)");
+    expect(html).toContain("--table-header-bg: var(--gray-10)");
     expect(html).toContain(".walks-table tbody");
     expect(html).toContain("<main>Body</main>");
   });
@@ -143,6 +173,9 @@ describe("templates and pages", () => {
 
     expect(html).toContain("<main class=\"container\">");
     expect(html).toContain("<header class=\"app-header\">");
+    expect(html).toContain("id=\"theme-toggle\"");
+    expect(html).toContain("role=\"switch\"");
+    expect(html).toContain("data-theme-toggle=\"\"");
     expect(html).toContain("<section class=\"page-section\" aria-labelledby=\"summary-heading\">");
     expect(html).toContain("<h3 id=\"summary-heading\" class=\"section-title\">Summary</h3>");
     expect(html).toContain("<h3 id=\"entry-heading\" class=\"section-title\">Add walk</h3>");

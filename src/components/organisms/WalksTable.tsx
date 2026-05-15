@@ -20,7 +20,19 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
             <th>Sec</th>
             <th>mph</th>
             <th>min/mi</th>
-            <th></th>
+            <th>
+              <button
+                class="clear-walks-btn"
+                type="button"
+                hx-delete="/walks"
+                hx-target="#walks-list"
+                hx-swap="innerHTML"
+                hx-confirm="Clear all walks?"
+                hx-on="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
+              >
+                Clear all
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>

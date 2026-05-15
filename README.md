@@ -7,6 +7,7 @@ A small Hono + HTMX app for tracking walking pace, built to double as a template
 - Hono routes returning full pages and HTMX fragments
 - Server-rendered JSX components with semantic HTML
 - HTMX form submission and targeted swaps
+- Light/dark mode with CSS custom properties mapped to Open Props tokens
 - SQLite persistence through Bun's native `bun:sqlite`
 - Dependency-injected app construction for testable routes
 - Unit tests for components, validation, calculations, repository behavior, and server responses
@@ -41,7 +42,8 @@ src/
 │   ├── organisms/             # form, stats, and list regions
 │   ├── pages/                 # full page compositions
 │   ├── templates/             # document layout
-│   ├── styles.ts              # shared CSS bundle
+│   ├── **/*.styles.ts         # styles colocated with their components
+│   ├── styles.ts              # SSR style bundle aggregator
 │   └── components.test.tsx    # component rendering tests
 ├── db/
 │   ├── calculator.ts          # pure pace/speed math
@@ -69,13 +71,16 @@ const app = createApp({ walksRepository: repository });
 
 This keeps HTTP routing, persistence, and runtime configuration separate enough that new HTMX apps can copy the same shape without inheriting global state.
 
+Component styles live beside the component they belong to as `*.styles.ts` modules. `src/components/styles.ts` is intentionally small: it only imports those colocated modules and assembles the CSS for server rendering, so adding a client bundler later can swap in at that boundary.
+
 ## Testing Strategy
 
-- **Component tests** render JSX to strings and assert semantic markup plus HTMX attributes.
+- **Component tests** render JSX to strings and assert semantic markup plus component behavior contracts such as HTMX attributes, table controls, and switch state.
 - **Calculator tests** cover pure speed, pace, average, and median behavior.
 - **Validation tests** reject invalid form payloads before storage.
 - **Repository tests** use SQLite `:memory:` databases and verify CRUD, aggregate stats, and database constraints.
-- **App tests** exercise real Hono requests with `app.request()`.
+- **App tests** exercise route behavior and persistence side effects through real Hono requests with `app.request()`.
+- **HTMX contract tests** send `HX-*` headers against an in-memory app and assert fragment-only response shape.
 
 ## Data Flow
 

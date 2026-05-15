@@ -34,25 +34,11 @@ describe("app", () => {
     expect(html).toContain("Walk history");
   });
 
-  test("returns the stats fragment", async () => {
-    repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
-
-    const response = await app.request("/stats");
-    const html = await response.text();
-
-    expect(response.status).toBe(200);
-    expect(html).toContain("<div class=\"stats\">");
-    expect(html).toContain("3.0");
-  });
-
-  test("posts valid walks and returns the updated list fragment", async () => {
+  test("posts valid walks and persists them", async () => {
     const response = await postWalk({ miles: "1.2", minutes: "18", seconds: "55" });
-    const html = await response.text();
 
     expect(response.status).toBe(200);
     expect(repository.getAllWalks()).toHaveLength(1);
-    expect(html).toContain("<table class=\"walks-table\">");
-    expect(html).toContain("15.8");
   });
 
   test("rejects invalid walks without mutating storage", async () => {
@@ -63,19 +49,32 @@ describe("app", () => {
     expect(repository.getAllWalks()).toHaveLength(0);
   });
 
-  test("deletes walks and rejects invalid ids", async () => {
+  test("deletes walks and persists the change", async () => {
     repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
 
     const [walk] = repository.getAllWalks();
     if (!walk) throw new Error("Expected inserted walk");
 
-    const invalid = await app.request("/walks/nope", { method: "DELETE" });
     const deleted = await app.request(`/walks/${walk.id}`, { method: "DELETE" });
-    const html = await deleted.text();
 
-    expect(invalid.status).toBe(400);
     expect(deleted.status).toBe(200);
     expect(repository.getAllWalks()).toHaveLength(0);
-    expect(html).toContain("No walks recorded yet.");
+  });
+
+  test("rejects invalid delete ids", async () => {
+    const response = await app.request("/walks/nope", { method: "DELETE" });
+
+    expect(response.status).toBe(400);
+    expect(await response.text()).toContain("Walk id must be a positive integer.");
+  });
+
+  test("clears all walks and persists the change", async () => {
+    repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
+    repository.addWalk({ miles: 2, minutes: 30, seconds: 0 });
+
+    const response = await app.request("/walks", { method: "DELETE" });
+
+    expect(response.status).toBe(200);
+    expect(repository.getAllWalks()).toHaveLength(0);
   });
 });
