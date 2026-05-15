@@ -8,10 +8,18 @@ This project uses a protected feature-branch flow. `main` is the stable branch a
 2. Keep work scoped to one change.
 3. Open a pull request into `main`.
 4. Use a Conventional Commit style PR title.
-5. Wait for required checks and code owner review.
-6. Merge only after approval from `@Macavitymadcap`.
+5. Wait for required checks and resolve any conversations.
+6. Merge when the maintainer is satisfied with the PR.
 
-`@Macavitymadcap` is the code owner in `.github/CODEOWNERS`, and main branch protection requires code owner review. That is how the repository enforces "review from me" before merge.
+This repository uses a solo-maintainer flow. GitHub does not allow a PR author to approve their own PR for branch protection, so main protection does not require approving reviews. The maintainer's approval is expressed by merging the PR after checks pass.
+
+Branch protection still keeps the important guardrails:
+
+- `main` changes go through pull requests.
+- The `test` and `lint-pr-title` checks must pass.
+- PR titles follow Conventional Commits.
+- Conversations must be resolved before merge.
+- Direct pushes, force pushes, and branch deletion are blocked.
 
 ## Conventional Commits
 
@@ -47,7 +55,7 @@ The `PR Title` workflow enforces this on pull requests.
 
 Version updates are automated with release-please.
 
-When a reviewed feature PR is merged into `main`, the `Release Please` workflow reads the Conventional Commit history and opens or updates a release PR. That release PR updates `package.json`, updates the release manifest, and prepares changelog content. It still goes through the same protected PR flow, so version changes are reviewed before they land on `main`.
+When a feature PR is merged into `main`, the `Release Please` workflow reads the Conventional Commit history and opens or updates a release PR. That release PR updates `package.json`, updates the release manifest, and prepares changelog content. It still goes through the same protected PR flow, so version changes land only after checks pass and the maintainer chooses to merge.
 
 Version bump rules:
 

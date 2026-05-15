@@ -8,7 +8,7 @@ The goal is not only to track pace, but to act as a compact template for Hono + 
 
 For the design philosophy and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
-For the protected branch workflow, Conventional Commit PR titles, and release/versioning process, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+For the solo-maintainer branch workflow, Conventional Commit PR titles, and release/versioning process, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Screenshots
 
@@ -111,7 +111,7 @@ The test suite covers:
 
 CI is configured in `.github/workflows/ci.yml` and runs `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`.
 
-`main` should be protected as PR-only with passing CI, a Conventional Commit PR title, resolved conversations, and code owner approval from `@Macavitymadcap`. After pushing this branch, apply the repository protection with:
+`main` should be protected as PR-only with passing CI, a Conventional Commit PR title, and resolved conversations. Approving reviews are disabled for the solo-maintainer workflow because GitHub does not allow a PR author to approve their own PR for branch protection. After pushing this branch, apply the repository protection with:
 
 ```bash
 bun run protect:main

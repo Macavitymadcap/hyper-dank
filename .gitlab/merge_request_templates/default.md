@@ -21,6 +21,6 @@
 
 - [ ] This targets `main` from a feature branch.
 - [ ] The merge request title follows Conventional Commits, for example `fix(table): align row radius`.
-- [ ] This is ready for owner review.
+- [ ] This is ready for solo-maintainer merge once checks pass.
 - [ ] This does not commit local SQLite database files.
 - [ ] User-facing UI changes include screenshots or a short description.
