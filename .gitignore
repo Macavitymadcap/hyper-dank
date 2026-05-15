@@ -8,6 +8,15 @@ dist
 
 # database
 walking-pace-db
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite3-shm
+*.sqlite3-wal
+*.db
+*.db-shm
+*.db-wal
 
 # code coverage
 coverage

@@ -3,7 +3,13 @@ export const homeStyles = /* css */`
   background: var(--surface);
   border-radius: var(--radius-3);
   box-shadow: var(--shadow-3);
-  overflow: visible;
+  overflow: auto;
+  scrollbar-gutter: stable;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: calc(100vh - (var(--size-4) * 2));
+  max-height: calc(100vh - (var(--size-4) * 2));
 }
 
 .app-header {
@@ -34,12 +40,25 @@ export const homeStyles = /* css */`
   flex-direction: column;
   gap: var(--size-5);
   padding: var(--size-5) var(--size-2);
+  flex: 1;
+  min-height: 0;
 }
 
 .page-section {
   display: flex;
   flex-direction: column;
   gap: var(--size-3);
+}
+
+.page-section:last-child {
+  flex: 1;
+  min-height: 0;
+}
+
+#walks-list {
+  display: flex;
+  flex: 1;
+  min-height: 0;
 }
 
 .section-title {

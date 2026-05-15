@@ -27,7 +27,7 @@ The dev server runs on `http://localhost:3000` by default.
 You can change the port or database path with environment variables:
 
 ```bash
-PORT=3100 DB_PATH=/tmp/walking-pace-db bun run dev
+PORT=3100 DB_PATH=/tmp/walking-pace.sqlite3 bun run dev
 ```
 
 ## Scripts
@@ -61,12 +61,26 @@ The test suite covers:
 - SQLite repository behavior with in-memory databases
 - validation and pace calculations
 
+## Repository Workflow
+
+CI is configured in `.github/workflows/ci.yml` and runs `bun run typecheck` plus `bun run test` on branch pushes and pull requests to `main`.
+
+`main` should be protected as PR-only with passing CI and at least one approval required. After pushing this branch, apply the repository protection with:
+
+```bash
+scripts/configure-main-protection.sh
+```
+
+See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact settings.
+
 ## Configuration
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `PORT` | `3000` | HTTP port used by Bun |
-| `DB_PATH` | `walking-pace-db` | SQLite database file path |
+| `DB_PATH` | `walking-pace.sqlite3` | SQLite database file path |
+
+SQLite database files and sidecar files are ignored by Git.
 
 ## Project Structure
 

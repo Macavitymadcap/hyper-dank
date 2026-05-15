@@ -17,8 +17,6 @@ export const layoutStyles = /* css */`
   --table-row-bg: var(--gray-0);
   --table-row-hover-bg: var(--blue-0);
   --table-border: var(--gray-3);
-  --table-action-bg: var(--gray-1);
-  --table-action-hover-bg: var(--gray-2);
   --table-action-divider: var(--gray-4);
   --table-text: var(--gray-9);
   --danger: var(--red-6);
@@ -46,8 +44,6 @@ export const layoutStyles = /* css */`
   --table-row-bg: var(--gray-9);
   --table-row-hover-bg: var(--gray-8);
   --table-border: var(--gray-7);
-  --table-action-bg: var(--gray-10);
-  --table-action-hover-bg: var(--gray-8);
   --table-action-divider: var(--gray-6);
   --table-text: var(--gray-0);
   --danger: var(--red-7);
@@ -58,12 +54,17 @@ export const layoutStyles = /* css */`
 }
 
 body {
+  box-sizing: border-box;
   font-family: var(--font-sans);
   background: var(--app-bg);
   color: var(--text);
   padding: var(--size-4);
+  width: 100%;
   max-width: 600px;
+  min-height: 100vh;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .htmx-indicator {
