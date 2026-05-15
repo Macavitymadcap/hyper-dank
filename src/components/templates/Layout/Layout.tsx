@@ -1,5 +1,5 @@
 import { raw } from "hono/html";
-import { appStyles } from "../styles";
+import { appStyles } from "../../styles";
 
 const themeScript = /* js */`
 (() => {

@@ -1,4 +1,4 @@
-import { Stat } from "../molecules/Stat";
+import { Stat } from "../../molecules/Stat";
 
 interface StatsProps { avgSpeed: number; medianPace?: number }
 

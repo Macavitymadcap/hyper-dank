@@ -1,5 +1,5 @@
-import type { WalkWithStats } from "../../db";
-import { WalksRow } from "../molecules/WalksRow";
+import type { WalkWithStats } from "../../../db";
+import { WalksRow } from "../../molecules/WalksRow";
 
 export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
   if (walks.length === 0) {

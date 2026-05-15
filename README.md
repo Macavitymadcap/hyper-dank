@@ -1,106 +1,87 @@
 # Walking Pace Tracker
 
-A small Hono + HTMX app for tracking walking pace, built to double as a template for server-rendered front ends with Bun, TypeScript, JSX, and SQLite.
+A small walking pace tracker built with Hono, HTMX, Bun, TypeScript, JSX, and SQLite.
 
-## What It Demonstrates
+The app records walks, calculates average speed and median pace, supports light/dark mode, and uses server-rendered HTML fragments instead of a client-side framework.
 
-- Hono routes returning full pages and HTMX fragments
-- Server-rendered JSX components with semantic HTML
-- HTMX form submission and targeted swaps
-- Light/dark mode with CSS custom properties mapped to Open Props tokens
-- SQLite persistence through Bun's native `bun:sqlite`
-- Dependency-injected app construction for testable routes
-- Unit tests for components, validation, calculations, repository behavior, and server responses
+For the design and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
-## Scripts
+## Requirements
+
+- [Bun](https://bun.sh/)
+
+## Setup
 
 ```bash
 bun install
+```
+
+## Run Locally
+
+```bash
 bun run dev
-bun run test
-bun run typecheck
 ```
 
 The dev server runs on `http://localhost:3000` by default.
 
-Runtime configuration:
+You can change the port or database path with environment variables:
 
 ```bash
 PORT=3100 DB_PATH=/tmp/walking-pace-db bun run dev
 ```
 
+## Scripts
+
+```bash
+bun run dev
+bun run test
+bun run test:watch
+bun run typecheck
+```
+
+## Testing
+
+Run the full test suite:
+
+```bash
+bun run test
+```
+
+Run the TypeScript checker:
+
+```bash
+bun run typecheck
+```
+
+The test suite covers:
+
+- component rendering contracts
+- Hono route behavior
+- HTMX fragment response contracts
+- SQLite repository behavior with in-memory databases
+- validation and pace calculations
+
+## Configuration
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `PORT` | `3000` | HTTP port used by Bun |
+| `DB_PATH` | `walking-pace-db` | SQLite database file path |
+
 ## Project Structure
 
 ```text
 src/
-├── app.tsx                    # createApp({ walksRepository }) route factory
+├── app.tsx                    # Hono app factory
 ├── index.ts                   # Bun runtime entrypoint
-├── app.test.tsx               # server/route tests through app.request()
-├── components/
-│   ├── atoms/                 # small JSX building blocks
-│   ├── molecules/             # composed controls and rows
-│   ├── organisms/             # form, stats, and list regions
-│   ├── pages/                 # full page compositions
-│   ├── templates/             # document layout
-│   ├── **/*.styles.ts         # styles colocated with their components
-│   ├── styles.ts              # SSR style bundle aggregator
-│   └── components.test.tsx    # component rendering tests
-├── db/
-│   ├── calculator.ts          # pure pace/speed math
-│   ├── model.ts               # domain and repository contracts
-│   ├── repository.ts          # SQLite implementation
-│   └── *.test.ts              # calculator and repository tests
-└── walks/
-    └── validation.ts          # shared request validation
-```
-
-## Template Pattern
-
-`src/app.tsx` exports `createApp()`, which accepts its dependencies:
-
-```ts
-const app = createApp({ walksRepository });
-```
-
-Production startup happens separately in `src/index.ts`, where the real SQLite repository is created. Tests can pass an in-memory repository instead:
-
-```ts
-const repository = new Repository({ filename: ":memory:" });
-const app = createApp({ walksRepository: repository });
-```
-
-This keeps HTTP routing, persistence, and runtime configuration separate enough that new HTMX apps can copy the same shape without inheriting global state.
-
-Component styles live beside the component they belong to as `*.styles.ts` modules. `src/components/styles.ts` is intentionally small: it only imports those colocated modules and assembles the CSS for server rendering, so adding a client bundler later can swap in at that boundary.
-
-## Testing Strategy
-
-- **Component tests** render JSX to strings and assert semantic markup plus component behavior contracts such as HTMX attributes, table controls, and switch state.
-- **Calculator tests** cover pure speed, pace, average, and median behavior.
-- **Validation tests** reject invalid form payloads before storage.
-- **Repository tests** use SQLite `:memory:` databases and verify CRUD, aggregate stats, and database constraints.
-- **App tests** exercise route behavior and persistence side effects through real Hono requests with `app.request()`.
-- **HTMX contract tests** send `HX-*` headers against an in-memory app and assert fragment-only response shape.
-
-## Data Flow
-
-```mermaid
-sequenceDiagram
-    participant Browser
-    participant HTMX
-    participant App as Hono App
-    participant Repo as WalkRepository
-    participant View as JSX Component
-
-    Browser->>HTMX: Submit walk form
-    HTMX->>App: POST /walks
-    App->>App: Validate form body
-    App->>Repo: addWalk(input)
-    App->>Repo: getAllWalks()
-    App->>View: <WalksTable walks={walks} />
-    View-->>App: HTML fragment
-    App-->>HTMX: Fragment response
-    HTMX-->>Browser: Swap #walks-list
+├── app.test.tsx               # route behavior tests
+├── htmx.test.tsx              # HTMX fragment contract tests
+├── components/                # server-rendered JSX components
+│   ├── atoms/Button/          # component, styles, tests, and export
+│   ├── molecules/WalksRow/    # component, styles, tests, and export
+│   └── styles.ts              # SSR style aggregation boundary
+├── db/                        # repository, model, and pace math
+└── walks/                     # walk input validation
 ```
 
 ## Formulas

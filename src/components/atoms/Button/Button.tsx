@@ -1,4 +1,4 @@
-import type { HtmxProps } from "../model";
+import type { HtmxProps } from "../../model";
 
 interface ButtonProps extends HtmxProps {
   type: 'submit' | 'reset' | 'button';

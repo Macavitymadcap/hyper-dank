@@ -1,5 +1,5 @@
-import { Button } from "../atoms/Button";
-import { InputGroup } from "../molecules/InputGroup"
+import { Button } from "../../atoms/Button";
+import { InputGroup } from "../../molecules/InputGroup"
 
 export const WalkForm = () => {
   return (

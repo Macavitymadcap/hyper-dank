@@ -1,9 +1,9 @@
-import type { WalkWithStats, Stats } from "../../db"
-import { Layout } from "../templates/Layout";
-import { Stats as StatsSection} from "../organisms/Stats";
-import { WalkForm } from "../organisms/WalkForm";
-import { WalksTable } from "../organisms/WalksTable";
-import { Switch } from "../atoms/Switch";
+import type { WalkWithStats, Stats } from "../../../db"
+import { Layout } from "../../templates/Layout";
+import { Stats as StatsSection} from "../../organisms/Stats";
+import { WalkForm } from "../../organisms/WalkForm";
+import { WalksTable } from "../../organisms/WalksTable";
+import { Switch } from "../../atoms/Switch";
 
 interface HomeProps { walks: WalkWithStats[]; stats: Stats }
 

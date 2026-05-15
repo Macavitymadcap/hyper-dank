@@ -1,0 +1,1 @@
+export { WalksTable } from "./WalksTable";

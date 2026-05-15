@@ -1,5 +1,5 @@
-import { Button } from "../atoms/Button";
-import { WalksCell } from "../atoms/WalksCell";
+import { Button } from "../../atoms/Button";
+import { WalksCell } from "../../atoms/WalksCell";
 
 interface WalksRowProps {
   id: number;
