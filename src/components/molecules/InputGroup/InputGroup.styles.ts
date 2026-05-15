@@ -23,10 +23,8 @@ input[type="number"] {
   background-color: var(--surface);
   color: var(--text);
   transition:
-    background-color var(--theme-transition),
-    border-color var(--theme-transition),
-    box-shadow var(--theme-transition),
-    color var(--theme-text-transition);
+    border-color var(--speed-2),
+    box-shadow var(--speed-2);
 }
 
 input[type="number"]:focus {

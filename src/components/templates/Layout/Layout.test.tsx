@@ -37,6 +37,8 @@ describe("Layout", () => {
     expect(html).toContain("background-size: 280% 100%");
     expect(html).toContain("transition: color var(--theme-text-transition);");
     expect(html).not.toContain("transition: opacity var(--theme-transition), transform var(--theme-transition), color var(--theme-transition)");
+    expect(html).not.toContain("input[type=\"number\"],");
+    expect(html).toContain("border-color var(--speed-2)");
     expect(html).toContain(":root[data-theme=\"dark\"] .switch-input + .switch-track .switch-thumb");
     expect(html).not.toContain(".switch-input:checked + .switch-track .switch-thumb");
     expect(html).toContain(".walks-table tbody");

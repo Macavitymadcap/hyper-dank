@@ -87,7 +87,6 @@ body {
 .button,
 .clear-walk-btn,
 .clear-walks-btn,
-input[type="number"],
 .walks-cell,
 .walks-table th,
 .walks-table td,

@@ -35,7 +35,8 @@ src/
 ├── app.tsx                    # Hono route factory
 ├── components/
 │   ├── atoms/                 # primitive elements and controls
-│   │   └── Button/            # component, styles, tests, and export
+│   │   ├── Button/            # component, styles, tests, and export
+│   │   └── Card/              # reusable surface container with CSS variable sizing
 │   ├── molecules/             # small composed UI pieces
 │   │   └── WalksRow/          # component, styles, tests, and export
 │   ├── organisms/             # feature sections and regions
@@ -95,14 +96,14 @@ sequenceDiagram
     App-->>HTMX: stats fragment
 ```
 
-Deletes follow the same fragment pattern. `DELETE /walks/:id` removes one row and returns a refreshed `WalksTable`. `DELETE /walks` clears the table and returns the empty table state.
+Clear actions follow the same fragment pattern. `DELETE /walks/:id` clears one row and returns a refreshed `WalksTable`. `DELETE /walks` clears the table and returns the empty table state.
 
 ## HTMX Pattern
 
 HTMX behavior is declared on the component that owns the interaction.
 
 - `WalkForm` posts to `/walks`, targets `#walks-list`, and triggers a stats refresh after the request.
-- `WalksRow` owns the delete button for a single walk.
+- `WalksRow` owns the clear button for a single walk.
 - `WalksTable` owns the clear-all button because it affects the whole table.
 - `Home` owns stable fragment anchors such as `#stats` and `#walks-list`.
 
@@ -114,7 +115,7 @@ Actual HTMX runtime behavior belongs in browser or end-to-end tests if the app g
 
 Components are grouped by how they are used:
 
-- **Atoms** are primitive controls or cells such as `Button`, `Switch`, and `WalksCell`.
+- **Atoms** are primitive controls, surfaces, or cells such as `Button`, `Card`, `Switch`, and `WalksCell`.
 - **Molecules** compose atoms into small pieces such as `InputGroup`, `Stat`, and `WalksRow`.
 - **Organisms** represent feature-level UI such as `WalkForm`, `Stats`, and `WalksTable`.
 - **Pages** compose feature sections into a screen.
@@ -132,7 +133,9 @@ components/atoms/Button/
 
 That local folder shape keeps the implementation, tests, styles, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files.
 
-The app uses semantic HTML where possible. The home page is a `main` region with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body.
+The app uses semantic HTML where possible. The home page uses the reusable `Card` atom rendered as a `main` region, with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body.
+
+`Card` is the template surface primitive. It can fill the available viewport space or take fixed dimensions through props that set CSS custom properties such as `--card-width`, `--card-height`, `--card-min-height`, and `--card-max-height`.
 
 ## Styling
 
@@ -155,6 +158,8 @@ components/
 This gives each component a local style owner without adding a bundler yet. If the template later adopts Vite, this boundary is the natural place to switch from server-injected CSS strings to bundled CSS assets.
 
 Theme values are expressed as CSS custom properties mapped to Open Props tokens. Light and dark modes change variables on `:root[data-theme="..."]`, so component styles consume semantic variables such as `--surface`, `--table-bg`, and `--table-text` instead of hard-coding theme-specific colors.
+
+Theme motion is also tokenized. Shared surfaces use `--theme-transition`; text switches immediately with `--theme-text-transition` to avoid low-contrast color interpolation; inputs own their focus transition in `InputGroup.styles.ts` so native input rendering does not lag behind the rest of the UI.
 
 ## Persistence
 

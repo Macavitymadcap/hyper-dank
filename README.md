@@ -99,8 +99,11 @@ src/
 ├── app.test.tsx               # route behavior tests
 ├── htmx.test.tsx              # HTMX fragment contract tests
 ├── components/                # server-rendered JSX components
-│   ├── atoms/Button/          # component, styles, tests, and export
-│   ├── molecules/WalksRow/    # component, styles, tests, and export
+│   ├── atoms/                 # primitive controls, cards, cells, styles, and tests
+│   ├── molecules/             # composed UI pieces such as stats and table rows
+│   ├── organisms/             # feature sections such as forms and tables
+│   ├── pages/                 # full-page compositions
+│   ├── templates/             # document shell and shared assets
 │   └── styles.ts              # SSR style aggregation boundary
 ├── db/                        # repository, model, and pace math
 └── walks/                     # walk input validation
