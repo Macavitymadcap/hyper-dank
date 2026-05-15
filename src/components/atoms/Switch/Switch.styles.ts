@@ -34,13 +34,25 @@ export const switchStyles = /* css */`
   width: 4.25rem;
   height: 2.25rem;
   padding: var(--size-1);
-  background-image: linear-gradient(110deg, var(--yellow-2) 0%, var(--orange-3) 38%, var(--blue-5) 62%, var(--indigo-8) 100%);
-  background-size: 230% 100%;
+  overflow: hidden;
+  background-image: linear-gradient(110deg, var(--yellow-2) 0%, var(--orange-3) 34%, var(--blue-5) 66%, var(--indigo-8) 100%);
+  background-size: 260% 100%;
   background-position: 0% 50%;
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-round);
   color: var(--switch-icon);
-  transition: background-position 420ms var(--ease-3), border-color var(--speed-2), color var(--speed-2);
+  transition: background-position 520ms var(--ease-3), border-color var(--speed-2), color var(--speed-2);
+}
+
+.switch-track::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(110deg, var(--orange-2), var(--yellow-1), var(--blue-6), var(--indigo-9));
+  background-size: 260% 100%;
+  background-position: 0% 50%;
+  opacity: 0.42;
+  transition: background-position 520ms var(--ease-3), opacity 520ms var(--ease-3);
 }
 
 .switch-thumb {
@@ -49,10 +61,22 @@ export const switchStyles = /* css */`
   inset-inline-start: var(--size-1);
   width: 1.75rem;
   border-radius: var(--radius-round);
-  background: var(--switch-thumb);
+  background-image: linear-gradient(135deg, var(--yellow-1) 0%, var(--orange-2) 34%, var(--gray-0) 50%, var(--blue-2) 66%, var(--gray-12) 100%);
+  background-size: 280% 100%;
+  background-position: 0% 50%;
   box-shadow: var(--shadow-2);
-  transition: transform 420ms var(--ease-3), background var(--speed-2);
+  transition: transform 520ms var(--ease-3), background-position 520ms var(--ease-3), box-shadow var(--speed-2);
   z-index: 0;
+}
+
+.switch-thumb::before {
+  content: "";
+  position: absolute;
+  inset: var(--size-1);
+  border-radius: inherit;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.65), transparent 62%);
+  opacity: 0.8;
+  transition: opacity 520ms var(--ease-3);
 }
 
 .switch-icon {
@@ -62,7 +86,7 @@ export const switchStyles = /* css */`
   place-items: center;
   font-size: var(--font-size-3);
   line-height: 1;
-  transition: opacity var(--speed-2), transform 420ms var(--ease-3);
+  transition: opacity var(--speed-2), transform 520ms var(--ease-3), color var(--speed-2);
 }
 
 .switch-icon-light {
@@ -77,8 +101,18 @@ export const switchStyles = /* css */`
   background-position: 100% 50%;
 }
 
+.switch-input:checked + .switch-track::before {
+  background-position: 100% 50%;
+  opacity: 0.68;
+}
+
 .switch-input:checked + .switch-track .switch-thumb {
   transform: translateX(2rem);
+  background-position: 100% 50%;
+}
+
+.switch-input:checked + .switch-track .switch-thumb::before {
+  opacity: 0.22;
 }
 
 .switch-input:focus-visible + .switch-track {

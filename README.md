@@ -56,8 +56,8 @@ bun run typecheck
 The test suite covers:
 
 - component rendering contracts
-- Hono route behavior
-- HTMX fragment response contracts
+- Hono full-page and error route behavior
+- HTMX fragment mutation contracts
 - SQLite repository behavior with in-memory databases
 - validation and pace calculations
 

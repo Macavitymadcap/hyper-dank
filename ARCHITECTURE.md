@@ -187,12 +187,12 @@ Request validation happens before storage, and database constraints remain as a 
 The tests are split by behavior boundary rather than by implementation detail.
 
 - colocated `*.test.tsx` component tests render JSX to strings and assert semantic markup plus component contracts such as HTMX attributes, switch state, table controls, and empty states.
-- `app.test.tsx` exercises route behavior through `app.request()`, focusing on status codes and repository side effects.
-- `htmx.test.tsx` sends `HX-*` headers and asserts fragment-only response shape for HTMX interactions.
+- `app.test.tsx` exercises full-page and error route behavior through `app.request()`.
+- `htmx.test.tsx` owns successful HTMX mutations, sends `HX-*` headers, and asserts fragment-only response shape.
 - `repository.test.ts` uses SQLite `:memory:` databases to verify CRUD, aggregate stats, and database constraints.
 - `calculator.test.ts` covers pure pace, speed, average, median, and validation behavior.
 
-This avoids overlap between app tests and HTMX tests. App tests answer "did the route perform the right server-side work?" HTMX tests answer "does this route return the fragment contract the browser expects?"
+This avoids overlap between app tests and HTMX tests. App tests answer "does the server render the full page and reject bad input correctly?" HTMX tests answer "does a successful interaction mutate state and return the fragment contract the browser expects?"
 
 ## Extending The Template
 

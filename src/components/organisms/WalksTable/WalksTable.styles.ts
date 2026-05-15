@@ -8,10 +8,10 @@ export const walksTableStyles = /* css */`
 
 .table-container {
   background: var(--table-bg);
-  border: var(--border-size-1) solid var(--table-border);
+  border: 0;
   border-radius: var(--radius-2);
   overflow: hidden;
-  --walks-table-columns: minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(4rem, 1fr) minmax(5rem, 1fr) minmax(5.25rem, 0.9fr);
+  --walks-table-columns: minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(3.5rem, 0.8fr) minmax(4rem, 1fr) minmax(5rem, 1fr) minmax(5.5rem, 0.85fr);
 }
 
 .walks-table {
@@ -42,7 +42,8 @@ export const walksTableStyles = /* css */`
   font-size: var(--font-size-1);
   text-transform: uppercase;
   letter-spacing: var(--font-letterspacing-2);
-  box-shadow: 0 var(--border-size-1) 0 var(--table-border);
+  border-bottom: var(--border-size-1) solid var(--table-border);
+  border-inline-end: var(--border-size-1) solid var(--table-border);
 }
 
 .walks-table td {
@@ -51,8 +52,17 @@ export const walksTableStyles = /* css */`
   border-bottom: var(--border-size-1) solid var(--table-border);
 }
 
+.walks-table td:nth-child(5),
+.walks-table th:nth-child(5) {
+  border-inline-end: 0;
+}
+
 .walks-table td:last-child,
 .walks-table th:last-child {
+  display: grid;
+  place-items: center;
+  background: var(--table-action-bg);
+  border-inline-start: var(--border-size-2) solid var(--table-action-divider);
   border-inline-end: 0;
 }
 
@@ -62,6 +72,10 @@ export const walksTableStyles = /* css */`
 
 .walks-table tbody tr:hover td {
   background: var(--table-row-hover-bg);
+}
+
+.walks-table tbody tr:hover td:last-child {
+  background: var(--table-action-hover-bg);
 }
 
 .clear-walks-btn {

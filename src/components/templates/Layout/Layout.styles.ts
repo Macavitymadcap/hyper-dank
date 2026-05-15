@@ -17,6 +17,9 @@ export const layoutStyles = /* css */`
   --table-row-bg: var(--gray-0);
   --table-row-hover-bg: var(--blue-0);
   --table-border: var(--gray-3);
+  --table-action-bg: var(--gray-1);
+  --table-action-hover-bg: var(--gray-2);
+  --table-action-divider: var(--gray-4);
   --table-text: var(--gray-9);
   --danger: var(--red-6);
   --danger-hover: var(--red-7);
@@ -43,6 +46,9 @@ export const layoutStyles = /* css */`
   --table-row-bg: var(--gray-9);
   --table-row-hover-bg: var(--gray-8);
   --table-border: var(--gray-7);
+  --table-action-bg: var(--gray-10);
+  --table-action-hover-bg: var(--gray-8);
+  --table-action-divider: var(--gray-6);
   --table-text: var(--gray-0);
   --danger: var(--red-7);
   --danger-hover: var(--red-6);
