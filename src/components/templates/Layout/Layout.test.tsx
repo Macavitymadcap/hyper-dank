@@ -19,6 +19,9 @@ describe("Layout", () => {
     expect(html).toContain(":root[data-theme=\"dark\"]");
     expect(html).toContain("--theme-duration: 480ms");
     expect(html).toContain("--theme-text-transition: 0ms linear");
+    expect(html).toContain("--button-text: var(--blue-9)");
+    expect(html).toContain("--form-bg: var(--blue-9)");
+    expect(html).toContain("--form-text: var(--gray-0)");
     expect(html).toContain("--switch-icon-light: var(--yellow-9)");
     expect(html).toContain("--switch-icon-dark: var(--gray-0)");
     expect(html).toContain("event.key !== \"Enter\"");

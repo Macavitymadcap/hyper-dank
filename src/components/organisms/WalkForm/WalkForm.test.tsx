@@ -14,5 +14,6 @@ describe("WalkForm", () => {
     expect(html).toContain("name=\"miles\"");
     expect(html).toContain("name=\"minutes\"");
     expect(html).toContain("name=\"seconds\"");
+    expect(html).toContain("Add</button>");
   });
 });

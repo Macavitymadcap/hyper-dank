@@ -16,6 +16,9 @@ export const layoutStyles = /* css */`
   --primary-text: var(--gray-0);
   --button-bg: var(--gray-0);
   --button-bg-hover: var(--gray-2);
+  --button-text: var(--blue-9);
+  --form-bg: var(--blue-9);
+  --form-text: var(--gray-0);
   --table-bg: var(--gray-0);
   --table-header-bg: var(--gray-1);
   --table-row-bg: var(--gray-0);
@@ -41,9 +44,12 @@ export const layoutStyles = /* css */`
   --border-subtle: var(--gray-7);
   --primary: var(--blue-5);
   --primary-strong: var(--blue-4);
-  --primary-text: var(--gray-12);
+  --primary-text: var(--gray-0);
   --button-bg: var(--gray-9);
   --button-bg-hover: var(--gray-8);
+  --button-text: var(--gray-0);
+  --form-bg: var(--blue-9);
+  --form-text: var(--gray-0);
   --table-bg: var(--gray-11);
   --table-header-bg: var(--gray-10);
   --table-row-bg: var(--gray-9);

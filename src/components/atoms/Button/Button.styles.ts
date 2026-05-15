@@ -2,7 +2,7 @@ export const buttonStyles = /* css */`
 .button {
   padding: var(--size-2) var(--size-4);
   background-color: var(--button-bg);
-  color: var(--primary);
+  color: var(--button-text);
   border: none;
   border-radius: var(--radius-2);
   font-weight: var(--font-weight-7);
