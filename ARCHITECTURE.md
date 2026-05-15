@@ -2,6 +2,8 @@
 
 Walking Pace Tracker is intentionally small, but it is structured as a template for Hono + HTMX applications that want server-rendered UI, testable routes, and minimal browser-side JavaScript.
 
+It follows an HTML-first philosophy: server routes own state and validation, JSX components own markup, HTMX owns transport and swaps, and CSS custom properties own presentation decisions. The result should feel like a normal web app, not a miniature SPA hidden inside server code.
+
 ## Goals
 
 - Keep runtime setup separate from app construction.
@@ -10,6 +12,20 @@ Walking Pace Tracker is intentionally small, but it is structured as a template 
 - Keep persistence behind a narrow repository interface.
 - Make components, routes, database behavior, and HTMX contracts independently testable.
 - Keep styles close to the elements they belong to.
+- Prefer boring composition over hidden framework magic.
+- Make accessibility and screenshots part of normal development, not a release afterthought.
+
+## Influences
+
+The template borrows from a few ideas and tools:
+
+- [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/) for a shared vocabulary around primitives, composed pieces, feature regions, and pages.
+- [Hypermedia Systems](https://hypermedia.systems/) and [HTMX](https://htmx.org/) for the idea that HTML can remain the application protocol.
+- [Hono](https://hono.dev/) for a small, dependency-light request layer.
+- [Open Props](https://open-props.style/) for design tokens that keep raw values out of component styles.
+- [Pa11y](https://pa11y.org/) and [Puppeteer](https://pptr.dev/) for automated confidence around accessibility and visual states.
+
+Those influences are intentionally applied lightly. The app should be understandable by reading `createApp()`, the repository, and the component tree without learning a large internal framework first.
 
 ## Core Shape
 
@@ -36,8 +52,10 @@ src/
 ├── components/
 │   ├── atoms/                 # primitive elements and controls
 │   │   ├── Button/            # component, styles, tests, and export
+│   │   ├── Chip/              # compact metadata indicator
 │   │   └── Card/              # reusable surface container with CSS variable sizing
 │   ├── molecules/             # small composed UI pieces
+│   │   ├── LabelledOutput/    # label + output value used by summary metrics
 │   │   ├── ScrollableTable/    # generic sticky-header table shell
 │   │   └── WalksRow/          # component, styles, tests, and export
 │   ├── organisms/             # feature sections and regions
@@ -52,7 +70,7 @@ src/
     └── validation.ts          # form input validation
 ```
 
-The boundaries are deliberately plain. There is no global application state, no client-side store, and no framework-specific data loader layer. Routes ask repositories for data, pass that data to JSX components, and return HTML.
+The boundaries are deliberately plain. There is no global application state, no client-side store, and no framework-specific data loader layer. Routes ask repositories for data, pass that data to JSX components, and return HTML. That makes data flow deliberately visible: form input enters a route, validation runs, persistence changes, the route asks for fresh read models, and the server returns the fragment HTMX should swap into the page.
 
 ## Request Flow
 
@@ -116,8 +134,8 @@ Actual HTMX runtime behavior belongs in browser or end-to-end tests if the app g
 
 Components are grouped by how they are used:
 
-- **Atoms** are primitive controls, surfaces, or cells such as `Button`, `Card`, `Switch`, and `WalksCell`.
-- **Molecules** compose atoms into small pieces such as `InputGroup`, `Stat`, `ScrollableTable`, and `WalksRow`.
+- **Atoms** are primitive controls, surfaces, and small indicators such as `Button`, `Card`, `Chip`, `Switch`, and `WalksCell`.
+- **Molecules** compose atoms into small pieces such as `InputGroup`, `LabelledOutput`, `ScrollableTable`, and `WalksRow`.
 - **Organisms** represent feature-level UI such as `WalkForm`, `Stats`, and `WalksTable`.
 - **Pages** compose feature sections into a screen.
 - **Templates** own the HTML document shell, shared scripts, linked assets, and style injection.
@@ -134,11 +152,22 @@ components/atoms/Button/
 
 That local folder shape keeps the implementation, tests, styles, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files.
 
-The app uses semantic HTML where possible. The home page uses the reusable `Card` atom rendered as a `main` region, with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body.
+The app uses semantic HTML where possible. The home page uses the reusable `Card` atom rendered as a `main` region, with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body. `Chip` is used for compact metadata such as the walk count, and `LabelledOutput` names the "label plus machine-readable output value" shape used by the summary metrics.
 
 `Card` is the template surface primitive. It can fill the available viewport space or take fixed dimensions through props that set CSS custom properties such as `--card-width`, `--card-height`, `--card-min-height`, and `--card-max-height`.
 
-`ScrollableTable` is the reusable table shell. It owns the sticky header, scrollable body, border model, row sizing, and responsive column custom properties. Feature tables such as `WalksTable` provide columns, rows, empty states, and HTMX actions without reimplementing the table mechanics.
+`ScrollableTable` is the reusable table shell. It owns the sticky header, scrollable body, border model, row sizing, and responsive column custom properties. Feature tables such as `WalksTable` provide columns, rows, empty states, and HTMX actions without reimplementing the table mechanics. Its body hides horizontal overflow so header and body columns stay aligned; vertical scrolling remains below the header.
+
+## Design Philosophy
+
+The template tries to make the common path obvious:
+
+- **HTML is the contract.** Components render semantic HTML with HTMX attributes where interaction is needed. Tests assert the HTML contract, not incidental implementation details.
+- **The server is the source of truth.** Mutations go through routes, the repository is read again after a mutation, and the returned fragment represents the canonical current state.
+- **Components are named after what they are.** `Button`, `Chip`, `Card`, `LabelledOutput`, `ScrollableTable`, and `WalksRow` describe rendered structure rather than vague domain ideas.
+- **Styles belong near structure.** Component styles live beside the component and are aggregated for SSR. This keeps the benefits of colocation without requiring a bundler.
+- **CSS variables carry design decisions.** Components consume semantic variables like `--surface`, `--table-text`, and `--border-subtle`; theme switching changes those variables centrally.
+- **Tests follow boundaries.** Component tests cover markup, route tests cover full-page behavior, HTMX tests cover fragment contracts, database tests cover persistence, and Pa11y covers accessibility regressions.
 
 ## Styling
 

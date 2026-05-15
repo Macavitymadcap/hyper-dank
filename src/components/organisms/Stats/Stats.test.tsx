@@ -10,7 +10,7 @@ describe("Stats", () => {
     expect(html).toContain("<div class=\"stats\">");
     expect(html).toContain("Avg mph");
     expect(html).toContain("Med min/mi");
-    expect(html).toContain("<output class=\"stat-value\">4.3</output>");
-    expect(html).toContain("<output class=\"stat-value\">15.8</output>");
+    expect(html).toContain("<output class=\"labelled-output-value\">4.3</output>");
+    expect(html).toContain("<output class=\"labelled-output-value\">15.8</output>");
   });
 });

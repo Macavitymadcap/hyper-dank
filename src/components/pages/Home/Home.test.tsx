@@ -31,7 +31,7 @@ describe("Home", () => {
     expect(html).toContain("<h3 id=\"entry-heading\" class=\"section-title\">Add walk</h3>");
     expect(html).toContain("class=\"card section-card form-section\"");
     expect(html).toContain("<h3 id=\"history-heading\" class=\"section-title\">Walk history</h3>");
-    expect(html).toContain("<span class=\"history-count\">1 walk</span>");
+    expect(html).toContain("<span class=\"chip history-count\">1 walk</span>");
     expect(html).toContain("id=\"stats\" hx-get=\"/stats\"");
     expect(html).toContain("id=\"walks-list\"");
   });

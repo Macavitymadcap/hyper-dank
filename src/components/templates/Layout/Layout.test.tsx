@@ -40,13 +40,15 @@ describe("Layout", () => {
     expect(html).toContain("border: var(--border-size-1) solid var(--table-border);");
     expect(html).toContain("min-height: calc(2.75rem + (2 * 2.5rem))");
     expect(html).toContain("flex: 0 0 var(--scrollable-table-row-height);");
+    expect(html).toContain("overflow-x: hidden;");
     expect(html).toContain(".scrollable-table tbody .scrollable-table-row:last-child > td");
     expect(html).toContain(".scrollable-table-filler-row");
     expect(html).toContain("border-end-start-radius: var(--scrollable-table-inner-radius)");
     expect(html).toContain("border-end-end-radius: var(--scrollable-table-inner-radius)");
     expect(html).toContain("border-inline-start: var(--border-size-2) solid var(--table-action-divider)");
     expect(html).toContain(".scrollable-table tbody,");
-    expect(html).toContain(".history-count,");
+    expect(html).toContain(".chip,");
+    expect(html).toContain(".labelled-output-value,");
     expect(html).toContain("background-size: 280% 100%");
     expect(html).toContain("transition: color var(--theme-text-transition);");
     expect(html).not.toContain("transition: opacity var(--theme-transition), transform var(--theme-transition), color var(--theme-transition)");

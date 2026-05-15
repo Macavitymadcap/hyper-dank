@@ -29,7 +29,7 @@ describe("WalksTable", () => {
 
     expect(html).toContain("<div class=\"walks-history\">");
     expect(html).toContain("<h3 id=\"history-heading\" class=\"section-title\">Walk history</h3>");
-    expect(html).toContain("<span class=\"history-count\">1 walk</span>");
+    expect(html).toContain("<span class=\"chip history-count\">1 walk</span>");
     expect(html).toContain("<div class=\"scrollable-table-container\"");
     expect(html).toContain("--scrollable-table-columns:");
     expect(html).toContain("--scrollable-table-mobile-columns:");
@@ -50,14 +50,14 @@ describe("WalksTable", () => {
   test("marks tables with enough rows as scrollable", () => {
     const html = render(<WalksTable walks={manyWalks} />);
 
-    expect(html).toContain("<span class=\"history-count\">4 walks</span>");
+    expect(html).toContain("<span class=\"chip history-count\">4 walks</span>");
     expect(html).toContain("data-scrollable=\"true\"");
   });
 
   test("renders an empty state", () => {
     const html = render(<WalksTable walks={[]} />);
 
-    expect(html).toContain("<span class=\"history-count\">0 walks</span>");
+    expect(html).toContain("<span class=\"chip history-count\">0 walks</span>");
     expect(html).toContain("No walks recorded yet.");
   });
 });

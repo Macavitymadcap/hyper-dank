@@ -1,5 +1,6 @@
 import type { WalkWithStats } from "../../../db";
 import { Button } from "../../atoms/Button";
+import { Chip } from "../../atoms/Chip";
 import { ScrollableTable } from "../../molecules/ScrollableTable";
 import { WalksRow } from "../../molecules/WalksRow";
 
@@ -14,13 +15,13 @@ const columnsTemplate = [
 ].join(" ");
 
 const mobileColumnsTemplate = [
-  "minmax(3.65rem, 1.05fr)",
-  "minmax(1.8rem, 0.52fr)",
-  "minmax(2.05rem, 0.58fr)",
-  "minmax(2.05rem, 0.58fr)",
-  "minmax(2.35rem, 0.66fr)",
-  "minmax(2.85rem, 0.78fr)",
-  "minmax(3.55rem, 0.9fr)",
+  "minmax(0, 1.25fr)",
+  "minmax(0, 0.58fr)",
+  "minmax(0, 0.66fr)",
+  "minmax(0, 0.66fr)",
+  "minmax(0, 0.74fr)",
+  "minmax(0, 0.9fr)",
+  "minmax(3.75rem, 0.95fr)",
 ].join(" ");
 
 export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
@@ -31,7 +32,7 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
       <div class="walks-history">
         <header class="history-header">
           <h3 id="history-heading" class="section-title">Walk history</h3>
-          <span class="history-count">{countLabel}</span>
+          <Chip className="history-count">{countLabel}</Chip>
         </header>
         <div class="empty-state">
           No walks recorded yet. Add your first walk above!
@@ -45,7 +46,7 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
     <div class="walks-history">
       <header class="history-header">
         <h3 id="history-heading" class="section-title">Walk history</h3>
-        <span class="history-count">{countLabel}</span>
+        <Chip className="history-count">{countLabel}</Chip>
       </header>
       <ScrollableTable
         className="walks-table"

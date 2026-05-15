@@ -53,6 +53,7 @@ export const scrollableTableStyles = /* css */`
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
   scrollbar-gutter: stable;
 }
@@ -62,6 +63,7 @@ export const scrollableTableStyles = /* css */`
   display: grid;
   grid-template-columns: var(--scrollable-table-columns);
   margin: 0;
+  max-width: 100%;
   min-width: 0;
   width: 100%;
 }
@@ -79,6 +81,7 @@ export const scrollableTableStyles = /* css */`
   letter-spacing: var(--font-letterspacing-2);
   line-height: var(--font-lineheight-0);
   min-width: 0;
+  overflow: hidden;
   padding: var(--size-2);
   place-items: center;
   text-align: center;
@@ -158,6 +161,7 @@ export const scrollableTableStyles = /* css */`
     --button-height: 1.85rem;
     --button-font-size: var(--font-size-00);
     --button-padding-inline: var(--size-1);
+    max-width: 100%;
   }
 }
 `;

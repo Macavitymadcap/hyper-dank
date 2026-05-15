@@ -4,7 +4,9 @@ A small walking pace tracker built with Hono, HTMX, Bun, TypeScript, JSX, and SQ
 
 The app records walks, calculates average speed and median pace, supports light/dark mode, and uses server-rendered HTML fragments instead of a client-side framework.
 
-For the design and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+The goal is not only to track pace, but to act as a compact template for Hono + HTMX front ends: routes render semantic HTML, HTMX swaps focused fragments, component styles stay colocated, and tests exercise the same app factory used in production.
+
+For the design philosophy and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 For the protected branch workflow, Conventional Commit PR titles, and release/versioning process, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
@@ -17,6 +19,24 @@ For the protected branch workflow, Conventional Commit PR titles, and release/ve
 ## Requirements
 
 - [Bun](https://bun.sh/)
+
+## Stack
+
+Runtime and app:
+
+- [Bun](https://bun.sh/) for the runtime, package manager, test runner, and TypeScript execution.
+- [Hono](https://hono.dev/) for the HTTP app and route composition.
+- [HTMX](https://htmx.org/) for HTML-over-the-wire form submission and fragment swaps.
+- [TypeScript](https://www.typescriptlang.org/) and [JSX](https://www.typescriptlang.org/docs/handbook/jsx.html) for typed server-rendered components.
+- [SQLite](https://www.sqlite.org/) through Bun's SQLite APIs for simple local persistence.
+
+Styling and verification:
+
+- [Open Props](https://open-props.style/) for low-level CSS tokens.
+- [Pa11y](https://pa11y.org/) for automated accessibility checks.
+- [Puppeteer](https://pptr.dev/) for PR screenshot capture.
+
+The component structure is inspired by [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/), but used as a vocabulary rather than a rigid rulebook: atoms are primitives, molecules combine primitives, organisms own feature regions, and pages compose the screen.
 
 ## Setup
 
@@ -118,7 +138,7 @@ src/
 ├── htmx.test.tsx              # HTMX fragment contract tests
 ├── components/                # server-rendered JSX components
 │   ├── atoms/                 # primitive controls, cards, cells, styles, and tests
-│   ├── molecules/             # composed UI pieces such as stats, rows, and reusable tables
+│   ├── molecules/             # composed UI pieces such as labelled outputs, rows, and reusable tables
 │   ├── organisms/             # feature sections such as forms and tables
 │   ├── pages/                 # full-page compositions
 │   ├── templates/             # document shell and shared assets

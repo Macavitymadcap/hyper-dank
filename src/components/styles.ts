@@ -1,10 +1,11 @@
 import { buttonStyles } from "./atoms/Button/Button.styles";
 import { cardStyles } from "./atoms/Card/Card.styles";
+import { chipStyles } from "./atoms/Chip/Chip.styles";
 import { switchStyles } from "./atoms/Switch/Switch.styles";
 import { walksCellStyles } from "./atoms/WalksCell/WalksCell.styles";
 import { inputGroupStyles } from "./molecules/InputGroup/InputGroup.styles";
+import { labelledOutputStyles } from "./molecules/LabelledOutput/LabelledOutput.styles";
 import { scrollableTableStyles } from "./molecules/ScrollableTable/ScrollableTable.styles";
-import { statStyles } from "./molecules/Stat/Stat.styles";
 import { walksRowStyles } from "./molecules/WalksRow/WalksRow.styles";
 import { statsStyles } from "./organisms/Stats/Stats.styles";
 import { walkFormStyles } from "./organisms/WalkForm/WalkForm.styles";
@@ -16,11 +17,12 @@ export const appStyles = [
   layoutStyles,
   buttonStyles,
   cardStyles,
+  chipStyles,
   switchStyles,
   walksCellStyles,
   inputGroupStyles,
+  labelledOutputStyles,
   scrollableTableStyles,
-  statStyles,
   walksRowStyles,
   statsStyles,
   walkFormStyles,
