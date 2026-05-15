@@ -1,6 +1,15 @@
 ## Summary
 
-- 
+-
+
+## Images
+
+| State | Light | Dark |
+| --- | --- | --- |
+| No walks | | |
+| One walk | | |
+| Many walks | | |
+| Confirm clear all | | |
 
 ## Verification
 

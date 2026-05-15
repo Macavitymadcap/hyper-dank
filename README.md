@@ -34,6 +34,7 @@ PORT=3100 DB_PATH=/tmp/walking-pace.sqlite3 bun run dev
 
 ```bash
 bun run dev
+bun run screenshots:pr
 bun run test
 bun run test:a11y
 bun run test:watch
@@ -59,6 +60,14 @@ Run the pa11y accessibility check against a temporary in-memory app server:
 ```bash
 bun run test:a11y
 ```
+
+Capture Samsung Galaxy A5-sized PR screenshots and update the open pull request image table:
+
+```bash
+bun run screenshots:pr
+```
+
+The script writes screenshots to `docs/pr-screenshots/<branch>/`, stages them by default, and updates the PR body when GitHub credentials are available. Use `bun run screenshots:pr -- --commit-and-push` to also commit and push the generated images, or `bun run screenshots:pr -- --update-pr-only` to reuse already-pushed screenshots and only update the PR body.
 
 The test suite covers:
 
