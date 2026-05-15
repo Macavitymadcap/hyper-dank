@@ -1,0 +1,2 @@
+# Solo-maintainer mode does not require code owner review.
+# Add ownership rules here if the project moves back to reviewer-gated PRs.

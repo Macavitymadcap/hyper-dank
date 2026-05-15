@@ -6,6 +6,17 @@ out
 dist
 *.tgz
 
+# database
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite3-shm
+*.sqlite3-wal
+*.db
+*.db-shm
+*.db-wal
+
 # code coverage
 coverage
 *.lcov
@@ -26,6 +37,9 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .eslintcache
 .cache
 *.tsbuildinfo
+
+# generated PR review images are opt-in via scripts/add-pr-screenshots.ts --persist
+docs/pr-screenshots/
 
 # IntelliJ based IDEs
 .idea

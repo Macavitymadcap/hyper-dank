@@ -1,5 +1,3 @@
-import { Repository } from "./repository";
+export { Repository } from "./repository";
 
-export const db = new Repository();
-
-export type { WalkWithStats, Stats } from "./model";
+export type { Stats, WalkInput, WalkRepository, WalkWithStats } from "./model";
