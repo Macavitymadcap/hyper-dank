@@ -42,8 +42,7 @@ describe("Layout", () => {
     expect(html).toContain("min-height: calc(2.75rem + (2 * 2.5rem))");
     expect(html).toContain("flex: 0 0 var(--scrollable-table-row-height);");
     expect(html).toContain("overflow-x: hidden;");
-    expect(html).toContain(".scrollable-table tbody .scrollable-table-row:last-child > td");
-    expect(html).toContain(".scrollable-table-filler-row");
+    expect(html).not.toContain(".scrollable-table-filler-row");
     expect(html).toContain("border-end-start-radius: var(--scrollable-table-inner-radius)");
     expect(html).toContain("border-end-end-radius: var(--scrollable-table-inner-radius)");
     expect(html).toContain("border-inline-start: var(--border-size-2) solid var(--table-action-divider)");

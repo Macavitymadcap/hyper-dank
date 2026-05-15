@@ -69,15 +69,6 @@ export const ScrollableTable = ({
         </thead>
         <tbody>
           {children}
-          <tr className={`${headerRowClasses} scrollable-table-filler-row`} aria-hidden="true">
-            {columns.map((column) => (
-              <td
-                key={`${column.key}-filler`}
-                className={column.className}
-                data-action-column={column.isAction ? "true" : undefined}
-              />
-            ))}
-          </tr>
         </tbody>
       </table>
     </div>

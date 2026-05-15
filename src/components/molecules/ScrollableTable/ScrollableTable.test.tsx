@@ -34,6 +34,6 @@ describe("ScrollableTable", () => {
     expect(html).toContain("<th scope=\"col\">Name</th>");
     expect(html).toContain("data-action-column=\"true\" scope=\"col\">Actions</th>");
     expect(html).toContain("<tbody><tr class=\"scrollable-table-row example-row\">");
-    expect(html).toContain("<tr class=\"scrollable-table-row example-row scrollable-table-filler-row\" aria-hidden=\"true\">");
+    expect(html).not.toContain("scrollable-table-filler-row");
   });
 });
