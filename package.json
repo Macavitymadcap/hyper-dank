@@ -4,9 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
+    "protect:main": "bun scripts/configure-main-protection.ts",
     "screenshots:pr": "bun scripts/add-pr-screenshots.ts",
     "test": "bun test",
-    "test:a11y": "bash scripts/test-a11y.sh",
+    "test:a11y": "bun scripts/test-a11y.ts",
     "test:watch": "bun test --watch",
     "typecheck": "tsc --noEmit"
   },

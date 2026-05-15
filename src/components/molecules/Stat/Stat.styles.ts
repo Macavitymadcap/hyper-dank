@@ -25,4 +25,20 @@ export const statStyles = /* css */`
   color: var(--text);
   line-height: var(--font-lineheight-0);
 }
+
+@media (max-width: 480px) {
+  .stat {
+    gap: var(--size-1);
+    min-height: 4rem;
+    padding: var(--size-2);
+  }
+
+  .stat-label {
+    letter-spacing: var(--font-letterspacing-1);
+  }
+
+  .stat-value {
+    font-size: var(--font-size-4);
+  }
+}
 `;

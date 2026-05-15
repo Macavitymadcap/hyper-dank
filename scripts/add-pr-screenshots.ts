@@ -1,13 +1,13 @@
 #!/usr/bin/env bun
-import { spawnSync } from "node:child_process";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import puppeteer, { type Page } from "puppeteer";
-import { createApp } from "../src/app";
-import { Repository } from "../src/db";
-
-type Theme = "light" | "dark";
+import { addWalk as addServerWalk, clearWalks as clearServerWalks, startInMemoryAppServer, waitForHttp, type SampleWalk } from "./lib/app-server";
+import { getGitHubRepo, getGitHubToken, getPullRequest, githubRequest, type GitHubPullRequest } from "./lib/github";
+import { normalizePath, root } from "./lib/paths";
+import { run } from "./lib/process";
+import { buildImagesSection, updateImagesSection, type ScreenshotResult, type Theme } from "./lib/pr-images";
 
 interface ScreenshotState {
   label: string;
@@ -16,22 +16,8 @@ interface ScreenshotState {
   afterLoad?: (page: Page) => Promise<void>;
 }
 
-interface ScreenshotResult {
-  label: string;
-  theme: Theme;
-  relativePath: string;
-}
-
-interface GitHubPullRequest {
-  body: string | null;
-  html_url: string;
-  number: number;
-}
-
-const root = process.cwd();
 const args = new Set(process.argv.slice(2));
 const port = Number(process.env.PR_SCREENSHOT_PORT ?? 4100);
-const baseUrl = `http://localhost:${port}`;
 const branch = run("git", ["branch", "--show-current"]);
 const screenshotRoot = normalizePath(process.env.PR_SCREENSHOT_DIR ?? `docs/pr-screenshots/${branch}`);
 const shouldStage = !args.has("--no-stage");
@@ -39,7 +25,7 @@ const shouldUpdatePr = !args.has("--no-update-pr");
 const shouldCommitAndPush = args.has("--commit-and-push");
 
 const themes: Theme[] = ["light", "dark"];
-const sampleWalks = [
+const sampleWalks: SampleWalk[] = [
   { miles: "1.2", minutes: "18", seconds: "55" },
   { miles: "1.4", minutes: "20", seconds: "12" },
   { miles: "0.8", minutes: "11", seconds: "30" },
@@ -65,7 +51,7 @@ const states: ScreenshotState[] = [
     slug: "one-walk",
     setup: async () => {
       await clearWalks();
-      await addWalk(sampleWalks[0]);
+      await addSampleWalk(sampleWalks[0]);
     },
   },
   {
@@ -91,15 +77,10 @@ if (args.has("--update-pr-only")) {
   process.exit(0);
 }
 
-const walksRepository = new Repository({ filename: ":memory:" });
-const app = createApp({ walksRepository });
-const server = Bun.serve({
-  port,
-  fetch: app.fetch,
-});
+const server = startInMemoryAppServer(port);
 
 try {
-  await waitForServer();
+  await waitForHttp(server.url);
 
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -132,12 +113,12 @@ try {
     const pr = await updatePullRequest(screenshots);
     console.log(`Updated PR screenshots: ${pr.html_url}`);
   } else {
-    console.log(buildImagesSection(screenshots, getGitHubRepo()));
+    console.log(buildImagesSection({ branch, repo: getGitHubRepo(), screenshots, states }));
   }
 
   console.log(`Screenshots written to ${screenshotRoot}`);
 } finally {
-  server.stop(true);
+  server.stop();
 }
 
 async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {
@@ -146,7 +127,7 @@ async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {
   for (const state of states) {
     for (const theme of themes) {
       await state.setup();
-      await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+      await page.goto(server.url, { waitUntil: "domcontentloaded" });
       await setTheme(page, theme);
       await state.afterLoad?.(page);
       await delay(120);
@@ -271,56 +252,31 @@ async function renderConfirmClearAll(page: Page) {
 }
 
 async function clearWalks() {
-  const response = await fetch(`${baseUrl}/walks`, { method: "DELETE" });
-  if (!response.ok) throw new Error(`Failed to clear walks: ${response.status}`);
+  await clearServerWalks(server.url);
 }
 
-async function addWalk(walk: { miles: string; minutes: string; seconds: string } | undefined) {
-  if (!walk) throw new Error("Missing sample walk");
-
-  const body = new URLSearchParams(walk);
-  const response = await fetch(`${baseUrl}/walks`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body,
-  });
-
-  if (!response.ok) throw new Error(`Failed to add walk: ${response.status}`);
+async function addSampleWalk(walk: SampleWalk | undefined) {
+  await addServerWalk(server.url, walk);
 }
 
 async function seedManyWalks() {
   await clearWalks();
   for (const walk of sampleWalks) {
-    await addWalk(walk);
+    await addSampleWalk(walk);
   }
 }
 
-async function waitForServer() {
-  for (let attempt = 0; attempt < 40; attempt += 1) {
-    try {
-      const response = await fetch(baseUrl);
-      if (response.ok) return;
-    } catch {
-    }
-
-    await delay(500);
-  }
-
-  throw new Error(`Timed out waiting for ${baseUrl}`);
-}
-
-async function updatePullRequest(screenshots: ScreenshotResult[]): Promise<GitHubPullRequest> {
+async function updatePullRequest(screenshots: ScreenshotResult[]) {
   const repo = getGitHubRepo();
   const token = getGitHubToken();
   if (!token) {
     throw new Error("Set GITHUB_TOKEN or GH_TOKEN, or authenticate git for github.com before updating the PR.");
   }
 
-  const pr = await getPullRequest(repo, token);
+  const pr = await getPullRequest(repo, token, branch);
   const body = pr.body ?? "";
-  const nextBody = updateImagesSection(body, buildImagesSection(screenshots, repo));
+  const imagesSection = buildImagesSection({ branch, repo, screenshots, states });
+  const nextBody = updateImagesSection(body, imagesSection);
 
   return githubRequest<GitHubPullRequest>(repo, token, `/repos/${repo.owner}/${repo.name}/pulls/${pr.number}`, {
     method: "PATCH",
@@ -328,142 +284,6 @@ async function updatePullRequest(screenshots: ScreenshotResult[]): Promise<GitHu
   });
 }
 
-async function getPullRequest(repo: GitHubRepo, token: string): Promise<GitHubPullRequest> {
-  const prNumber = Number(process.env.PR_NUMBER);
-  if (Number.isInteger(prNumber) && prNumber > 0) {
-    return githubRequest<GitHubPullRequest>(repo, token, `/repos/${repo.owner}/${repo.name}/pulls/${prNumber}`);
-  }
-
-  const head = encodeURIComponent(`${repo.owner}:${branch}`);
-  const pulls = await githubRequest<GitHubPullRequest[]>(
-    repo,
-    token,
-    `/repos/${repo.owner}/${repo.name}/pulls?head=${head}&state=open`
-  );
-  const [pr] = pulls;
-  if (!pr) throw new Error(`No open PR found for ${repo.owner}:${branch}`);
-
-  return pr;
-}
-
-interface GitHubRepo {
-  name: string;
-  owner: string;
-}
-
-function getGitHubRepo(): GitHubRepo {
-  const remote = run("git", ["remote", "get-url", "origin"]);
-  const sshMatch = remote.match(/github\.com[:/]([^/]+)\/(.+?)(?:\.git)?$/);
-  const httpsMatch = remote.match(/github\.com\/([^/]+)\/(.+?)(?:\.git)?$/);
-  const match = sshMatch ?? httpsMatch;
-  if (!match?.[1] || !match[2]) throw new Error(`Could not parse GitHub remote: ${remote}`);
-
-  return {
-    owner: match[1],
-    name: match[2],
-  };
-}
-
-function getGitHubToken() {
-  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
-  if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
-
-  const credential = spawnSync("git", ["credential", "fill"], {
-    cwd: root,
-    encoding: "utf8",
-    input: "protocol=https\nhost=github.com\n\n",
-  });
-  if (credential.status !== 0) return "";
-
-  return credential.stdout
-    .split("\n")
-    .find((line) => line.startsWith("password="))
-    ?.replace("password=", "") ?? "";
-}
-
-async function githubRequest<T>(
-  repo: GitHubRepo,
-  token: string,
-  endpoint: string,
-  init: RequestInit = {}
-): Promise<T> {
-  const response = await fetch(`https://api.github.com${endpoint}`, {
-    ...init,
-    headers: {
-      "Accept": "application/vnd.github+json",
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json",
-      "X-GitHub-Api-Version": "2022-11-28",
-      ...init.headers,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`GitHub API request failed for ${repo.owner}/${repo.name}: ${response.status} ${await response.text()}`);
-  }
-
-  return response.json() as Promise<T>;
-}
-
-function buildImagesSection(screenshots: ScreenshotResult[], repo: GitHubRepo) {
-  const byState = new Map<string, ScreenshotResult[]>();
-  for (const screenshot of screenshots) {
-    byState.set(screenshot.label, [...(byState.get(screenshot.label) ?? []), screenshot]);
-  }
-
-  const rows = states.map((state) => {
-    const stateScreenshots = byState.get(state.label) ?? [];
-    const light = stateScreenshots.find((screenshot) => screenshot.theme === "light");
-    const dark = stateScreenshots.find((screenshot) => screenshot.theme === "dark");
-
-    return `| ${state.label} | ${renderImage(light, repo)} | ${renderImage(dark, repo)} |`;
-  });
-
-  return [
-    "## Images",
-    "",
-    "| State | Light | Dark |",
-    "| --- | --- | --- |",
-    ...rows,
-  ].join("\n");
-}
-
-function renderImage(screenshot: ScreenshotResult | undefined, repo: GitHubRepo) {
-  if (!screenshot) return "";
-
-  return `![${screenshot.label} ${screenshot.theme}](${rawUrl(repo, screenshot.relativePath)})`;
-}
-
-function rawUrl(repo: GitHubRepo, relativePath: string) {
-  const encodedPath = relativePath.split("/").map(encodeURIComponent).join("/");
-  return `https://raw.githubusercontent.com/${repo.owner}/${repo.name}/${encodeURIComponent(branch)}/${encodedPath}`;
-}
-
-function updateImagesSection(body: string, imagesSection: string) {
-  if (body.includes("## Images")) {
-    return body.replace(/## Images\n[\s\S]*?(?=\n## |\s*$)/, `${imagesSection}\n\n`);
-  }
-
-  return `${body.trim()}\n\n${imagesSection}\n`;
-}
-
 function hasChanges(relativePath: string) {
   return run("git", ["status", "--short", relativePath], { allowFailure: true }).length > 0;
-}
-
-function run(command: string, commandArgs: string[], options: { allowFailure?: boolean } = {}) {
-  const result = spawnSync(command, commandArgs, {
-    cwd: root,
-    encoding: "utf8",
-  });
-
-  if (result.status !== 0 && !options.allowFailure) {
-    throw new Error(`${command} ${commandArgs.join(" ")} failed:\n${result.stderr}`);
-  }
-
-  return result.stdout.trim();
-}
-
-function normalizePath(filePath: string) {
-  return filePath.split(path.sep).join(path.posix.sep);
 }

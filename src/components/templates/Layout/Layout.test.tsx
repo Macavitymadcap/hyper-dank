@@ -24,6 +24,8 @@ describe("Layout", () => {
     expect(html).toContain("--form-text: var(--gray-0)");
     expect(html).toContain("--switch-icon-light: var(--yellow-9)");
     expect(html).toContain("--switch-icon-dark: var(--gray-0)");
+    expect(html).toContain("--page-gutter: var(--size-4)");
+    expect(html).toContain("--page-gutter: var(--size-2)");
     expect(html).toContain("event.key !== \"Enter\"");
     expect(html).toContain("toggle.dispatchEvent(new Event(\"change\", { bubbles: true }))");
     expect(html).toContain("--table-header-bg: var(--gray-1)");
@@ -33,8 +35,10 @@ describe("Layout", () => {
     expect(html).toContain("height: 3.5rem;");
     expect(html).toContain("--walks-row-height: 3rem");
     expect(html).toContain("--walks-table-inner-radius: calc(var(--radius-2) - var(--border-size-1))");
-    expect(html).toContain("height: max-content;");
+    expect(html).toContain("height: 100%;");
+    expect(html).toContain("--card-min-height: calc(100dvh - (var(--page-gutter) * 2))");
     expect(html).toContain("border: var(--border-size-1) solid var(--table-border);");
+    expect(html).toContain("min-height: calc(2.75rem + (2 * 2.5rem))");
     expect(html).toContain("min-height: var(--walks-row-height);");
     expect(html).toContain(".walks-table tbody .walks-row:last-child > td");
     expect(html).toContain("border-end-start-radius: var(--walks-table-inner-radius)");

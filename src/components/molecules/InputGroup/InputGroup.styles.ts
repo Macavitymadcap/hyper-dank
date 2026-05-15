@@ -32,4 +32,16 @@ input[type="number"]:focus {
   border-color: var(--primary);
   box-shadow: var(--shadow-2);
 }
+
+@media (max-width: 480px) {
+  .input-label {
+    letter-spacing: var(--font-letterspacing-1);
+  }
+
+  input[type="number"] {
+    min-height: 2.4rem;
+    padding: var(--size-1);
+    font-size: var(--font-size-1);
+  }
+}
 `;

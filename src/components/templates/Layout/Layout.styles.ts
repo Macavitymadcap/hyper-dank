@@ -5,6 +5,7 @@ export const layoutStyles = /* css */`
   --theme-easing: var(--ease-3);
   --theme-transition: var(--theme-duration) var(--theme-easing);
   --theme-text-transition: 0ms linear;
+  --page-gutter: var(--size-4);
   --app-bg: var(--gray-1);
   --surface: var(--gray-0);
   --surface-raised: var(--gray-2);
@@ -70,7 +71,7 @@ body {
   font-family: var(--font-sans);
   background-color: var(--app-bg);
   color: var(--text);
-  padding: var(--size-4);
+  padding: var(--page-gutter);
   width: 100%;
   max-width: 600px;
   min-height: 100vh;
@@ -80,6 +81,12 @@ body {
   transition:
     background-color var(--theme-transition),
     color var(--theme-text-transition);
+}
+
+@media (max-width: 480px) {
+  :root {
+    --page-gutter: var(--size-2);
+  }
 }
 
 .card,

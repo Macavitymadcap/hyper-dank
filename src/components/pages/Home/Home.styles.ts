@@ -40,13 +40,13 @@ export const homeStyles = /* css */`
 }
 
 .page-section:last-child {
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
 }
 
 #walks-list {
   display: flex;
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
 }
 
@@ -56,5 +56,36 @@ export const homeStyles = /* css */`
   font-weight: var(--font-weight-7);
   line-height: var(--font-lineheight-1);
   margin: 0;
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    gap: var(--size-2);
+    padding: var(--size-3);
+  }
+
+  .title {
+    font-size: var(--font-size-4);
+    line-height: 1;
+    max-width: 13rem;
+  }
+
+  .content-sections {
+    gap: var(--size-3);
+    padding: var(--size-3) var(--size-2);
+  }
+
+  .page-section {
+    gap: var(--size-2);
+  }
+
+  .page-section:last-child {
+    min-height: calc(2.75rem + (2 * 2.5rem));
+  }
+
+  .section-title {
+    font-size: var(--font-size-1);
+    line-height: var(--font-lineheight-0);
+  }
 }
 `;

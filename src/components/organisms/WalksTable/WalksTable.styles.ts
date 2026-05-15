@@ -25,7 +25,7 @@ export const walksTableStyles = /* css */`
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   width: 100%;
-  height: max-content;
+  height: 100%;
   max-height: 100%;
   background-color: var(--table-row-bg);
   border: var(--border-size-1) solid var(--table-border);
@@ -136,5 +136,40 @@ export const walksTableStyles = /* css */`
 
 .clear-walks-btn:hover {
   background-color: var(--table-row-hover-bg);
+}
+
+@media (max-width: 480px) {
+  .table-container {
+    --walks-table-columns: minmax(2.4rem, 0.7fr) minmax(2.7rem, 0.75fr) minmax(2.7rem, 0.75fr) minmax(3rem, 0.8fr) minmax(3.9rem, 1fr) minmax(4.25rem, 0.9fr);
+    --walks-row-height: 2.5rem;
+  }
+
+  .walks-table th {
+    height: 2.75rem;
+    padding: var(--size-1);
+    font-size: var(--font-size-0);
+    letter-spacing: var(--font-letterspacing-1);
+  }
+
+  .walks-table {
+    height: max-content;
+    max-height: calc(2.75rem + (3 * var(--walks-row-height)));
+  }
+
+  .walks-table tbody .walks-row {
+    height: var(--walks-row-height);
+  }
+
+  .walks-table td {
+    height: var(--walks-row-height);
+    min-height: 0;
+    font-size: var(--font-size-1);
+  }
+
+  .clear-walks-btn {
+    height: 1.6rem;
+    padding: 0 var(--size-1);
+    font-size: var(--font-size-00);
+  }
 }
 `;

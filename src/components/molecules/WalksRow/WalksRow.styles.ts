@@ -30,4 +30,12 @@ export const walksRowStyles = /* css */`
 .clear-walk-btn:hover {
   background-color: var(--danger-hover);
 }
+
+@media (max-width: 480px) {
+  .clear-walk-btn {
+    height: 1.6rem;
+    padding: 0 var(--size-1);
+    font-size: var(--font-size-00);
+  }
+}
 `;

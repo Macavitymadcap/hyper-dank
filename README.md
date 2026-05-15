@@ -36,6 +36,7 @@ PORT=3100 DB_PATH=/tmp/walking-pace.sqlite3 bun run dev
 
 ```bash
 bun run dev
+bun run protect:main
 bun run screenshots:pr
 bun run test
 bun run test:a11y
@@ -87,7 +88,7 @@ CI is configured in `.github/workflows/ci.yml` and runs `bun run typecheck`, `bu
 `main` should be protected as PR-only with passing CI, a Conventional Commit PR title, resolved conversations, and code owner approval from `@Macavitymadcap`. After pushing this branch, apply the repository protection with:
 
 ```bash
-scripts/configure-main-protection.sh
+bun run protect:main
 ```
 
 See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact settings. Version bumps are prepared by release-please after merges to `main`.
@@ -118,6 +119,11 @@ src/
 │   └── styles.ts              # SSR style aggregation boundary
 ├── db/                        # repository, model, and pace math
 └── walks/                     # walk input validation
+scripts/
+├── add-pr-screenshots.ts      # mobile PR screenshot capture and PR table updates
+├── configure-main-protection.ts
+├── test-a11y.ts
+└── lib/                       # shared script helpers for GitHub, serving, and process calls
 ```
 
 ## Formulas

@@ -15,15 +15,15 @@ This repo is set up for a feature-branch workflow:
 After pushing this branch, run:
 
 ```bash
-scripts/configure-main-protection.sh
+bun run protect:main
 ```
 
-The script uses the GitHub CLI and applies `.github/branch-protection-main.json` to `Macavitymadcap/pace-calculator`.
+The script calls the GitHub API and applies `.github/branch-protection-main.json` to `Macavitymadcap/pace-calculator`.
 
 To target a different fork or remote:
 
 ```bash
-scripts/configure-main-protection.sh OWNER/REPO
+bun run protect:main -- OWNER/REPO
 ```
 
-You need repository admin permissions and an authenticated `gh` session.
+You need repository admin permissions and either `GITHUB_TOKEN`, `GH_TOKEN`, or an authenticated Git credential for GitHub.

@@ -15,7 +15,7 @@ export const cardStyles = /* css */`
 
 .card[data-fill="true"] {
   --card-flex: 1;
-  --card-min-height: calc(100vh - (var(--size-4) * 2));
-  --card-max-height: calc(100vh - (var(--size-4) * 2));
+  --card-min-height: calc(100dvh - (var(--page-gutter) * 2));
+  --card-max-height: calc(100dvh - (var(--page-gutter) * 2));
 }
 `;
