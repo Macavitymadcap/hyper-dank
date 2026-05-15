@@ -62,6 +62,10 @@ PORT=3100 DB_PATH=/tmp/walking-pace.sqlite3 bun run dev
 
 ```bash
 bun run dev
+bun run check
+bun run format
+bun run format:check
+bun run lint
 bun run protect:main
 bun run screenshots:pr
 bun run test
@@ -76,6 +80,12 @@ Run the full test suite:
 
 ```bash
 bun run test
+```
+
+Run the formatter, linter, and import sorting check:
+
+```bash
+bun run check
 ```
 
 Run the TypeScript checker:
@@ -109,7 +119,7 @@ The test suite covers:
 
 ## Repository Workflow
 
-CI is configured in `.github/workflows/ci.yml` and runs `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`.
+CI is configured in `.github/workflows/ci.yml` and runs `bun run check`, `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`.
 
 `main` should be protected as PR-only with passing CI, a Conventional Commit PR title, and resolved conversations. Approving reviews are disabled for the solo-maintainer workflow because GitHub does not allow a PR author to approve their own PR for branch protection. After pushing this branch, apply the repository protection with:
 

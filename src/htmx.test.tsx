@@ -18,15 +18,15 @@ describe("HTMX contracts", () => {
       {
         ...htmxHeaders,
         "HX-Target": "walks-list",
-      }
+      },
     );
     const html = await response.text();
 
     expect(response.status).toBe(200);
     expect(harness.repository.getAllWalks()).toHaveLength(1);
-    expect(html).toStartWith("<div class=\"walks-history\">");
-    expect(html).toContain("<span class=\"chip history-count\">1 walk</span>");
-    expect(html).toContain("<table class=\"scrollable-table walks-table\">");
+    expect(html).toStartWith('<div class="walks-history">');
+    expect(html).toContain('<span class="chip history-count">1 walk</span>');
+    expect(html).toContain('<table class="scrollable-table walks-table">');
     expect(html).toContain("<tbody>");
     expect(html).not.toContain("<html");
     expect(html).not.toContain("<main");
@@ -45,8 +45,8 @@ describe("HTMX contracts", () => {
     const html = await response.text();
 
     expect(response.status).toBe(200);
-    expect(html).toStartWith("<div class=\"stats\">");
-    expect(html).toContain("<output class=\"labelled-output-value\">3.0</output>");
+    expect(html).toStartWith('<div class="stats">');
+    expect(html).toContain('<output class="labelled-output-value">3.0</output>');
     expect(html).not.toContain("<html");
   });
 
@@ -66,7 +66,7 @@ describe("HTMX contracts", () => {
 
     expect(response.status).toBe(200);
     expect(harness.repository.getAllWalks()).toHaveLength(0);
-    expect(html).toContain("<span class=\"chip history-count\">0 walks</span>");
+    expect(html).toContain('<span class="chip history-count">0 walks</span>');
     expect(html).toContain("No walks recorded yet.");
     expect(html).not.toContain("<html");
   });
@@ -94,9 +94,9 @@ describe("HTMX contracts", () => {
 
     expect(response.status).toBe(200);
     expect(harness.repository.getAllWalks()).toHaveLength(0);
-    expect(html).toContain("<span class=\"chip history-count\">0 walks</span>");
+    expect(html).toContain('<span class="chip history-count">0 walks</span>');
     expect(html).toContain("No walks recorded yet.");
     expect(html).not.toContain("<html");
-    expect(statsHtml).toContain("<output class=\"labelled-output-value\">--</output>");
+    expect(statsHtml).toContain('<output class="labelled-output-value">--</output>');
   });
 });

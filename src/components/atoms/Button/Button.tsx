@@ -1,7 +1,7 @@
 import type { HtmxProps } from "../../model";
 
 interface ButtonProps extends HtmxProps {
-  type: 'submit' | 'reset' | 'button';
+  type: "submit" | "reset" | "button";
   children: unknown;
   className?: string;
   size?: "default" | "compact";
@@ -9,8 +9,8 @@ interface ButtonProps extends HtmxProps {
 }
 
 export const Button = ({
-  className, 
-  type, 
+  className,
+  type,
   children,
   size = "default",
   variant = "primary",
@@ -97,4 +97,4 @@ export const Button = ({
       {children}
     </button>
   );
-}
+};

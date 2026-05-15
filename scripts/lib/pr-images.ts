@@ -20,7 +20,12 @@ interface BuildImagesSectionOptions {
   states: ScreenshotState[];
 }
 
-export function buildImagesSection({ branch, repo, screenshots, states }: BuildImagesSectionOptions) {
+export function buildImagesSection({
+  branch,
+  repo,
+  screenshots,
+  states,
+}: BuildImagesSectionOptions) {
   const byState = new Map<string, ScreenshotResult[]>();
   for (const screenshot of screenshots) {
     byState.set(screenshot.label, [...(byState.get(screenshot.label) ?? []), screenshot]);
@@ -34,13 +39,7 @@ export function buildImagesSection({ branch, repo, screenshots, states }: BuildI
     return `| ${state.label} | ${renderImage(light, repo, branch)} | ${renderImage(dark, repo, branch)} |`;
   });
 
-  return [
-    "## Images",
-    "",
-    "| State | Light | Dark |",
-    "| --- | --- | --- |",
-    ...rows,
-  ].join("\n");
+  return ["## Images", "", "| State | Light | Dark |", "| --- | --- | --- |", ...rows].join("\n");
 }
 
 export function updateImagesSection(body: string, imagesSection: string) {

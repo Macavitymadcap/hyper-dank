@@ -1,7 +1,7 @@
 import { raw } from "hono/html";
 import { appStyles } from "../../styles";
 
-const themeScript = /* js */`
+const themeScript = /* js */ `
 (() => {
   const storageKey = "pace-calculator-theme";
 
@@ -74,14 +74,15 @@ export const Layout = ({ children }: { children: unknown }) => {
         <title>Walking Pace Tracker</title>
         <script>{raw(themeScript)}</script>
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&display=swap"
+        />
         <link rel="stylesheet" href="https://unpkg.com/open-props" />
         <link rel="stylesheet" href="https://unpkg.com/open-props/normalize.min.css" />
         <style>{raw(appStyles)}</style>
       </head>
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 };

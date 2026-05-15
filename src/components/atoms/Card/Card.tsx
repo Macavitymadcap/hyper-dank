@@ -33,7 +33,9 @@ export const Card = ({
     maxHeight && `--card-max-height: ${maxHeight}`,
     radius && `--card-radius: ${radius}`,
     shadow && `--card-shadow: ${shadow}`,
-  ].filter(Boolean).join("; ");
+  ]
+    .filter(Boolean)
+    .join("; ");
 
   const props = {
     className: classes,

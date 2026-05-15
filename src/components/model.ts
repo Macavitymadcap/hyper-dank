@@ -1,7 +1,7 @@
 export interface HtmxProps {
   hxGet?: string;
   hxPost?: string;
-  hxOn?: string
+  hxOn?: string;
   hxPushUrl?: string;
   hxSelect?: string;
   hxSelectOob?: string;

@@ -1,4 +1,4 @@
-export const walksRowStyles = /* css */`
+export const walksRowStyles = /* css */ `
 .walk-created-at {
   align-items: center;
   display: flex;

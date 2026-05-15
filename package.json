@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "check": "biome check .",
     "dev": "bun run --hot src/index.ts",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "lint": "biome lint .",
     "protect:main": "bun scripts/configure-main-protection.ts",
     "screenshots:pr": "bun scripts/add-pr-screenshots.ts",
     "test": "bun test",
@@ -16,6 +20,7 @@
     "open-props": "^1.7.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.15",
     "@types/bun": "latest",
     "pa11y": "^9.1.1",
     "puppeteer": "^25.0.2"

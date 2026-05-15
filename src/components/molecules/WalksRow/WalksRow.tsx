@@ -18,7 +18,7 @@ export const WalksRow = ({
   minutes,
   seconds,
   speed,
-  pace
+  pace,
 }: WalksRowProps) => {
   const createdDateTime = formatCreatedDateTime(createdAt);
 
@@ -33,8 +33,8 @@ export const WalksRow = ({
       <WalksCell value={miles.toFixed(1)} />
       <WalksCell value={minutes} />
       <WalksCell value={seconds} />
-      <WalksCell value={speed > 0 ? speed.toFixed(1) : '--'} />
-      <WalksCell value={pace > 0 ? pace.toFixed(1) : '--'} />
+      <WalksCell value={speed > 0 ? speed.toFixed(1) : "--"} />
+      <WalksCell value={pace > 0 ? pace.toFixed(1) : "--"} />
       <td data-action-column="true">
         <Button
           className="clear-walk-btn"
@@ -52,9 +52,22 @@ export const WalksRow = ({
       </td>
     </tr>
   );
-}
+};
 
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 function formatCreatedDateTime(createdAt: string) {
   const match = createdAt.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/);

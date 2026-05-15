@@ -1,15 +1,18 @@
-import type { WalkWithStats, Stats } from "../../../db"
-import { Layout } from "../../templates/Layout";
-import { Stats as StatsSection} from "../../organisms/Stats";
-import { WalkForm } from "../../organisms/WalkForm";
-import { WalksTable } from "../../organisms/WalksTable";
+import type { Stats, WalkWithStats } from "../../../db";
 import { Card } from "../../atoms/Card";
 import { Switch } from "../../atoms/Switch";
+import { Stats as StatsSection } from "../../organisms/Stats";
+import { WalkForm } from "../../organisms/WalkForm";
+import { WalksTable } from "../../organisms/WalksTable";
+import { Layout } from "../../templates/Layout";
 
-interface HomeProps { walks: WalkWithStats[]; stats: Stats }
+interface HomeProps {
+  walks: WalkWithStats[];
+  stats: Stats;
+}
 
-export const Home = ({walks, stats}: HomeProps) => {
-  return(
+export const Home = ({ walks, stats }: HomeProps) => {
+  return (
     <Layout>
       <Card as="main" fill className="app-card">
         <header class="app-header">
@@ -19,7 +22,9 @@ export const Home = ({walks, stats}: HomeProps) => {
 
         <div class="content-sections">
           <section class="page-section" aria-labelledby="summary-heading">
-            <h3 id="summary-heading" class="section-title">Summary</h3>
+            <h3 id="summary-heading" class="section-title">
+              Summary
+            </h3>
             <Card className="section-card summary-card" radius="var(--radius-2)" shadow="none">
               <div id="stats" hx-get="/stats" hx-trigger="refresh from:body">
                 <StatsSection avgSpeed={stats.avgSpeed} medianPace={stats.medianPace} />
@@ -28,7 +33,9 @@ export const Home = ({walks, stats}: HomeProps) => {
           </section>
 
           <section class="page-section" aria-labelledby="entry-heading">
-            <h3 id="entry-heading" class="section-title">Add walk</h3>
+            <h3 id="entry-heading" class="section-title">
+              Add walk
+            </h3>
             <Card className="section-card form-section" radius="var(--radius-2)" shadow="none">
               <WalkForm />
             </Card>
@@ -43,4 +50,4 @@ export const Home = ({walks, stats}: HomeProps) => {
       </Card>
     </Layout>
   );
-}
+};

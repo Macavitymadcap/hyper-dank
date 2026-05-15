@@ -1,4 +1,4 @@
-export const buttonStyles = /* css */`
+export const buttonStyles = /* css */ `
 .button {
   --button-current-bg: var(--button-bg);
   --button-current-bg-hover: var(--button-bg-hover);

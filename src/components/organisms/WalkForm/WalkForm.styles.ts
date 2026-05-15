@@ -1,4 +1,4 @@
-export const walkFormStyles = /* css */`
+export const walkFormStyles = /* css */ `
 .form-section {
   background-color: var(--form-bg);
   color: var(--form-text);

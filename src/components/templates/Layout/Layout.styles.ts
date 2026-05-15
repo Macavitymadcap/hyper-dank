@@ -1,4 +1,4 @@
-export const layoutStyles = /* css */`
+export const layoutStyles = /* css */ `
 :root {
   color-scheme: light;
   --theme-duration: 480ms;

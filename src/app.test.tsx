@@ -17,7 +17,7 @@ describe("app", () => {
     const html = await response.text();
 
     expect(response.status).toBe(200);
-    expect(html).toContain("<html lang=\"en\">");
+    expect(html).toContain('<html lang="en">');
     expect(html).toContain("<title>Walking Pace Tracker</title>");
     expect(html).toContain("Summary");
     expect(html).toContain("Add walk");

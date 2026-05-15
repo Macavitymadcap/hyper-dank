@@ -1,4 +1,4 @@
-export const walksTableStyles = /* css */`
+export const walksTableStyles = /* css */ `
 .empty-state {
   text-align: center;
   padding: var(--size-10) var(--size-4);

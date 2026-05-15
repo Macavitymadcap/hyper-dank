@@ -3,11 +3,28 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import puppeteer, { type Page } from "puppeteer";
-import { addWalk as addServerWalk, clearWalks as clearServerWalks, startInMemoryAppServer, waitForHttp, type SampleWalk } from "./lib/app-server";
-import { getGitHubRepo, getGitHubToken, getPullRequest, githubRequest, type GitHubPullRequest } from "./lib/github";
+import {
+  addWalk as addServerWalk,
+  clearWalks as clearServerWalks,
+  type SampleWalk,
+  startInMemoryAppServer,
+  waitForHttp,
+} from "./lib/app-server";
+import {
+  type GitHubPullRequest,
+  getGitHubRepo,
+  getGitHubToken,
+  getPullRequest,
+  githubRequest,
+} from "./lib/github";
 import { normalizePath, root } from "./lib/paths";
+import {
+  buildImagesSection,
+  type ScreenshotResult,
+  type Theme,
+  updateImagesSection,
+} from "./lib/pr-images";
 import { run } from "./lib/process";
-import { buildImagesSection, updateImagesSection, type ScreenshotResult, type Theme } from "./lib/pr-images";
 
 interface ScreenshotState {
   label: string;
@@ -16,12 +33,47 @@ interface ScreenshotState {
   afterLoad?: (page: Page) => Promise<void>;
 }
 
+interface BrowserElement {
+  append(...nodes: BrowserElement[]): void;
+  className: string;
+  getAttribute(name: string): string | null;
+  remove(): void;
+  setAttribute(name: string, value: string): void;
+  style: { cssText: string };
+  textContent: string | null;
+  type: string;
+}
+
+interface BrowserInputElement extends BrowserElement {
+  checked: boolean;
+}
+
+interface BrowserDocument {
+  body: BrowserElement;
+  documentElement: {
+    dataset: Record<string, string | undefined>;
+  };
+  createElement(tagName: string): BrowserElement;
+  querySelector(selector: string): BrowserElement | null;
+}
+
+interface BrowserGlobals {
+  document: BrowserDocument;
+  HTMLInputElement: abstract new (...args: never[]) => BrowserInputElement;
+  localStorage: {
+    setItem(key: string, value: string): void;
+  };
+}
+
 const args = new Set(process.argv.slice(2));
 const port = Number(process.env.PR_SCREENSHOT_PORT ?? 4100);
 const branch = run("git", ["branch", "--show-current"]);
 const shouldCommitAndPush = args.has("--commit-and-push");
 const shouldPersist = args.has("--persist") || shouldCommitAndPush || args.has("--update-pr-only");
-const screenshotRoot = normalizePath(process.env.PR_SCREENSHOT_DIR ?? (shouldPersist ? `docs/pr-screenshots/${branch}` : `.cache/pr-screenshots/${branch}`));
+const screenshotRoot = normalizePath(
+  process.env.PR_SCREENSHOT_DIR ??
+    (shouldPersist ? `docs/pr-screenshots/${branch}` : `.cache/pr-screenshots/${branch}`),
+);
 const shouldStage = shouldPersist && !args.has("--no-stage");
 const shouldUpdatePr = shouldPersist && !args.has("--no-update-pr");
 
@@ -95,7 +147,7 @@ try {
     hasTouch: true,
   });
   await page.setUserAgent(
-    "Mozilla/5.0 (Linux; Android 8.0.0; SAMSUNG SM-A520F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Mobile Safari/537.36"
+    "Mozilla/5.0 (Linux; Android 8.0.0; SAMSUNG SM-A520F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Mobile Safari/537.36",
   );
 
   const screenshots = await captureScreenshots(page);
@@ -116,7 +168,9 @@ try {
   } else if (shouldPersist) {
     console.log(buildImagesSection({ branch, repo: getGitHubRepo(), screenshots, states }));
   } else {
-    console.log("PR update skipped. Screenshots were kept in the ignored local cache; use --persist to write repo-hosted PR images.");
+    console.log(
+      "PR update skipped. Screenshots were kept in the ignored local cache; use --persist to write repo-hosted PR images.",
+    );
   }
 
   console.log(`Screenshots written to ${screenshotRoot}`);
@@ -157,13 +211,13 @@ function expectedScreenshots(): ScreenshotResult[] {
       label: state.label,
       theme,
       relativePath: normalizePath(path.join(screenshotRoot, `${state.slug}-${theme}.png`)),
-    }))
+    })),
   );
 }
 
 async function setTheme(page: Page, theme: Theme) {
   await page.evaluate((selectedTheme) => {
-    const browser = globalThis as any;
+    const browser = globalThis as unknown as BrowserGlobals;
     const document = browser.document;
 
     browser.localStorage.setItem("pace-calculator-theme", selectedTheme);
@@ -181,7 +235,7 @@ async function setTheme(page: Page, theme: Theme) {
 
 async function renderConfirmClearAll(page: Page) {
   await page.evaluate(() => {
-    const document = (globalThis as any).document;
+    const { document } = globalThis as unknown as BrowserGlobals;
     document.querySelector("[data-pr-screenshot-confirm]")?.remove();
 
     const button = document.querySelector(".clear-walks-btn");
@@ -273,7 +327,9 @@ async function updatePullRequest(screenshots: ScreenshotResult[]) {
   const repo = getGitHubRepo();
   const token = getGitHubToken();
   if (!token) {
-    throw new Error("Set GITHUB_TOKEN or GH_TOKEN, or authenticate git for github.com before updating the PR.");
+    throw new Error(
+      "Set GITHUB_TOKEN or GH_TOKEN, or authenticate git for github.com before updating the PR.",
+    );
   }
 
   const pr = await getPullRequest(repo, token, branch);
@@ -281,10 +337,15 @@ async function updatePullRequest(screenshots: ScreenshotResult[]) {
   const imagesSection = buildImagesSection({ branch, repo, screenshots, states });
   const nextBody = updateImagesSection(body, imagesSection);
 
-  return githubRequest<GitHubPullRequest>(repo, token, `/repos/${repo.owner}/${repo.name}/pulls/${pr.number}`, {
-    method: "PATCH",
-    body: JSON.stringify({ body: nextBody }),
-  });
+  return githubRequest<GitHubPullRequest>(
+    repo,
+    token,
+    `/repos/${repo.owner}/${repo.name}/pulls/${pr.number}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ body: nextBody }),
+    },
+  );
 }
 
 function hasChanges(relativePath: string) {

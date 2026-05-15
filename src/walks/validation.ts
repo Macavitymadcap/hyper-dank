@@ -1,8 +1,6 @@
 import type { WalkInput } from "../db";
 
-export type WalkInputValidation =
-  | { ok: true; value: WalkInput }
-  | { ok: false; message: string };
+export type WalkInputValidation = { ok: true; value: WalkInput } | { ok: false; message: string };
 
 const readRequiredNumber = (value: unknown): number => {
   if (value === null || value === undefined) return Number.NaN;

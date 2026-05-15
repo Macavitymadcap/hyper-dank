@@ -1,4 +1,4 @@
-export const homeStyles = /* css */`
+export const homeStyles = /* css */ `
 .app-header {
   display: flex;
   align-items: center;

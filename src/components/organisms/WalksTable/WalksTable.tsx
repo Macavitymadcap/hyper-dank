@@ -31,12 +31,12 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
     return (
       <div class="walks-history">
         <header class="history-header">
-          <h3 id="history-heading" class="section-title">Walk history</h3>
+          <h3 id="history-heading" class="section-title">
+            Walk history
+          </h3>
           <Chip className="history-count">{countLabel}</Chip>
         </header>
-        <div class="empty-state">
-          No walks recorded yet. Add your first walk above!
-        </div>
+        <div class="empty-state">No walks recorded yet. Add your first walk above!</div>
       </div>
     );
   }
@@ -45,7 +45,9 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
   return (
     <div class="walks-history">
       <header class="history-header">
-        <h3 id="history-heading" class="section-title">Walk history</h3>
+        <h3 id="history-heading" class="section-title">
+          Walk history
+        </h3>
         <Chip className="history-count">{countLabel}</Chip>
       </header>
       <ScrollableTable
@@ -85,7 +87,7 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
         rowClassName="walks-row"
         scrollBodyRows={4}
       >
-        {walks.map(walk => (
+        {walks.map((walk) => (
           <WalksRow
             key={walk.id}
             id={walk.id}

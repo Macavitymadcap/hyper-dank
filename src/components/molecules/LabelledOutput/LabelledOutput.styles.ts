@@ -1,4 +1,4 @@
-export const labelledOutputStyles = /* css */`
+export const labelledOutputStyles = /* css */ `
 .labelled-output {
   align-content: center;
   background-color: var(--surface-raised);

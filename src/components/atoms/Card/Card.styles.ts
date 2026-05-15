@@ -1,4 +1,4 @@
-export const cardStyles = /* css */`
+export const cardStyles = /* css */ `
 .card {
   --card-flex: 0 0 auto;
   --card-width: auto;

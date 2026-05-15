@@ -28,8 +28,7 @@ export async function waitForHttp(url: string, attempts = 40, delayMs = 500) {
     try {
       const response = await fetch(url);
       if (response.ok) return;
-    } catch {
-    }
+    } catch {}
 
     await delay(delayMs);
   }

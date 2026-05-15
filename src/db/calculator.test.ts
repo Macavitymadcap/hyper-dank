@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { Calculator } from "./calculator";
 import { validateWalkInput } from "../walks/validation";
+import { Calculator } from "./calculator";
 
 describe("Calculator", () => {
   test("calculates speed in miles per hour", () => {

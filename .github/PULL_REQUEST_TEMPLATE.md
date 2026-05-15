@@ -13,6 +13,7 @@
 
 ## Verification
 
+- [ ] `bun run check`
 - [ ] `bun run typecheck`
 - [ ] `bun run test`
 - [ ] `bun run test:a11y`

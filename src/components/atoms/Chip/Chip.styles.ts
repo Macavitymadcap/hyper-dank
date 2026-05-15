@@ -1,4 +1,4 @@
-export const chipStyles = /* css */`
+export const chipStyles = /* css */ `
 .chip {
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-round);

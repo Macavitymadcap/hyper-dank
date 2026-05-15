@@ -71,6 +71,7 @@ Do not manually edit `package.json` versions outside a release PR unless you are
 Before asking for review, run:
 
 ```bash
+bun run check
 bun run typecheck
 bun run test
 bun run test:a11y
