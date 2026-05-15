@@ -1,6 +1,6 @@
 import { Button } from "../atoms/Button";
 import { InputGroup } from "../molecules/InputGroup"
-import { styleRegistry } from "../templates/style-registry";
+import { styleRegistry } from "../style-registry";
 
 const walkFormStyles = /* css */`
 .input-row {

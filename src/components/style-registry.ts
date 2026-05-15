@@ -1,6 +1,4 @@
-// src/components/templates/styleRegistry.ts
-
-class StyleRegistry {
+export class StyleRegistry {
   private readonly styles: Set<string>;
 
   constructor() {

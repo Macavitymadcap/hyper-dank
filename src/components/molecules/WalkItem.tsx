@@ -1,6 +1,6 @@
 import { Button } from "../atoms/Button";
 import { WalkValue } from "../atoms/WalkValue";
-import { styleRegistry } from "../templates/style-registry";
+import { styleRegistry } from "../style-registry";
 
 interface WalkItemProps {
   id: number;
@@ -46,7 +46,7 @@ export const WalkItem = ({
       <WalkValue value={seconds} />
       <WalkValue value={speed > 0 ? speed.toFixed(1) : '--'} />
       <WalkValue value={pace > 0 ? pace.toFixed(1) : '--'} />
-        <td>
+      <td>
         <Button 
           className="delete-btn"
           type="button"
@@ -57,7 +57,7 @@ export const WalkItem = ({
         >
           Del
         </Button>
-        </td>
+      </td>
     </tr>
   );
 }

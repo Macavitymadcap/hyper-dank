@@ -1,5 +1,5 @@
 import { Stat } from "../molecules/Stat";
-import { styleRegistry } from "../templates/style-registry";
+import { styleRegistry } from "../style-registry";
 
 interface StatsProps { avgSpeed: number; medianPace?: number }
 

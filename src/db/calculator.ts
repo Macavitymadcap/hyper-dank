@@ -27,7 +27,5 @@ export class Calculator {
       : 0;
     
     return median;
-  }
-
-    
+  } 
 }

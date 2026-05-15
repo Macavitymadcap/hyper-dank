@@ -1,4 +1,4 @@
-import { styleRegistry } from "../templates/style-registry";
+import { styleRegistry } from "../style-registry";
 
 interface StatProps { label: string; value?: number }
 
@@ -28,12 +28,12 @@ export const statStyle = /* css */`
 
 export const Stat = ({ label, value }: StatProps) => {
   styleRegistry.register(statStyle);
-  
+
   const formattedValue = value && value > 0 ? value.toFixed(1) : '--';
   return (
     <div className="stat">
-      <div className="stat-label">{label}</div>
-      <div className="stat-value">{formattedValue}</div>
+      <output className="stat-label">{label}</output>
+      <output className="stat-value">{formattedValue}</output>
     </div>
   )
 }

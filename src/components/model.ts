@@ -1,0 +1,37 @@
+export interface HtmxProps {
+  hxGet?: string;
+  hxPost?: string;
+  hxOn?: string
+  hxPushUrl?: string;
+  hxSelect?: string;
+  hxSelectOob?: string;
+  hxSwap?: string;
+  hxSwapOob?: string;
+  hxTarget?: string;
+  hxTrigger?: string;
+  hxVals?: string;
+  hxBoost?: string;
+  hxConfirm?: string;
+  hxDelete?: string;
+  hxDisable?: string;
+  hxDisabledElt?: string;
+  hxDisinherit?: string;
+  hxEncoding?: string;
+  hxExt?: string;
+  hxHeaders?: string;
+  hxHistory?: string;
+  hxHistoryElt?: string;
+  hxInclude?: string;
+  hxIndicator?: string;
+  hxInherit?: string;
+  hxParams?: string;
+  hxPatch?: string;
+  hxPreserve?: string;
+  hxPrompt?: string;
+  hxPut?: string;
+  hxReplaceUrl?: string;
+  hxRequest?: string;
+  hxSync?: string;
+  hxValidate?: string;
+  hxVars?: string;
+}

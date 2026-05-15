@@ -1,4 +1,5 @@
-import { styleRegistry } from "./style-registry";
+import { raw } from "hono/html";
+import { styleRegistry } from "../style-registry";
 
 
 export const globalStyles = /* css */`
@@ -20,8 +21,22 @@ body {
 }
 `;
 
+const renderChild = (child: unknown): string => {
+  if (Array.isArray(child)) {
+    return child.map(renderChild).join("");
+  }
+
+  if (child === null || child === undefined || typeof child === "boolean") {
+    return "";
+  }
+
+  return String(child);
+};
+
 export const Layout = ({ children }: { children: unknown }) => {
+  const renderedChildren = renderChild(children);
   const componentStyles = styleRegistry.reset();
+
   return (
     <html lang="en">
       <head>
@@ -31,10 +46,10 @@ export const Layout = ({ children }: { children: unknown }) => {
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
         <link rel="stylesheet" href="https://unpkg.com/open-props" />
         <link rel="stylesheet" href="https://unpkg.com/open-props/normalize.min.css" />
-        <style>{globalStyles}{componentStyles}</style>
+        <style>{raw(`${globalStyles}${componentStyles}`)}</style>
       </head>
       <body>
-        {children}
+        {raw(renderedChildren)}
       </body>
     </html>
   );

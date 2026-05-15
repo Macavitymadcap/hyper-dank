@@ -1,4 +1,4 @@
-import { styleRegistry } from "../templates/style-registry";
+import { styleRegistry } from "../style-registry";
 
 interface InputGroupProps {
   type: string;
