@@ -1,3 +1,3 @@
 export { Repository } from "./repository";
 
-export type { WalkWithStats, Stats } from "./model";
+export type { Stats, WalkInput, WalkRepository, WalkWithStats } from "./model";

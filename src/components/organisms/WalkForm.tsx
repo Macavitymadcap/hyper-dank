@@ -1,19 +1,7 @@
 import { Button } from "../atoms/Button";
 import { InputGroup } from "../molecules/InputGroup"
-import { styleRegistry } from "../style-registry";
-
-const walkFormStyles = /* css */`
-.input-row {
-  display: flex;
-  flex-direction: row;
-  justify-content:space-evenly;
-  width: 100%;
-}
-`;
 
 export const WalkForm = () => {
-  styleRegistry.register(walkFormStyles);
-
   return (
     <form 
       hx-post="/walks" 

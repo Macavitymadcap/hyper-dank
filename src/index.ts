@@ -1,11 +1,14 @@
-import { Server } from "./server";
+import { createApp } from "./app";
+import { Repository } from "./db";
 
-const server = new Server();
+const port = Number(process.env.PORT ?? 3000);
+const dbPath = process.env.DB_PATH ?? "walking-pace-db";
+const walksRepository = new Repository({ filename: dbPath });
+const app = createApp({ walksRepository });
 
-const port = 3000;
 console.log(`🚶 Walking Pace Tracker running at http://localhost:${port}`);
 
 export default {
   port,
-  fetch: server.app.fetch,
+  fetch: app.fetch,
 };

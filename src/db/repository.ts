@@ -1,11 +1,19 @@
 import { Database } from 'bun:sqlite';
-import type { Stats, Walk, WalkWithStats } from './model';
+import type { Stats, Walk, WalkInput, WalkRepository, WalkWithStats } from './model';
 import { Calculator } from './calculator';
 
-export class Repository {
-  db = new Database('walking-pace-db', { create: true });
+export interface RepositoryOptions {
+  db?: Database;
+  filename?: string;
+}
 
-  constructor() {
+const DEFAULT_DATABASE_FILENAME = 'walking-pace-db';
+
+export class Repository implements WalkRepository {
+  private readonly db: Database;
+
+  constructor({ db, filename = DEFAULT_DATABASE_FILENAME }: RepositoryOptions = {}) {
+    this.db = db ?? new Database(filename, { create: true });
     this.initDb();
   }
   
@@ -13,16 +21,21 @@ export class Repository {
     this.db.run(`
       CREATE TABLE IF NOT EXISTS walks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        miles REAL NOT NULL,
-        minutes INTEGER NOT NULL,
-        seconds INTEGER NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        miles REAL NOT NULL CHECK (miles > 0),
+        minutes INTEGER NOT NULL CHECK (minutes >= 0),
+        seconds INTEGER NOT NULL CHECK (seconds >= 0 AND seconds < 60),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        CHECK (minutes > 0 OR seconds > 0)
       )
     `);
   }
 
   getAllWalks(): WalkWithStats[] {
-    const query = this.db.query('SELECT * FROM walks ORDER BY created_at DESC');
+    const query = this.db.query(`
+      SELECT id, miles, minutes, seconds, created_at
+      FROM walks
+      ORDER BY created_at DESC, id DESC
+    `);
     const walks = query.all() as Walk[];
     
     return walks.map(walk => ({
@@ -32,14 +45,15 @@ export class Repository {
     }));
   }
 
- addWalk(miles: number, minutes: number, seconds: number): void {
+  addWalk({ miles, minutes, seconds }: WalkInput): void {
     const query = this.db.query('INSERT INTO walks (miles, minutes, seconds) VALUES (?, ?, ?)');
     query.run(miles, minutes, seconds);
   }
   
-  deleteWalk(id: number): void {
+  deleteWalk(id: number): boolean {
     const query = this.db.query('DELETE FROM walks WHERE id = ?');
-    query.run(id);
+    const result = query.run(id) as { changes?: number };
+    return Number(result.changes ?? 0) > 0;
   }
   
   getStats(): Stats {
@@ -65,5 +79,9 @@ export class Repository {
       medianPace,
       count
     };
+  }
+
+  close(): void {
+    this.db.close();
   }
 }

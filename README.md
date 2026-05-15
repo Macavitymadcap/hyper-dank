@@ -1,153 +1,106 @@
 # Walking Pace Tracker
 
-A web-based walking pace tracker built with TypeScript, Hono, HTMX, and SQLite using Bun's native APIs.
+A small Hono + HTMX app for tracking walking pace, built to double as a template for server-rendered front ends with Bun, TypeScript, JSX, and SQLite.
 
-## Features
+## What It Demonstrates
 
-- Track walks with miles, minutes, and seconds
-- Automatic calculation of speed (mph) and pace (min/mi)
-- Real-time statistics: average speed and median pace
-- Mobile-friendly responsive design with Open Props
-- HTMX-powered dynamic updates without page reloads
-- SQLite database for persistent storage
+- Hono routes returning full pages and HTMX fragments
+- Server-rendered JSX components with semantic HTML
+- HTMX form submission and targeted swaps
+- SQLite persistence through Bun's native `bun:sqlite`
+- Dependency-injected app construction for testable routes
+- Unit tests for components, validation, calculations, repository behavior, and server responses
 
-## Tech Stack
-
-- **Runtime**: Bun (using native JSX and SQLite APIs)
-- **Framework**: Hono
-- **Frontend**: HTMX + JSX templating
-- **Database**: Bun's native SQLite (`bun:sqlite`)
-- **Styling**: Open Props
-- **Language**: TypeScript
-
-## Installation
+## Scripts
 
 ```bash
 bun install
+bun run dev
+bun run test
+bun run typecheck
 ```
 
-## Usage
+The dev server runs on `http://localhost:3000` by default.
+
+Runtime configuration:
 
 ```bash
-bun run dev
+PORT=3100 DB_PATH=/tmp/walking-pace-db bun run dev
 ```
-
-Open http://localhost:3000 in your browser
-
-### Using the App
-
-1. Enter your walk data:
-   - Miles walked
-   - Minutes taken
-   - Seconds taken
-2. Click "Add" to save the walk
-3. View your statistics at the top (average speed and median pace)
-4. All calculations happen automatically
-5. Delete walks by clicking the "Del" button
-
-## Formulas
-
-- **Speed (mph)** = miles / (minutes/60 + seconds/3600)
-- **Pace (min/mi)** = (minutes + seconds/60) / miles
-- **Average Speed** = Average of all walk speeds
-- **Median Pace** = Median of all walk paces
-
 
 ## Project Structure
 
 ```text
-├── bun.lock
-├── package.json
-├── README.md
-├── src
-│   ├── components/             # JSX components with Open Props styling
-│   ├── db/                     # Bun SQLite database and calculations
-│   └── index.tsx               # Main Hono server
-└── tsconfig.json
+src/
+├── app.tsx                    # createApp({ walksRepository }) route factory
+├── index.ts                   # Bun runtime entrypoint
+├── app.test.tsx               # server/route tests through app.request()
+├── components/
+│   ├── atoms/                 # small JSX building blocks
+│   ├── molecules/             # composed controls and rows
+│   ├── organisms/             # form, stats, and list regions
+│   ├── pages/                 # full page compositions
+│   ├── templates/             # document layout
+│   ├── styles.ts              # shared CSS bundle
+│   └── components.test.tsx    # component rendering tests
+├── db/
+│   ├── calculator.ts          # pure pace/speed math
+│   ├── model.ts               # domain and repository contracts
+│   ├── repository.ts          # SQLite implementation
+│   └── *.test.ts              # calculator and repository tests
+└── walks/
+    └── validation.ts          # shared request validation
 ```
 
-## Architecture
+## Template Pattern
 
-This project follows clean architecture principles with clear separation of concerns:
+`src/app.tsx` exports `createApp()`, which accepts its dependencies:
 
-### Atomic Design Structure
-
-Components are organised following Brad Frost's [Atomic Design methodology](https://atomicdesign.bradfrost.com/chapter-2/):
-
-```text
-src/components/
-├── atoms/           # Basic building blocks
-│   └── WalkValue.tsx       # Single data display unit
-├── molecules/       # Simple component groups
-│   ├── InputGroup.tsx      # Label + input field
-│   ├── Stat.tsx            # Label + value stat card
-│   └── WalkItem.tsx        # Single walk row
-├── organisms/       # Complex component assemblies
-│   ├── StatsSection.tsx    # Summary statistics grid
-│   ├── WalkForm.tsx        # Complete input form
-│   └── WalksList.tsx       # Table of walk items
-├── pages/           # Full page compositions
-│   └── Home.tsx            # Main application page
-└── templates/       # Page layouts and shared styles
-    ├── Layout.tsx          # HTML wrapper with Open Props
-    └── styles.ts           # Shared style utilities
+```ts
+const app = createApp({ walksRepository });
 ```
 
-**Benefits:**
-- **Reusability**: Smaller components can be composed into larger ones
-- **Maintainability**: Each component has a single, clear responsibility
-- **Testability**: Atomic components are easy to test in isolation
-- **Scalability**: New features can be built from existing atoms and molecules
+Production startup happens separately in `src/index.ts`, where the real SQLite repository is created. Tests can pass an in-memory repository instead:
 
-### Database Layer Separation
-
-The database layer is split into focused modules following the repository pattern:
-
-```
-src/db/
-├── model.ts         # TypeScript interfaces and types
-├── calculator.ts    # Pure calculation functions (spreadsheet formulas)
-├── repository.ts    # Data access layer (CRUD operations)
-└── index.ts         # Public API (exports and initialization)
+```ts
+const repository = new Repository({ filename: ":memory:" });
+const app = createApp({ walksRepository: repository });
 ```
 
-**Benefits:**
-- **Testability**: Calculator functions are pure and easily unit-tested
-- **Flexibility**: Can swap database implementation without touching business logic
-- **Clarity**: Each file has a single responsibility
-- **Type Safety**: Models ensure type consistency across layers
+This keeps HTTP routing, persistence, and runtime configuration separate enough that new HTMX apps can copy the same shape without inheriting global state.
 
-### Data Flow
+## Testing Strategy
+
+- **Component tests** render JSX to strings and assert semantic markup plus HTMX attributes.
+- **Calculator tests** cover pure speed, pace, average, and median behavior.
+- **Validation tests** reject invalid form payloads before storage.
+- **Repository tests** use SQLite `:memory:` databases and verify CRUD, aggregate stats, and database constraints.
+- **App tests** exercise real Hono requests with `app.request()`.
+
+## Data Flow
 
 ```mermaid
 sequenceDiagram
-    participant User as User
-    participant HTMX as HTMX Form
-    participant Hono as Server Route<br/>(Hono)
-    participant Repo as Repository Layer<br/>(SQLite)
-    participant Calc as Calculator Service<br/>(Pure Functions)
-    participant JSX as JSX Component<br/>(Rendered HTML)
-    participant DOM as Browser DOM
+    participant Browser
+    participant HTMX
+    participant App as Hono App
+    participant Repo as WalkRepository
+    participant View as JSX Component
 
-    User->>HTMX: Submit walk data
-    HTMX->>Hono: POST /walks
-    Hono->>Repo: addWalk(miles, minutes, seconds)
-    Repo->>Repo: INSERT INTO walks
-    Hono->>Repo: getAllWalks()
-    Repo->>Calc: calculateSpeed(walk)
-    Calc-->>Repo: speed value
-    Repo->>Calc: calculatePace(walk)
-    Calc-->>Repo: pace value
-    Repo-->>Hono: WalkWithStats[]
-    Hono->>JSX: <WalksList walks={data} />
-    JSX-->>Hono: HTML string
-    Hono-->>HTMX: HTTP Response (HTML)
-    HTMX->>DOM: Swap innerHTML
-    DOM->>User: Updated UI
+    Browser->>HTMX: Submit walk form
+    HTMX->>App: POST /walks
+    App->>App: Validate form body
+    App->>Repo: addWalk(input)
+    App->>Repo: getAllWalks()
+    App->>View: <WalksList walks={walks} />
+    View-->>App: HTML fragment
+    App-->>HTMX: Fragment response
+    HTMX-->>Browser: Swap #walks-list
 ```
 
-**Benefits**:
-- Business logic (calculations) is separated from data access
-- Components are small, focused, and composable
-- Testing can happen at each layer independently
-- Changes to one layer don't cascade through the entire system
+## Formulas
+
+- **Speed (mph)** = miles / (minutes / 60 + seconds / 3600)
+- **Pace (min/mi)** = (minutes + seconds / 60) / miles
+- **Average speed** = average of valid walk speeds
+- **Median pace** = median of valid walk paces

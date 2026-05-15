@@ -1,33 +1,10 @@
 import type { HtmxProps } from "../model";
-import { styleRegistry } from "../style-registry";
 
 interface ButtonProps extends HtmxProps {
   type: 'submit' | 'reset' | 'button';
   children: unknown;
   className?: string;
 }
-
-const buttonStyles = /* css */`
-button {
-  padding: var(--size-2) var(--size-4);
-  background: var(--gray-0);
-  color: var(--blue-6);
-  border: none;
-  border-radius: var(--radius-2);
-  font-weight: var(--font-weight-7);
-  cursor: pointer;
-  font-size: var(--font-size-1);
-  transition: background var(--speed-2);
-}
-
-button:hover {
-  background: var(--gray-2);
-}
-
-button:active {
-  transform: scale(0.98);
-}
-`;
 
 export const Button = ({
   className, 
@@ -69,8 +46,6 @@ export const Button = ({
   hxValidate,
   hxVars,
 }: ButtonProps) => {
-  styleRegistry.register(buttonStyles);
-
   return (
     <button
       className={className}
