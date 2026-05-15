@@ -47,12 +47,14 @@ export const homeStyles = /* css */`
 .page-section:last-child {
   flex: 1 1 0;
   min-height: 0;
+  overflow: hidden;
 }
 
 #walks-list {
   display: flex;
   flex: 1 1 0;
   min-height: 0;
+  overflow: hidden;
 }
 
 .section-title {

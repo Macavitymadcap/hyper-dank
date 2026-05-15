@@ -12,6 +12,7 @@ export const walksTableStyles = /* css */`
   flex-direction: column;
   gap: var(--size-3);
   min-height: 0;
+  overflow: hidden;
   width: 100%;
 }
 

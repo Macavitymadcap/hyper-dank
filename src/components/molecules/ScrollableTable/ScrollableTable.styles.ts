@@ -15,7 +15,8 @@ export const scrollableTableStyles = /* css */`
   background-color: transparent;
   border: 0;
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 1 0;
+  height: 100%;
   min-height: var(--scrollable-table-min-height);
   min-width: 0;
   outline: 0;
@@ -43,6 +44,11 @@ export const scrollableTableStyles = /* css */`
 .scrollable-table tbody {
   display: block;
   min-width: 0;
+}
+
+.scrollable-table thead {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .scrollable-table tbody {
@@ -133,7 +139,7 @@ export const scrollableTableStyles = /* css */`
   border-inline-start: var(--border-size-2) solid var(--table-action-divider);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .scrollable-table-container {
     --scrollable-table-header-height: var(--scrollable-table-mobile-header-height);
     --scrollable-table-row-height: var(--scrollable-table-mobile-row-height);

@@ -35,6 +35,7 @@ describe("Layout", () => {
     expect(html).toContain("--scrollable-table-header-height: 3.5rem");
     expect(html).toContain("--scrollable-table-row-height: 3rem");
     expect(html).toContain("--scrollable-table-inner-radius: calc(var(--radius-2) - var(--border-size-1))");
+    expect(html).toContain("flex: 1 1 0;");
     expect(html).toContain("height: 100%;");
     expect(html).toContain("--card-min-height: calc(100dvh - (var(--page-gutter) * 2))");
     expect(html).toContain("border: var(--border-size-1) solid var(--table-border);");

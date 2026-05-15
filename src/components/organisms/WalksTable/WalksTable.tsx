@@ -21,7 +21,7 @@ const mobileColumnsTemplate = [
   "minmax(0, 0.66fr)",
   "minmax(0, 0.74fr)",
   "minmax(0, 0.9fr)",
-  "minmax(3.75rem, 0.95fr)",
+  "minmax(4.35rem, 0.95fr)",
 ].join(" ");
 
 export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
