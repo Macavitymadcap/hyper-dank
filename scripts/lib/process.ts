@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { root } from "./paths";
 
 interface RunOptions {
@@ -22,4 +22,22 @@ export function run(command: string, commandArgs: string[], options: RunOptions 
   }
 
   return typeof result.stdout === "string" ? result.stdout.trim() : "";
+}
+
+export async function runAsync(command: string, commandArgs: string[], options: RunOptions = {}) {
+  const child = spawn(command, commandArgs, {
+    cwd: options.cwd ?? root,
+    stdio: options.stdio ?? "inherit",
+  });
+
+  const exitCode = await new Promise<number | null>((resolve, reject) => {
+    child.on("error", reject);
+    child.on("exit", resolve);
+  });
+
+  if (exitCode !== 0 && !options.allowFailure) {
+    throw new Error(`${command} ${commandArgs.join(" ")} failed with exit code ${exitCode}`);
+  }
+
+  return exitCode ?? 0;
 }
