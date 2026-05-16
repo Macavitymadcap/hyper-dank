@@ -102,9 +102,9 @@ classDiagram
 
 ### Routes
 
-| Route | Access | Behavior |
+| Route | Access | behaviour |
 | --- | --- | --- |
-| `<METHOD /path>` | <public/auth/admin> | <behavior> |
+| `<METHOD /path>` | <public/auth/admin> | <behaviour> |
 
 ### Permissions
 

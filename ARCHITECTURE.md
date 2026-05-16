@@ -142,6 +142,12 @@ Better Auth owns users, credential accounts, sessions, and verification tables. 
 
 Admins are normal users with the `admin` role. They can manage accounts and view another user's scores through a read-only `WalksTable`, but walk mutation routes always use the authenticated user's id and never accept an arbitrary owner id from the request.
 
+## Deployment Shape
+
+The production deployment target is Railway. `railway.json` pins the Dockerfile builder, runs `bun run db:migrate` as the pre-deploy command, starts the service with `bun run start`, and uses `/healthz` as a public deployment health check. Railway injects `PORT`, and `src/index.ts` reads it before exporting Bun's fetch handler.
+
+`scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database provider and Better Auth provider as production, requires `DATABASE_URL`, and either creates the first admin or upgrades an existing account to the `admin` role.
+
 ## HTMX Pattern
 
 HTMX behaviour is declared on the component that owns the interaction.

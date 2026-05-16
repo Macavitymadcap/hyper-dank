@@ -80,6 +80,8 @@ bun run format:check
 bun run lint
 bun run protect:main
 bun run screenshots:pr
+bun run seed:admin
+bun run start
 bun run test
 bun run test:a11y
 bun run test:watch
@@ -154,8 +156,29 @@ See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact
 | `RESEND_API_KEY` | unset | Sends invitation email when paired with `EMAIL_FROM` |
 | `EMAIL_FROM` | unset | Verified sender address for invitation email |
 | `USER_LIMIT` | `10` | Maximum total users, with pending invitations counted before creation |
+| `ADMIN_EMAIL` | unset | Email used by `bun run seed:admin` |
+| `ADMIN_PASSWORD` | unset | Password used by `bun run seed:admin`; must be at least 8 characters |
+| `ADMIN_NAME` | `Admin` | Display name used when seeding the first admin |
 
 SQLite database files and sidecar files are ignored by Git.
+
+## Railway Deployment
+
+Railway deployment is configured with `Dockerfile` and `railway.json`. The Railway config uses the Dockerfile builder, runs `bun run db:migrate` as a pre-deploy command, starts the app with `bun run start`, and checks `/healthz` before activating a deployment.
+
+For a new Railway service:
+
+1. Create a Railway app service from the GitHub repo.
+2. Add a Railway Postgres service and expose its `DATABASE_URL` to the app service.
+3. Set `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `RESEND_API_KEY`, `EMAIL_FROM`, and `USER_LIMIT`.
+4. Deploy the app service.
+5. Seed the first admin with Railway environment variables loaded:
+
+```bash
+railway run bun run seed:admin
+```
+
+The app also runs migrations during startup as a defensive fallback, but the Railway pre-deploy command keeps schema changes ahead of traffic.
 
 ## Project Structure
 
@@ -181,6 +204,7 @@ scripts/
 ├── add-pr-screenshots.ts      # mobile PR screenshot capture and PR table updates
 ├── configure-main-protection.ts
 ├── pa11y-config.cjs
+├── seed-admin.ts
 ├── test-a11y.ts
 └── lib/                       # shared script helpers for GitHub, serving, and process calls
 ```

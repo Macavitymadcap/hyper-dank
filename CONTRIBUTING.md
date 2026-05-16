@@ -35,7 +35,7 @@ Common types:
 - `fix`: bug fix
 - `docs`: documentation-only change
 - `test`: test-only change
-- `refactor`: behavior-preserving implementation change
+- `refactor`: behaviour-preserving implementation change
 - `style`: formatting or presentation-only change
 - `build`: dependency or build tooling change
 - `ci`: workflow or repository automation change
