@@ -36,13 +36,15 @@ export class ResendEmailSender implements EmailSender {
 }
 
 export const createEmailSender = (
-  environment: EmailEnvironment = {
+  environment?: EmailEnvironment,
+): EmailSender => {
+  const env = environment ?? {
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     EMAIL_FROM: process.env.EMAIL_FROM,
-  },
-): EmailSender => {
-  if (environment.RESEND_API_KEY && environment.EMAIL_FROM) {
-    return new ResendEmailSender(environment.RESEND_API_KEY, environment.EMAIL_FROM);
+  };
+
+  if (env.RESEND_API_KEY && env.EMAIL_FROM) {
+    return new ResendEmailSender(env.RESEND_API_KEY, env.EMAIL_FROM);
   }
 
   return new ConsoleEmailSender();
