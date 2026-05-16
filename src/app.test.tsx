@@ -12,6 +12,13 @@ afterEach(async () => {
 });
 
 describe("app", () => {
+  test("serves a public health check", async () => {
+    const response = await harness.app.request("/healthz");
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ ok: true });
+  });
+
   test("renders the full home page document", async () => {
     const response = await harness.app.request("/", {
       headers: harness.authHeaders,

@@ -11,6 +11,8 @@
     "lint": "biome lint .",
     "protect:main": "bun scripts/configure-main-protection.ts",
     "screenshots:pr": "bun scripts/add-pr-screenshots.ts",
+    "seed:admin": "bun scripts/seed-admin.ts",
+    "start": "bun src/index.ts",
     "test": "bun test",
     "test:a11y": "bun scripts/test-a11y.ts",
     "test:watch": "bun test --watch",

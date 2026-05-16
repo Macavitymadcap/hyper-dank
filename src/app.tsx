@@ -19,6 +19,10 @@ export const createApp = ({
 }: AppDependencies) => {
   const app = new Hono();
 
+  app.get("/healthz", (context) => {
+    return context.json({ ok: true });
+  });
+
   app.all("/api/auth/*", (context) => authProvider.handler(context.req.raw));
 
   app.get("/login", async (context) => {
