@@ -1,16 +1,19 @@
 import { describe, expect, test } from "bun:test";
 import type { Pool, PoolClient } from "pg";
-import { PostgresInviteRepository } from "./postgres-invite-repository";
+import { PostgresInviteRepository } from "../repositories/postgres-invite-repository";
+import { PostgresWalkRepository } from "../repositories/postgres-walk-repository";
 import { PostgresDatabaseProvider } from "./postgres-provider";
-import { PostgresWalkRepository } from "./postgres-repository";
 import { createDatabaseProvider } from "./provider";
 import { SqliteDatabaseProvider } from "./sqlite-provider";
 
 describe("createDatabaseProvider", () => {
   test("creates a SQLite provider when no DATABASE_URL is configured", async () => {
     const provider = createDatabaseProvider({ DB_PATH: ":memory:" });
+    const repositories = provider.createRepositories();
 
     expect(provider).toBeInstanceOf(SqliteDatabaseProvider);
+    expect(repositories.walks).toBeTruthy();
+    expect(repositories.invites).toBeTruthy();
     await provider.close();
   });
 
@@ -29,9 +32,12 @@ describe("PostgresDatabaseProvider", () => {
     const client = createPoolClient();
     const pool = createProviderPool(client, [{ rowCount: 1 }, { rowCount: 0 }]);
     const provider = new PostgresDatabaseProvider({ pool });
+    const repositories = provider.createRepositories();
 
     expect(provider.createWalkRepository()).toBeInstanceOf(PostgresWalkRepository);
     expect(provider.createInviteRepository()).toBeInstanceOf(PostgresInviteRepository);
+    expect(repositories.walks).toBeInstanceOf(PostgresWalkRepository);
+    expect(repositories.invites).toBeInstanceOf(PostgresInviteRepository);
     expect(provider.getPool()).toBe(pool);
 
     await provider.migrate();

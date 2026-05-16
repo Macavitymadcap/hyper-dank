@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import type { Pool } from "pg";
-import { createPostgresDatabaseProvider } from "./postgres-provider";
-import { PostgresWalkRepository } from "./postgres-repository";
+import { createPostgresDatabaseProvider } from "../providers/postgres-provider";
+import { PostgresWalkRepository } from "./postgres-walk-repository";
 
 const postgresConnectionString = process.env.TEST_DATABASE_URL ?? "";
 const postgresTest = postgresConnectionString ? test : test.skip;

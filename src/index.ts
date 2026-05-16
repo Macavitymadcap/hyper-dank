@@ -8,16 +8,19 @@ const port = Number(process.env.PORT ?? 3000);
 const databaseProvider = createDatabaseProvider();
 await databaseProvider.migrate();
 
-const walksRepository = databaseProvider.createWalkRepository();
-const inviteRepository = databaseProvider.createInviteRepository();
+const repositories = databaseProvider.createRepositories();
 const authProvider = createAuthProvider({ databaseProvider });
 const emailSender = createEmailSender();
 const invitationService = new InvitationService({
   authProvider,
   emailSender,
-  inviteRepository,
+  inviteRepository: repositories.invites,
 });
-const app = createApp({ authProvider, invitationService, walksRepository });
+const app = createApp({
+  authProvider,
+  invitationService,
+  walksRepository: repositories.walks,
+});
 
 console.log(`🚶 Walking Pace Tracker running at http://localhost:${port}`);
 

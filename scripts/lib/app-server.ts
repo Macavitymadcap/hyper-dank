@@ -49,7 +49,7 @@ export async function startInMemoryAppServer(
   const databaseProvider = createSqliteDatabaseProvider({ filename: ":memory:" });
   await databaseProvider.migrate();
 
-  const walksRepository = databaseProvider.createWalkRepository();
+  const repositories = databaseProvider.createRepositories();
   const users = options.users ?? [DEFAULT_TEST_USER];
   const authProvider = new TestAuthProvider(users);
   for (const user of users) {
@@ -60,10 +60,14 @@ export async function startInMemoryAppServer(
   const invitationService = new InvitationService({
     authProvider,
     emailSender: new ConsoleEmailSender(),
-    inviteRepository: databaseProvider.createInviteRepository(),
+    inviteRepository: repositories.invites,
     baseUrl: `http://localhost:${port}`,
   });
-  const app = createApp({ authProvider, invitationService, walksRepository });
+  const app = createApp({
+    authProvider,
+    invitationService,
+    walksRepository: repositories.walks,
+  });
   const server = Bun.serve({
     port,
     fetch: app.fetch,
@@ -97,7 +101,7 @@ export async function startInMemoryAppServer(
       return cookie;
     },
     setAuthUser,
-    walksRepository,
+    walksRepository: repositories.walks,
     stop: async () => {
       server.stop(true);
       serverCookies.delete(url);

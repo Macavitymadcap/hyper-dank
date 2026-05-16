@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import type { InviteRepository } from "../services/invitations";
-import type { DatabaseProvider } from "./index";
-import { createSqliteDatabaseProvider } from "./sqlite-provider";
+import type { InviteRepository } from "../../services/invitations";
+import type { DatabaseProvider } from "../model";
+import { createSqliteDatabaseProvider } from "../providers/sqlite-provider";
 
 let provider: DatabaseProvider;
 let repository: InviteRepository;

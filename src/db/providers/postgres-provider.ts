@@ -1,7 +1,7 @@
 import { Pool } from "pg";
-import type { DatabaseProvider } from "./model";
-import { PostgresInviteRepository } from "./postgres-invite-repository";
-import { PostgresWalkRepository } from "./postgres-repository";
+import type { DatabaseProvider } from "../model";
+import { PostgresInviteRepository } from "../repositories/postgres-invite-repository";
+import { PostgresWalkRepository } from "../repositories/postgres-walk-repository";
 
 export interface PostgresDatabaseProviderOptions {
   connectionString?: string;
@@ -16,11 +16,11 @@ interface Migration {
 const migrations: Migration[] = [
   {
     version: "0001_create_walks",
-    path: new URL("./migrations/postgres/0001_create_walks.sql", import.meta.url),
+    path: new URL("../migrations/postgres/0001_create_walks.sql", import.meta.url),
   },
   {
     version: "0002_auth_invites_and_user_scoping",
-    path: new URL("./migrations/postgres/0002_auth_invites_and_user_scoping.sql", import.meta.url),
+    path: new URL("../migrations/postgres/0002_auth_invites_and_user_scoping.sql", import.meta.url),
   },
 ];
 
@@ -42,6 +42,13 @@ export class PostgresDatabaseProvider implements DatabaseProvider {
 
   createInviteRepository() {
     return new PostgresInviteRepository(this.pool);
+  }
+
+  createRepositories() {
+    return {
+      invites: this.createInviteRepository(),
+      walks: this.createWalkRepository(),
+    };
   }
 
   getPool(): Pool {

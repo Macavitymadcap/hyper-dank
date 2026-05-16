@@ -1,7 +1,7 @@
 import { Database } from "bun:sqlite";
-import { SqliteInviteRepository } from "./invite-repository";
-import type { DatabaseProvider } from "./model";
-import { SqliteWalkRepository } from "./repository";
+import type { DatabaseProvider } from "../model";
+import { SqliteInviteRepository } from "../repositories/sqlite-invite-repository";
+import { SqliteWalkRepository } from "../repositories/sqlite-walk-repository";
 
 export interface SqliteDatabaseProviderOptions {
   db?: Database;
@@ -18,15 +18,15 @@ interface Migration {
 const migrations: Migration[] = [
   {
     version: "0001_create_walks",
-    path: new URL("./migrations/sqlite/0001_create_walks.sql", import.meta.url),
+    path: new URL("../migrations/sqlite/0001_create_walks.sql", import.meta.url),
   },
   {
     version: "0002_auth_invites_and_user_scoping",
-    path: new URL("./migrations/sqlite/0002_auth_invites_and_user_scoping.sql", import.meta.url),
+    path: new URL("../migrations/sqlite/0002_auth_invites_and_user_scoping.sql", import.meta.url),
   },
   {
     version: "0003_local_auth",
-    path: new URL("./migrations/sqlite/0003_local_auth.sql", import.meta.url),
+    path: new URL("../migrations/sqlite/0003_local_auth.sql", import.meta.url),
   },
 ];
 
@@ -44,6 +44,13 @@ export class SqliteDatabaseProvider implements DatabaseProvider {
 
   createInviteRepository() {
     return new SqliteInviteRepository(this.db);
+  }
+
+  createRepositories() {
+    return {
+      invites: this.createInviteRepository(),
+      walks: this.createWalkRepository(),
+    };
   }
 
   getDatabase(): Database {

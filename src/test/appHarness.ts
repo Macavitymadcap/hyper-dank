@@ -12,7 +12,7 @@ export const createAppHarness = async () => {
   const databaseProvider = createSqliteDatabaseProvider({ filename: ":memory:" });
   await databaseProvider.migrate();
 
-  const repository = databaseProvider.createWalkRepository();
+  const repositories = databaseProvider.createRepositories();
   const authProvider = new TestAuthProvider([
     {
       email: "user@example.com",
@@ -30,10 +30,14 @@ export const createAppHarness = async () => {
   const invitationService = new InvitationService({
     authProvider,
     emailSender: new ConsoleEmailSender(),
-    inviteRepository: databaseProvider.createInviteRepository(),
+    inviteRepository: repositories.invites,
     baseUrl: "http://localhost",
   });
-  const app = createApp({ authProvider, invitationService, walksRepository: repository });
+  const app = createApp({
+    authProvider,
+    invitationService,
+    walksRepository: repositories.walks,
+  });
   const authHeaders = {
     Cookie: authProvider.createCookie("user@example.com"),
   };
@@ -64,6 +68,6 @@ export const createAppHarness = async () => {
     databaseProvider,
     invitationService,
     postWalk,
-    repository,
+    repository: repositories.walks,
   };
 };

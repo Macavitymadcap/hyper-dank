@@ -1,6 +1,6 @@
 import type { Pool } from "pg";
-import { Calculator } from "./calculator";
-import type { Stats, WalkInput, WalkRepository, WalkWithStats } from "./model";
+import { Calculator } from "../calculator";
+import type { Stats, WalkInput, WalkRepository, WalkWithStats } from "../model";
 
 export interface PostgresWalkRepositoryOptions {
   pool: Pool;

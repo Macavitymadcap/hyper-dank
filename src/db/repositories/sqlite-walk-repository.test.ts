@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import type { DatabaseProvider, WalkRepository } from "./model";
-import { SqliteWalkRepository } from "./repository";
-import { createSqliteDatabaseProvider } from "./sqlite-provider";
+import type { DatabaseProvider, WalkRepository } from "../model";
+import { createSqliteDatabaseProvider } from "../providers/sqlite-provider";
+import { SqliteWalkRepository } from "./sqlite-walk-repository";
 
 let databaseProvider: DatabaseProvider;
 let repository: WalkRepository;

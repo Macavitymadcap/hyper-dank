@@ -74,10 +74,10 @@ src/
 │   └── styles.ts              # server-side style aggregation boundary
 ├── db/
 │   ├── calculator.ts          # pure pace math
-│   ├── model.ts               # domain types and repository contracts
-│   ├── provider.ts            # env-driven provider selection
-│   ├── repository.ts          # Bun SQLite walk implementation
-│   └── postgres-repository.ts # Postgres walk implementation
+│   ├── model.ts               # domain types, repository contracts, and database provider contract
+│   ├── providers/             # env selection plus SQLite/Postgres lifecycle adapters
+│   ├── repositories/          # SQLite/Postgres walk and invite persistence implementations
+│   └── migrations/            # SQLite and Postgres schema migrations
 ├── envs/                      # environment-specific fixtures such as local review presets
 ├── http/                      # Hono app factory, route classes, request helpers, and route tests
 │   └── routes/                # system, auth, walk, and admin route registration
@@ -253,7 +253,9 @@ export interface WalkRepository {
 }
 ```
 
-`DatabaseProvider` owns connection setup, migrations, repository creation, and connection cleanup. It creates both walk and invite repositories. `SqliteDatabaseProvider` powers in-memory tests and local file storage, while `PostgresDatabaseProvider` supports production deployments through `DATABASE_URL`.
+`DatabaseProvider` in `src/db/model.ts` is the base database interface used by runtime composition. It owns the selected database kind, migration lifecycle, connection cleanup, and repository factories. The `createRepositories()` method returns the walk and invitation repositories together, so app startup can switch between SQLite and Postgres without knowing the concrete provider type.
+
+`SqliteDatabaseProvider` powers in-memory tests and local file storage, while `PostgresDatabaseProvider` supports production deployments through `DATABASE_URL`.
 
 Repository implementations own inserts, deletes, and reads. Pace calculations are delegated to `Calculator`, keeping math pure and easy to test.
 

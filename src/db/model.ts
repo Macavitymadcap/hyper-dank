@@ -34,10 +34,18 @@ export interface WalkRepository {
   getStats(userId: string): Promise<Stats>;
 }
 
+export type DatabaseKind = "sqlite" | "postgres";
+
+export interface DatabaseRepositories {
+  invites: InviteRepository;
+  walks: WalkRepository;
+}
+
 export interface DatabaseProvider {
-  readonly kind: "sqlite" | "postgres";
-  createWalkRepository(): WalkRepository;
+  readonly kind: DatabaseKind;
   createInviteRepository(): InviteRepository;
+  createRepositories(): DatabaseRepositories;
+  createWalkRepository(): WalkRepository;
   migrate(): Promise<void>;
   close(): Promise<void>;
 }

@@ -1,4 +1,4 @@
-import type { DatabaseProvider } from "./model";
+import type { DatabaseProvider } from "../model";
 import { createPostgresDatabaseProvider } from "./postgres-provider";
 import { createSqliteDatabaseProvider } from "./sqlite-provider";
 

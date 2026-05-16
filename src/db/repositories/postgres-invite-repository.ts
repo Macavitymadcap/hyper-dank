@@ -1,11 +1,11 @@
 import type { Pool } from "pg";
-import type { UserRole } from "../auth/model";
+import type { UserRole } from "../../auth/model";
 import type {
   CreateInvitationRecordInput,
   Invitation,
   InvitationStatus,
   InviteRepository,
-} from "../services/invitations/model";
+} from "../../services/invitations/model";
 
 interface PostgresInvitationRow {
   id: string;

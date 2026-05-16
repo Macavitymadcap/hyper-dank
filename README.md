@@ -29,15 +29,19 @@ Runtime and app:
 - [HTMX](https://htmx.org/) for HTML-over-the-wire form submission and fragment swaps.
 - [TypeScript](https://www.typescriptlang.org/) and [JSX](https://www.typescriptlang.org/docs/handbook/jsx.html) for typed server-rendered components.
 - [Better Auth](https://www.better-auth.com/) for production email/password users, sessions, roles, and admin account controls.
+- [Kysely](https://kysely.dev/) for the Postgres dialect used by Better Auth.
 - [SQLite](https://www.sqlite.org/) through Bun's SQLite APIs for simple local/test persistence.
 - [PostgreSQL](https://www.postgresql.org/) for production persistence when `DATABASE_URL` is configured.
+- [node-postgres](https://node-postgres.com/) (`pg`) for Postgres connections and queries.
 - [Resend](https://resend.com/) for invitation email delivery when configured.
 
 Styling and verification:
 
+- [Biome](https://biomejs.dev/) for formatting, linting, and import organization.
 - [Open Props](https://open-props.style/) for low-level CSS tokens.
 - [Pa11y](https://pa11y.org/) for automated accessibility checks.
 - [Puppeteer](https://pptr.dev/) for PR screenshot capture.
+- [`@types/bun`](https://www.npmjs.com/package/@types/bun), [`@types/pg`](https://www.npmjs.com/package/@types/pg), and TypeScript peer types for local typechecking.
 
 The component structure is inspired by [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/), but used as a vocabulary rather than a rigid rulebook: atoms are primitives, molecules combine primitives, organisms own feature regions, and pages compose the screen.
 
@@ -264,7 +268,9 @@ src/
 │   ├── templates/             # document shell and shared assets
 │   └── styles.ts              # SSR style aggregation boundary
 ├── auth/                      # auth provider boundary, Better Auth, SQLite local auth, and test provider
-├── db/                        # database providers, repositories, migrations, and pace math
+├── db/                        # database contracts, providers, repositories, migrations, and pace math
+│   ├── providers/             # env selection plus SQLite/Postgres lifecycle adapters
+│   └── repositories/          # SQLite/Postgres walk and invite persistence implementations
 ├── envs/                      # local environment fixtures and seed presets
 ├── http/                      # Hono app factory, route classes, request helpers, and route tests
 │   └── routes/                # system, auth, walk, and admin route registration

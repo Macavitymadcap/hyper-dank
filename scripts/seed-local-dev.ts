@@ -29,9 +29,10 @@ try {
   resetSqliteLocalDevPresetUsers(databaseProvider.getDatabase());
 
   const authProvider = createAuthProvider({ databaseProvider });
+  const repositories = databaseProvider.createRepositories();
   const results = await seedLocalDevPresets({
     authProvider,
-    walksRepository: databaseProvider.createWalkRepository(),
+    walksRepository: repositories.walks,
   });
 
   console.info(`Seeded ${results.length} local dev users.`);

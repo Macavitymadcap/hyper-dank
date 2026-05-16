@@ -240,6 +240,9 @@ function createMemoryAuthDatabaseProvider(): DatabaseProvider {
     createInviteRepository() {
       throw new Error("unused");
     },
+    createRepositories() {
+      throw new Error("unused");
+    },
     createWalkRepository() {
       throw new Error("unused");
     },

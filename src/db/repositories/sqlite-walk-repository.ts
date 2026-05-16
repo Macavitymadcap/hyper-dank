@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
-import { Calculator } from "./calculator";
-import type { Stats, Walk, WalkInput, WalkRepository, WalkWithStats } from "./model";
+import { Calculator } from "../calculator";
+import type { Stats, Walk, WalkInput, WalkRepository, WalkWithStats } from "../model";
 
 export interface SqliteWalkRepositoryOptions {
   db?: Database;
