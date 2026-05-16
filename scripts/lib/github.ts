@@ -40,27 +40,33 @@ export function getGitHubToken() {
     input: "protocol=https\nhost=github.com\n\n",
   });
 
-  return credential
-    .split("\n")
-    .find((line) => line.startsWith("password="))
-    ?.replace("password=", "") ?? "";
+  return (
+    credential
+      .split("\n")
+      .find((line) => line.startsWith("password="))
+      ?.replace("password=", "") ?? ""
+  );
 }
 
 export async function getPullRequest(
   repo: GitHubRepo,
   token: string,
   branch: string,
-  prNumber = Number(process.env.PR_NUMBER)
+  prNumber = Number(process.env.PR_NUMBER),
 ): Promise<GitHubPullRequest> {
   if (Number.isInteger(prNumber) && prNumber > 0) {
-    return githubRequest<GitHubPullRequest>(repo, token, `/repos/${repo.owner}/${repo.name}/pulls/${prNumber}`);
+    return githubRequest<GitHubPullRequest>(
+      repo,
+      token,
+      `/repos/${repo.owner}/${repo.name}/pulls/${prNumber}`,
+    );
   }
 
   const head = encodeURIComponent(`${repo.owner}:${branch}`);
   const pulls = await githubRequest<GitHubPullRequest[]>(
     repo,
     token,
-    `/repos/${repo.owner}/${repo.name}/pulls?head=${head}&state=open`
+    `/repos/${repo.owner}/${repo.name}/pulls?head=${head}&state=open`,
   );
   const [pr] = pulls;
   if (!pr) throw new Error(`No open PR found for ${repo.owner}:${branch}`);
@@ -72,11 +78,11 @@ export async function githubRequest<T>(
   repo: GitHubRepo,
   token: string,
   endpoint: string,
-  init: RequestInit = {}
+  init: RequestInit = {},
 ): Promise<T> {
   const headers: Record<string, string> = {
-    "Accept": "application/vnd.github+json",
-    "Authorization": `Bearer ${token}`,
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
     "X-GitHub-Api-Version": "2022-11-28",
   };
@@ -89,7 +95,9 @@ export async function githubRequest<T>(
   });
 
   if (!response.ok) {
-    throw new Error(`GitHub API request failed for ${repo.owner}/${repo.name}: ${response.status} ${await response.text()}`);
+    throw new Error(
+      `GitHub API request failed for ${repo.owner}/${repo.name}: ${response.status} ${await response.text()}`,
+    );
   }
 
   return response.json() as Promise<T>;

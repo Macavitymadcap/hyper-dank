@@ -1,5 +1,6 @@
 import { Button } from "../../atoms/Button";
 import { WalksCell } from "../../atoms/WalksCell";
+import { HxForm } from "../HxForm";
 
 interface WalksRowProps {
   id: number;
@@ -9,6 +10,7 @@ interface WalksRowProps {
   seconds: number;
   speed: number;
   pace: number;
+  canMutate?: boolean;
 }
 
 export const WalksRow = ({
@@ -18,7 +20,8 @@ export const WalksRow = ({
   minutes,
   seconds,
   speed,
-  pace
+  pace,
+  canMutate = true,
 }: WalksRowProps) => {
   const createdDateTime = formatCreatedDateTime(createdAt);
 
@@ -33,28 +36,45 @@ export const WalksRow = ({
       <WalksCell value={miles.toFixed(1)} />
       <WalksCell value={minutes} />
       <WalksCell value={seconds} />
-      <WalksCell value={speed > 0 ? speed.toFixed(1) : '--'} />
-      <WalksCell value={pace > 0 ? pace.toFixed(1) : '--'} />
-      <td data-action-column="true">
-        <Button
-          className="clear-walk-btn"
-          type="button"
-          size="compact"
-          variant="danger"
-          hxDelete={`/walks/${id}`}
-          hxTarget="#walks-list"
-          hxSwap="innerHTML"
-          hxConfirm="Clear this walk?"
-          hxOn="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
-        >
-          Clear
-        </Button>
-      </td>
+      <WalksCell value={speed > 0 ? speed.toFixed(1) : "--"} />
+      <WalksCell value={pace > 0 ? pace.toFixed(1) : "--"} />
+      {canMutate ? (
+        <td data-action-column="true">
+          <HxForm action={`/walks/${id}/delete`} method="post">
+            <Button
+              className="clear-walk-btn"
+              type="submit"
+              size="compact"
+              variant="danger"
+              hx-delete={`/walks/${id}`}
+              hx-target="#walks-list"
+              hx-swap="innerHTML"
+              hx-confirm="Clear this walk?"
+              hx-on="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
+            >
+              Clear
+            </Button>
+          </HxForm>
+        </td>
+      ) : null}
     </tr>
   );
-}
+};
 
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 function formatCreatedDateTime(createdAt: string) {
   const match = createdAt.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/);

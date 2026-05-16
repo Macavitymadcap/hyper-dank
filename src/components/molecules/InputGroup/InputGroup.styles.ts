@@ -1,4 +1,4 @@
-export const inputGroupStyles = /* css */`
+export const inputGroupStyles = /* css */ `
 .input-group {
   display: flex;
   flex-direction: column;

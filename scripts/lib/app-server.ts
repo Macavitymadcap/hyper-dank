@@ -1,6 +1,13 @@
 import { setTimeout as delay } from "node:timers/promises";
 import { createApp } from "../../src/app";
-import { Repository } from "../../src/db";
+import { type CreateAuthUserInput, TestAuthProvider } from "../../src/auth";
+import {
+  createSqliteDatabaseProvider,
+  type DatabaseProvider,
+  type WalkRepository,
+} from "../../src/db";
+import { ConsoleEmailSender } from "../../src/services/email";
+import { InvitationService } from "../../src/services/invitations";
 
 export interface SampleWalk {
   miles: string;
@@ -8,18 +15,98 @@ export interface SampleWalk {
   seconds: string;
 }
 
-export function startInMemoryAppServer(port: number) {
-  const walksRepository = new Repository({ filename: ":memory:" });
-  const app = createApp({ walksRepository });
+export interface AppServerTestUser extends CreateAuthUserInput {
+  banned?: boolean;
+}
+
+export interface InMemoryAppServer {
+  authCookie: string;
+  authProvider: TestAuthProvider;
+  databaseProvider: DatabaseProvider;
+  port: number;
+  setAuthUser(userId: string | null): string;
+  stop(): Promise<void>;
+  url: string;
+  walksRepository: WalkRepository;
+}
+
+interface StartInMemoryAppServerOptions {
+  authenticatedUserId?: string | null;
+  users?: AppServerTestUser[];
+}
+
+const DEFAULT_TEST_USER: AppServerTestUser = {
+  email: "user@example.com",
+  name: "Test User",
+  password: "password123",
+  role: "user",
+};
+
+export async function startInMemoryAppServer(
+  port: number,
+  options: StartInMemoryAppServerOptions = {},
+): Promise<InMemoryAppServer> {
+  const databaseProvider = createSqliteDatabaseProvider({ filename: ":memory:" });
+  await databaseProvider.migrate();
+
+  const repositories = databaseProvider.createRepositories();
+  const users = options.users ?? [DEFAULT_TEST_USER];
+  const authProvider = new TestAuthProvider(users);
+  for (const user of users) {
+    if (user.banned) {
+      await authProvider.setUserBanned(user.email, true);
+    }
+  }
+  const invitationService = new InvitationService({
+    authProvider,
+    emailSender: new ConsoleEmailSender(),
+    inviteRepository: repositories.invites,
+    baseUrl: `http://localhost:${port}`,
+  });
+  const app = createApp({
+    authProvider,
+    invitationService,
+    walksRepository: repositories.walks,
+  });
   const server = Bun.serve({
     port,
     fetch: app.fetch,
   });
+  const url = `http://localhost:${port}`;
+  const authenticatedUserId =
+    options.authenticatedUserId === undefined
+      ? DEFAULT_TEST_USER.email
+      : options.authenticatedUserId;
+  let cookie = "";
+  const setAuthUser = (userId: string | null) => {
+    if (!userId) {
+      cookie = "";
+      serverCookies.delete(url);
+      return cookie;
+    }
+
+    cookie = authProvider.createCookie(userId);
+    serverCookies.set(url, cookie);
+    return cookie;
+  };
+
+  setAuthUser(authenticatedUserId);
 
   return {
+    authProvider,
+    databaseProvider,
     port,
-    url: `http://localhost:${port}`,
-    stop: () => server.stop(true),
+    url,
+    get authCookie() {
+      return cookie;
+    },
+    setAuthUser,
+    walksRepository: repositories.walks,
+    stop: async () => {
+      server.stop(true);
+      serverCookies.delete(url);
+      await databaseProvider.close();
+    },
   };
 }
 
@@ -28,8 +115,7 @@ export async function waitForHttp(url: string, attempts = 40, delayMs = 500) {
     try {
       const response = await fetch(url);
       if (response.ok) return;
-    } catch {
-    }
+    } catch {}
 
     await delay(delayMs);
   }
@@ -38,7 +124,11 @@ export async function waitForHttp(url: string, attempts = 40, delayMs = 500) {
 }
 
 export async function clearWalks(baseUrl: string) {
-  const response = await fetch(`${baseUrl}/walks`, { method: "DELETE" });
+  const response = await fetch(`${baseUrl}/walks`, {
+    method: "DELETE",
+    headers: authHeaders(baseUrl),
+    redirect: "manual",
+  });
   if (!response.ok) throw new Error(`Failed to clear walks: ${response.status}`);
 }
 
@@ -53,9 +143,20 @@ export async function addWalk(baseUrl: string, walk: SampleWalk | undefined) {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "HX-Request": "true",
+      "HX-Target": "walks-list",
+      ...authHeaders(baseUrl),
     },
     body,
+    redirect: "manual",
   });
 
   if (!response.ok) throw new Error(`Failed to add walk: ${response.status}`);
+}
+
+const serverCookies = new Map<string, string>();
+
+function authHeaders(baseUrl: string): Record<string, string> {
+  const cookie = serverCookies.get(baseUrl);
+  return cookie ? { Cookie: cookie } : {};
 }

@@ -1,5 +1,8 @@
+import type { InviteRepository } from "../services/invitations/model";
+
 export interface Walk {
   id: number;
+  user_id: string;
   miles: number;
   minutes: number;
   seconds: number;
@@ -24,10 +27,25 @@ export interface Stats {
 }
 
 export interface WalkRepository {
-  getAllWalks(): WalkWithStats[];
-  addWalk(walk: WalkInput): void;
-  deleteWalk(id: number): boolean;
-  clearWalks(): number;
-  getStats(): Stats;
-  close?(): void;
+  getAllWalks(userId: string): Promise<WalkWithStats[]>;
+  addWalk(userId: string, walk: WalkInput): Promise<void>;
+  deleteWalk(userId: string, id: number): Promise<boolean>;
+  clearWalks(userId: string): Promise<number>;
+  getStats(userId: string): Promise<Stats>;
+}
+
+export type DatabaseKind = "sqlite" | "postgres";
+
+export interface DatabaseRepositories {
+  invites: InviteRepository;
+  walks: WalkRepository;
+}
+
+export interface DatabaseProvider {
+  readonly kind: DatabaseKind;
+  createInviteRepository(): InviteRepository;
+  createRepositories(): DatabaseRepositories;
+  createWalkRepository(): WalkRepository;
+  migrate(): Promise<void>;
+  close(): Promise<void>;
 }

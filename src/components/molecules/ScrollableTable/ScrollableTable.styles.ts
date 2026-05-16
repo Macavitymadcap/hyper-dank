@@ -1,4 +1,4 @@
-export const scrollableTableStyles = /* css */`
+export const scrollableTableStyles = /* css */ `
 .scrollable-table-container {
   --scrollable-table-columns: 1fr;
   --scrollable-table-mobile-columns: var(--scrollable-table-columns);

@@ -8,21 +8,28 @@ describe("Card", () => {
     const html = render(
       <Card as="main" fill className="app-card">
         Content
-      </Card>
+      </Card>,
     );
 
-    expect(html).toContain("<main class=\"card app-card\" data-fill=\"true\">");
+    expect(html).toContain('<main class="card app-card" data-fill="true">');
     expect(html).toContain("Content");
   });
 
   test("sets dimensions through custom properties", () => {
     const html = render(
-      <Card width="20rem" height="12rem" minHeight="8rem" maxHeight="16rem" radius="var(--radius-2)" shadow="none">
+      <Card
+        width="20rem"
+        height="12rem"
+        minHeight="8rem"
+        maxHeight="16rem"
+        radius="var(--radius-2)"
+        shadow="none"
+      >
         Fixed
-      </Card>
+      </Card>,
     );
 
-    expect(html).toContain("<div class=\"card\"");
+    expect(html).toContain('<div class="card"');
     expect(html).toContain("--card-width: 20rem");
     expect(html).toContain("--card-height: 12rem");
     expect(html).toContain("--card-min-height: 8rem");

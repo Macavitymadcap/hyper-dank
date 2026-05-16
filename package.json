@@ -3,20 +3,37 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "check": "biome check . && bun run check:deprecations",
+    "check:deprecations": "bun scripts/check-deprecations.ts",
+    "coverage": "bun test --coverage --coverage-reporter=text --coverage-reporter=lcov --coverage-dir=coverage && bun scripts/generate-coverage-report.ts && bun scripts/check-coverage.ts",
+    "coverage:check": "bun scripts/check-coverage.ts",
+    "db:migrate": "bun scripts/db-migrate.ts",
     "dev": "bun run --hot src/index.ts",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "lint": "biome lint .",
     "protect:main": "bun scripts/configure-main-protection.ts",
     "screenshots:pr": "bun scripts/add-pr-screenshots.ts",
+    "seed:admin": "bun scripts/seed-admin.ts",
+    "seed:dev": "bun scripts/seed-local-dev.ts",
+    "start": "bun src/index.ts",
     "test": "bun test",
     "test:a11y": "bun scripts/test-a11y.ts",
     "test:watch": "bun test --watch",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "better-auth": "^1.6.11",
     "hono": "^4.0.0",
-    "open-props": "^1.7.0"
+    "kysely": "^0.28.17",
+    "open-props": "^1.7.0",
+    "pg": "^8.20.0",
+    "resend": "^6.12.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.15",
     "@types/bun": "latest",
+    "@types/pg": "^8.20.0",
     "pa11y": "^9.1.1",
     "puppeteer": "^25.0.2"
   },

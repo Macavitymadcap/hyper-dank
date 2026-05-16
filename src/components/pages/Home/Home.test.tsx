@@ -7,6 +7,7 @@ const render = (node: unknown): string => String(node);
 const sampleWalks: WalkWithStats[] = [
   {
     id: 1,
+    user_id: "user@example.com",
     miles: 1.2,
     minutes: 18,
     seconds: 55,
@@ -18,21 +19,34 @@ const sampleWalks: WalkWithStats[] = [
 
 describe("Home", () => {
   test("renders semantic sections and page-level HTMX anchors", () => {
-    const html = render(<Home walks={sampleWalks} stats={{ avgSpeed: 3.8, medianPace: 15.8, count: 1 }} />);
+    const html = render(
+      <Home
+        walks={sampleWalks}
+        stats={{ avgSpeed: 3.8, medianPace: 15.8, count: 1 }}
+        user={{
+          id: "user@example.com",
+          email: "user@example.com",
+          name: "Test User",
+          role: "user",
+        }}
+      />,
+    );
 
-    expect(html).toContain("<main class=\"card app-card\" data-fill=\"true\">");
-    expect(html).toContain("<header class=\"app-header\">");
-    expect(html).toContain("id=\"theme-toggle\"");
-    expect(html).toContain("role=\"switch\"");
-    expect(html).toContain("data-theme-toggle=\"\"");
-    expect(html).toContain("<section class=\"page-section\" aria-labelledby=\"summary-heading\">");
-    expect(html).toContain("<h3 id=\"summary-heading\" class=\"section-title\">Summary</h3>");
-    expect(html).toContain("class=\"card section-card summary-card\"");
-    expect(html).toContain("<h3 id=\"entry-heading\" class=\"section-title\">Add walk</h3>");
-    expect(html).toContain("class=\"card section-card form-section\"");
-    expect(html).toContain("<h3 id=\"history-heading\" class=\"section-title\">Walk history</h3>");
-    expect(html).toContain("<span class=\"chip history-count\">1 walk</span>");
-    expect(html).toContain("id=\"stats\" hx-get=\"/stats\"");
-    expect(html).toContain("id=\"walks-list\"");
+    expect(html).toContain('<main class="card app-card" data-fill="true">');
+    expect(html).toContain('<header class="app-header">');
+    expect(html).toContain('id="theme-toggle"');
+    expect(html).toContain('role="switch"');
+    expect(html).toContain('data-theme-toggle=""');
+    expect(html).toContain("user@example.com");
+    expect(html).toContain("Sign out");
+    expect(html).toContain('<section class="page-section" aria-labelledby="summary-heading">');
+    expect(html).toContain('<h3 id="summary-heading" class="section-title">Summary</h3>');
+    expect(html).toContain('class="card section-card summary-card"');
+    expect(html).toContain('<h3 id="entry-heading" class="section-title">Add walk</h3>');
+    expect(html).toContain('class="card section-card form-section"');
+    expect(html).toContain('<h3 id="history-heading" class="section-title">Walk history</h3>');
+    expect(html).toContain('<span class="chip history-count">1 walk</span>');
+    expect(html).toContain('id="stats" hx-get="/stats"');
+    expect(html).toContain('id="walks-list"');
   });
 });

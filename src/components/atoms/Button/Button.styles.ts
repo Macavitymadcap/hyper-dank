@@ -1,4 +1,4 @@
-export const buttonStyles = /* css */`
+export const buttonStyles = /* css */ `
 .button {
   --button-current-bg: var(--button-bg);
   --button-current-bg-hover: var(--button-bg-hover);
@@ -48,8 +48,27 @@ export const buttonStyles = /* css */`
   --button-current-text: var(--table-text);
 }
 
+.button[data-variant="text"] {
+  --button-current-bg: transparent;
+  --button-current-bg-hover: transparent;
+  --button-current-border: transparent;
+  --button-current-text: var(--button-text);
+  --button-font-size: var(--font-size-0);
+  --button-height: auto;
+  --button-padding-inline: 0;
+  border-radius: 0;
+  display: inline;
+  line-height: inherit;
+  min-height: 0;
+  text-align: left;
+}
+
 .button:hover {
   background-color: var(--button-current-bg-hover);
+}
+
+.button[data-variant="text"]:hover {
+  text-decoration: underline;
 }
 
 .button:active {

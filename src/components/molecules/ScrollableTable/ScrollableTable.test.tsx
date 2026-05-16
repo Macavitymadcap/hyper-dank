@@ -23,19 +23,19 @@ describe("ScrollableTable", () => {
           <td>Ada</td>
           <td data-action-column="true">Clear</td>
         </tr>
-      </ScrollableTable>
+      </ScrollableTable>,
     );
 
-    expect(html).toContain("<div class=\"scrollable-table-container\" data-scrollable=\"true\"");
+    expect(html).toContain('<div class="scrollable-table-container" data-scrollable="true"');
     expect(html).toContain("--scrollable-table-columns: 1fr auto");
     expect(html).toContain("--scrollable-table-mobile-columns: minmax(0, 1fr) auto");
     expect(html).toContain("--scrollable-table-scroll-body-rows: 3");
     expect(html).toContain("--scrollable-table-mobile-scroll-body-rows: 2");
-    expect(html).toContain("<table class=\"scrollable-table example-table\">");
-    expect(html).toContain("<tr class=\"scrollable-table-row example-row\">");
-    expect(html).toContain("<th scope=\"col\">Name</th>");
-    expect(html).toContain("data-action-column=\"true\" scope=\"col\">Actions</th>");
-    expect(html).toContain("<tbody><tr class=\"scrollable-table-row example-row\">");
+    expect(html).toContain('<table class="scrollable-table example-table">');
+    expect(html).toContain('<tr class="scrollable-table-row example-row">');
+    expect(html).toContain('<th scope="col">Name</th>');
+    expect(html).toContain('data-action-column="true" scope="col">Actions</th>');
+    expect(html).toContain('<tbody><tr class="scrollable-table-row example-row">');
     expect(html).not.toContain("scrollable-table-filler-row");
   });
 });

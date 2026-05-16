@@ -4,6 +4,7 @@ import { root } from "./paths";
 interface RunOptions {
   allowFailure?: boolean;
   cwd?: string;
+  env?: NodeJS.ProcessEnv;
   input?: string;
   stdio?: "inherit" | "pipe";
 }
@@ -12,6 +13,7 @@ export function run(command: string, commandArgs: string[], options: RunOptions 
   const result = spawnSync(command, commandArgs, {
     cwd: options.cwd ?? root,
     encoding: "utf8",
+    env: options.env,
     input: options.input,
     stdio: options.stdio === "inherit" ? "inherit" : "pipe",
   });
@@ -27,6 +29,7 @@ export function run(command: string, commandArgs: string[], options: RunOptions 
 export async function runAsync(command: string, commandArgs: string[], options: RunOptions = {}) {
   const child = spawn(command, commandArgs, {
     cwd: options.cwd ?? root,
+    env: options.env,
     stdio: options.stdio ?? "inherit",
   });
 

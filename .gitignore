@@ -38,8 +38,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .cache
 *.tsbuildinfo
 
-# generated PR review images are opt-in via scripts/add-pr-screenshots.ts --persist
-docs/pr-screenshots/
+# generated PR review images are local artifacts
+docs/pr-screenshots/**
 
 # IntelliJ based IDEs
 .idea

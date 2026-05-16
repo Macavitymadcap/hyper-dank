@@ -47,7 +47,9 @@ export const ScrollableTable = ({
     mobileRowHeight && `--scrollable-table-mobile-row-height: ${mobileRowHeight}`,
     scrollBodyRows && `--scrollable-table-scroll-body-rows: ${scrollBodyRows}`,
     mobileScrollBodyRows && `--scrollable-table-mobile-scroll-body-rows: ${mobileScrollBodyRows}`,
-  ].filter(Boolean).join("; ");
+  ]
+    .filter(Boolean)
+    .join("; ");
 
   return (
     <div
@@ -70,9 +72,7 @@ export const ScrollableTable = ({
             ))}
           </tr>
         </thead>
-        <tbody>
-          {children}
-        </tbody>
+        <tbody>{children}</tbody>
       </table>
     </div>
   );

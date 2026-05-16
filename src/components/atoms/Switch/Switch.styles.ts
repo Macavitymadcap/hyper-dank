@@ -1,4 +1,4 @@
-export const switchStyles = /* css */`
+export const switchStyles = /* css */ `
 .switch {
   flex: 0 0 auto;
   display: inline-flex;

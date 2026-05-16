@@ -1,5 +1,5 @@
-interface WalksCellProps { value: string | number }
+interface WalksCellProps {
+  value: string | number;
+}
 
-export const WalksCell = ({ value }: WalksCellProps) => (
-  <td className="walks-cell">{value}</td>
-)
+export const WalksCell = ({ value }: WalksCellProps) => <td className="walks-cell">{value}</td>;

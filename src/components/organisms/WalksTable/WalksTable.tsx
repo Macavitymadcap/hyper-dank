@@ -1,6 +1,7 @@
 import type { WalkWithStats } from "../../../db";
 import { Button } from "../../atoms/Button";
 import { Chip } from "../../atoms/Chip";
+import { HxForm } from "../../molecules/HxForm";
 import { ScrollableTable } from "../../molecules/ScrollableTable";
 import { WalksRow } from "../../molecules/WalksRow";
 
@@ -24,19 +25,24 @@ const mobileColumnsTemplate = [
   "minmax(4.35rem, 0.95fr)",
 ].join(" ");
 
-export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
+interface WalksTableProps {
+  walks: WalkWithStats[];
+  canMutate?: boolean;
+}
+
+export const WalksTable = ({ walks, canMutate = true }: WalksTableProps) => {
   const countLabel = `${walks.length} ${walks.length === 1 ? "walk" : "walks"}`;
 
   if (walks.length === 0) {
     return (
       <div class="walks-history">
         <header class="history-header">
-          <h3 id="history-heading" class="section-title">Walk history</h3>
+          <h3 id="history-heading" class="section-title">
+            Walk history
+          </h3>
           <Chip className="history-count">{countLabel}</Chip>
         </header>
-        <div class="empty-state">
-          No walks recorded yet. Add your first walk above!
-        </div>
+        <div class="empty-state">No walks recorded yet. Add your first walk above!</div>
       </div>
     );
   }
@@ -45,7 +51,9 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
   return (
     <div class="walks-history">
       <header class="history-header">
-        <h3 id="history-heading" class="section-title">Walk history</h3>
+        <h3 id="history-heading" class="section-title">
+          Walk history
+        </h3>
         <Chip className="history-count">{countLabel}</Chip>
       </header>
       <ScrollableTable
@@ -60,23 +68,25 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
           {
             key: "actions",
             header: (
-              <Button
-                className="clear-walks-btn"
-                type="button"
-                size="compact"
-                variant="outline"
-                hxDelete="/walks"
-                hxTarget="#walks-list"
-                hxSwap="innerHTML"
-                hxConfirm="Clear all walks?"
-                hxOn="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
-              >
-                Clear all
-              </Button>
+              <HxForm action="/walks/delete" method="post">
+                <Button
+                  className="clear-walks-btn"
+                  type="submit"
+                  size="compact"
+                  variant="outline"
+                  hx-delete="/walks"
+                  hx-target="#walks-list"
+                  hx-swap="innerHTML"
+                  hx-confirm="Clear all walks?"
+                  hx-on="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
+                >
+                  Clear all
+                </Button>
+              </HxForm>
             ),
             isAction: true,
           },
-        ]}
+        ].filter((column) => canMutate || column.key !== "actions")}
         columnsTemplate={columnsTemplate}
         isScrollable={isScrollable}
         mobileColumnsTemplate={mobileColumnsTemplate}
@@ -85,7 +95,7 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
         rowClassName="walks-row"
         scrollBodyRows={4}
       >
-        {walks.map(walk => (
+        {walks.map((walk) => (
           <WalksRow
             key={walk.id}
             id={walk.id}
@@ -95,6 +105,7 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
             seconds={walk.seconds}
             speed={walk.speed}
             pace={walk.pace}
+            canMutate={canMutate}
           />
         ))}
       </ScrollableTable>
