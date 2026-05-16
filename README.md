@@ -28,7 +28,7 @@ Runtime and app:
 - [Hono](https://hono.dev/) for the HTTP app and route composition.
 - [HTMX](https://htmx.org/) for HTML-over-the-wire form submission and fragment swaps.
 - [TypeScript](https://www.typescriptlang.org/) and [JSX](https://www.typescriptlang.org/docs/handbook/jsx.html) for typed server-rendered components.
-- [Better Auth](https://www.better-auth.com/) for email/password users, sessions, roles, and admin account controls.
+- [Better Auth](https://www.better-auth.com/) for production email/password users, sessions, roles, and admin account controls.
 - [SQLite](https://www.sqlite.org/) through Bun's SQLite APIs for simple local/test persistence.
 - [PostgreSQL](https://www.postgresql.org/) for production persistence when `DATABASE_URL` is configured.
 - [Resend](https://resend.com/) for invitation email delivery when configured.
@@ -61,13 +61,28 @@ You can change the port or database path with environment variables:
 PORT=3100 DB_PATH=/tmp/walking-pace.sqlite3 bun run dev
 ```
 
+To review the authenticated UI locally with SQLite, seed an admin into a file-backed database and
+run the dev server against the same path:
+
+```bash
+DB_PATH=/tmp/pace-review.sqlite3 \
+ADMIN_EMAIL=admin@example.com \
+ADMIN_PASSWORD=password123 \
+bun run seed:admin
+
+DB_PATH=/tmp/pace-review.sqlite3 bun run dev
+```
+
+Then sign in at `http://localhost:3000/login` with the seeded email and password.
+
 Set `DATABASE_URL` to use Postgres instead of SQLite:
 
 ```bash
 DATABASE_URL=postgres://user:password@localhost:5432/pace bun run dev
 ```
 
-When SQLite is used, app data is stored in SQLite while Better Auth uses an in-memory adapter for local/test sessions. Production auth persistence uses Postgres when `DATABASE_URL` is set.
+When SQLite is used, app and local auth data are stored in SQLite. Production auth persistence uses
+Better Auth with Postgres when `DATABASE_URL` is set.
 
 ## Scripts
 
@@ -156,7 +171,7 @@ See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact
 | `RESEND_API_KEY` | unset | Sends invitation email when paired with `EMAIL_FROM` |
 | `EMAIL_FROM` | unset | Verified sender address for invitation email |
 | `USER_LIMIT` | `10` | Maximum total users, with pending invitations counted before creation |
-| `ADMIN_EMAIL` | unset | Email used by `bun run seed:admin` |
+| `ADMIN_EMAIL` | unset | Email used by `bun run seed:admin`; set `DB_PATH` for local SQLite or `DATABASE_URL` for Postgres |
 | `ADMIN_PASSWORD` | unset | Password used by `bun run seed:admin`; must be at least 8 characters |
 | `ADMIN_NAME` | `Admin` | Display name used when seeding the first admin |
 
@@ -195,7 +210,7 @@ src/
 │   ├── pages/                 # full-page compositions
 │   ├── templates/             # document shell and shared assets
 │   └── styles.ts              # SSR style aggregation boundary
-├── auth/                      # Better Auth provider boundary and test provider
+├── auth/                      # auth provider boundary, Better Auth, SQLite local auth, and test provider
 ├── db/                        # database providers, repositories, migrations, and pace math
 ├── email/                     # Resend/console email senders
 ├── invitations/               # invitation service and repository contracts

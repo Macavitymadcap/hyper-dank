@@ -6,10 +6,6 @@ const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
 const password = process.env.ADMIN_PASSWORD;
 const name = process.env.ADMIN_NAME?.trim() || "Admin";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is required so the admin account is seeded into Postgres.");
-}
-
 if (!email) {
   throw new Error("ADMIN_EMAIL is required.");
 }

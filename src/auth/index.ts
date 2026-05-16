@@ -9,4 +9,5 @@ export type {
   SignInInput,
   UserRole,
 } from "./model";
+export { SqliteAuthProvider } from "./sqlite-auth-provider";
 export { TestAuthProvider } from "./test-provider";

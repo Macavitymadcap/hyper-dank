@@ -1,3 +1,4 @@
+import type { Database } from "bun:sqlite";
 import { betterAuth } from "better-auth";
 import { memoryAdapter } from "better-auth/adapters/memory";
 import { admin } from "better-auth/plugins/admin";
@@ -12,6 +13,7 @@ import type {
   SignInInput,
   UserRole,
 } from "./model";
+import { SqliteAuthProvider } from "./sqlite-auth-provider";
 
 export interface BetterAuthProviderOptions {
   databaseProvider: DatabaseProvider;
@@ -61,11 +63,20 @@ interface PoolBackedDatabaseProvider extends DatabaseProvider {
   getPool(): Pool;
 }
 
+interface SqliteBackedDatabaseProvider extends DatabaseProvider {
+  readonly kind: "sqlite";
+  getDatabase(): Database;
+}
+
 export const createAuthProvider = ({
   databaseProvider,
   baseUrl = process.env.BETTER_AUTH_URL,
   secret = process.env.BETTER_AUTH_SECRET,
 }: BetterAuthProviderOptions): AuthProvider => {
+  if (isSqliteBackedProvider(databaseProvider)) {
+    return new SqliteAuthProvider(databaseProvider.getDatabase());
+  }
+
   const auth = betterAuth({
     basePath: "/api/auth",
     baseURL: baseUrl,
@@ -207,6 +218,12 @@ function isPoolBackedProvider(
   databaseProvider: DatabaseProvider,
 ): databaseProvider is PoolBackedDatabaseProvider {
   return databaseProvider.kind === "postgres" && "getPool" in databaseProvider;
+}
+
+function isSqliteBackedProvider(
+  databaseProvider: DatabaseProvider,
+): databaseProvider is SqliteBackedDatabaseProvider {
+  return databaseProvider.kind === "sqlite" && "getDatabase" in databaseProvider;
 }
 
 function toAuthUser(user: Record<string, unknown>): AuthUser {

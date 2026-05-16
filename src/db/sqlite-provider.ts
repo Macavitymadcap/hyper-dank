@@ -24,6 +24,10 @@ const migrations: Migration[] = [
     version: "0002_auth_invites_and_user_scoping",
     path: new URL("./migrations/sqlite/0002_auth_invites_and_user_scoping.sql", import.meta.url),
   },
+  {
+    version: "0003_local_auth",
+    path: new URL("./migrations/sqlite/0003_local_auth.sql", import.meta.url),
+  },
 ];
 
 export class SqliteDatabaseProvider implements DatabaseProvider {
@@ -40,6 +44,10 @@ export class SqliteDatabaseProvider implements DatabaseProvider {
 
   createInviteRepository() {
     return new SqliteInviteRepository(this.db);
+  }
+
+  getDatabase(): Database {
+    return this.db;
   }
 
   async migrate(): Promise<void> {

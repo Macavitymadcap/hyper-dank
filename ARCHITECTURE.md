@@ -10,7 +10,7 @@ It follows an HTML-first philosophy: server routes own state and validation, JSX
 - Render full pages and HTMX fragments with the same JSX component tree.
 - Let HTML own interaction contracts through HTMX attributes.
 - Keep persistence behind a narrow repository interface.
-- Keep auth behind a provider interface so route tests can use a deterministic in-memory provider while production uses Better Auth.
+- Keep auth behind a provider interface so route tests can use a deterministic in-memory provider, local review can use SQLite-backed auth, and production can use Better Auth.
 - Make components, routes, database behaviour, and HTMX contracts independently testable.
 - Keep styles close to the elements they belong to.
 - Prefer boring composition over hidden framework magic.
@@ -58,7 +58,7 @@ Tests use the same route tree as production, but swap the database for an in-mem
 src/
 ├── index.ts                   # process/runtime composition
 ├── app.tsx                    # Hono route factory
-├── auth/                      # auth provider contract, Better Auth adapter, and test adapter
+├── auth/                      # auth provider contract, Better Auth, SQLite, and test adapters
 ├── components/
 │   ├── atoms/                 # primitive elements and controls
 │   │   ├── Button/            # component, styles, tests, and export
@@ -136,9 +136,9 @@ Clear actions follow the same fragment pattern. `DELETE /walks/:id` clears one r
 
 ## Auth And Invitations
 
-`AuthProvider` is the route-facing contract for sessions, sign-in/sign-out, user creation, role changes, and bans. Production composition uses Better Auth with the admin plugin. SQLite-backed tests and scripts use `TestAuthProvider`, which keeps session cookies deterministic without coupling route tests to Better Auth internals.
+`AuthProvider` is the route-facing contract for sessions, sign-in/sign-out, user creation, role changes, and bans. Production composition uses Better Auth with the admin plugin and Postgres. Local SQLite composition uses `SqliteAuthProvider` so a file-backed `DB_PATH` can persist seeded admin accounts for UI review. Route tests use `TestAuthProvider`, which keeps session cookies deterministic without coupling route tests to auth internals.
 
-Better Auth owns users, credential accounts, sessions, and verification tables. The app owns invitations so it can enforce the `USER_LIMIT` cap across existing users and pending invitations before sending email. `InvitationService` hashes invite tokens before persistence, creates accounts through `AuthProvider`, marks invitations accepted or revoked, and sends invite links through `EmailSender`.
+Better Auth owns production users, credential accounts, sessions, and verification tables. The local SQLite provider owns equivalent local-only user and session tables for development. The app owns invitations so it can enforce the `USER_LIMIT` cap across existing users and pending invitations before sending email. `InvitationService` hashes invite tokens before persistence, creates accounts through `AuthProvider`, marks invitations accepted or revoked, and sends invite links through `EmailSender`.
 
 Admins are normal users with the `admin` role. They can manage accounts and view another user's scores through a read-only `WalksTable`, but walk mutation routes always use the authenticated user's id and never accept an arbitrary owner id from the request.
 
@@ -146,7 +146,7 @@ Admins are normal users with the `admin` role. They can manage accounts and view
 
 The production deployment target is Railway. `railway.json` pins the Dockerfile builder, runs `bun run db:migrate` as the pre-deploy command, starts the service with `bun run start`, and uses `/healthz` as a public deployment health check. Railway injects `PORT`, and `src/index.ts` reads it before exporting Bun's fetch handler.
 
-`scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database provider and Better Auth provider as production, requires `DATABASE_URL`, and either creates the first admin or upgrades an existing account to the `admin` role.
+`scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role.
 
 ## HTMX Pattern
 
@@ -259,7 +259,7 @@ The tests are split by behaviour boundary rather than by implementation detail.
 - colocated `*.test.tsx` component tests render JSX to strings and assert semantic markup plus component contracts such as HTMX attributes, switch state, table controls, and empty states.
 - `app.test.tsx` exercises full-page and error route behaviour through `app.request()`.
 - `htmx.test.tsx` owns successful HTMX mutations, sends `HX-*` headers, and asserts fragment-only response shape.
-- `better-auth-provider.test.ts` verifies the Better Auth adapter can create users, sign in, and read sessions.
+- `better-auth-provider.test.ts` verifies the auth provider factory can create users, sign in, read sessions, and persist local SQLite auth across provider instances.
 - `service.test.ts` under `invitations/` verifies invite creation, acceptance, and user-cap enforcement.
 - `repository.test.ts` uses SQLite `:memory:` databases to verify CRUD, aggregate stats, database constraints, and user scoping.
 - `calculator.test.ts` covers pure pace, speed, average, median, and validation behaviour.
