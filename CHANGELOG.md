@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.1.1...pace-calculator-v1.1.2) (2026-05-16)
+
+
+### Documentation
+
+* **workflow:** add epic ticket branch flow ([#9](https://github.com/Macavitymadcap/pace-calculator/issues/9)) ([3f21fc9](https://github.com/Macavitymadcap/pace-calculator/commit/3f21fc92c4070532165e24af6cc901240f3360cd))
+
 ## [1.1.1](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.1.0...pace-calculator-v1.1.1) (2026-05-16)
 
 
