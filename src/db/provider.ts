@@ -7,9 +7,7 @@ export interface DatabaseEnvironment {
   DB_PATH?: string;
 }
 
-export const createDatabaseProvider = (
-  environment?: DatabaseEnvironment,
-): DatabaseProvider => {
+export const createDatabaseProvider = (environment?: DatabaseEnvironment): DatabaseProvider => {
   const env = environment ?? {
     DATABASE_URL: process.env.DATABASE_URL,
     DB_PATH: process.env.DB_PATH,

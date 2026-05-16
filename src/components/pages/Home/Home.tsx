@@ -1,4 +1,6 @@
+import type { AuthUser } from "../../../auth";
 import type { Stats, WalkWithStats } from "../../../db";
+import { Button } from "../../atoms/Button";
 import { Card } from "../../atoms/Card";
 import { Switch } from "../../atoms/Switch";
 import { Stats as StatsSection } from "../../organisms/Stats";
@@ -9,15 +11,29 @@ import { Layout } from "../../templates/Layout";
 interface HomeProps {
   walks: WalkWithStats[];
   stats: Stats;
+  user: AuthUser;
 }
 
-export const Home = ({ walks, stats }: HomeProps) => {
+export const Home = ({ walks, stats, user }: HomeProps) => {
   return (
     <Layout>
       <Card as="main" fill className="app-card">
         <header class="app-header">
           <h1 class="title">Walking Pace Tracker</h1>
-          <Switch id="theme-toggle" label="Color mode" dataThemeToggle />
+          <div class="account-actions">
+            <span class="account-email">{user.email}</span>
+            {user.role === "admin" ? (
+              <a class="admin-link" href="/admin">
+                Admin
+              </a>
+            ) : null}
+            <form method="post" action="/logout">
+              <Button type="submit" size="compact" variant="outline">
+                Sign out
+              </Button>
+            </form>
+            <Switch id="theme-toggle" label="Color mode" dataThemeToggle />
+          </div>
         </header>
 
         <div class="content-sections">

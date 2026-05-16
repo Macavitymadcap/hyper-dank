@@ -8,6 +8,7 @@ export interface PostgresWalkRepositoryOptions {
 
 interface PostgresWalkRow {
   id: number;
+  user_id: string;
   miles: number | string;
   minutes: number;
   seconds: number;
@@ -21,12 +22,16 @@ export class PostgresWalkRepository implements WalkRepository {
     this.pool = pool;
   }
 
-  async getAllWalks(): Promise<WalkWithStats[]> {
-    const result = await this.pool.query<PostgresWalkRow>(`
-      SELECT id, miles, minutes, seconds, created_at
+  async getAllWalks(userId: string): Promise<WalkWithStats[]> {
+    const result = await this.pool.query<PostgresWalkRow>(
+      `
+      SELECT id, user_id, miles, minutes, seconds, created_at
       FROM walks
+      WHERE user_id = $1
       ORDER BY created_at DESC, id DESC
-    `);
+    `,
+      [userId],
+    );
 
     return result.rows.map((row) => {
       const miles = Number(row.miles);
@@ -35,6 +40,7 @@ export class PostgresWalkRepository implements WalkRepository {
 
       return {
         id: Number(row.id),
+        user_id: row.user_id,
         miles,
         minutes,
         seconds,
@@ -45,26 +51,28 @@ export class PostgresWalkRepository implements WalkRepository {
     });
   }
 
-  async addWalk({ miles, minutes, seconds }: WalkInput): Promise<void> {
-    await this.pool.query("INSERT INTO walks (miles, minutes, seconds) VALUES ($1, $2, $3)", [
-      miles,
-      minutes,
-      seconds,
-    ]);
+  async addWalk(userId: string, { miles, minutes, seconds }: WalkInput): Promise<void> {
+    await this.pool.query(
+      "INSERT INTO walks (user_id, miles, minutes, seconds) VALUES ($1, $2, $3, $4)",
+      [userId, miles, minutes, seconds],
+    );
   }
 
-  async deleteWalk(id: number): Promise<boolean> {
-    const result = await this.pool.query("DELETE FROM walks WHERE id = $1", [id]);
+  async deleteWalk(userId: string, id: number): Promise<boolean> {
+    const result = await this.pool.query("DELETE FROM walks WHERE id = $1 AND user_id = $2", [
+      id,
+      userId,
+    ]);
     return Number(result.rowCount ?? 0) > 0;
   }
 
-  async clearWalks(): Promise<number> {
-    const result = await this.pool.query("DELETE FROM walks");
+  async clearWalks(userId: string): Promise<number> {
+    const result = await this.pool.query("DELETE FROM walks WHERE user_id = $1", [userId]);
     return Number(result.rowCount ?? 0);
   }
 
-  async getStats(): Promise<Stats> {
-    const walks = await this.getAllWalks();
+  async getStats(userId: string): Promise<Stats> {
+    const walks = await this.getAllWalks(userId);
     const count = walks.length;
 
     if (count === 0) {

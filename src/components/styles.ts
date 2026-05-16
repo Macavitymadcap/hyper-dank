@@ -10,7 +10,9 @@ import { walksRowStyles } from "./molecules/WalksRow/WalksRow.styles";
 import { statsStyles } from "./organisms/Stats/Stats.styles";
 import { walkFormStyles } from "./organisms/WalkForm/WalkForm.styles";
 import { walksTableStyles } from "./organisms/WalksTable/WalksTable.styles";
+import { adminStyles } from "./pages/Admin/Admin.styles";
 import { homeStyles } from "./pages/Home/Home.styles";
+import { loginStyles } from "./pages/Login/Login.styles";
 import { layoutStyles } from "./templates/Layout/Layout.styles";
 
 export const appStyles = [
@@ -27,5 +29,7 @@ export const appStyles = [
   statsStyles,
   walkFormStyles,
   walksTableStyles,
+  adminStyles,
   homeStyles,
+  loginStyles,
 ].join("\n");

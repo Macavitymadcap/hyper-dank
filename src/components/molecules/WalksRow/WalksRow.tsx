@@ -9,6 +9,7 @@ interface WalksRowProps {
   seconds: number;
   speed: number;
   pace: number;
+  canMutate?: boolean;
 }
 
 export const WalksRow = ({
@@ -19,6 +20,7 @@ export const WalksRow = ({
   seconds,
   speed,
   pace,
+  canMutate = true,
 }: WalksRowProps) => {
   const createdDateTime = formatCreatedDateTime(createdAt);
 
@@ -35,21 +37,23 @@ export const WalksRow = ({
       <WalksCell value={seconds} />
       <WalksCell value={speed > 0 ? speed.toFixed(1) : "--"} />
       <WalksCell value={pace > 0 ? pace.toFixed(1) : "--"} />
-      <td data-action-column="true">
-        <Button
-          className="clear-walk-btn"
-          type="button"
-          size="compact"
-          variant="danger"
-          hxDelete={`/walks/${id}`}
-          hxTarget="#walks-list"
-          hxSwap="innerHTML"
-          hxConfirm="Clear this walk?"
-          hxOn="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
-        >
-          Clear
-        </Button>
-      </td>
+      {canMutate ? (
+        <td data-action-column="true">
+          <Button
+            className="clear-walk-btn"
+            type="button"
+            size="compact"
+            variant="danger"
+            hxDelete={`/walks/${id}`}
+            hxTarget="#walks-list"
+            hxSwap="innerHTML"
+            hxConfirm="Clear this walk?"
+            hxOn="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
+          >
+            Clear
+          </Button>
+        </td>
+      ) : null}
     </tr>
   );
 };

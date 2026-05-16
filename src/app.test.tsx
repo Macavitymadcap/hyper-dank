@@ -13,7 +13,9 @@ afterEach(async () => {
 
 describe("app", () => {
   test("renders the full home page document", async () => {
-    const response = await harness.app.request("/");
+    const response = await harness.app.request("/", {
+      headers: harness.authHeaders,
+    });
     const html = await response.text();
 
     expect(response.status).toBe(200);
@@ -29,13 +31,36 @@ describe("app", () => {
 
     expect(response.status).toBe(400);
     expect(await response.text()).toContain("Miles must be greater than zero.");
-    expect(await harness.repository.getAllWalks()).toHaveLength(0);
+    expect(await harness.repository.getAllWalks("user@example.com")).toHaveLength(0);
   });
 
   test("rejects invalid delete ids", async () => {
-    const response = await harness.app.request("/walks/nope", { method: "DELETE" });
+    const response = await harness.app.request("/walks/nope", {
+      method: "DELETE",
+      headers: harness.authHeaders,
+    });
 
     expect(response.status).toBe(400);
     expect(await response.text()).toContain("Walk id must be a positive integer.");
+  });
+
+  test("redirects unauthenticated users to login", async () => {
+    const response = await harness.app.request("/");
+
+    expect(response.status).toBe(303);
+    expect(response.headers.get("location")).toBe("/login");
+  });
+
+  test("restricts admin pages to admin users", async () => {
+    const userResponse = await harness.app.request("/admin", {
+      headers: harness.authHeaders,
+    });
+    const adminResponse = await harness.app.request("/admin", {
+      headers: harness.adminHeaders,
+    });
+
+    expect(userResponse.status).toBe(403);
+    expect(adminResponse.status).toBe(200);
+    expect(await adminResponse.text()).toContain("Invite user");
   });
 });

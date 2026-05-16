@@ -22,6 +22,22 @@ export const homeStyles = /* css */ `
   color: var(--text);
 }
 
+.account-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-3);
+}
+
+.account-email {
+  color: var(--text-muted);
+  font-size: var(--font-size-0);
+  font-weight: var(--font-weight-6);
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .content-sections {
   display: flex;
   flex-direction: column;
@@ -75,6 +91,14 @@ export const homeStyles = /* css */ `
     font-size: var(--font-size-4);
     line-height: 1;
     max-width: 13rem;
+  }
+
+  .account-actions {
+    gap: var(--size-2);
+  }
+
+  .account-email {
+    display: none;
   }
 
   .content-sections {

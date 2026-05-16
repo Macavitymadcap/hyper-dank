@@ -31,4 +31,22 @@ describe("WalksRow", () => {
     expect(html).toContain('hx-confirm="Clear this walk?"');
     expect(html).toContain(">Clear</button>");
   });
+
+  test("omits action cells when rendered read-only", () => {
+    const html = render(
+      <WalksRow
+        id={1}
+        createdAt="2026-05-15 10:00:00"
+        miles={1.2}
+        minutes={18}
+        seconds={55}
+        speed={3.8}
+        pace={15.8}
+        canMutate={false}
+      />,
+    );
+
+    expect(html).not.toContain('data-action-column="true"');
+    expect(html).not.toContain('hx-delete="/walks/1"');
+  });
 });

@@ -1,8 +1,8 @@
 # Walking Pace Tracker
 
-A small walking pace tracker built with Hono, HTMX, Bun, TypeScript, JSX, and SQLite.
+A small walking pace tracker built with Hono, HTMX, Bun, TypeScript, JSX, Better Auth, SQLite, and Postgres.
 
-The app records walks, calculates average speed and median pace, supports light/dark mode, and uses server-rendered HTML fragments instead of a client-side framework.
+The app records user-scoped walks, calculates average speed and median pace, supports light/dark mode, and uses server-rendered HTML fragments instead of a client-side framework.
 
 The goal is not only to track pace, but to act as a compact template for Hono + HTMX front ends: routes render semantic HTML, HTMX swaps focused fragments, component styles stay colocated, and tests exercise the same app factory used in production.
 
@@ -28,8 +28,10 @@ Runtime and app:
 - [Hono](https://hono.dev/) for the HTTP app and route composition.
 - [HTMX](https://htmx.org/) for HTML-over-the-wire form submission and fragment swaps.
 - [TypeScript](https://www.typescriptlang.org/) and [JSX](https://www.typescriptlang.org/docs/handbook/jsx.html) for typed server-rendered components.
+- [Better Auth](https://www.better-auth.com/) for email/password users, sessions, roles, and admin account controls.
 - [SQLite](https://www.sqlite.org/) through Bun's SQLite APIs for simple local/test persistence.
 - [PostgreSQL](https://www.postgresql.org/) for production persistence when `DATABASE_URL` is configured.
+- [Resend](https://resend.com/) for invitation email delivery when configured.
 
 Styling and verification:
 
@@ -64,6 +66,8 @@ Set `DATABASE_URL` to use Postgres instead of SQLite:
 ```bash
 DATABASE_URL=postgres://user:password@localhost:5432/pace bun run dev
 ```
+
+When SQLite is used, app data is stored in SQLite while Better Auth uses an in-memory adapter for local/test sessions. Production auth persistence uses Postgres when `DATABASE_URL` is set.
 
 ## Scripts
 
@@ -119,10 +123,11 @@ By default, `bun run screenshots:pr` writes ignored local review images to `.cac
 The test suite covers:
 
 - component rendering contracts
-- Hono full-page and error route behavior
+- Hono full-page and error route behaviour
 - HTMX fragment mutation contracts
+- Better Auth provider integration and invitation acceptance
 - WCAG 2 AA accessibility checks with pa11y
-- SQLite repository behavior with in-memory databases
+- SQLite repository behaviour with in-memory databases, including user scoping
 - validation and pace calculations
 
 ## Repository Workflow
@@ -144,6 +149,11 @@ See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact
 | `PORT` | `3000` | HTTP port used by Bun |
 | `DB_PATH` | `walking-pace.sqlite3` | SQLite database file path |
 | `DATABASE_URL` | unset | Postgres connection string; when set, the app uses Postgres instead of SQLite |
+| `BETTER_AUTH_SECRET` | Better Auth dev default | Secret used by Better Auth for signing/encryption |
+| `BETTER_AUTH_URL` | inferred locally | Public base URL used for auth and invite links |
+| `RESEND_API_KEY` | unset | Sends invitation email when paired with `EMAIL_FROM` |
+| `EMAIL_FROM` | unset | Verified sender address for invitation email |
+| `USER_LIMIT` | `10` | Maximum total users, with pending invitations counted before creation |
 
 SQLite database files and sidecar files are ignored by Git.
 
@@ -153,7 +163,7 @@ SQLite database files and sidecar files are ignored by Git.
 src/
 ├── app.tsx                    # Hono app factory
 ├── index.ts                   # Bun runtime entrypoint
-├── app.test.tsx               # route behavior tests
+├── app.test.tsx               # route behaviour tests
 ├── htmx.test.tsx              # HTMX fragment contract tests
 ├── components/                # server-rendered JSX components
 │   ├── atoms/                 # primitive controls, cards, cells, styles, and tests
@@ -162,11 +172,15 @@ src/
 │   ├── pages/                 # full-page compositions
 │   ├── templates/             # document shell and shared assets
 │   └── styles.ts              # SSR style aggregation boundary
-├── db/                        # repository, model, and pace math
+├── auth/                      # Better Auth provider boundary and test provider
+├── db/                        # database providers, repositories, migrations, and pace math
+├── email/                     # Resend/console email senders
+├── invitations/               # invitation service and repository contracts
 └── walks/                     # walk input validation
 scripts/
 ├── add-pr-screenshots.ts      # mobile PR screenshot capture and PR table updates
 ├── configure-main-protection.ts
+├── pa11y-config.cjs
 ├── test-a11y.ts
 └── lib/                       # shared script helpers for GitHub, serving, and process calls
 ```

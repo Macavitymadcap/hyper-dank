@@ -1,4 +1,7 @@
 export { Stats as StatsSection } from "./organisms/Stats";
 export { WalkForm } from "./organisms/WalkForm";
 export { WalksTable } from "./organisms/WalksTable";
+export { AdminPage } from "./pages/Admin";
 export { Home } from "./pages/Home";
+export { InvitePage } from "./pages/Invite";
+export { LoginPage } from "./pages/Login";

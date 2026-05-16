@@ -20,6 +20,7 @@ export class SqliteWalkRepository implements WalkRepository {
     this.db.run(`
       CREATE TABLE IF NOT EXISTS walks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id TEXT NOT NULL DEFAULT 'local-user',
         miles REAL NOT NULL CHECK (miles > 0),
         minutes INTEGER NOT NULL CHECK (minutes >= 0),
         seconds INTEGER NOT NULL CHECK (seconds >= 0 AND seconds < 60),
@@ -29,13 +30,14 @@ export class SqliteWalkRepository implements WalkRepository {
     `);
   }
 
-  async getAllWalks(): Promise<WalkWithStats[]> {
+  async getAllWalks(userId: string): Promise<WalkWithStats[]> {
     const query = this.db.query(`
-      SELECT id, miles, minutes, seconds, created_at
+      SELECT id, user_id, miles, minutes, seconds, created_at
       FROM walks
+      WHERE user_id = ?
       ORDER BY created_at DESC, id DESC
     `);
-    const walks = query.all() as Walk[];
+    const walks = query.all(userId) as Walk[];
 
     return walks.map((walk) => ({
       ...walk,
@@ -44,24 +46,28 @@ export class SqliteWalkRepository implements WalkRepository {
     }));
   }
 
-  async addWalk({ miles, minutes, seconds }: WalkInput): Promise<void> {
-    const query = this.db.query("INSERT INTO walks (miles, minutes, seconds) VALUES (?, ?, ?)");
-    query.run(miles, minutes, seconds);
+  async addWalk(userId: string, { miles, minutes, seconds }: WalkInput): Promise<void> {
+    const query = this.db.query(
+      "INSERT INTO walks (user_id, miles, minutes, seconds) VALUES (?, ?, ?, ?)",
+    );
+    query.run(userId, miles, minutes, seconds);
   }
 
-  async deleteWalk(id: number): Promise<boolean> {
-    const query = this.db.query("DELETE FROM walks WHERE id = ?");
-    const result = query.run(id) as { changes?: number };
+  async deleteWalk(userId: string, id: number): Promise<boolean> {
+    const query = this.db.query("DELETE FROM walks WHERE id = ? AND user_id = ?");
+    const result = query.run(id, userId) as { changes?: number };
     return Number(result.changes ?? 0) > 0;
   }
 
-  async clearWalks(): Promise<number> {
-    const result = this.db.query("DELETE FROM walks").run() as { changes?: number };
+  async clearWalks(userId: string): Promise<number> {
+    const result = this.db.query("DELETE FROM walks WHERE user_id = ?").run(userId) as {
+      changes?: number;
+    };
     return Number(result.changes ?? 0);
   }
 
-  async getStats(): Promise<Stats> {
-    const walks = await this.getAllWalks();
+  async getStats(userId: string): Promise<Stats> {
+    const walks = await this.getAllWalks(userId);
     const count = walks.length;
 
     if (count === 0) {

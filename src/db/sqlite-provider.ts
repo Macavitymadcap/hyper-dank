@@ -1,4 +1,5 @@
 import { Database } from "bun:sqlite";
+import { SqliteInviteRepository } from "./invite-repository";
 import type { DatabaseProvider } from "./model";
 import { SqliteWalkRepository } from "./repository";
 
@@ -8,7 +9,22 @@ export interface SqliteDatabaseProviderOptions {
 }
 
 const DEFAULT_SQLITE_FILENAME = "walking-pace.sqlite3";
-const sqliteMigration = new URL("./migrations/sqlite/0001_create_walks.sql", import.meta.url);
+
+interface Migration {
+  version: string;
+  path: URL;
+}
+
+const migrations: Migration[] = [
+  {
+    version: "0001_create_walks",
+    path: new URL("./migrations/sqlite/0001_create_walks.sql", import.meta.url),
+  },
+  {
+    version: "0002_auth_invites_and_user_scoping",
+    path: new URL("./migrations/sqlite/0002_auth_invites_and_user_scoping.sql", import.meta.url),
+  },
+];
 
 export class SqliteDatabaseProvider implements DatabaseProvider {
   readonly kind = "sqlite";
@@ -22,9 +38,32 @@ export class SqliteDatabaseProvider implements DatabaseProvider {
     return new SqliteWalkRepository({ db: this.db });
   }
 
+  createInviteRepository() {
+    return new SqliteInviteRepository(this.db);
+  }
+
   async migrate(): Promise<void> {
-    const sql = await Bun.file(sqliteMigration).text();
-    this.db.run(sql);
+    this.db.run(`
+      CREATE TABLE IF NOT EXISTS schema_migrations (
+        version TEXT PRIMARY KEY,
+        applied_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    for (const migration of migrations) {
+      const applied = this.db
+        .query("SELECT version FROM schema_migrations WHERE version = ?")
+        .get(migration.version);
+
+      if (applied) continue;
+
+      const sql = await Bun.file(migration.path).text();
+
+      this.db.transaction(() => {
+        this.db.run(sql);
+        this.db.query("INSERT INTO schema_migrations (version) VALUES (?)").run(migration.version);
+      })();
+    }
   }
 
   async close(): Promise<void> {

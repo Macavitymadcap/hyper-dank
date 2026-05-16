@@ -9,7 +9,11 @@ try {
   await waitForHttp(server.url, 30, 1000);
   await addWalk(server.url, { miles: "1.2", minutes: "18", seconds: "55" });
 
-  await runAsync("pa11y", [server.url, "--config", ".pa11yrc.json"], {
+  await runAsync("pa11y", [server.url, "--config", "scripts/pa11y-config.cjs"], {
+    env: {
+      ...process.env,
+      PA11Y_COOKIE: server.authCookie,
+    },
     stdio: "inherit",
   });
 } finally {

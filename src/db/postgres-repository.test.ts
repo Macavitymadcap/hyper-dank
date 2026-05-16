@@ -13,13 +13,14 @@ describe("PostgresWalkRepository", () => {
     try {
       await databaseProvider.migrate();
       const repository = databaseProvider.createWalkRepository();
-      await repository.clearWalks();
+      const userId = "postgres-test@example.com";
+      await repository.clearWalks(userId);
 
-      await repository.addWalk({ miles: 1, minutes: 20, seconds: 0 });
-      await repository.addWalk({ miles: 2, minutes: 30, seconds: 0 });
+      await repository.addWalk(userId, { miles: 1, minutes: 20, seconds: 0 });
+      await repository.addWalk(userId, { miles: 2, minutes: 30, seconds: 0 });
 
-      const walks = await repository.getAllWalks();
-      const stats = await repository.getStats();
+      const walks = await repository.getAllWalks(userId);
+      const stats = await repository.getStats(userId);
 
       expect(walks).toHaveLength(2);
       expect(walks[0]?.miles).toBe(2);

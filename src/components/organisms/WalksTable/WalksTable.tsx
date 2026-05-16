@@ -24,7 +24,12 @@ const mobileColumnsTemplate = [
   "minmax(4.35rem, 0.95fr)",
 ].join(" ");
 
-export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
+interface WalksTableProps {
+  walks: WalkWithStats[];
+  canMutate?: boolean;
+}
+
+export const WalksTable = ({ walks, canMutate = true }: WalksTableProps) => {
   const countLabel = `${walks.length} ${walks.length === 1 ? "walk" : "walks"}`;
 
   if (walks.length === 0) {
@@ -78,7 +83,7 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
             ),
             isAction: true,
           },
-        ]}
+        ].filter((column) => canMutate || column.key !== "actions")}
         columnsTemplate={columnsTemplate}
         isScrollable={isScrollable}
         mobileColumnsTemplate={mobileColumnsTemplate}
@@ -97,6 +102,7 @@ export const WalksTable = ({ walks }: { walks: WalkWithStats[] }) => {
             seconds={walk.seconds}
             speed={walk.speed}
             pace={walk.pace}
+            canMutate={canMutate}
           />
         ))}
       </ScrollableTable>

@@ -10,7 +10,8 @@ It follows an HTML-first philosophy: server routes own state and validation, JSX
 - Render full pages and HTMX fragments with the same JSX component tree.
 - Let HTML own interaction contracts through HTMX attributes.
 - Keep persistence behind a narrow repository interface.
-- Make components, routes, database behavior, and HTMX contracts independently testable.
+- Keep auth behind a provider interface so route tests can use a deterministic in-memory provider while production uses Better Auth.
+- Make components, routes, database behaviour, and HTMX contracts independently testable.
 - Keep styles close to the elements they belong to.
 - Prefer boring composition over hidden framework magic.
 - Make accessibility and screenshots part of normal development, not a release afterthought.
@@ -40,10 +41,16 @@ That split keeps production startup simple while making tests cheap:
 const provider = createSqliteDatabaseProvider({ filename: ":memory:" });
 await provider.migrate();
 const repository = provider.createWalkRepository();
-const app = createApp({ walksRepository: repository });
+const authProvider = new TestAuthProvider([...users]);
+const invitationService = new InvitationService({
+  authProvider,
+  emailSender,
+  inviteRepository: provider.createInviteRepository(),
+});
+const app = createApp({ authProvider, invitationService, walksRepository: repository });
 ```
 
-Tests use the same route tree as production, but swap the database for an in-memory SQLite database.
+Tests use the same route tree as production, but swap the database for an in-memory SQLite database and the auth backend for a deterministic test provider.
 
 ## Layers
 
@@ -51,6 +58,7 @@ Tests use the same route tree as production, but swap the database for an in-mem
 src/
 ├── index.ts                   # process/runtime composition
 ├── app.tsx                    # Hono route factory
+├── auth/                      # auth provider contract, Better Auth adapter, and test adapter
 ├── components/
 │   ├── atoms/                 # primitive elements and controls
 │   │   ├── Button/            # component, styles, tests, and export
@@ -66,8 +74,12 @@ src/
 │   └── styles.ts              # server-side style aggregation boundary
 ├── db/
 │   ├── calculator.ts          # pure pace math
-│   ├── model.ts               # domain types and repository contract
-│   └── repository.ts          # Bun SQLite implementation
+│   ├── model.ts               # domain types and repository contracts
+│   ├── provider.ts            # env-driven provider selection
+│   ├── repository.ts          # Bun SQLite walk implementation
+│   └── postgres-repository.ts # Postgres walk implementation
+├── email/                     # Resend and console email senders
+├── invitations/               # invite service and repository contract
 └── walks/
     └── validation.ts          # form input validation
 ```
@@ -86,9 +98,11 @@ sequenceDiagram
     participant Page as Home Page
 
     Browser->>App: GET /
-    App->>Repo: getAllWalks()
-    App->>Repo: getStats()
-    App->>Page: <Home walks={walks} stats={stats} />
+    App->>Auth: getSession(request)
+    Auth-->>App: user session
+    App->>Repo: getAllWalks(userId)
+    App->>Repo: getStats(userId)
+    App->>Page: <Home user={user} walks={walks} stats={stats} />
     Page-->>App: full HTML document
     App-->>Browser: text/html
 ```
@@ -105,23 +119,32 @@ sequenceDiagram
 
     Browser->>HTMX: Submit walk form
     HTMX->>App: POST /walks
+    App->>Auth: getSession(request)
     App->>App: validateWalkInput(body)
-    App->>Repo: addWalk(input)
-    App->>Repo: getAllWalks()
+    App->>Repo: addWalk(userId, input)
+    App->>Repo: getAllWalks(userId)
     App->>View: <WalksTable walks={walks} />
     View-->>App: table fragment
     App-->>HTMX: text/html
     HTMX-->>Browser: Swap #walks-list
     HTMX->>App: GET /stats
-    App->>Repo: getStats()
+    App->>Repo: getStats(userId)
     App-->>HTMX: stats fragment
 ```
 
-Clear actions follow the same fragment pattern. `DELETE /walks/:id` clears one row and returns a refreshed `WalksTable`. `DELETE /walks` clears the table and returns the empty table state.
+Clear actions follow the same fragment pattern. `DELETE /walks/:id` clears one row owned by the current user and returns a refreshed `WalksTable`. `DELETE /walks` clears the current user's table and returns the empty table state.
+
+## Auth And Invitations
+
+`AuthProvider` is the route-facing contract for sessions, sign-in/sign-out, user creation, role changes, and bans. Production composition uses Better Auth with the admin plugin. SQLite-backed tests and scripts use `TestAuthProvider`, which keeps session cookies deterministic without coupling route tests to Better Auth internals.
+
+Better Auth owns users, credential accounts, sessions, and verification tables. The app owns invitations so it can enforce the `USER_LIMIT` cap across existing users and pending invitations before sending email. `InvitationService` hashes invite tokens before persistence, creates accounts through `AuthProvider`, marks invitations accepted or revoked, and sends invite links through `EmailSender`.
+
+Admins are normal users with the `admin` role. They can manage accounts and view another user's scores through a read-only `WalksTable`, but walk mutation routes always use the authenticated user's id and never accept an arbitrary owner id from the request.
 
 ## HTMX Pattern
 
-HTMX behavior is declared on the component that owns the interaction.
+HTMX behaviour is declared on the component that owns the interaction.
 
 - `WalkForm` posts to `/walks`, targets `#walks-list`, and triggers a stats refresh after the request.
 - `WalksRow` owns the clear button for a single walk.
@@ -130,7 +153,7 @@ HTMX behavior is declared on the component that owns the interaction.
 
 This keeps server responses small and predictable. A route that is triggered by HTMX should return the smallest meaningful fragment, not a full page.
 
-Actual HTMX runtime behavior belongs in browser or end-to-end tests if the app grows that far. The current unit-level tests assert the server-side contract: the attributes rendered into HTML, the route side effects, and the fragment shape returned to HTMX requests.
+Actual HTMX runtime behaviour belongs in browser or end-to-end tests if the app grows that far. The current unit-level tests assert the server-side contract: the attributes rendered into HTML, the route side effects, and the fragment shape returned to HTMX requests.
 
 ## Components
 
@@ -142,7 +165,7 @@ Components are grouped by how they are used:
 - **Pages** compose feature sections into a screen.
 - **Templates** own the HTML document shell, shared scripts, linked assets, and style injection.
 
-Each component lives in its own directory with the files that describe its behavior:
+Each component lives in its own directory with the files that describe its behaviour:
 
 ```text
 components/atoms/Button/
@@ -169,7 +192,7 @@ The template tries to make the common path obvious:
 - **Components are named after what they are.** `Button`, `Chip`, `Card`, `LabelledOutput`, `ScrollableTable`, and `WalksRow` describe rendered structure rather than vague domain ideas.
 - **Styles belong near structure.** Component styles live beside the component and are aggregated for SSR. This keeps the benefits of colocation without requiring a bundler.
 - **CSS variables carry design decisions.** Components consume semantic variables like `--surface`, `--table-text`, and `--border-subtle`; theme switching changes those variables centrally.
-- **Tests follow boundaries.** Component tests cover markup, route tests cover full-page behavior, HTMX tests cover fragment contracts, database tests cover persistence, and Pa11y covers accessibility regressions.
+- **Tests follow boundaries.** Component tests cover markup, route tests cover full-page behaviour, HTMX tests cover fragment contracts, database tests cover persistence, and Pa11y covers accessibility regressions.
 
 ## Styling
 
@@ -201,15 +224,15 @@ Theme motion is also tokenized. Shared surfaces use `--theme-transition`; text s
 
 ```ts
 export interface WalkRepository {
-  getAllWalks(): Promise<WalkWithStats[]>;
-  addWalk(walk: WalkInput): Promise<void>;
-  deleteWalk(id: number): Promise<boolean>;
-  clearWalks(): Promise<number>;
-  getStats(): Promise<Stats>;
+  getAllWalks(userId: string): Promise<WalkWithStats[]>;
+  addWalk(userId: string, walk: WalkInput): Promise<void>;
+  deleteWalk(userId: string, id: number): Promise<boolean>;
+  clearWalks(userId: string): Promise<number>;
+  getStats(userId: string): Promise<Stats>;
 }
 ```
 
-`DatabaseProvider` owns connection setup, migrations, repository creation, and connection cleanup. `SqliteDatabaseProvider` powers in-memory tests and local file storage, while `PostgresDatabaseProvider` supports production deployments through `DATABASE_URL`.
+`DatabaseProvider` owns connection setup, migrations, repository creation, and connection cleanup. It creates both walk and invite repositories. `SqliteDatabaseProvider` powers in-memory tests and local file storage, while `PostgresDatabaseProvider` supports production deployments through `DATABASE_URL`.
 
 Repository implementations own inserts, deletes, and reads. Pace calculations are delegated to `Calculator`, keeping math pure and easy to test.
 
@@ -219,18 +242,21 @@ The database also enforces core constraints:
 - minutes cannot be negative
 - seconds must be between 0 and 59
 - total duration must be greater than zero
+- walk reads and mutations are scoped by `user_id`
 
 Request validation happens before storage, and database constraints remain as a second line of defense.
 
 ## Testing Strategy
 
-The tests are split by behavior boundary rather than by implementation detail.
+The tests are split by behaviour boundary rather than by implementation detail.
 
 - colocated `*.test.tsx` component tests render JSX to strings and assert semantic markup plus component contracts such as HTMX attributes, switch state, table controls, and empty states.
-- `app.test.tsx` exercises full-page and error route behavior through `app.request()`.
+- `app.test.tsx` exercises full-page and error route behaviour through `app.request()`.
 - `htmx.test.tsx` owns successful HTMX mutations, sends `HX-*` headers, and asserts fragment-only response shape.
-- `repository.test.ts` uses SQLite `:memory:` databases to verify CRUD, aggregate stats, and database constraints.
-- `calculator.test.ts` covers pure pace, speed, average, median, and validation behavior.
+- `better-auth-provider.test.ts` verifies the Better Auth adapter can create users, sign in, and read sessions.
+- `service.test.ts` under `invitations/` verifies invite creation, acceptance, and user-cap enforcement.
+- `repository.test.ts` uses SQLite `:memory:` databases to verify CRUD, aggregate stats, database constraints, and user scoping.
+- `calculator.test.ts` covers pure pace, speed, average, median, and validation behaviour.
 
 This avoids overlap between app tests and HTMX tests. App tests answer "does the server render the full page and reject bad input correctly?" HTMX tests answer "does a successful interaction mutate state and return the fragment contract the browser expects?"
 
@@ -243,8 +269,8 @@ For a new feature, follow the same path:
 3. Add route handlers in `createApp()` that return either a full page or a focused fragment.
 4. Add JSX components at the smallest useful level.
 5. Put styles beside the component in a matching `*.styles.ts` file.
-6. Add component tests for rendered behavior.
-7. Add route tests for server-side behavior.
+6. Add component tests for rendered behaviour.
+7. Add route tests for server-side behaviour.
 8. Add HTMX contract tests for fragment responses.
 
 That pattern keeps the app boring in a good way: the server owns state, components own markup, HTMX owns swaps, and tests stay close to the contracts users actually depend on.
