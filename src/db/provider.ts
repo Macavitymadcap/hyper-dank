@@ -8,14 +8,16 @@ export interface DatabaseEnvironment {
 }
 
 export const createDatabaseProvider = (
-  environment: DatabaseEnvironment = {
+  environment?: DatabaseEnvironment,
+): DatabaseProvider => {
+  const env = environment ?? {
     DATABASE_URL: process.env.DATABASE_URL,
     DB_PATH: process.env.DB_PATH,
-  },
-): DatabaseProvider => {
-  if (environment.DATABASE_URL) {
-    return createPostgresDatabaseProvider({ connectionString: environment.DATABASE_URL });
+  };
+
+  if (env.DATABASE_URL) {
+    return createPostgresDatabaseProvider({ connectionString: env.DATABASE_URL });
   }
 
-  return createSqliteDatabaseProvider({ filename: environment.DB_PATH });
+  return createSqliteDatabaseProvider({ filename: env.DB_PATH });
 };
