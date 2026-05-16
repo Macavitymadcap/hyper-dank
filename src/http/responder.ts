@@ -1,8 +1,10 @@
 import type { Context } from "hono";
 
 export class HttpResponder {
+  constructor(private readonly htmxHeaderName = "HX-Request") {}
+
   isHtmxRequest(context: Context): boolean {
-    return context.req.header("HX-Request") === "true";
+    return context.req.header(this.htmxHeaderName) === "true";
   }
 
   redirectAfterAction(context: Context, location: string): Response {

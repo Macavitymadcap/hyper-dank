@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { TestAuthProvider } from "../../auth";
 import { createSqliteDatabaseProvider, type DatabaseProvider } from "../../db";
 import { ConsoleEmailSender } from "../email";
-import { InvitationService } from "./service";
+import { hashInvitationToken, InvitationService } from "./service";
 
 let databaseProvider: DatabaseProvider;
 let authProvider: TestAuthProvider;
@@ -60,6 +60,51 @@ describe("InvitationService", () => {
         invitedByUserId: "admin@example.com",
       }),
     ).rejects.toThrow("User limit reached");
+  });
+
+  test("revokes invitations and enforces capacity before acceptance", async () => {
+    const service = createService(2);
+    const result = await service.createInvitation({
+      email: "capacity@example.com",
+      role: "user",
+      invitedByUserId: "admin@example.com",
+    });
+    await authProvider.createUser({
+      email: "existing@example.com",
+      name: "Existing User",
+      password: "password123",
+      role: "user",
+    });
+
+    await expect(
+      service.acceptInvitation({
+        name: "Capacity User",
+        password: "password123",
+        token: result.token,
+      }),
+    ).rejects.toThrow("User limit reached");
+    expect(await service.revokeInvitation(result.invitation.id)).toBe(true);
+  });
+
+  test("rejects expired invitations", async () => {
+    const service = createService();
+    const token = "expired-token";
+    await databaseProvider.createInviteRepository().createInvitation({
+      email: "expired@example.com",
+      expiresAt: new Date("2000-01-01T00:00:00.000Z"),
+      id: "expired-invite",
+      invitedByUserId: "admin@example.com",
+      role: "user",
+      tokenHash: await hashInvitationToken(token),
+    });
+
+    await expect(
+      service.acceptInvitation({
+        name: "Expired User",
+        password: "password123",
+        token,
+      }),
+    ).rejects.toThrow("This invitation has expired.");
   });
 });
 

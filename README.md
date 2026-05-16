@@ -109,6 +109,7 @@ bun run dev
 bun run check
 bun run check:deprecations
 bun run coverage
+bun run coverage:check
 bun run db:migrate
 bun run format
 bun run format:check
@@ -152,6 +153,8 @@ bun run coverage
 
 The coverage command writes ignored local artifacts to `coverage/`, including
 `coverage/index.html` for browser review and `coverage/lcov.info` for tools that understand LCOV.
+It also enforces per-file minimums of 100% function coverage and 80% line coverage. After a
+coverage run, `bun run coverage:check` reruns only the threshold check against the current LCOV file.
 
 Run the TypeScript checker:
 

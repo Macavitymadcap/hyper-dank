@@ -6,21 +6,35 @@ export interface EmailEnvironment {
   EMAIL_FROM?: string;
 }
 
+export interface ResendEmailClient {
+  emails: {
+    send(input: {
+      from: string;
+      html: string;
+      subject: string;
+      text: string;
+      to: string;
+    }): Promise<unknown>;
+  };
+}
+
 export class ConsoleEmailSender implements EmailSender {
   readonly sentInvitations: InvitationEmailInput[] = [];
 
+  constructor(private readonly logger: Pick<Console, "info"> = console) {}
+
   async sendInvitation(input: InvitationEmailInput): Promise<void> {
     this.sentInvitations.push(input);
-    console.info(`Invitation for ${input.to}: ${input.inviteUrl}`);
+    this.logger.info(`Invitation for ${input.to}: ${input.inviteUrl}`);
   }
 }
 
 export class ResendEmailSender implements EmailSender {
-  private readonly resend: Resend;
+  private readonly resend: ResendEmailClient;
   private readonly from: string;
 
-  constructor(apiKey: string, from: string) {
-    this.resend = new Resend(apiKey);
+  constructor(apiKey: string, from: string, resend: ResendEmailClient = new Resend(apiKey)) {
+    this.resend = resend;
     this.from = from;
   }
 

@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import type { DatabaseProvider, WalkRepository } from "./model";
+import { SqliteWalkRepository } from "./repository";
 import { createSqliteDatabaseProvider } from "./sqlite-provider";
 
 let databaseProvider: DatabaseProvider;
@@ -61,6 +62,14 @@ describe("Repository", () => {
     expect(stats.medianPace).toBeCloseTo(17.5);
   });
 
+  test("returns empty stats for users without walks", async () => {
+    expect(await repository.getStats("empty@example.com")).toEqual({
+      avgSpeed: 0,
+      count: 0,
+      medianPace: 0,
+    });
+  });
+
   test("enforces database constraints", async () => {
     await expect(
       repository.addWalk(userId, { miles: -1, minutes: 20, seconds: 0 }),
@@ -86,5 +95,14 @@ describe("Repository", () => {
     expect(await repository.deleteWalk(userId, otherWalk.id)).toBe(false);
     expect(await repository.clearWalks(userId)).toBe(1);
     expect(await repository.getAllWalks(otherUserId)).toHaveLength(1);
+  });
+});
+
+describe("SqliteWalkRepository", () => {
+  test("can own and close its default database connection", () => {
+    const repository = new SqliteWalkRepository({ filename: ":memory:" });
+
+    repository.migrate();
+    repository.close();
   });
 });

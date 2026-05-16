@@ -1,7 +1,17 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { TestAuthProvider } from "../../auth";
-import { createSqliteDatabaseProvider, type DatabaseProvider, type WalkRepository } from "../../db";
-import { LOCAL_DEV_PASSWORD, LOCAL_DEV_PRESET_USERS, seedLocalDevPresets } from "./local-presets";
+import {
+  createSqliteDatabaseProvider,
+  type DatabaseProvider,
+  SqliteDatabaseProvider,
+  type WalkRepository,
+} from "../../db";
+import {
+  LOCAL_DEV_PASSWORD,
+  LOCAL_DEV_PRESET_USERS,
+  resetSqliteLocalDevPresetUsers,
+  seedLocalDevPresets,
+} from "./local-presets";
 
 let authProvider: TestAuthProvider;
 let databaseProvider: DatabaseProvider;
@@ -58,5 +68,63 @@ describe("local dev presets", () => {
 
     expect(usersByEmail.get("walker@example.com")?.walkCount).toBe(3);
     expect(usersByEmail.get("history@example.com")?.walkCount).toBe(12);
+  });
+
+  test("resets only SQLite records owned by preset users", () => {
+    if (!(databaseProvider instanceof SqliteDatabaseProvider)) {
+      throw new Error("Expected SQLite provider");
+    }
+    const db = databaseProvider.getDatabase();
+
+    resetSqliteLocalDevPresetUsers(db, []);
+    db.query(
+      `INSERT INTO local_auth_users (id, email, name, password_hash, role, banned)
+      VALUES (?, ?, ?, ?, ?, ?)`,
+    ).run("preset-admin", "admin@example.com", "Admin", "hash", "admin", 0);
+    db.query(
+      `INSERT INTO local_auth_users (id, email, name, password_hash, role, banned)
+      VALUES (?, ?, ?, ?, ?, ?)`,
+    ).run("outside-user", "outside@example.com", "Outside", "hash", "user", 0);
+    db.query("INSERT INTO walks (user_id, miles, minutes, seconds) VALUES (?, ?, ?, ?)").run(
+      "preset-admin",
+      1,
+      20,
+      0,
+    );
+    db.query("INSERT INTO walks (user_id, miles, minutes, seconds) VALUES (?, ?, ?, ?)").run(
+      "outside-user",
+      2,
+      30,
+      0,
+    );
+    db.query("INSERT INTO local_auth_sessions (token, user_id, expires_at) VALUES (?, ?, ?)").run(
+      "session-1",
+      "preset-admin",
+      "2099-01-01T00:00:00.000Z",
+    );
+    db.query(
+      `INSERT INTO invitations (id, email, role, token_hash, status, invited_by_user_id, expires_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    ).run("invite-1", "admin@example.com", "admin", "token-1", "pending", "outside-user", "2099");
+    db.query(
+      `INSERT INTO invitations (id, email, role, token_hash, status, invited_by_user_id, expires_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    ).run("invite-2", "outside@example.com", "user", "token-2", "pending", "outside-user", "2099");
+    const adminPreset = LOCAL_DEV_PRESET_USERS[0];
+    if (!adminPreset) throw new Error("Expected admin preset");
+
+    resetSqliteLocalDevPresetUsers(db, [adminPreset]);
+
+    expect(db.query("SELECT id FROM local_auth_users WHERE id = ?").get("preset-admin")).toBeNull();
+    expect(
+      db.query("SELECT token FROM local_auth_sessions WHERE token = ?").get("session-1"),
+    ).toBeNull();
+    expect(db.query("SELECT id FROM walks WHERE user_id = ?").get("preset-admin")).toBeNull();
+    expect(db.query("SELECT id FROM invitations WHERE id = ?").get("invite-1")).toBeNull();
+    expect(
+      db.query("SELECT id FROM local_auth_users WHERE id = ?").get("outside-user"),
+    ).toBeTruthy();
+    expect(db.query("SELECT id FROM walks WHERE user_id = ?").get("outside-user")).toBeTruthy();
+    expect(db.query("SELECT id FROM invitations WHERE id = ?").get("invite-2")).toBeTruthy();
   });
 });

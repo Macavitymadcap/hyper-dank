@@ -155,6 +155,23 @@ describe("HTMX contracts", () => {
     expect(response.headers.get("set-cookie")).toContain("pace_test_session=");
   });
 
+  test("invite failures return only the invite form fragment", async () => {
+    const response = await harness.app.request("/invite/missing-token", {
+      method: "POST",
+      headers: {
+        ...htmxHeaders,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ name: "Invited User", password: "password123" }),
+    });
+    const html = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(html).toStartWith('<form action="/invite/missing-token"');
+    expect(html).toContain("This invitation is invalid");
+    expect(html).not.toContain("<html");
+  });
+
   test("admin invite errors return only the admin dashboard fragment", async () => {
     const response = await harness.app.request("/admin/invites", {
       method: "POST",
