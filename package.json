@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "check": "biome check .",
+    "check": "biome check . && bun run check:deprecations",
+    "check:deprecations": "bun scripts/check-deprecations.ts",
     "db:migrate": "bun scripts/db-migrate.ts",
     "dev": "bun run --hot src/index.ts",
     "format": "biome format --write .",
@@ -12,6 +13,7 @@
     "protect:main": "bun scripts/configure-main-protection.ts",
     "screenshots:pr": "bun scripts/add-pr-screenshots.ts",
     "seed:admin": "bun scripts/seed-admin.ts",
+    "seed:dev": "bun scripts/seed-local-dev.ts",
     "start": "bun src/index.ts",
     "test": "bun test",
     "test:a11y": "bun scripts/test-a11y.ts",

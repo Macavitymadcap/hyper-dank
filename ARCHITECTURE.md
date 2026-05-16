@@ -146,7 +146,7 @@ Admins are normal users with the `admin` role. They can manage accounts and view
 
 The production deployment target is Railway. `railway.json` pins the Dockerfile builder, runs `bun run db:migrate` as the pre-deploy command, starts the service with `bun run start`, and uses `/healthz` as a public deployment health check. Railway injects `PORT`, and `src/index.ts` reads it before exporting Bun's fetch handler.
 
-`scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role.
+`scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `src/dev/local-presets.ts` so tests and manual UI review share the same account fixtures.
 
 ## HTMX Pattern
 
@@ -260,9 +260,11 @@ The tests are split by behaviour boundary rather than by implementation detail.
 - `app.test.tsx` exercises full-page and error route behaviour through `app.request()`.
 - `htmx.test.tsx` owns successful HTMX mutations, sends `HX-*` headers, and asserts fragment-only response shape.
 - `better-auth-provider.test.ts` verifies the auth provider factory can create users, sign in, read sessions, and persist local SQLite auth across provider instances.
+- `local-presets.test.ts` verifies local dev account fixtures, roles, banned state, and repeatable walk seeding.
 - `service.test.ts` under `invitations/` verifies invite creation, acceptance, and user-cap enforcement.
 - `repository.test.ts` uses SQLite `:memory:` databases to verify CRUD, aggregate stats, database constraints, and user scoping.
 - `calculator.test.ts` covers pure pace, speed, average, median, and validation behaviour.
+- `scripts/check-deprecations.ts` asks the TypeScript language service for suggestion diagnostics and fails on deprecated API usage, including editor-only warnings that normal typechecking allows.
 
 This avoids overlap between app tests and HTMX tests. App tests answer "does the server render the full page and reject bad input correctly?" HTMX tests answer "does a successful interaction mutate state and return the fragment contract the browser expects?"
 

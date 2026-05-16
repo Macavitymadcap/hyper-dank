@@ -1,7 +1,11 @@
 import { setTimeout as delay } from "node:timers/promises";
 import { createApp } from "../../src/app";
-import { TestAuthProvider } from "../../src/auth";
-import { createSqliteDatabaseProvider } from "../../src/db";
+import { type CreateAuthUserInput, TestAuthProvider } from "../../src/auth";
+import {
+  createSqliteDatabaseProvider,
+  type DatabaseProvider,
+  type WalkRepository,
+} from "../../src/db";
 import { ConsoleEmailSender } from "../../src/email";
 import { InvitationService } from "../../src/invitations";
 
@@ -11,38 +15,89 @@ export interface SampleWalk {
   seconds: string;
 }
 
-export async function startInMemoryAppServer(port: number) {
+export interface AppServerTestUser extends CreateAuthUserInput {
+  banned?: boolean;
+}
+
+export interface InMemoryAppServer {
+  authCookie: string;
+  authProvider: TestAuthProvider;
+  databaseProvider: DatabaseProvider;
+  port: number;
+  setAuthUser(userId: string | null): string;
+  stop(): Promise<void>;
+  url: string;
+  walksRepository: WalkRepository;
+}
+
+interface StartInMemoryAppServerOptions {
+  authenticatedUserId?: string | null;
+  users?: AppServerTestUser[];
+}
+
+const DEFAULT_TEST_USER: AppServerTestUser = {
+  email: "user@example.com",
+  name: "Test User",
+  password: "password123",
+  role: "user",
+};
+
+export async function startInMemoryAppServer(
+  port: number,
+  options: StartInMemoryAppServerOptions = {},
+): Promise<InMemoryAppServer> {
   const databaseProvider = createSqliteDatabaseProvider({ filename: ":memory:" });
   await databaseProvider.migrate();
 
   const walksRepository = databaseProvider.createWalkRepository();
-  const authProvider = new TestAuthProvider([
-    {
-      email: "user@example.com",
-      name: "Test User",
-      password: "password123",
-      role: "user",
-    },
-  ]);
+  const users = options.users ?? [DEFAULT_TEST_USER];
+  const authProvider = new TestAuthProvider(users);
+  for (const user of users) {
+    if (user.banned) {
+      await authProvider.setUserBanned(user.email, true);
+    }
+  }
   const invitationService = new InvitationService({
     authProvider,
     emailSender: new ConsoleEmailSender(),
     inviteRepository: databaseProvider.createInviteRepository(),
     baseUrl: `http://localhost:${port}`,
   });
-  const cookie = authProvider.createCookie("user@example.com");
   const app = createApp({ authProvider, invitationService, walksRepository });
   const server = Bun.serve({
     port,
     fetch: app.fetch,
   });
   const url = `http://localhost:${port}`;
-  serverCookies.set(url, cookie);
+  const authenticatedUserId =
+    options.authenticatedUserId === undefined
+      ? DEFAULT_TEST_USER.email
+      : options.authenticatedUserId;
+  let cookie = "";
+  const setAuthUser = (userId: string | null) => {
+    if (!userId) {
+      cookie = "";
+      serverCookies.delete(url);
+      return cookie;
+    }
+
+    cookie = authProvider.createCookie(userId);
+    serverCookies.set(url, cookie);
+    return cookie;
+  };
+
+  setAuthUser(authenticatedUserId);
 
   return {
+    authProvider,
+    databaseProvider,
     port,
     url,
-    authCookie: cookie,
+    get authCookie() {
+      return cookie;
+    },
+    setAuthUser,
+    walksRepository,
     stop: async () => {
       server.stop(true);
       serverCookies.delete(url);

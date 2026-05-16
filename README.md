@@ -75,6 +75,24 @@ DB_PATH=/tmp/pace-review.sqlite3 bun run dev
 
 Then sign in at `http://localhost:3000/login` with the seeded email and password.
 
+For a richer local review database with multiple account states and walk histories, use the dev
+presets:
+
+```bash
+DB_PATH=/tmp/pace-review.sqlite3 bun run seed:dev
+DB_PATH=/tmp/pace-review.sqlite3 bun run dev
+```
+
+All preset users use the password `password123`.
+
+| Email | Role/state | Profile |
+| --- | --- | --- |
+| `admin@example.com` | Admin | Account management and read-only user score review |
+| `walker@example.com` | User | Regular account with a few typical walks |
+| `history@example.com` | User | Long walk history for table scrolling |
+| `empty@example.com` | User | No walks yet |
+| `banned@example.com` | Banned user | Admin banned-state review |
+
 Set `DATABASE_URL` to use Postgres instead of SQLite:
 
 ```bash
@@ -89,6 +107,7 @@ Better Auth with Postgres when `DATABASE_URL` is set.
 ```bash
 bun run dev
 bun run check
+bun run check:deprecations
 bun run db:migrate
 bun run format
 bun run format:check
@@ -96,6 +115,7 @@ bun run lint
 bun run protect:main
 bun run screenshots:pr
 bun run seed:admin
+bun run seed:dev
 bun run start
 bun run test
 bun run test:a11y
@@ -111,10 +131,16 @@ Run the full test suite:
 bun run test
 ```
 
-Run the formatter, linter, and import sorting check:
+Run the formatter, linter, import sorting check, and deprecated TypeScript API check:
 
 ```bash
 bun run check
+```
+
+Run only the deprecated TypeScript API check:
+
+```bash
+bun run check:deprecations
 ```
 
 Run the TypeScript checker:
@@ -135,7 +161,7 @@ Capture Samsung Galaxy A5-sized PR screenshots and update the open pull request 
 bun run screenshots:pr -- --persist
 ```
 
-By default, `bun run screenshots:pr` writes ignored local review images to `.cache/pr-screenshots/<branch>/`. Use `--persist` when a pull request needs repo-hosted images in its screenshot table. Persisted screenshots are written to `docs/pr-screenshots/<branch>/`, staged with `git add -f`, and used to update the PR body when GitHub credentials are available. Use `bun run screenshots:pr -- --commit-and-push` to also commit and push generated images, or `bun run screenshots:pr -- --update-pr-only` to reuse already-pushed persisted screenshots and only update the PR body.
+By default, `bun run screenshots:pr` writes ignored local review images to `.cache/pr-screenshots/<branch>/`. Screenshot behaviour is flow-driven: use `--flow walks` for the original tracker states, `--flow pace-0002` for the auth/admin review states, `--all-flows` for every configured flow, or `--list-flows` to inspect the available set. Use `--persist --no-stage` to write ignored local files under `docs/pr-screenshots/<branch>/` for manual review. Use `--commit-and-push` when a pull request explicitly needs repo-hosted images, or `--update-pr-only` to reuse already-pushed persisted screenshots and only update the PR body.
 
 The test suite covers:
 
@@ -149,7 +175,7 @@ The test suite covers:
 
 ## Repository Workflow
 
-CI is configured in `.github/workflows/ci.yml` and runs `bun run check`, `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`.
+CI is configured in `.github/workflows/ci.yml` and runs `bun run check`, `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`. The `check` command includes Biome plus TypeScript deprecation diagnostics, so editor deprecation warnings fail before merge.
 
 `main` should be protected as PR-only with passing CI, a Conventional Commit PR title, and resolved conversations. Approving reviews are disabled for the solo-maintainer workflow because GitHub does not allow a PR author to approve their own PR for branch protection. After pushing this branch, apply the repository protection with:
 
@@ -176,6 +202,9 @@ See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact
 | `ADMIN_NAME` | `Admin` | Display name used when seeding the first admin |
 
 SQLite database files and sidecar files are ignored by Git.
+
+`bun run seed:dev` is local-only and refuses to run when `DATABASE_URL` is set. It replaces only the
+preset local SQLite users and their walks, leaving other local accounts untouched.
 
 ## Railway Deployment
 
@@ -220,6 +249,7 @@ scripts/
 ├── configure-main-protection.ts
 ├── pa11y-config.cjs
 ├── seed-admin.ts
+├── seed-local-dev.ts
 ├── test-a11y.ts
 └── lib/                       # shared script helpers for GitHub, serving, and process calls
 ```
