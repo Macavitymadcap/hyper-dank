@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import type { EmailSender, InvitationEmailInput } from "../auth";
+import type { EmailSender, InvitationEmailInput } from "../../auth";
 
 export interface EmailEnvironment {
   RESEND_API_KEY?: string;

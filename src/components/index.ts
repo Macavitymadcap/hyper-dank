@@ -1,3 +1,6 @@
+export { AdminDashboard } from "./organisms/AdminDashboard";
+export { InviteForm } from "./organisms/InviteForm";
+export { LoginForm } from "./organisms/LoginForm";
 export { Stats as StatsSection } from "./organisms/Stats";
 export { WalkForm } from "./organisms/WalkForm";
 export { WalksTable } from "./organisms/WalksTable";

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { createAppHarness, htmxHeaders } from "./test/appHarness";
+import { createAppHarness, htmxHeaders } from "../test/appHarness";
 
 let harness: Awaited<ReturnType<typeof createAppHarness>>;
 
@@ -120,5 +120,57 @@ describe("HTMX contracts", () => {
     expect(html).toContain("No walks recorded yet.");
     expect(html).not.toContain("<html");
     expect(statsHtml).toContain('<output class="labelled-output-value">--</output>');
+  });
+
+  test("login failures return only the login form fragment", async () => {
+    const response = await harness.app.request("/login", {
+      method: "POST",
+      headers: {
+        ...htmxHeaders,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ email: "user@example.com", password: "wrong" }),
+    });
+    const html = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(html).toStartWith('<form action="/login"');
+    expect(html).toContain("Invalid email or password.");
+    expect(html).toContain('hx-post="/login"');
+    expect(html).not.toContain("<html");
+  });
+
+  test("successful login redirects HTMX through HX-Redirect", async () => {
+    const response = await harness.app.request("/login", {
+      method: "POST",
+      headers: {
+        ...htmxHeaders,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ email: "user@example.com", password: "password123" }),
+    });
+
+    expect(response.status).toBe(204);
+    expect(response.headers.get("HX-Redirect")).toBe("/");
+    expect(response.headers.get("set-cookie")).toContain("pace_test_session=");
+  });
+
+  test("admin invite errors return only the admin dashboard fragment", async () => {
+    const response = await harness.app.request("/admin/invites", {
+      method: "POST",
+      headers: {
+        ...harness.adminHeaders,
+        ...htmxHeaders,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ email: "not-an-email", role: "user" }),
+    });
+    const html = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(html).toStartWith('<div id="admin-panel"');
+    expect(html).toContain("A valid email address is required.");
+    expect(html).toContain('hx-post="/admin/invites"');
+    expect(html).not.toContain("<html");
   });
 });

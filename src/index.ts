@@ -1,8 +1,8 @@
 import { createApp } from "./app";
 import { createAuthProvider } from "./auth";
 import { createDatabaseProvider } from "./db";
-import { createEmailSender } from "./email";
-import { InvitationService } from "./invitations";
+import { createEmailSender } from "./services/email";
+import { InvitationService } from "./services/invitations";
 
 const port = Number(process.env.PORT ?? 3000);
 const databaseProvider = createDatabaseProvider();

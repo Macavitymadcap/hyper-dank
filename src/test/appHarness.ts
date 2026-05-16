@@ -1,8 +1,8 @@
 import { createApp } from "../app";
 import { TestAuthProvider } from "../auth";
 import { createSqliteDatabaseProvider } from "../db";
-import { ConsoleEmailSender } from "../email";
-import { InvitationService } from "../invitations";
+import { ConsoleEmailSender } from "../services/email";
+import { InvitationService } from "../services/invitations";
 
 export const htmxHeaders = {
   "HX-Request": "true",

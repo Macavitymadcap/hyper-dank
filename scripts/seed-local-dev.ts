@@ -6,7 +6,7 @@ import {
   LOCAL_DEV_PASSWORD,
   resetSqliteLocalDevPresetUsers,
   seedLocalDevPresets,
-} from "../src/dev/local-presets";
+} from "../src/envs/local/local-presets";
 
 interface SqliteBackedDatabaseProvider extends DatabaseProvider {
   readonly kind: "sqlite";

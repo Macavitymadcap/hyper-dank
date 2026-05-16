@@ -1,4 +1,4 @@
-import type { AuthProvider, EmailSender, UserRole } from "../auth";
+import type { AuthProvider, EmailSender, UserRole } from "../../auth";
 import type { Invitation, InviteRepository } from "./model";
 
 const DEFAULT_INVITE_EXPIRY_DAYS = 7;

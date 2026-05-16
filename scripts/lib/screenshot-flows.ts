@@ -1,6 +1,6 @@
 import { setTimeout as delay } from "node:timers/promises";
 import type { Page } from "puppeteer";
-import { LOCAL_DEV_PASSWORD, seedLocalDevPresets } from "../../src/dev/local-presets";
+import { LOCAL_DEV_PASSWORD, seedLocalDevPresets } from "../../src/envs/local/local-presets";
 import {
   addWalk as addServerWalk,
   clearWalks as clearServerWalks,
@@ -37,6 +37,7 @@ interface BrowserElement {
   append(...nodes: BrowserElement[]): void;
   getAttribute(name: string): string | null;
   remove(): void;
+  scrollIntoView(options?: { block?: string }): void;
   setAttribute(name: string, value: string): void;
   style: { cssText: string };
   textContent: string | null;
@@ -158,6 +159,7 @@ export const screenshotFlows: ScreenshotFlow[] = [
         label: "Admin score review",
         path: "/admin?userId=history@example.com",
         slug: "admin-score-review",
+        afterLoad: scrollScoresIntoView,
       },
       {
         authUserId: null,
@@ -237,11 +239,15 @@ async function seedLocalDevUsers({ server }: ScreenshotFlowContext) {
 async function renderLoginError({ page, theme }: ScreenshotFlowContext) {
   await page.type('input[name="email"]', "banned@example.com");
   await page.type('input[name="password"]', LOCAL_DEV_PASSWORD);
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: "domcontentloaded" }),
-    page.click('button[type="submit"]'),
-  ]);
+  await Promise.all([page.waitForSelector(".form-error"), page.click('button[type="submit"]')]);
   await setTheme(page, theme);
+}
+
+async function scrollScoresIntoView({ page }: ScreenshotFlowContext) {
+  await page.evaluate(() => {
+    const { document } = globalThis as unknown as BrowserGlobals;
+    document.querySelector("#scores-heading")?.scrollIntoView({ block: "start" });
+  });
 }
 
 async function renderConfirmClearAll({ page }: ScreenshotFlowContext) {

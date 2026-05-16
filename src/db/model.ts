@@ -1,4 +1,4 @@
-import type { InviteRepository } from "../invitations/model";
+import type { InviteRepository } from "../services/invitations/model";
 
 export interface Walk {
   id: number;

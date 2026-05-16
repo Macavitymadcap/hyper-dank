@@ -11,8 +11,8 @@ describe("Button", () => {
         className="clear-walk-btn"
         variant="danger"
         size="compact"
-        hxDelete="/walks/1"
-        hxTarget="#walks-list"
+        hx-delete="/walks/1"
+        hx-target="#walks-list"
       >
         Clear
       </Button>,

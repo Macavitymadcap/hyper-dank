@@ -1,5 +1,6 @@
 import { Button } from "../../atoms/Button";
 import { WalksCell } from "../../atoms/WalksCell";
+import { HxForm } from "../HxForm";
 
 interface WalksRowProps {
   id: number;
@@ -39,19 +40,21 @@ export const WalksRow = ({
       <WalksCell value={pace > 0 ? pace.toFixed(1) : "--"} />
       {canMutate ? (
         <td data-action-column="true">
-          <Button
-            className="clear-walk-btn"
-            type="button"
-            size="compact"
-            variant="danger"
-            hxDelete={`/walks/${id}`}
-            hxTarget="#walks-list"
-            hxSwap="innerHTML"
-            hxConfirm="Clear this walk?"
-            hxOn="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
-          >
-            Clear
-          </Button>
+          <HxForm action={`/walks/${id}/delete`} method="post">
+            <Button
+              className="clear-walk-btn"
+              type="submit"
+              size="compact"
+              variant="danger"
+              hx-delete={`/walks/${id}`}
+              hx-target="#walks-list"
+              hx-swap="innerHTML"
+              hx-confirm="Clear this walk?"
+              hx-on="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
+            >
+              Clear
+            </Button>
+          </HxForm>
         </td>
       ) : null}
     </tr>

@@ -1,4 +1,4 @@
-import type { UserRole } from "../auth/model";
+import type { UserRole } from "../../auth/model";
 
 export type InvitationStatus = "pending" | "accepted" | "revoked";
 

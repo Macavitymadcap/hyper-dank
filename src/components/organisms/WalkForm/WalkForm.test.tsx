@@ -7,6 +7,8 @@ describe("WalkForm", () => {
   test("renders the HTMX form contract", () => {
     const html = render(<WalkForm />);
 
+    expect(html).toContain('action="/walks"');
+    expect(html).toContain('method="post"');
     expect(html).toContain('hx-post="/walks"');
     expect(html).toContain('hx-target="#walks-list"');
     expect(html).toContain('hx-swap="innerHTML"');

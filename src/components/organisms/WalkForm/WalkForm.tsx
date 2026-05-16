@@ -1,9 +1,12 @@
 import { Button } from "../../atoms/Button";
+import { HxForm } from "../../molecules/HxForm";
 import { InputGroup } from "../../molecules/InputGroup";
 
 export const WalkForm = () => {
   return (
-    <form
+    <HxForm
+      action="/walks"
+      method="post"
       hx-post="/walks"
       hx-target="#walks-list"
       hx-swap="innerHTML"
@@ -37,6 +40,6 @@ export const WalkForm = () => {
         />
         <Button type="submit">Add</Button>
       </div>
-    </form>
+    </HxForm>
   );
 };

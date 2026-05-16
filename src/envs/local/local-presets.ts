@@ -1,6 +1,6 @@
 import type { Database } from "bun:sqlite";
-import type { AuthProvider, AuthUser, CreateAuthUserInput } from "../auth";
-import type { WalkInput, WalkRepository } from "../db";
+import type { AuthProvider, AuthUser, CreateAuthUserInput } from "../../auth";
+import type { WalkInput, WalkRepository } from "../../db";
 
 export const LOCAL_DEV_PASSWORD = "password123";
 

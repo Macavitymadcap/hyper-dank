@@ -1,6 +1,7 @@
 import type { WalkWithStats } from "../../../db";
 import { Button } from "../../atoms/Button";
 import { Chip } from "../../atoms/Chip";
+import { HxForm } from "../../molecules/HxForm";
 import { ScrollableTable } from "../../molecules/ScrollableTable";
 import { WalksRow } from "../../molecules/WalksRow";
 
@@ -67,19 +68,21 @@ export const WalksTable = ({ walks, canMutate = true }: WalksTableProps) => {
           {
             key: "actions",
             header: (
-              <Button
-                className="clear-walks-btn"
-                type="button"
-                size="compact"
-                variant="outline"
-                hxDelete="/walks"
-                hxTarget="#walks-list"
-                hxSwap="innerHTML"
-                hxConfirm="Clear all walks?"
-                hxOn="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
-              >
-                Clear all
-              </Button>
+              <HxForm action="/walks/delete" method="post">
+                <Button
+                  className="clear-walks-btn"
+                  type="submit"
+                  size="compact"
+                  variant="outline"
+                  hx-delete="/walks"
+                  hx-target="#walks-list"
+                  hx-swap="innerHTML"
+                  hx-confirm="Clear all walks?"
+                  hx-on="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
+                >
+                  Clear all
+                </Button>
+              </HxForm>
             ),
             isAction: true,
           },

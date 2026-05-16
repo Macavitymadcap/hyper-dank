@@ -108,6 +108,7 @@ Better Auth with Postgres when `DATABASE_URL` is set.
 bun run dev
 bun run check
 bun run check:deprecations
+bun run coverage
 bun run db:migrate
 bun run format
 bun run format:check
@@ -143,6 +144,15 @@ Run only the deprecated TypeScript API check:
 bun run check:deprecations
 ```
 
+Run tests with text and browsable coverage output:
+
+```bash
+bun run coverage
+```
+
+The coverage command writes ignored local artifacts to `coverage/`, including
+`coverage/index.html` for browser review and `coverage/lcov.info` for tools that understand LCOV.
+
 Run the TypeScript checker:
 
 ```bash
@@ -172,6 +182,19 @@ The test suite covers:
 - WCAG 2 AA accessibility checks with pa11y
 - SQLite repository behaviour with in-memory databases, including user scoping
 - validation and pace calculations
+
+## Forms And Progressive Enhancement
+
+Interactive forms use the shared `HxForm` molecule. Each form renders native `method` and `action`
+attributes first, then adds HTMX attributes such as `hx-post`, `hx-delete`, `hx-target`, and
+`hx-swap` for JavaScript-enabled fragment updates.
+
+The native fallback is intentional:
+
+- sign in, sign out, invitation acceptance, admin actions, and walk creation submit as ordinary POST forms when JavaScript is unavailable
+- walk clear buttons use HTMX `DELETE` for fragment updates, plus POST fallback routes for browsers without JavaScript
+- admin account links keep normal `href` navigation while using `hx-get` and `hx-push-url` when HTMX is available
+- theme switching is convenience-only, so the default readable theme remains usable without JavaScript
 
 ## Repository Workflow
 
@@ -228,10 +251,8 @@ The app also runs migrations during startup as a defensive fallback, but the Rai
 
 ```text
 src/
-├── app.tsx                    # Hono app factory
+├── app.tsx                    # public app factory export
 ├── index.ts                   # Bun runtime entrypoint
-├── app.test.tsx               # route behaviour tests
-├── htmx.test.tsx              # HTMX fragment contract tests
 ├── components/                # server-rendered JSX components
 │   ├── atoms/                 # primitive controls, cards, cells, styles, and tests
 │   ├── molecules/             # composed UI pieces such as labelled outputs, rows, and reusable tables
@@ -241,12 +262,15 @@ src/
 │   └── styles.ts              # SSR style aggregation boundary
 ├── auth/                      # auth provider boundary, Better Auth, SQLite local auth, and test provider
 ├── db/                        # database providers, repositories, migrations, and pace math
-├── email/                     # Resend/console email senders
-├── invitations/               # invitation service and repository contracts
+├── envs/                      # local environment fixtures and seed presets
+├── http/                      # Hono app factory, route classes, request helpers, and route tests
+│   └── routes/                # system, auth, walk, and admin route registration
+├── services/                  # application services such as invitations and email delivery
 └── walks/                     # walk input validation
 scripts/
 ├── add-pr-screenshots.ts      # mobile PR screenshot capture and PR table updates
 ├── configure-main-protection.ts
+├── generate-coverage-report.ts
 ├── pa11y-config.cjs
 ├── seed-admin.ts
 ├── seed-local-dev.ts

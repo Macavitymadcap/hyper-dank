@@ -33,7 +33,7 @@ Those influences are intentionally applied lightly. The app should be understand
 The app has two entry points with different responsibilities:
 
 - `src/index.ts` is the runtime entrypoint. It reads environment variables, creates a database provider, runs migrations, creates repositories, creates the Hono app, and exports Bun's `fetch` handler.
-- `src/app.tsx` exports `createApp()`. It receives dependencies, registers routes, and returns a Hono app without owning process setup.
+- `src/app.tsx` is a small public export boundary for `createApp()`. The route implementation lives under `src/http/`, receives dependencies, registers routes, and returns a Hono app without owning process setup.
 
 That split keeps production startup simple while making tests cheap:
 
@@ -57,7 +57,7 @@ Tests use the same route tree as production, but swap the database for an in-mem
 ```text
 src/
 ├── index.ts                   # process/runtime composition
-├── app.tsx                    # Hono route factory
+├── app.tsx                    # public app factory export
 ├── auth/                      # auth provider contract, Better Auth, SQLite, and test adapters
 ├── components/
 │   ├── atoms/                 # primitive elements and controls
@@ -78,8 +78,10 @@ src/
 │   ├── provider.ts            # env-driven provider selection
 │   ├── repository.ts          # Bun SQLite walk implementation
 │   └── postgres-repository.ts # Postgres walk implementation
-├── email/                     # Resend and console email senders
-├── invitations/               # invite service and repository contract
+├── envs/                      # environment-specific fixtures such as local review presets
+├── http/                      # Hono app factory, route classes, request helpers, and route tests
+│   └── routes/                # system, auth, walk, and admin route registration
+├── services/                  # application services such as email and invitations
 └── walks/
     └── validation.ts          # form input validation
 ```
@@ -132,13 +134,13 @@ sequenceDiagram
     App-->>HTMX: stats fragment
 ```
 
-Clear actions follow the same fragment pattern. `DELETE /walks/:id` clears one row owned by the current user and returns a refreshed `WalksTable`. `DELETE /walks` clears the current user's table and returns the empty table state.
+Clear actions follow the same fragment pattern. `DELETE /walks/:id` clears one row owned by the current user and returns a refreshed `WalksTable`. `DELETE /walks` clears the current user's table and returns the empty table state. The clear controls are still native forms, with POST fallback routes for browsers that do not run JavaScript.
 
 ## Auth And Invitations
 
 `AuthProvider` is the route-facing contract for sessions, sign-in/sign-out, user creation, role changes, and bans. Production composition uses Better Auth with the admin plugin and Postgres. Local SQLite composition uses `SqliteAuthProvider` so a file-backed `DB_PATH` can persist seeded admin accounts for UI review. Route tests use `TestAuthProvider`, which keeps session cookies deterministic without coupling route tests to auth internals.
 
-Better Auth owns production users, credential accounts, sessions, and verification tables. The local SQLite provider owns equivalent local-only user and session tables for development. The app owns invitations so it can enforce the `USER_LIMIT` cap across existing users and pending invitations before sending email. `InvitationService` hashes invite tokens before persistence, creates accounts through `AuthProvider`, marks invitations accepted or revoked, and sends invite links through `EmailSender`.
+Better Auth owns production users, credential accounts, sessions, and verification tables. The local SQLite provider owns equivalent local-only user and session tables for development. `src/services/invitations` owns invitations so it can enforce the `USER_LIMIT` cap across existing users and pending invitations before sending email. `InvitationService` hashes invite tokens before persistence, creates accounts through `AuthProvider`, marks invitations accepted or revoked, and sends invite links through `EmailSender` from `src/services/email`.
 
 Admins are normal users with the `admin` role. They can manage accounts and view another user's scores through a read-only `WalksTable`, but walk mutation routes always use the authenticated user's id and never accept an arbitrary owner id from the request.
 
@@ -146,7 +148,7 @@ Admins are normal users with the `admin` role. They can manage accounts and view
 
 The production deployment target is Railway. `railway.json` pins the Dockerfile builder, runs `bun run db:migrate` as the pre-deploy command, starts the service with `bun run start`, and uses `/healthz` as a public deployment health check. Railway injects `PORT`, and `src/index.ts` reads it before exporting Bun's fetch handler.
 
-`scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `src/dev/local-presets.ts` so tests and manual UI review share the same account fixtures.
+`scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `src/envs/local/local-presets.ts` so tests and manual UI review share the same account fixtures.
 
 ## HTMX Pattern
 
@@ -156,10 +158,22 @@ HTMX behaviour is declared on the component that owns the interaction.
 - `WalksRow` owns the clear button for a single walk.
 - `WalksTable` owns the clear-all button because it affects the whole table.
 - `Home` owns stable fragment anchors such as `#stats` and `#walks-list`.
+- Auth and admin forms use `HxForm`, which keeps native `method` and `action` fallbacks while adding HTMX attributes for fragment updates.
 
 This keeps server responses small and predictable. A route that is triggered by HTMX should return the smallest meaningful fragment, not a full page.
 
 Actual HTMX runtime behaviour belongs in browser or end-to-end tests if the app grows that far. The current unit-level tests assert the server-side contract: the attributes rendered into HTML, the route side effects, and the fragment shape returned to HTMX requests.
+
+## Progressive Forms
+
+Every mutating control should start as a native HTML form or link, then add HTMX as an enhancement. Components that accept HTMX attributes implement `HtmxProps`, whose prop names match the rendered attribute names with the `hx-` prefix. That keeps JSX close to the browser contract and avoids translating `hxPost` into `hx-post` in each component.
+
+`HxForm` is the default form wrapper. It renders native `action` and `method` first, then spreads validated `hx-*` attributes. With JavaScript enabled, HTMX handles sign-in, invite acceptance, admin mutations, walk creation, and clear actions as fragments or `HX-Redirect` responses. Without JavaScript, the same controls submit through normal browser navigation:
+
+- sign-in, sign-out, invite acceptance, admin role/ban/invite actions, and walk creation post directly to their route
+- clear-one and clear-all controls post to fallback routes because browsers cannot submit native `DELETE`
+- admin account selection uses `href` for normal navigation and `hx-get` plus `hx-push-url` for enhanced navigation
+- the theme toggle is nonessential and falls back to the default readable color scheme
 
 ## Components
 
@@ -199,6 +213,7 @@ The template tries to make the common path obvious:
 - **Styles belong near structure.** Component styles live beside the component and are aggregated for SSR. This keeps the benefits of colocation without requiring a bundler.
 - **CSS variables carry design decisions.** Components consume semantic variables like `--surface`, `--table-text`, and `--border-subtle`; theme switching changes those variables centrally.
 - **Tests follow boundaries.** Component tests cover markup, route tests cover full-page behaviour, HTMX tests cover fragment contracts, database tests cover persistence, and Pa11y covers accessibility regressions.
+- **Services are injected.** Route creation receives providers and services rather than constructing them internally. Scripts follow the same direction by keeping entrypoints small and putting reusable logic behind classes or helper modules in `scripts/lib`.
 
 ## Styling
 
@@ -257,14 +272,15 @@ Request validation happens before storage, and database constraints remain as a 
 The tests are split by behaviour boundary rather than by implementation detail.
 
 - colocated `*.test.tsx` component tests render JSX to strings and assert semantic markup plus component contracts such as HTMX attributes, switch state, table controls, and empty states.
-- `app.test.tsx` exercises full-page and error route behaviour through `app.request()`.
-- `htmx.test.tsx` owns successful HTMX mutations, sends `HX-*` headers, and asserts fragment-only response shape.
+- `src/http/app.test.tsx` exercises full-page and error route behaviour through `app.request()`.
+- `src/http/htmx.test.tsx` owns successful HTMX mutations, sends `HX-*` headers, and asserts fragment-only response shape.
 - `better-auth-provider.test.ts` verifies the auth provider factory can create users, sign in, read sessions, and persist local SQLite auth across provider instances.
 - `local-presets.test.ts` verifies local dev account fixtures, roles, banned state, and repeatable walk seeding.
-- `service.test.ts` under `invitations/` verifies invite creation, acceptance, and user-cap enforcement.
+- `service.test.ts` under `services/invitations/` verifies invite creation, acceptance, and user-cap enforcement.
 - `repository.test.ts` uses SQLite `:memory:` databases to verify CRUD, aggregate stats, database constraints, and user scoping.
 - `calculator.test.ts` covers pure pace, speed, average, median, and validation behaviour.
 - `scripts/check-deprecations.ts` asks the TypeScript language service for suggestion diagnostics and fails on deprecated API usage, including editor-only warnings that normal typechecking allows.
+- `scripts/lib/coverage-report.test.ts` verifies the local LCOV-to-HTML coverage report generator used by `bun run coverage`.
 
 This avoids overlap between app tests and HTMX tests. App tests answer "does the server render the full page and reject bad input correctly?" HTMX tests answer "does a successful interaction mutate state and return the fragment contract the browser expects?"
 
@@ -274,7 +290,7 @@ For a new feature, follow the same path:
 
 1. Add domain types and repository methods behind an interface.
 2. Add validation for request input before persistence.
-3. Add route handlers in `createApp()` that return either a full page or a focused fragment.
+3. Add or extend a route class under `src/http/routes/`, then register it in `src/http/app.tsx`.
 4. Add JSX components at the smallest useful level.
 5. Put styles beside the component in a matching `*.styles.ts` file.
 6. Add component tests for rendered behaviour.

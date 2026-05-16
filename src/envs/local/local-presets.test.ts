@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { TestAuthProvider } from "../auth";
-import { createSqliteDatabaseProvider, type DatabaseProvider, type WalkRepository } from "../db";
+import { TestAuthProvider } from "../../auth";
+import { createSqliteDatabaseProvider, type DatabaseProvider, type WalkRepository } from "../../db";
 import { LOCAL_DEV_PASSWORD, LOCAL_DEV_PRESET_USERS, seedLocalDevPresets } from "./local-presets";
 
 let authProvider: TestAuthProvider;

@@ -6,8 +6,8 @@ import {
   type DatabaseProvider,
   type WalkRepository,
 } from "../../src/db";
-import { ConsoleEmailSender } from "../../src/email";
-import { InvitationService } from "../../src/invitations";
+import { ConsoleEmailSender } from "../../src/services/email";
+import { InvitationService } from "../../src/services/invitations";
 
 export interface SampleWalk {
   miles: string;
@@ -139,6 +139,8 @@ export async function addWalk(baseUrl: string, walk: SampleWalk | undefined) {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "HX-Request": "true",
+      "HX-Target": "walks-list",
       ...authHeaders(baseUrl),
     },
     body,

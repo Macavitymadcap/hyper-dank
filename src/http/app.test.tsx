@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { createAppHarness } from "./test/appHarness";
+import { createAppHarness } from "../test/appHarness";
 
 let harness: Awaited<ReturnType<typeof createAppHarness>>;
 
@@ -41,6 +41,14 @@ describe("app", () => {
     expect(await harness.repository.getAllWalks("user@example.com")).toHaveLength(0);
   });
 
+  test("native walk form posts fall back to a page redirect", async () => {
+    const response = await harness.postWalk({ miles: "1.2", minutes: "18", seconds: "55" });
+
+    expect(response.status).toBe(303);
+    expect(response.headers.get("location")).toBe("/");
+    expect(await harness.repository.getAllWalks("user@example.com")).toHaveLength(1);
+  });
+
   test("rejects invalid delete ids", async () => {
     const response = await harness.app.request("/walks/nope", {
       method: "DELETE",
@@ -49,6 +57,29 @@ describe("app", () => {
 
     expect(response.status).toBe(400);
     expect(await response.text()).toContain("Walk id must be a positive integer.");
+  });
+
+  test("native clear buttons fall back to page redirects", async () => {
+    await harness.repository.addWalk("user@example.com", { miles: 1, minutes: 20, seconds: 0 });
+    await harness.repository.addWalk("user@example.com", { miles: 2, minutes: 30, seconds: 0 });
+    const [walk] = await harness.repository.getAllWalks("user@example.com");
+    if (!walk) throw new Error("Expected inserted walk");
+
+    const clearOne = await harness.app.request(`/walks/${walk.id}/delete`, {
+      method: "POST",
+      headers: harness.authHeaders,
+    });
+    expect(clearOne.status).toBe(303);
+    expect(clearOne.headers.get("location")).toBe("/");
+    expect(await harness.repository.getAllWalks("user@example.com")).toHaveLength(1);
+
+    const clearAll = await harness.app.request("/walks/delete", {
+      method: "POST",
+      headers: harness.authHeaders,
+    });
+    expect(clearAll.status).toBe(303);
+    expect(clearAll.headers.get("location")).toBe("/");
+    expect(await harness.repository.getAllWalks("user@example.com")).toHaveLength(0);
   });
 
   test("redirects unauthenticated users to login", async () => {

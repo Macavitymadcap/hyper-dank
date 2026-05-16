@@ -41,6 +41,8 @@ describe("WalksTable", () => {
     expect(html).toContain('<tr class="scrollable-table-row walks-row">');
     expect(html).toContain('class="button clear-walks-btn"');
     expect(html).toContain('data-variant="outline"');
+    expect(html).toContain('action="/walks/delete"');
+    expect(html).toContain('method="post"');
     expect(html).toContain('hx-delete="/walks"');
     expect(html).toContain("Clear all");
     expect(html).toContain('hx-delete="/walks/1"');

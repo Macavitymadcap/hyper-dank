@@ -5,6 +5,7 @@
   "scripts": {
     "check": "biome check . && bun run check:deprecations",
     "check:deprecations": "bun scripts/check-deprecations.ts",
+    "coverage": "bun test --coverage --coverage-reporter=text --coverage-reporter=lcov --coverage-dir=coverage && bun scripts/generate-coverage-report.ts",
     "db:migrate": "bun scripts/db-migrate.ts",
     "dev": "bun run --hot src/index.ts",
     "format": "biome format --write .",

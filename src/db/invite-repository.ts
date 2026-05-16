@@ -5,7 +5,7 @@ import type {
   Invitation,
   InvitationStatus,
   InviteRepository,
-} from "../invitations/model";
+} from "../services/invitations/model";
 
 interface SqliteInvitationRow {
   id: string;

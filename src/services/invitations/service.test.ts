@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { TestAuthProvider } from "../auth";
-import { createSqliteDatabaseProvider, type DatabaseProvider } from "../db";
+import { TestAuthProvider } from "../../auth";
+import { createSqliteDatabaseProvider, type DatabaseProvider } from "../../db";
 import { ConsoleEmailSender } from "../email";
 import { InvitationService } from "./service";
 

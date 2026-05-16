@@ -1,8 +1,8 @@
 import type { AuthUser } from "../../../auth";
 import type { Stats, WalkWithStats } from "../../../db";
-import { Button } from "../../atoms/Button";
 import { Card } from "../../atoms/Card";
 import { Switch } from "../../atoms/Switch";
+import { LogoutForm } from "../../molecules/LogoutForm";
 import { Stats as StatsSection } from "../../organisms/Stats";
 import { WalkForm } from "../../organisms/WalkForm";
 import { WalksTable } from "../../organisms/WalksTable";
@@ -27,11 +27,7 @@ export const Home = ({ walks, stats, user }: HomeProps) => {
                 Admin
               </a>
             ) : null}
-            <form method="post" action="/logout">
-              <Button type="submit" size="compact" variant="outline">
-                Sign out
-              </Button>
-            </form>
+            <LogoutForm />
             <Switch id="theme-toggle" label="Color mode" dataThemeToggle />
           </div>
         </header>
