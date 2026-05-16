@@ -20,7 +20,10 @@
 
 ## Review Notes
 
-- [ ] This targets `main` from a feature branch.
+- [ ] Epic PRs target `main` from an epic branch such as `pace-0003`.
+- [ ] Ticket PRs target their parent epic branch from a later ticket branch such as `pace-0004`.
+- [ ] Epic PRs include `docs/epics/<branch>.md`.
+- [ ] Ticket PRs include `docs/tickets/<branch>.md` and reference the parent epic.
 - [ ] The PR title follows Conventional Commits, for example `fix(table): align row radius`.
 - [ ] This is ready for solo-maintainer merge once checks pass.
 - [ ] This does not commit local SQLite database files.

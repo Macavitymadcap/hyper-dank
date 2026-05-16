@@ -207,13 +207,15 @@ The native fallback is intentional:
 
 CI is configured in `.github/workflows/ci.yml` and runs `bun run check`, `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`. The `check` command includes Biome plus TypeScript deprecation diagnostics, so editor deprecation warnings fail before merge.
 
-`main` should be protected as PR-only with passing CI, a Conventional Commit PR title, and resolved conversations. Approving reviews are disabled for the solo-maintainer workflow because GitHub does not allow a PR author to approve their own PR for branch protection. After pushing this branch, apply the repository protection with:
+The project uses an epic-and-ticket branch flow. Create an epic branch from `main`, such as `pace-0003`, and make its first commit the detailed epic plan plus ticket plans under `docs/epics/` and `docs/tickets/`. Open that epic branch as a draft PR into `main`. Then create ticket branches such as `pace-0004` from the epic branch and open those PRs back into the epic branch. The epic PR is merged to `main` only after its ticket PRs are complete.
+
+`main` should be protected as PR-only with passing CI, branch-flow validation, a Conventional Commit PR title, and resolved conversations. Approving reviews are disabled for the solo-maintainer workflow because GitHub does not allow a PR author to approve their own PR for branch protection. After pushing this branch, apply the repository protection with:
 
 ```bash
 bun run protect:main
 ```
 
-See [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact settings. Version bumps are prepared by release-please after merges to `main`.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full epic/ticket flow and [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for the exact protection settings. Version bumps are prepared by release-please after epic branches merge to `main`.
 
 ## Configuration
 

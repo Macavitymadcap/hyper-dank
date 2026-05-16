@@ -1,0 +1,90 @@
+name: Branch Flow
+
+on:
+  pull_request:
+    types:
+      - edited
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  branch-flow:
+    name: branch-flow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout pull request head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Validate branch relationship
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+
+          const baseRef = process.env.BASE_REF ?? "";
+          const headRef = process.env.HEAD_REF ?? "";
+          const branchPattern = /^pace-(\d{4})$/;
+          const releasePleasePattern = /^release-please(?:--|\/).+/;
+
+          function fail(message) {
+            console.error(message);
+            process.exit(1);
+          }
+
+          function requireFile(path, message) {
+            if (!fs.existsSync(path)) fail(message);
+          }
+
+          if (baseRef === "main") {
+            if (releasePleasePattern.test(headRef)) {
+              console.log(`Release automation branch ${headRef} may target main.`);
+              process.exit(0);
+            }
+
+            if (!branchPattern.test(headRef)) {
+              fail(`PRs into main must come from an epic branch like pace-0003, not ${headRef}.`);
+            }
+
+            const epicPath = `docs/epics/${headRef}.md`;
+            requireFile(epicPath, `Epic branch ${headRef} must include ${epicPath}.`);
+            console.log(`Epic branch ${headRef} may target main.`);
+            process.exit(0);
+          }
+
+          const baseMatch = baseRef.match(branchPattern);
+          if (!baseMatch) {
+            fail(`PR base must be main or an epic branch like pace-0003, not ${baseRef}.`);
+          }
+
+          const headMatch = headRef.match(branchPattern);
+          if (!headMatch) {
+            fail(`Ticket PRs must come from a branch like pace-0004, not ${headRef}.`);
+          }
+
+          const baseNumber = Number(baseMatch[1]);
+          const headNumber = Number(headMatch[1]);
+          if (headNumber <= baseNumber) {
+            fail(`Ticket branch ${headRef} must use a later number than parent epic ${baseRef}.`);
+          }
+
+          const ticketPath = `docs/tickets/${headRef}.md`;
+          requireFile(ticketPath, `Ticket branch ${headRef} must include ${ticketPath}.`);
+
+          const ticketDoc = fs.readFileSync(ticketPath, "utf8");
+          if (!ticketDoc.includes(baseRef)) {
+            fail(`Ticket doc ${ticketPath} must reference parent epic ${baseRef}.`);
+          }
+
+          console.log(`Ticket branch ${headRef} may target epic branch ${baseRef}.`);
+          NODE
