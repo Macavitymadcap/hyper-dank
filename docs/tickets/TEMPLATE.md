@@ -6,6 +6,8 @@
 | --- | --- |
 | Ticket | `<ticket-id>` |
 | Branch | `<branch-name>` |
+| Parent Epic | `<epic-id>` |
+| Base Branch | `<epic-branch>` |
 | Status | Planned |
 | Theme | <short theme> |
 | Milestones | <count or summary> |
