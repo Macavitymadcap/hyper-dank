@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.1.0...pace-calculator-v1.1.1) (2026-05-16)
+
+
+### CI
+
+* use release token for release please ([#7](https://github.com/Macavitymadcap/pace-calculator/issues/7)) ([25e563a](https://github.com/Macavitymadcap/pace-calculator/commit/25e563a6e505c298dae7ddd8a1a15dcc406b3834))
+
 ## [1.1.0](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.0.0...pace-calculator-v1.1.0) (2026-05-16)
 
 
