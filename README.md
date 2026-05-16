@@ -240,6 +240,18 @@ preset local SQLite users and their walks, leaving other local accounts untouche
 
 Railway deployment is configured with `Dockerfile` and `railway.json`. The Railway config uses the Dockerfile builder, runs `bun run db:migrate` as a pre-deploy command, starts the app with `bun run start`, and checks `/healthz` before activating a deployment.
 
+Production deploys are managed by `.github/workflows/deploy.yml`. The workflow runs when changes land on
+`main`, which should only happen through a merged pull request once branch protection is enabled. It uses
+the Railway CLI in CI mode and deploys the current repository contents to the configured Railway service.
+
+Add these GitHub environment settings for the `production` environment:
+
+| Name | Type | Purpose |
+| --- | --- | --- |
+| `RAILWAY_TOKEN` | Secret | Railway project token scoped to the production environment |
+| `RAILWAY_SERVICE` | Variable | App service name to pass to `railway up --service` |
+| `RAILWAY_ENVIRONMENT` | Variable | Railway environment name; defaults to `production` when omitted |
+
 For a new Railway service:
 
 1. Create a Railway app service from the GitHub repo.
