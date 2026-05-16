@@ -1,9 +1,10 @@
 export const homeStyles = /* css */ `
 .app-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   justify-content: space-between;
-  gap: var(--size-3);
+  gap: var(--size-4);
   background-color: var(--surface);
   padding: var(--size-4);
   border-bottom: var(--border-size-2) solid var(--primary);
@@ -18,21 +19,27 @@ export const homeStyles = /* css */ `
 .title {
   font-size: var(--font-size-5);
   font-weight: var(--font-weight-7);
+  line-height: var(--font-lineheight-0);
   margin: 0;
   color: var(--text);
+  text-wrap: balance;
 }
 
 .account-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: var(--size-3);
+  min-width: 0;
 }
 
 .account-email {
   color: var(--text-muted);
   font-size: var(--font-size-0);
   font-weight: var(--font-weight-6);
-  max-width: 12rem;
+  min-width: 0;
+  max-width: min(16rem, 100%);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -81,6 +88,22 @@ export const homeStyles = /* css */ `
   margin: 0;
 }
 
+@media (max-width: 700px) {
+  .app-header {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .account-actions {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .account-email {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 480px) {
   .app-header {
     gap: var(--size-2);
@@ -89,8 +112,7 @@ export const homeStyles = /* css */ `
 
   .title {
     font-size: var(--font-size-4);
-    line-height: 1;
-    max-width: 13rem;
+    line-height: var(--font-lineheight-0);
   }
 
   .account-actions {
@@ -98,7 +120,8 @@ export const homeStyles = /* css */ `
   }
 
   .account-email {
-    display: none;
+    flex-basis: 100%;
+    font-size: var(--font-size-00);
   }
 
   .content-sections {
