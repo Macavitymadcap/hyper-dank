@@ -3,15 +3,16 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { CoverageHtmlReport, LcovCoverageReport, writeCoverageHtmlReport } from "./coverage-report";
+import { root } from "./paths";
 
 const lcov = `TN:
-SF:/Users/dank/Code/personal/web/pace-calculator/src/app.tsx
+SF:${path.join(root, "src/app.tsx")}
 FNF:2
 FNH:2
 LF:10
 LH:8
 end_of_record
-SF:/Users/dank/Code/personal/web/pace-calculator/src/components/Button.tsx
+SF:${path.join(root, "src/components/Button.tsx")}
 FNF:3
 FNH:3
 LF:5
