@@ -7,12 +7,18 @@ const config: StorybookConfig = {
     name: "@storybook/html-vite",
     options: {},
   },
-  stories: ["../src/**/*.stories.@(ts|tsx)"],
+  stories: [
+    "../apps/walking-pace/src/**/*.stories.@(ts|tsx)",
+    "../libs/components/src/**/*.stories.@(ts|tsx)",
+  ],
   async viteFinal(config) {
     return mergeConfig(config, {
+      build: {
+        chunkSizeWarningLimit: 1_000,
+      },
       server: {
         fs: {
-          allow: [".."],
+          allow: ["..", "../apps/walking-pace", "../libs/components"],
         },
       },
     });

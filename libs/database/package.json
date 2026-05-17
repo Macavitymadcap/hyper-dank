@@ -1,0 +1,29 @@
+{
+  "name": "@macavitymadcap/hyper-dank-database",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Database lifecycle and adapter-test primitives for Hyper-Dank apps.",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "import": "./src/testing.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "pack:local": "bun pm pack --destination ../../.cache/packages"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

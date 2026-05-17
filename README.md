@@ -137,6 +137,7 @@ bun run test:e2e:ui
 bun run test:storybook
 bun run test:watch
 bun run typecheck
+bun run verify
 ```
 
 ## Testing
@@ -195,6 +196,17 @@ bun run storybook
 bun run storybook:build
 bun run test:storybook
 ```
+
+Run the ordered verification gate suite and write a Markdown report:
+
+```bash
+bun run verify
+```
+
+The verifier runs static checks, typechecking, unit tests, build, package compatibility,
+Storybook browser tests, Playwright E2E, Pa11y, and `git diff --check` in fail-fast order. It
+writes `.cache/verification-report.md`, prints the same report, and marks later gates as not run
+when an earlier gate fails. Set `VERIFY_REPORT_PATH` to write the report somewhere else.
 
 Storybook includes per-component docs and controls for atoms, molecules, and organisms, plus a
 shared app-style light/dark switch that applies the same theme mode across every story. The

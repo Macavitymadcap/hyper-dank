@@ -1,0 +1,27 @@
+{
+  "name": "@macavitymadcap/hyper-dank-components",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Server-rendered Hono JSX components for hypermedia-first apps.",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts"
+    },
+    "./styles.css": "./src/styles.css"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "pack:local": "bun pm pack --destination ../../.cache/packages"
+  },
+  "peerDependencies": {
+    "hono": "^4.0.0",
+    "typescript": "^5"
+  }
+}

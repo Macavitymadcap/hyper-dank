@@ -14,6 +14,9 @@
       },
       "devDependencies": {
         "@biomejs/biome": "^2.4.15",
+        "@macavitymadcap/hyper-dank-components": "workspace:*",
+        "@macavitymadcap/hyper-dank-database": "workspace:*",
+        "@macavitymadcap/hyper-dank-http": "workspace:*",
         "@playwright/test": "^1.60.0",
         "@storybook/addon-a11y": "^10.4.0",
         "@storybook/addon-docs": "^10.4.0",
@@ -26,6 +29,48 @@
         "vite": "^8.0.13",
       },
       "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
+    "apps/walking-pace": {
+      "name": "pace-calculator",
+      "version": "1.3.0",
+      "dependencies": {
+        "@macavitymadcap/hyper-dank-components": "workspace:*",
+        "@macavitymadcap/hyper-dank-database": "workspace:*",
+        "@macavitymadcap/hyper-dank-http": "workspace:*",
+        "better-auth": "^1.6.11",
+        "hono": "^4.0.0",
+        "htmx.org": "^2.0.10",
+        "kysely": "^0.28.17",
+        "open-props": "^1.7.0",
+        "pg": "^8.20.0",
+        "resend": "^6.12.3",
+      },
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
+    "libs/components": {
+      "name": "@macavitymadcap/hyper-dank-components",
+      "version": "0.1.0",
+      "peerDependencies": {
+        "hono": "^4.0.0",
+        "typescript": "^5",
+      },
+    },
+    "libs/database": {
+      "name": "@macavitymadcap/hyper-dank-database",
+      "version": "0.1.0",
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
+    "libs/http": {
+      "name": "@macavitymadcap/hyper-dank-http",
+      "version": "0.1.0",
+      "peerDependencies": {
+        "hono": "^4.0.0",
         "typescript": "^5",
       },
     },
@@ -256,6 +301,12 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
+
+    "@macavitymadcap/hyper-dank-components": ["@macavitymadcap/hyper-dank-components@workspace:libs/components"],
+
+    "@macavitymadcap/hyper-dank-database": ["@macavitymadcap/hyper-dank-database@workspace:libs/database"],
+
+    "@macavitymadcap/hyper-dank-http": ["@macavitymadcap/hyper-dank-http@workspace:libs/http"],
 
     "@mdx-js/react": ["@mdx-js/react@3.1.1", "", { "dependencies": { "@types/mdx": "^2.0.0" }, "peerDependencies": { "@types/react": ">=16", "react": ">=16" } }, "sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw=="],
 
@@ -1152,6 +1203,8 @@
     "pac-proxy-agent": ["pac-proxy-agent@7.2.0", "", { "dependencies": { "@tootallnate/quickjs-emscripten": "^0.23.0", "agent-base": "^7.1.2", "debug": "^4.3.4", "get-uri": "^6.0.1", "http-proxy-agent": "^7.0.0", "https-proxy-agent": "^7.0.6", "pac-resolver": "^7.0.1", "socks-proxy-agent": "^8.0.5" } }, "sha512-TEB8ESquiLMc0lV8vcd5Ql/JAKAoyzHFXaStwjkzpOpC5Yv+pIzLfHvjTSdf3vpa2bMiUQrg9i6276yn8666aA=="],
 
     "pac-resolver": ["pac-resolver@7.0.1", "", { "dependencies": { "degenerator": "^5.0.0", "netmask": "^2.0.2" } }, "sha512-5NPgf87AT2STgwa2ntRMr45jTKrYBGkVU36yT0ig/n/GMAa3oPqhZfIQ2kMEimReg0+t9kZViDVZ83qfVUlckg=="],
+
+    "pace-calculator": ["pace-calculator@workspace:apps/walking-pace"],
 
     "package-hash": ["package-hash@4.0.0", "", { "dependencies": { "graceful-fs": "^4.1.15", "hasha": "^5.0.0", "lodash.flattendeep": "^4.4.0", "release-zalgo": "^1.0.0" } }, "sha512-whdkPIooSu/bASggZ96BWVvZTRMOFxnyUG5PnTSGKoJE2gd5mbVNmR2Nj20QFzxYYgAXpoqC+AiXzl+UMRh7zQ=="],
 

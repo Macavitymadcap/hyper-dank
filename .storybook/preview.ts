@@ -1,6 +1,7 @@
+import { Switch } from "@macavitymadcap/hyper-dank-components";
 import type { Preview } from "@storybook/html-vite";
-import { Switch } from "../src/components/atoms/Switch";
-import "../src/client/styles.css";
+import "../libs/components/src/styles.css";
+import "../apps/walking-pace/src/client/styles.css";
 import "./storybook.css";
 
 type StorybookTheme = "light" | "dark";
