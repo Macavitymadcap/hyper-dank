@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.3...pace-calculator-v1.3.4) (2026-05-17)
+
+
+### Documentation
+
+* **workflow:** reconcile branch-flow roadmap ([#21](https://github.com/Macavitymadcap/pace-calculator/issues/21)) ([d726818](https://github.com/Macavitymadcap/pace-calculator/commit/d726818a6859d38ce630f2b15d6f51329d5ef282))
+
 ## [1.3.3](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.2...pace-calculator-v1.3.3) (2026-05-17)
 
 
