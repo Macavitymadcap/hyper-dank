@@ -134,6 +134,7 @@ bun run test
 bun run test:a11y
 bun run test:e2e
 bun run test:e2e:ui
+bun run test:healthcheck
 bun run test:storybook
 bun run test:watch
 bun run typecheck
@@ -189,6 +190,12 @@ Run Playwright browser workflows against a seeded in-memory app server:
 bun run test:e2e
 ```
 
+Smoke-test the production start command and health endpoint:
+
+```bash
+bun run test:healthcheck
+```
+
 Run Storybook locally, build it, or execute the Storybook test runner:
 
 ```bash
@@ -203,8 +210,8 @@ Run the ordered verification gate suite and write a Markdown report:
 bun run verify
 ```
 
-The verifier runs static checks, typechecking, unit tests, build, package compatibility,
-Storybook browser tests, Playwright E2E, Pa11y, and `git diff --check` in fail-fast order. It
+The verifier runs static checks, typechecking, unit tests, build, the production healthcheck,
+package compatibility, Storybook browser tests, Playwright E2E, Pa11y, and `git diff --check` in fail-fast order. It
 writes `.cache/verification-report.md`, prints the same report, and marks later gates as not run
 when an earlier gate fails. Set `VERIFY_REPORT_PATH` to write the report somewhere else.
 
