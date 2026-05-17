@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.2...pace-calculator-v1.3.3) (2026-05-17)
+
+
+### Documentation
+
+* reconcile pace 0002 status ([#19](https://github.com/Macavitymadcap/pace-calculator/issues/19)) ([1d5a258](https://github.com/Macavitymadcap/pace-calculator/commit/1d5a258fdac4250b97552df71856b69098938152))
+
 ## [1.3.2](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.1...pace-calculator-v1.3.2) (2026-05-17)
 
 
