@@ -1,11 +1,11 @@
-interface ScrollableTableColumn {
+export interface ScrollableTableColumn {
   className?: string;
   header: unknown;
   isAction?: boolean;
   key: string;
 }
 
-interface ScrollableTableProps {
+export interface ScrollableTableProps {
   children: unknown;
   className?: string;
   columns: ScrollableTableColumn[];
@@ -72,7 +72,7 @@ export const ScrollableTable = ({
             ))}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        <tbody tabindex={isScrollable ? 0 : undefined}>{children}</tbody>
       </table>
     </div>
   );

@@ -1,1 +1,1 @@
-export { Card } from "./Card";
+export { Card, type CardElement, type CardProps } from "./Card";

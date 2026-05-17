@@ -41,6 +41,11 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # generated PR review images are local artifacts
 docs/pr-screenshots/**
 
+# browser test artifacts
+playwright-report
+test-results
+storybook-static
+
 # IntelliJ based IDEs
 .idea
 

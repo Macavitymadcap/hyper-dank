@@ -2,7 +2,7 @@
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import puppeteer, { type Page } from "puppeteer";
+import { chromium, type Page } from "@playwright/test";
 import { startInMemoryAppServer, waitForHttp } from "./lib/app-server";
 import {
   type GitHubPullRequest,
@@ -27,8 +27,6 @@ import {
   selectScreenshotFlows,
   setTheme,
 } from "./lib/screenshot-flows";
-
-const SESSION_COOKIE = "pace_test_session";
 
 const args = process.argv.slice(2);
 const argSet = new Set(args);
@@ -57,6 +55,8 @@ if (argSet.has("--update-pr-only")) {
   process.exit(0);
 }
 
+run("bun", ["run", "build"]);
+
 const server = await startInMemoryAppServer(port, {
   authenticatedUserId: null,
   users: [],
@@ -65,21 +65,21 @@ const server = await startInMemoryAppServer(port, {
 try {
   await waitForHttp(server.url);
 
-  const browser = await puppeteer.launch({
+  const browser = await chromium.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
-  const page = await browser.newPage();
-  await page.setViewport({
-    width: 360,
-    height: 640,
+  const context = await browser.newContext({
     deviceScaleFactor: 3,
-    isMobile: true,
     hasTouch: true,
-  });
-  await page.setUserAgent({
+    isMobile: true,
     userAgent:
       "Mozilla/5.0 (Linux; Android 8.0.0; SAMSUNG SM-A520F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Mobile Safari/537.36",
+    viewport: {
+      height: 640,
+      width: 360,
+    },
   });
+  const page = await context.newPage();
 
   const screenshots = await captureScreenshots(page);
   await browser.close();
@@ -163,8 +163,8 @@ function expectedScreenshots(): ScreenshotResult[] {
 }
 
 async function setAuthCookie(page: Page, userId: string | null) {
-  const browserContext = page.browserContext();
-  await browserContext.deleteMatchingCookies({ name: SESSION_COOKIE, url: server.url });
+  const browserContext = page.context();
+  await browserContext.clearCookies();
 
   if (!userId) {
     server.setAuthUser(null);
@@ -175,12 +175,14 @@ async function setAuthCookie(page: Page, userId: string | null) {
   const [name, value] = cookie.split(";")[0]?.split("=") ?? [];
   if (!name || !value) return;
 
-  await browserContext.setCookie({
-    name,
-    value,
-    domain: new URL(server.url).hostname,
-    path: "/",
-  });
+  await browserContext.addCookies([
+    {
+      name,
+      value,
+      domain: new URL(server.url).hostname,
+      path: "/",
+    },
+  ]);
 }
 
 function screenshotPath(flow: ScreenshotFlow, stateSlug: string, theme: Theme) {

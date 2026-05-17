@@ -27,6 +27,9 @@ export const Home = ({ walks, stats, user }: HomeProps) => {
                 Admin
               </a>
             ) : null}
+            <a class="admin-link" href="/storybook/">
+              About
+            </a>
             <LogoutForm />
             <Switch id="theme-toggle" label="Color mode" dataThemeToggle />
           </div>
@@ -34,9 +37,9 @@ export const Home = ({ walks, stats, user }: HomeProps) => {
 
         <div class="content-sections">
           <section class="page-section" aria-labelledby="summary-heading">
-            <h3 id="summary-heading" class="section-title">
+            <h2 id="summary-heading" class="section-title">
               Summary
-            </h3>
+            </h2>
             <Card className="section-card summary-card" radius="var(--radius-2)" shadow="none">
               <div id="stats" hx-get="/stats" hx-trigger="refresh from:body">
                 <StatsSection avgSpeed={stats.avgSpeed} medianPace={stats.medianPace} />
@@ -45,9 +48,9 @@ export const Home = ({ walks, stats, user }: HomeProps) => {
           </section>
 
           <section class="page-section" aria-labelledby="entry-heading">
-            <h3 id="entry-heading" class="section-title">
+            <h2 id="entry-heading" class="section-title">
               Add walk
-            </h3>
+            </h2>
             <Card className="section-card form-section" radius="var(--radius-2)" shadow="none">
               <WalkForm />
             </Card>

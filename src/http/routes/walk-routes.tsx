@@ -54,7 +54,7 @@ export class WalkRoutes {
     if (!this.responder.isHtmxRequest(context)) return context.redirect("/", 303);
 
     const walks = await this.walksRepository.getAllWalks(auth.session.user.id);
-    return context.html(<WalksTable walks={walks} />);
+    return this.walksFragment(context, <WalksTable walks={walks} />);
   }
 
   private async clearWalksFragment(context: Context) {
@@ -62,7 +62,7 @@ export class WalkRoutes {
     if ("response" in auth) return auth.response;
 
     await this.walksRepository.clearWalks(auth.session.user.id);
-    return context.html(<WalksTable walks={[]} />);
+    return this.walksFragment(context, <WalksTable walks={[]} />);
   }
 
   private async clearWalksFallback(context: Context) {
@@ -82,7 +82,7 @@ export class WalkRoutes {
 
     await this.walksRepository.deleteWalk(auth.session.user.id, id);
     const walks = await this.walksRepository.getAllWalks(auth.session.user.id);
-    return context.html(<WalksTable walks={walks} />);
+    return this.walksFragment(context, <WalksTable walks={walks} />);
   }
 
   private async deleteWalkFallback(context: Context) {
@@ -99,5 +99,11 @@ export class WalkRoutes {
   private walkId(context: Context): number | null {
     const id = Number(context.req.param("id"));
     return Number.isInteger(id) && id > 0 ? id : null;
+  }
+
+  private walksFragment(context: Context, fragment: string | Promise<string>) {
+    return context.html(fragment, 200, {
+      "HX-Trigger": "refresh",
+    });
   }
 }

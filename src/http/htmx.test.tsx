@@ -23,6 +23,7 @@ describe("HTMX contracts", () => {
     const html = await response.text();
 
     expect(response.status).toBe(200);
+    expect(response.headers.get("HX-Trigger")).toBe("refresh");
     expect(await harness.repository.getAllWalks("user@example.com")).toHaveLength(1);
     expect(html).toStartWith('<div class="walks-history">');
     expect(html).toContain('<span class="chip history-count">1 walk</span>');
@@ -67,6 +68,7 @@ describe("HTMX contracts", () => {
     const html = await response.text();
 
     expect(response.status).toBe(200);
+    expect(response.headers.get("HX-Trigger")).toBe("refresh");
     expect(await harness.repository.getAllWalks("user@example.com")).toHaveLength(0);
     expect(html).toContain('<span class="chip history-count">0 walks</span>');
     expect(html).toContain("No walks recorded yet.");
@@ -115,6 +117,7 @@ describe("HTMX contracts", () => {
     const statsHtml = await stats.text();
 
     expect(response.status).toBe(200);
+    expect(response.headers.get("HX-Trigger")).toBe("refresh");
     expect(await harness.repository.getAllWalks("user@example.com")).toHaveLength(0);
     expect(html).toContain('<span class="chip history-count">0 walks</span>');
     expect(html).toContain("No walks recorded yet.");

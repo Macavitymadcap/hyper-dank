@@ -15,6 +15,7 @@ export interface HtmxProps {
   "hx-indicator"?: string;
   "hx-inherit"?: string;
   "hx-on"?: string;
+  "hx-on--after-request"?: string;
   "hx-params"?: string;
   "hx-patch"?: string;
   "hx-post"?: string;
@@ -54,6 +55,7 @@ export function htmxAttributes(props: HtmxProps) {
     "hx-indicator": props["hx-indicator"],
     "hx-inherit": props["hx-inherit"],
     "hx-on": props["hx-on"],
+    "hx-on--after-request": props["hx-on--after-request"],
     "hx-params": props["hx-params"],
     "hx-patch": props["hx-patch"],
     "hx-post": props["hx-post"],

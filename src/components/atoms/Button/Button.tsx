@@ -1,6 +1,6 @@
 import { type HtmxProps, htmxAttributes } from "../../model";
 
-interface ButtonProps extends HtmxProps {
+export interface ButtonProps extends HtmxProps {
   type: "submit" | "reset" | "button";
   children: unknown;
   className?: string;

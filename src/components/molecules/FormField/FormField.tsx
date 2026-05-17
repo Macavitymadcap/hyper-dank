@@ -1,4 +1,4 @@
-interface FormFieldProps {
+export interface FormFieldProps {
   children: unknown;
   htmlFor: string;
   label: string;

@@ -38,13 +38,14 @@ describe("Home", () => {
     expect(html).toContain('role="switch"');
     expect(html).toContain('data-theme-toggle=""');
     expect(html).toContain("user@example.com");
+    expect(html).toContain('<a class="admin-link" href="/storybook/">About</a>');
     expect(html).toContain("Sign out");
     expect(html).toContain('<section class="page-section" aria-labelledby="summary-heading">');
-    expect(html).toContain('<h3 id="summary-heading" class="section-title">Summary</h3>');
+    expect(html).toContain('<h2 id="summary-heading" class="section-title">Summary</h2>');
     expect(html).toContain('class="card section-card summary-card"');
-    expect(html).toContain('<h3 id="entry-heading" class="section-title">Add walk</h3>');
+    expect(html).toContain('<h2 id="entry-heading" class="section-title">Add walk</h2>');
     expect(html).toContain('class="card section-card form-section"');
-    expect(html).toContain('<h3 id="history-heading" class="section-title">Walk history</h3>');
+    expect(html).toContain('<h2 id="history-heading" class="section-title">Walk history</h2>');
     expect(html).toContain('<span class="chip history-count">1 walk</span>');
     expect(html).toContain('id="stats" hx-get="/stats"');
     expect(html).toContain('id="walks-list"');

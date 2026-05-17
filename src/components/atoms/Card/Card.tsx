@@ -1,6 +1,6 @@
-type CardElement = "article" | "div" | "main" | "section";
+export type CardElement = "article" | "div" | "main" | "section";
 
-interface CardProps {
+export interface CardProps {
   as?: CardElement;
   children: unknown;
   className?: string;

@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import type { Pool } from "pg";
+import { describeWalkRepositoryContract } from "../contracts/repository-contracts";
 import { createPostgresDatabaseProvider } from "../providers/postgres-provider";
 import { PostgresWalkRepository } from "./postgres-walk-repository";
 
 const postgresConnectionString = process.env.TEST_DATABASE_URL ?? "";
-const postgresTest = postgresConnectionString ? test : test.skip;
 
 describe("PostgresWalkRepository", () => {
   test("maps rows, mutations, and aggregate stats with a pool client", async () => {
@@ -67,34 +67,33 @@ describe("PostgresWalkRepository", () => {
       medianPace: 0,
     });
   });
+});
 
-  postgresTest("implements the walk repository contract", async () => {
+if (postgresConnectionString) {
+  describeWalkRepositoryContract("PostgresWalkRepository contract", async () => {
     const databaseProvider = createPostgresDatabaseProvider({
       connectionString: postgresConnectionString,
     });
+    await databaseProvider.migrate();
+    await databaseProvider
+      .getPool()
+      .query("DELETE FROM walks WHERE user_id LIKE $1", ["contract-%"]);
 
-    try {
-      await databaseProvider.migrate();
-      const repository = databaseProvider.createWalkRepository();
-      const userId = "postgres-test@example.com";
-      await repository.clearWalks(userId);
-
-      await repository.addWalk(userId, { miles: 1, minutes: 20, seconds: 0 });
-      await repository.addWalk(userId, { miles: 2, minutes: 30, seconds: 0 });
-
-      const walks = await repository.getAllWalks(userId);
-      const stats = await repository.getStats(userId);
-
-      expect(walks).toHaveLength(2);
-      expect(walks[0]?.miles).toBe(2);
-      expect(stats.count).toBe(2);
-      expect(stats.avgSpeed).toBeCloseTo(3.5);
-      expect(stats.medianPace).toBeCloseTo(17.5);
-    } finally {
-      await databaseProvider.close();
-    }
+    return {
+      repository: databaseProvider.createWalkRepository(),
+      cleanup: async () => {
+        await databaseProvider
+          .getPool()
+          .query("DELETE FROM walks WHERE user_id LIKE $1", ["contract-%"]);
+        await databaseProvider.close();
+      },
+    };
   });
-});
+} else {
+  describe.skip("PostgresWalkRepository contract", () => {
+    test("requires TEST_DATABASE_URL", () => {});
+  });
+}
 
 function createWalkPool(rows: Record<string, unknown>[]): Pool {
   let deleteCalls = 0;

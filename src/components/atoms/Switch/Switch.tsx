@@ -1,4 +1,4 @@
-interface SwitchProps {
+export interface SwitchProps {
   id: string;
   label: string;
   checked?: boolean;

@@ -3,6 +3,9 @@
 .github
 node_modules
 docs/pr-screenshots
+playwright-report
+test-results
+storybook-static
 *.sqlite
 *.sqlite3
 *.sqlite-shm

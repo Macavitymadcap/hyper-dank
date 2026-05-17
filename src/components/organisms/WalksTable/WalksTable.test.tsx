@@ -29,7 +29,7 @@ describe("WalksTable", () => {
     const html = render(<WalksTable walks={sampleWalks} />);
 
     expect(html).toContain('<div class="walks-history">');
-    expect(html).toContain('<h3 id="history-heading" class="section-title">Walk history</h3>');
+    expect(html).toContain('<h2 id="history-heading" class="section-title">Walk history</h2>');
     expect(html).toContain('<span class="chip history-count">1 walk</span>');
     expect(html).toContain('<div class="scrollable-table-container"');
     expect(html).toContain("--scrollable-table-columns:");

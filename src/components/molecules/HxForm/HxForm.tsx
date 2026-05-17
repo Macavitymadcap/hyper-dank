@@ -1,6 +1,6 @@
 import { type HtmxProps, htmxAttributes } from "../../model";
 
-interface HxFormProps extends HtmxProps {
+export interface HxFormProps extends HtmxProps {
   action: string;
   children: unknown;
   className?: string;

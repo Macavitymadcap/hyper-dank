@@ -1,6 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import type { Pool } from "pg";
+import { describeInviteRepositoryContract } from "../contracts/repository-contracts";
+import { createPostgresDatabaseProvider } from "../providers/postgres-provider";
 import { PostgresInviteRepository } from "./postgres-invite-repository";
+
+const postgresConnectionString = process.env.TEST_DATABASE_URL ?? "";
 
 const row = {
   accepted_at: null,
@@ -92,6 +96,32 @@ describe("PostgresInviteRepository", () => {
     ).rejects.toThrow("Failed to create invitation.");
   });
 });
+
+if (postgresConnectionString) {
+  describeInviteRepositoryContract("PostgresInviteRepository contract", async () => {
+    const databaseProvider = createPostgresDatabaseProvider({
+      connectionString: postgresConnectionString,
+    });
+    await databaseProvider.migrate();
+    await databaseProvider
+      .getPool()
+      .query("DELETE FROM invitations WHERE id LIKE $1", ["contract-%"]);
+
+    return {
+      repository: databaseProvider.createInviteRepository(),
+      cleanup: async () => {
+        await databaseProvider
+          .getPool()
+          .query("DELETE FROM invitations WHERE id LIKE $1", ["contract-%"]);
+        await databaseProvider.close();
+      },
+    };
+  });
+} else {
+  describe.skip("PostgresInviteRepository contract", () => {
+    test("requires TEST_DATABASE_URL", () => {});
+  });
+}
 
 function createInvitePool(results: { rowCount?: number; rows: Record<string, unknown>[] }[]): Pool {
   const queue = [...results];

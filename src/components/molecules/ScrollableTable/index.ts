@@ -1,1 +1,5 @@
-export { ScrollableTable } from "./ScrollableTable";
+export {
+  ScrollableTable,
+  type ScrollableTableColumn,
+  type ScrollableTableProps,
+} from "./ScrollableTable";
