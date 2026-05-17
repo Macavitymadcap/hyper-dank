@@ -113,6 +113,5 @@ The screenshot script captures Samsung Galaxy A5-sized states for light and dark
 
 - GitHub PRs use `.github/PULL_REQUEST_TEMPLATE.md`.
 - GitHub issues use `.github/ISSUE_TEMPLATE/`.
-- GitLab merge requests use `.gitlab/merge_request_templates/default.md`.
 
 Keep templates in sync when the review flow changes.
