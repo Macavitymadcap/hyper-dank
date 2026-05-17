@@ -1,1 +1,1 @@
-export { HxForm } from "./HxForm";
+export { HxForm, type HxFormProps } from "./HxForm";

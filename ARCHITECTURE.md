@@ -12,7 +12,7 @@ It follows an HTML-first philosophy: server routes own state and validation, JSX
 - Keep persistence behind a narrow repository interface.
 - Keep auth behind a provider interface so route tests can use a deterministic in-memory provider, local review can use SQLite-backed auth, and production can use Better Auth.
 - Make components, routes, database behaviour, and HTMX contracts independently testable.
-- Keep styles close to the elements they belong to.
+- Keep browser assets explicit, bundled, and easy to inspect.
 - Prefer boring composition over hidden framework magic.
 - Make accessibility and screenshots part of normal development, not a release afterthought.
 
@@ -24,7 +24,9 @@ The template borrows from a few ideas and tools:
 - [Hypermedia Systems](https://hypermedia.systems/) and [HTMX](https://htmx.org/) for the idea that HTML can remain the application protocol.
 - [Hono](https://hono.dev/) for a small, dependency-light request layer.
 - [Open Props](https://open-props.style/) for design tokens that keep raw values out of component styles.
-- [Pa11y](https://pa11y.org/) and [Puppeteer](https://pptr.dev/) for automated confidence around accessibility and visual states.
+- [Vite](https://vite.dev/) for browser CSS, client JavaScript, static assets, production manifests, and Storybook bundling.
+- [Storybook](https://storybook.js.org/) for isolated component and app-state review.
+- [Pa11y](https://pa11y.org/) and [Playwright](https://playwright.dev/) for automated confidence around accessibility, browser workflows, and visual states.
 
 Those influences are intentionally applied lightly. The app should be understandable by reading `createApp()`, the repository, and the component tree without learning a large internal framework first.
 
@@ -56,24 +58,26 @@ Tests use the same route tree as production, but swap the database for an in-mem
 
 ```text
 src/
+├── client/                    # Vite browser entry and bundled CSS
 ├── index.ts                   # process/runtime composition
 ├── app.tsx                    # public app factory export
 ├── auth/                      # auth provider contract, Better Auth, SQLite, and test adapters
 ├── components/
 │   ├── atoms/                 # primitive elements and controls
-│   │   ├── Button/            # component, styles, tests, and export
+│   │   ├── Button/            # component, tests, and export
 │   │   ├── Chip/              # compact metadata indicator
 │   │   └── Card/              # reusable surface container with CSS variable sizing
 │   ├── molecules/             # small composed UI pieces
 │   │   ├── LabelledOutput/    # label + output value used by summary metrics
 │   │   ├── ScrollableTable/    # generic sticky-header table shell
-│   │   └── WalksRow/          # component, styles, tests, and export
+│   │   └── WalksRow/          # component, tests, and export
 │   ├── organisms/             # feature sections and regions
 │   ├── pages/                 # full page compositions
 │   ├── templates/             # document shell
-│   └── styles.ts              # server-side style aggregation boundary
+│   └── library.ts             # app-agnostic component export boundary
 ├── db/
 │   ├── calculator.ts          # pure pace math
+│   ├── contracts/             # shared provider/repository conformance tests
 │   ├── model.ts               # domain types, repository contracts, and database provider contract
 │   ├── providers/             # env selection plus SQLite/Postgres lifecycle adapters
 │   ├── repositories/          # SQLite/Postgres walk and invite persistence implementations
@@ -82,6 +86,7 @@ src/
 ├── http/                      # Hono app factory, route classes, request helpers, and route tests
 │   └── routes/                # system, auth, walk, and admin route registration
 ├── services/                  # application services such as email and invitations
+├── stories/                   # Storybook helpers and sample data
 └── walks/
     └── validation.ts          # form input validation
 ```
@@ -127,7 +132,7 @@ sequenceDiagram
     App->>Repo: getAllWalks(userId)
     App->>View: <WalksTable walks={walks} />
     View-->>App: table fragment
-    App-->>HTMX: text/html
+    App-->>HTMX: text/html + HX-Trigger: refresh
     HTMX-->>Browser: Swap #walks-list
     HTMX->>App: GET /stats
     App->>Repo: getStats(userId)
@@ -154,7 +159,7 @@ The production deployment target is Railway. `railway.json` pins the Dockerfile 
 
 HTMX behaviour is declared on the component that owns the interaction.
 
-- `WalkForm` posts to `/walks`, targets `#walks-list`, and triggers a stats refresh after the request.
+- `WalkForm` posts to `/walks`, targets `#walks-list`, and resets itself after the request.
 - `WalksRow` owns the clear button for a single walk.
 - `WalksTable` owns the clear-all button because it affects the whole table.
 - `Home` owns stable fragment anchors such as `#stats` and `#walks-list`.
@@ -162,7 +167,9 @@ HTMX behaviour is declared on the component that owns the interaction.
 
 This keeps server responses small and predictable. A route that is triggered by HTMX should return the smallest meaningful fragment, not a full page.
 
-Actual HTMX runtime behaviour belongs in browser or end-to-end tests if the app grows that far. The current unit-level tests assert the server-side contract: the attributes rendered into HTML, the route side effects, and the fragment shape returned to HTMX requests.
+Walk mutation routes return `HX-Trigger: refresh`, and the stats fragment listens for `refresh from:body`. That keeps stats updates server-directed and avoids inline client scripts inside component attributes.
+
+Actual HTMX runtime behaviour belongs in Playwright E2E tests. Unit-level tests assert the server-side contract: the attributes rendered into HTML, the route side effects, the `HX-*` headers, and the fragment shape returned to HTMX requests.
 
 ## Progressive Forms
 
@@ -183,19 +190,19 @@ Components are grouped by how they are used:
 - **Molecules** compose atoms into small pieces such as `InputGroup`, `LabelledOutput`, `ScrollableTable`, and `WalksRow`.
 - **Organisms** represent feature-level UI such as `WalkForm`, `Stats`, and `WalksTable`.
 - **Pages** compose feature sections into a screen.
-- **Templates** own the HTML document shell, shared scripts, linked assets, and style injection.
+- **Templates** own the HTML document shell and Vite asset tags.
+- **Library exports** in `src/components/library.ts` expose app-agnostic atoms and molecules for reuse without mixing in domain-specific pages or organisms.
 
 Each component lives in its own directory with the files that describe its behaviour:
 
 ```text
 components/atoms/Button/
 ├── Button.tsx
-├── Button.styles.ts
 ├── Button.test.tsx
 └── index.ts
 ```
 
-That local folder shape keeps the implementation, tests, styles, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files.
+That local folder shape keeps the implementation, tests, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files. Shared CSS is Vite-managed from `src/client/styles.css`, while component class names keep ownership visible in markup and tests.
 
 The app uses semantic HTML where possible. The home page uses the reusable `Card` atom rendered as a `main` region, with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body. `Chip` is used for compact metadata such as the walk count, and `LabelledOutput` names the "label plus machine-readable output value" shape used by the summary metrics.
 
@@ -210,34 +217,26 @@ The template tries to make the common path obvious:
 - **HTML is the contract.** Components render semantic HTML with HTMX attributes where interaction is needed. Tests assert the HTML contract, not incidental implementation details.
 - **The server is the source of truth.** Mutations go through routes, the repository is read again after a mutation, and the returned fragment represents the canonical current state.
 - **Components are named after what they are.** `Button`, `Chip`, `Card`, `LabelledOutput`, `ScrollableTable`, and `WalksRow` describe rendered structure rather than vague domain ideas.
-- **Styles belong near structure.** Component styles live beside the component and are aggregated for SSR. This keeps the benefits of colocation without requiring a bundler.
+- **CSS class contracts stay visible.** Components keep semantic class names close to their markup, while Vite bundles the shared CSS entry.
 - **CSS variables carry design decisions.** Components consume semantic variables like `--surface`, `--table-text`, and `--border-subtle`; theme switching changes those variables centrally.
 - **Tests follow boundaries.** Component tests cover markup, route tests cover full-page behaviour, HTMX tests cover fragment contracts, database tests cover persistence, and Pa11y covers accessibility regressions.
 - **Services are injected.** Route creation receives providers and services rather than constructing them internally. Scripts follow the same direction by keeping entrypoints small and putting reusable logic behind classes or helper modules in `scripts/lib`.
 
-## Styling
+## Browser Assets
 
-Styles are colocated with their components as `*.styles.ts` modules:
+Vite owns browser CSS, client JavaScript, static files, and production manifests. The app remains server-rendered by Hono and Bun; Vite is not the app server.
 
-```text
-components/
-├── atoms/
-│   └── Switch/
-│       ├── Switch.tsx
-│       └── Switch.styles.ts
-└── organisms/
-    └── WalksTable/
-        ├── WalksTable.tsx
-        └── WalksTable.styles.ts
-```
+- `src/client/main.ts` imports HTMX, exposes it for browser debugging, imports the bundled CSS, and owns theme-toggle behaviour.
+- `src/client/styles.css` imports Open Props and contains the app's CSS class contracts.
+- `public/` contains static public files such as `favicon.svg` and `robots.txt`.
+- `Layout` renders Vite dev-server tags when `VITE_DEV_SERVER_URL` is set, otherwise it reads `dist/client/.vite/manifest.json` and links hashed production assets.
+- `src/http/static-assets.ts` serves Vite-built `/assets/*` files and public root files from the Bun app in production.
 
-`src/components/styles.ts` is intentionally only an aggregation boundary. It imports the colocated style modules and joins them into the CSS string injected by `Layout`.
-
-This gives each component a local style owner without adding a bundler yet. If the template later adopts Vite, this boundary is the natural place to switch from server-injected CSS strings to bundled CSS assets.
+`bun run dev` starts both the Hono server and Vite dev server. `bun run build` emits production browser assets to `dist/client`.
 
 Theme values are expressed as CSS custom properties mapped to Open Props tokens. Light and dark modes change variables on `:root[data-theme="..."]`, so component styles consume semantic variables such as `--surface`, `--table-bg`, and `--table-text` instead of hard-coding theme-specific colors.
 
-Theme motion is also tokenized. Shared surfaces use `--theme-transition`; text switches immediately with `--theme-text-transition` to avoid low-contrast color interpolation; inputs own their focus transition in `InputGroup.styles.ts` so native input rendering does not lag behind the rest of the UI.
+Theme motion is also tokenized. Shared surfaces use `--theme-transition`; text switches immediately with `--theme-text-transition` to avoid low-contrast color interpolation; inputs own their focus transition so native input rendering does not lag behind the rest of the UI.
 
 ## Persistence
 
@@ -269,6 +268,8 @@ The database also enforces core constraints:
 
 Request validation happens before storage, and database constraints remain as a second line of defense.
 
+Shared adapter conformance lives in `src/db/contracts/repository-contracts.ts`. SQLite runs those provider, walk repository, and invitation repository contracts by default. Postgres contract tests run when `TEST_DATABASE_URL` points at a disposable test database. See [docs/architecture/database-adapters.md](./docs/architecture/database-adapters.md) for the adapter checklist.
+
 ## Testing Strategy
 
 The tests are split by behaviour boundary rather than by implementation detail.
@@ -279,7 +280,9 @@ The tests are split by behaviour boundary rather than by implementation detail.
 - `better-auth-provider.test.ts` verifies the auth provider factory can create users, sign in, read sessions, and persist local SQLite auth across provider instances.
 - `local-presets.test.ts` verifies local dev account fixtures, roles, banned state, and repeatable walk seeding.
 - `service.test.ts` under `services/invitations/` verifies invite creation, acceptance, and user-cap enforcement.
-- `repository.test.ts` uses SQLite `:memory:` databases to verify CRUD, aggregate stats, database constraints, and user scoping.
+- `repository-contracts.ts` defines shared SQLite/Postgres provider and repository conformance suites.
+- `app.e2e.ts` uses Playwright against a seeded in-memory app server to cover browser login, HTMX mutations, stats refresh, and admin score review.
+- Storybook stories cover generic library components and important app states; `bun run test:storybook` smoke-tests those stories in Chromium.
 - `calculator.test.ts` covers pure pace, speed, average, median, and validation behaviour.
 - `scripts/check-deprecations.ts` asks the TypeScript language service for suggestion diagnostics and fails on deprecated API usage, including editor-only warnings that normal typechecking allows.
 - `scripts/lib/coverage-report.test.ts` verifies the local LCOV-to-HTML coverage report generator used by `bun run coverage`.
@@ -294,9 +297,10 @@ For a new feature, follow the same path:
 2. Add validation for request input before persistence.
 3. Add or extend a route class under `src/http/routes/`, then register it in `src/http/app.tsx`.
 4. Add JSX components at the smallest useful level.
-5. Put styles beside the component in a matching `*.styles.ts` file.
+5. Add or update CSS class contracts in `src/client/styles.css`.
 6. Add component tests for rendered behaviour.
 7. Add route tests for server-side behaviour.
 8. Add HTMX contract tests for fragment responses.
+9. Add Storybook states and Playwright coverage when the behaviour depends on the browser.
 
 That pattern keeps the app boring in a good way: the server owns state, components own markup, HTMX owns swaps, and tests stay close to the contracts users actually depend on.

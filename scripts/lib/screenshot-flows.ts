@@ -1,5 +1,5 @@
 import { setTimeout as delay } from "node:timers/promises";
-import type { Page } from "puppeteer";
+import type { Page } from "@playwright/test";
 import { LOCAL_DEV_PASSWORD, seedLocalDevPresets } from "../../src/envs/local/local-presets";
 import {
   addWalk as addServerWalk,
@@ -237,8 +237,8 @@ async function seedLocalDevUsers({ server }: ScreenshotFlowContext) {
 }
 
 async function renderLoginError({ page, theme }: ScreenshotFlowContext) {
-  await page.type('input[name="email"]', "banned@example.com");
-  await page.type('input[name="password"]', LOCAL_DEV_PASSWORD);
+  await page.locator('input[name="email"]').fill("banned@example.com");
+  await page.locator('input[name="password"]').fill(LOCAL_DEV_PASSWORD);
   await Promise.all([page.waitForSelector(".form-error"), page.click('button[type="submit"]')]);
   await setTheme(page, theme);
 }

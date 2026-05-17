@@ -1,4 +1,4 @@
-interface LabelledOutputProps {
+export interface LabelledOutputProps {
   label: string;
   value?: number;
 }

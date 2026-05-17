@@ -50,7 +50,6 @@ export const WalksRow = ({
               hx-target="#walks-list"
               hx-swap="innerHTML"
               hx-confirm="Clear this walk?"
-              hx-on="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
             >
               Clear
             </Button>

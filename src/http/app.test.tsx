@@ -19,6 +19,13 @@ describe("app", () => {
     expect(await response.json()).toEqual({ ok: true });
   });
 
+  test("redirects the Storybook mount to its static root", async () => {
+    const response = await harness.app.request("/storybook");
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get("location")).toBe("/storybook/");
+  });
+
   test("proxies auth API routes to the auth provider", async () => {
     const response = await harness.app.request("/api/auth/missing");
 

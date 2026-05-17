@@ -32,6 +32,9 @@ export const AdminPage = ({
             <a class="admin-link" href="/">
               Tracker
             </a>
+            <a class="admin-link" href="/storybook/">
+              About
+            </a>
             <LogoutForm />
           </nav>
         </header>

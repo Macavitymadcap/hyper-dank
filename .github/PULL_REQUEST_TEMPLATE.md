@@ -17,6 +17,9 @@
 - [ ] `bun run typecheck`
 - [ ] `bun run test`
 - [ ] `bun run test:a11y`
+- [ ] `bun run test:e2e`
+- [ ] `bun run storybook:build`
+- [ ] `bun run test:storybook`
 
 ## Review Notes
 

@@ -1,4 +1,4 @@
-interface ChipProps {
+export interface ChipProps {
   children: unknown;
   className?: string;
 }

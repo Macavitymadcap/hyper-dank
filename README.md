@@ -4,7 +4,7 @@ A small walking pace tracker built with Hono, HTMX, Bun, TypeScript, JSX, Better
 
 The app records user-scoped walks, calculates average speed and median pace, supports light/dark mode, and uses server-rendered HTML fragments instead of a client-side framework.
 
-The goal is not only to track pace, but to act as a compact template for Hono + HTMX front ends: routes render semantic HTML, HTMX swaps focused fragments, component styles stay colocated, and tests exercise the same app factory used in production.
+The goal is not only to track pace, but to act as a compact template for Hono + HTMX front ends: routes render semantic HTML, HTMX swaps focused fragments, Vite owns browser assets, and tests exercise the same app factory used in production.
 
 For the design philosophy and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
@@ -37,10 +37,12 @@ Runtime and app:
 
 Styling and verification:
 
+- [Vite](https://vite.dev/) for browser CSS, client JavaScript, static assets, production manifests, and Storybook bundling.
 - [Biome](https://biomejs.dev/) for formatting, linting, and import organization.
 - [Open Props](https://open-props.style/) for low-level CSS tokens.
+- [Storybook](https://storybook.js.org/) for isolated component and app-state review.
+- [Playwright](https://playwright.dev/) for browser E2E coverage and PR screenshot capture.
 - [Pa11y](https://pa11y.org/) for automated accessibility checks.
-- [Puppeteer](https://pptr.dev/) for PR screenshot capture.
 - [`@types/bun`](https://www.npmjs.com/package/@types/bun), [`@types/pg`](https://www.npmjs.com/package/@types/pg), and TypeScript peer types for local typechecking.
 
 The component structure is inspired by [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/), but used as a vocabulary rather than a rigid rulebook: atoms are primitives, molecules combine primitives, organisms own feature regions, and pages compose the screen.
@@ -57,7 +59,7 @@ bun install
 bun run dev
 ```
 
-The dev server runs on `http://localhost:3000` by default.
+The app dev server runs on `http://localhost:3000` by default. `bun run dev` also starts Vite on `http://localhost:5173` so the server-rendered layout can load browser CSS, HTMX, and theme behaviour from the Vite dev server.
 
 You can change the port or database path with environment variables:
 
@@ -110,6 +112,9 @@ Better Auth with Postgres when `DATABASE_URL` is set.
 
 ```bash
 bun run dev
+bun run dev:app
+bun run dev:assets
+bun run build
 bun run check
 bun run check:deprecations
 bun run coverage
@@ -123,8 +128,13 @@ bun run screenshots:pr
 bun run seed:admin
 bun run seed:dev
 bun run start
+bun run storybook
+bun run storybook:build
 bun run test
 bun run test:a11y
+bun run test:e2e
+bun run test:e2e:ui
+bun run test:storybook
 bun run test:watch
 bun run typecheck
 ```
@@ -172,7 +182,26 @@ Run the pa11y accessibility check against a temporary in-memory app server:
 bun run test:a11y
 ```
 
-Capture Samsung Galaxy A5-sized PR screenshots and update the open pull request image table:
+Run Playwright browser workflows against a seeded in-memory app server:
+
+```bash
+bun run test:e2e
+```
+
+Run Storybook locally, build it, or execute the Storybook test runner:
+
+```bash
+bun run storybook
+bun run storybook:build
+bun run test:storybook
+```
+
+Storybook includes per-component docs and controls for atoms, molecules, and organisms, plus a
+shared app-style light/dark switch that applies the same theme mode across every story. The
+production build publishes the static Storybook site under `/storybook/` on the same domain as the
+app.
+
+Capture Samsung Galaxy A5-sized PR screenshots with Playwright and update the open pull request image table:
 
 ```bash
 bun run screenshots:pr -- --persist
@@ -183,11 +212,15 @@ By default, `bun run screenshots:pr` writes ignored local review images to `.cac
 The test suite covers:
 
 - component rendering contracts
+- generic component-library exports
 - Hono full-page and error route behaviour
 - HTMX fragment mutation contracts
+- Playwright E2E workflows for auth, walk mutations, stats refresh, and admin score review
+- Storybook stories for generic components and important app states
 - Better Auth provider integration and invitation acceptance
 - WCAG 2 AA accessibility checks with pa11y
 - SQLite repository behaviour with in-memory databases, including user scoping
+- shared database provider and repository adapter contracts, with optional Postgres conformance via `TEST_DATABASE_URL`
 - validation and pace calculations
 
 ## Forms And Progressive Enhancement
@@ -205,7 +238,7 @@ The native fallback is intentional:
 
 ## Repository Workflow
 
-CI is configured in `.github/workflows/ci.yml` and runs `bun run check`, `bun run typecheck`, `bun run test`, and `bun run test:a11y` on branch pushes and pull requests to `main`. The `check` command includes Biome plus TypeScript deprecation diagnostics, so editor deprecation warnings fail before merge.
+CI is configured in `.github/workflows/ci.yml` and runs `bun run check`, `bun run typecheck`, `bun run test`, `bun run test:a11y`, `bun run test:e2e`, `bun run storybook:build`, and `bun run test:storybook` on branch pushes and pull requests to `main`. The `check` command includes Biome plus TypeScript deprecation diagnostics, so editor deprecation warnings fail before merge.
 
 The project uses an epic-and-ticket branch flow. Create an epic branch from `main`, such as `pace-0003`, and make its first commit the detailed epic plan plus ticket plans under `docs/epics/` and `docs/tickets/`. Open that epic branch as a draft PR into `main`. Then create ticket branches such as `pace-0004` from the epic branch and open those PRs back into the epic branch. The epic PR is merged to `main` only after its ticket PRs are complete.
 
@@ -222,6 +255,8 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full epic/ticket flow and [.git
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `PORT` | `3000` | HTTP port used by Bun |
+| `VITE_PORT` | `5173` | Vite dev-server port used by `bun run dev` |
+| `VITE_DEV_SERVER_URL` | inferred from `VITE_PORT` | Explicit Vite dev-server origin for layout asset tags |
 | `DB_PATH` | `walking-pace.sqlite3` | SQLite database file path |
 | `DATABASE_URL` | unset | Postgres connection string; when set, the app uses Postgres instead of SQLite |
 | `BETTER_AUTH_SECRET` | Better Auth dev default | Secret used by Better Auth for signing/encryption |
@@ -232,6 +267,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full epic/ticket flow and [.git
 | `ADMIN_EMAIL` | unset | Email used by `bun run seed:admin`; set `DB_PATH` for local SQLite or `DATABASE_URL` for Postgres |
 | `ADMIN_PASSWORD` | unset | Password used by `bun run seed:admin`; must be at least 8 characters |
 | `ADMIN_NAME` | `Admin` | Display name used when seeding the first admin |
+| `TEST_DATABASE_URL` | unset | Optional disposable Postgres database for adapter contract tests |
 
 SQLite database files and sidecar files are ignored by Git.
 
@@ -272,32 +308,38 @@ The app also runs migrations during startup as a defensive fallback, but the Rai
 
 ```text
 src/
+├── client/                    # Vite browser entry and bundled CSS
 ├── app.tsx                    # public app factory export
 ├── index.ts                   # Bun runtime entrypoint
 ├── components/                # server-rendered JSX components
-│   ├── atoms/                 # primitive controls, cards, cells, styles, and tests
+│   ├── atoms/                 # primitive controls, cards, cells, and tests
 │   ├── molecules/             # composed UI pieces such as labelled outputs, rows, and reusable tables
 │   ├── organisms/             # feature sections such as forms and tables
 │   ├── pages/                 # full-page compositions
 │   ├── templates/             # document shell and shared assets
-│   └── styles.ts              # SSR style aggregation boundary
+│   └── library.ts             # reusable app-agnostic component export boundary
 ├── auth/                      # auth provider boundary, Better Auth, SQLite local auth, and test provider
 ├── db/                        # database contracts, providers, repositories, migrations, and pace math
+│   ├── contracts/             # shared provider and repository conformance tests
 │   ├── providers/             # env selection plus SQLite/Postgres lifecycle adapters
 │   └── repositories/          # SQLite/Postgres walk and invite persistence implementations
 ├── envs/                      # local environment fixtures and seed presets
 ├── http/                      # Hono app factory, route classes, request helpers, and route tests
 │   └── routes/                # system, auth, walk, and admin route registration
 ├── services/                  # application services such as invitations and email delivery
+├── stories/                   # Storybook rendering helpers and sample states
 └── walks/                     # walk input validation
 scripts/
 ├── add-pr-screenshots.ts      # mobile PR screenshot capture and PR table updates
 ├── configure-main-protection.ts
+├── dev.ts                     # starts Hono and Vite together for local development
 ├── generate-coverage-report.ts
 ├── pa11y-config.cjs
 ├── seed-admin.ts
 ├── seed-local-dev.ts
 ├── test-a11y.ts
+├── test-e2e.ts
+├── test-storybook.ts
 └── lib/                       # shared script helpers for GitHub, serving, and process calls
 ```
 

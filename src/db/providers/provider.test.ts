@@ -1,10 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import type { Pool, PoolClient } from "pg";
+import { describeDatabaseProviderContract } from "../contracts/repository-contracts";
 import { PostgresInviteRepository } from "../repositories/postgres-invite-repository";
 import { PostgresWalkRepository } from "../repositories/postgres-walk-repository";
 import { PostgresDatabaseProvider } from "./postgres-provider";
 import { createDatabaseProvider } from "./provider";
-import { SqliteDatabaseProvider } from "./sqlite-provider";
+import { createSqliteDatabaseProvider, SqliteDatabaseProvider } from "./sqlite-provider";
+
+const postgresConnectionString = process.env.TEST_DATABASE_URL ?? "";
 
 describe("createDatabaseProvider", () => {
   test("creates a SQLite provider when no DATABASE_URL is configured", async () => {
@@ -63,6 +66,20 @@ describe("PostgresDatabaseProvider", () => {
   });
 });
 
+describeDatabaseProviderContract("SqliteDatabaseProvider contract", "sqlite", () => ({
+  provider: createSqliteDatabaseProvider({ filename: ":memory:" }),
+}));
+
+if (postgresConnectionString) {
+  describeDatabaseProviderContract("PostgresDatabaseProvider contract", "postgres", () => ({
+    provider: createPostgresDatabaseProviderForTestUrl(postgresConnectionString),
+  }));
+} else {
+  describe.skip("PostgresDatabaseProvider contract", () => {
+    test("requires TEST_DATABASE_URL", () => {});
+  });
+}
+
 interface TestPool extends Pool {
   ended: boolean;
 }
@@ -79,6 +96,10 @@ function createPostgresDatabaseProviderForTest(
   return new PostgresDatabaseProvider({
     pool: createProviderPool(client, appliedResults),
   });
+}
+
+function createPostgresDatabaseProviderForTestUrl(connectionString: string) {
+  return new PostgresDatabaseProvider({ connectionString });
 }
 
 function createProviderPool(client: TestClient, appliedResults: { rowCount: number }[]): TestPool {

@@ -1,0 +1,251 @@
+html {
+  background: var(--app-bg);
+}
+
+body {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--app-bg);
+  color: var(--text);
+}
+
+.storybook-theme-control {
+  position: fixed;
+  z-index: 1000;
+  inset-block-start: var(--size-3);
+  inset-inline-end: var(--size-3);
+  display: grid;
+  place-items: center;
+  padding: var(--size-2);
+  background: color-mix(in oklab, var(--surface) 88%, transparent);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-2);
+  color: var(--text);
+  backdrop-filter: blur(10px);
+}
+
+.storybook-surface {
+  width: min(100%, 72rem);
+  margin: 0 auto;
+  padding: var(--size-5);
+}
+
+.storybook-surface[data-size="compact"] {
+  width: min(100%, 36rem);
+}
+
+.storybook-surface[data-size="full"] {
+  width: 100%;
+}
+
+.storybook-stack {
+  display: grid;
+  gap: var(--size-4);
+}
+
+.storybook-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--size-4);
+}
+
+.storybook-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-3);
+}
+
+.storybook-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-1);
+}
+
+.storybook-table-preview {
+  width: 100%;
+  min-width: 32rem;
+}
+
+.storybook-doc {
+  display: grid;
+  gap: var(--size-6);
+  color: var(--text);
+}
+
+.storybook-doc__header {
+  display: grid;
+  gap: var(--size-2);
+  max-width: 52rem;
+}
+
+.storybook-doc__eyebrow {
+  margin: 0;
+  color: var(--button-text);
+  font-size: var(--font-size-0);
+  font-weight: var(--font-weight-7);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.storybook-doc__title {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--font-size-6);
+  line-height: var(--font-lineheight-0);
+}
+
+.storybook-doc__lede {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-2);
+  line-height: var(--font-lineheight-3);
+}
+
+.storybook-doc__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--size-4);
+}
+
+.storybook-doc__section {
+  display: grid;
+  gap: var(--size-3);
+  padding: var(--size-4);
+  background: var(--surface);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-2);
+}
+
+.storybook-doc__section h2,
+.storybook-doc__section h4,
+.storybook-doc__section p,
+.storybook-doc__section ol,
+.storybook-doc__section ul {
+  margin: 0;
+}
+
+.storybook-doc__section h2,
+.storybook-doc__section h4 {
+  color: var(--text);
+  line-height: var(--font-lineheight-1);
+}
+
+.storybook-doc__section p,
+.storybook-doc__section li {
+  color: var(--text-muted);
+  font-size: var(--font-size-1);
+  line-height: var(--font-lineheight-3);
+}
+
+.storybook-doc__section ol,
+.storybook-doc__section ul {
+  padding-left: var(--size-4);
+}
+
+.storybook-doc__callout {
+  padding: var(--size-4);
+  background: var(--surface-raised);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-2);
+}
+
+.storybook-doc__callout p {
+  margin: 0;
+  color: var(--text);
+  line-height: var(--font-lineheight-3);
+}
+
+.storybook-doc__code {
+  display: inline-block;
+  padding: var(--size-1) var(--size-2);
+  background: var(--surface-raised);
+  color: var(--text);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-2);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-0);
+}
+
+html[data-theme] #storybook-root,
+html[data-theme] #storybook-docs,
+html[data-theme] body .sbdocs,
+html[data-theme] body .sbdocs-wrapper,
+html[data-theme] body .sbdocs-content {
+  background: var(--app-bg);
+  color: var(--text);
+}
+
+html[data-theme] body .sbdocs-content :where(h1, h2, h3, h4, h5, h6),
+html[data-theme] body .sbdocs-content :where(p, li, label, span, div),
+html[data-theme] body .sbdocs-content :where(td, th),
+html[data-theme] body :where(.sbdocs-title, .sbdocs-subtitle),
+html[data-theme] body :where(.sbdocs-h1, .sbdocs-h2, .sbdocs-h3, .sbdocs-h4),
+html[data-theme] body :where(.sbdocs-p, .sbdocs-li, .sbdocs-td, .sbdocs-th) {
+  color: var(--text);
+}
+
+html[data-theme] body .sbdocs-content :where(small, caption),
+html[data-theme] body .sbdocs-content :where(.docblock-argstable-subheading) {
+  color: var(--text-muted);
+}
+
+html[data-theme] body .sbdocs-a,
+html[data-theme] body .sbdocs-content a {
+  color: var(--primary);
+}
+
+html[data-theme] body .sbdocs-preview,
+html[data-theme] body .docs-story {
+  background: var(--app-bg);
+  color: var(--text);
+}
+
+html[data-theme] body .sbdocs-content .docblock-argstable.docblock-argstable,
+html[data-theme] body .sbdocs-content .docblock-source.docblock-source,
+html[data-theme] body .sbdocs-content .sbdocs-pre.sbdocs-pre {
+  background: var(--surface);
+  color: var(--text);
+}
+
+html[data-theme] body .sbdocs-content .docblock-argstable.docblock-argstable thead,
+html[data-theme] body .sbdocs-content .docblock-argstable.docblock-argstable tbody,
+html[data-theme] body .sbdocs-content .docblock-argstable.docblock-argstable tr,
+html[data-theme] body .sbdocs-content .docblock-argstable.docblock-argstable thead > tr > *,
+html[data-theme] body .sbdocs-content .docblock-argstable.docblock-argstable tbody > tr > * {
+  background: var(--surface);
+  border-color: var(--border-subtle);
+  color: var(--text);
+}
+
+html[data-theme]
+  body
+  .sbdocs-content
+  .docblock-argstable.docblock-argstable
+  tbody
+  tr:nth-child(even)
+  > * {
+  background: var(--surface-raised);
+}
+
+html[data-theme] body .sbdocs-content .docblock-argstable :where(input, select, textarea, button),
+html[data-theme] body .sbdocs-content .docblock-argstable label[for^="control-"] {
+  background-color: var(--surface-raised);
+  border-color: var(--border-subtle);
+  color: var(--text);
+}
+
+html[data-theme] body .sbdocs-content .docblock-argstable label[for^="control-"] :where(span, svg) {
+  color: var(--text);
+}
+
+html[data-theme] body .sbdocs-content .docblock-source :where(code, pre),
+html[data-theme] body .sbdocs-content .sbdocs-pre :where(code, pre) {
+  color: var(--text);
+}

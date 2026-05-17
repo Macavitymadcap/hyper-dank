@@ -37,9 +37,9 @@ export const WalksTable = ({ walks, canMutate = true }: WalksTableProps) => {
     return (
       <div class="walks-history">
         <header class="history-header">
-          <h3 id="history-heading" class="section-title">
+          <h2 id="history-heading" class="section-title">
             Walk history
-          </h3>
+          </h2>
           <Chip className="history-count">{countLabel}</Chip>
         </header>
         <div class="empty-state">No walks recorded yet. Add your first walk above!</div>
@@ -51,9 +51,9 @@ export const WalksTable = ({ walks, canMutate = true }: WalksTableProps) => {
   return (
     <div class="walks-history">
       <header class="history-header">
-        <h3 id="history-heading" class="section-title">
+        <h2 id="history-heading" class="section-title">
           Walk history
-        </h3>
+        </h2>
         <Chip className="history-count">{countLabel}</Chip>
       </header>
       <ScrollableTable
@@ -78,7 +78,6 @@ export const WalksTable = ({ walks, canMutate = true }: WalksTableProps) => {
                   hx-target="#walks-list"
                   hx-swap="innerHTML"
                   hx-confirm="Clear all walks?"
-                  hx-on="htmx:afterRequest: htmx.trigger('#stats', 'refresh')"
                 >
                   Clear all
                 </Button>

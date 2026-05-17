@@ -1,1 +1,1 @@
-export { LabelledOutput } from "./LabelledOutput";
+export { LabelledOutput, type LabelledOutputProps } from "./LabelledOutput";

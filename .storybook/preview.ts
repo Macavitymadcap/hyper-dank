@@ -1,0 +1,97 @@
+import type { Preview } from "@storybook/html-vite";
+import { Switch } from "../src/components/atoms/Switch";
+import "../src/client/styles.css";
+import "./storybook.css";
+
+type StorybookTheme = "light" | "dark";
+
+const appThemeControlId = "storybook-app-theme-control";
+const appThemeSwitchId = "storybook-app-theme-switch";
+
+const getTheme = (value: unknown): StorybookTheme => (value === "dark" ? "dark" : "light");
+
+const applyTheme = (theme: StorybookTheme) => {
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.style.colorScheme = theme;
+  document.body.dataset.theme = theme;
+};
+
+const syncAppThemeSwitch = (
+  theme: StorybookTheme,
+  updateGlobals?: (globals: Record<string, unknown>) => void,
+) => {
+  let control = document.getElementById(appThemeControlId);
+  if (!control) {
+    control = document.createElement("div");
+    control.id = appThemeControlId;
+    control.className = "storybook-theme-control";
+    document.body.append(control);
+  }
+
+  control.innerHTML = String(
+    Switch({
+      checked: theme === "dark",
+      dataThemeToggle: true,
+      id: appThemeSwitchId,
+      label: "Storybook color mode",
+    }),
+  );
+
+  const input = control.querySelector<HTMLInputElement>("input");
+  if (!input) return;
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+
+    event.preventDefault();
+    input.checked = !input.checked;
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+
+  input.addEventListener("change", () => {
+    const nextTheme = input.checked ? "dark" : "light";
+    input.setAttribute("aria-checked", String(input.checked));
+    applyTheme(nextTheme);
+    updateGlobals?.({ theme: nextTheme });
+  });
+};
+
+const preview: Preview = {
+  decorators: [
+    (Story, context) => {
+      const theme = getTheme(context.globals.theme);
+      const updateGlobals =
+        "updateGlobals" in context && typeof context.updateGlobals === "function"
+          ? context.updateGlobals.bind(context)
+          : undefined;
+
+      applyTheme(theme);
+      syncAppThemeSwitch(theme, updateGlobals);
+
+      return Story();
+    },
+  ],
+  initialGlobals: {
+    a11y: {
+      manual: false,
+    },
+    theme: "light",
+  },
+  parameters: {
+    a11y: {
+      test: "error",
+    },
+    actions: {
+      clearOnStoryChange: true,
+    },
+    controls: {
+      expanded: true,
+    },
+    docs: {
+      toc: true,
+    },
+    layout: "centered",
+  },
+};
+
+export default preview;
