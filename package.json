@@ -1,6 +1,6 @@
 {
   "name": "pace-calculator",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "type": "module",
   "scripts": {
     "build": "bun run build:app && bun run storybook:build",
