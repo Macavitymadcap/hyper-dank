@@ -61,6 +61,13 @@ const gates: VerificationGate[] = [
     args: ["run", "build"],
   },
   {
+    id: "healthcheck",
+    name: "Production Healthcheck",
+    tooling: "Root start command and HTTP healthcheck",
+    command: "bun",
+    args: ["run", "test:healthcheck"],
+  },
+  {
     id: "compat",
     name: "Package Compatibility",
     tooling: "Packed package smoke test",
