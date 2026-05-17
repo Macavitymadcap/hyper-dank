@@ -30,23 +30,13 @@ jobs:
       - name: Install Playwright Chromium
         run: bun x playwright install --with-deps chromium
 
-      - name: Lint and format
-        run: bun run check
+      - name: Verify
+        run: bun run verify
 
-      - name: Typecheck
-        run: bun run typecheck
-
-      - name: Test
-        run: bun run test
-
-      - name: Accessibility
-        run: bun run test:a11y
-
-      - name: End-to-end
-        run: bun run test:e2e
-
-      - name: Storybook build
-        run: bun run storybook:build
-
-      - name: Storybook tests
-        run: bun run test:storybook
+      - name: Upload verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-report
+          path: .cache/verification-report.md
+          if-no-files-found: ignore

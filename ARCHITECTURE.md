@@ -32,10 +32,13 @@ Those influences are intentionally applied lightly. The app should be understand
 
 ## Core Shape
 
-The app has two entry points with different responsibilities:
+The root repository is a Bun workspace. The deployable app lives in `apps/walking-pace`, while
+app-agnostic helpers live in `libs/components`, `libs/http`, and `libs/database`.
 
-- `src/index.ts` is the runtime entrypoint. It reads environment variables, creates a database provider, runs migrations, creates repositories, creates the Hono app, and exports Bun's `fetch` handler.
-- `src/app.tsx` is a small public export boundary for `createApp()`. The route implementation lives under `src/http/`, receives dependencies, registers routes, and returns a Hono app without owning process setup.
+The walking pace app has two entry points with different responsibilities:
+
+- `apps/walking-pace/src/index.ts` is the runtime entrypoint. It reads environment variables, creates a database provider, runs migrations, creates repositories, creates the Hono app, and exports Bun's `fetch` handler.
+- `apps/walking-pace/src/app.tsx` is a small public export boundary for `createApp()`. The route implementation lives under `apps/walking-pace/src/http/`, receives dependencies, registers routes, and returns a Hono app without owning process setup.
 
 That split keeps production startup simple while making tests cheap:
 
@@ -57,38 +60,29 @@ Tests use the same route tree as production, but swap the database for an in-mem
 ## Layers
 
 ```text
-src/
-├── client/                    # Vite browser entry and bundled CSS
-├── index.ts                   # process/runtime composition
-├── app.tsx                    # public app factory export
-├── auth/                      # auth provider contract, Better Auth, SQLite, and test adapters
-├── components/
-│   ├── atoms/                 # primitive elements and controls
-│   │   ├── Button/            # component, tests, and export
-│   │   ├── Chip/              # compact metadata indicator
-│   │   └── Card/              # reusable surface container with CSS variable sizing
-│   ├── molecules/             # small composed UI pieces
-│   │   ├── LabelledOutput/    # label + output value used by summary metrics
-│   │   ├── ScrollableTable/    # generic sticky-header table shell
-│   │   └── WalksRow/          # component, tests, and export
-│   ├── organisms/             # feature sections and regions
-│   ├── pages/                 # full page compositions
-│   ├── templates/             # document shell
-│   └── library.ts             # app-agnostic component export boundary
-├── db/
-│   ├── calculator.ts          # pure pace math
-│   ├── contracts/             # shared provider/repository conformance tests
-│   ├── model.ts               # domain types, repository contracts, and database provider contract
-│   ├── providers/             # env selection plus SQLite/Postgres lifecycle adapters
-│   ├── repositories/          # SQLite/Postgres walk and invite persistence implementations
-│   └── migrations/            # SQLite and Postgres schema migrations
-├── envs/                      # environment-specific fixtures such as local review presets
-├── http/                      # Hono app factory, route classes, request helpers, and route tests
-│   └── routes/                # system, auth, walk, and admin route registration
-├── services/                  # application services such as email and invitations
-├── stories/                   # Storybook helpers and sample data
-└── walks/
-    └── validation.ts          # form input validation
+apps/
+└── walking-pace/
+    ├── src/
+    │   ├── client/            # Vite browser entry and bundled CSS
+    │   ├── index.ts           # process/runtime composition
+    │   ├── app.tsx            # public app factory export
+    │   ├── auth/              # auth provider contract, Better Auth, SQLite, and test adapters
+    │   ├── components/        # app-specific molecules, organisms, pages, and templates
+    │   ├── db/                # pace domain types, repositories, providers, migrations, and math
+    │   ├── envs/              # environment-specific fixtures such as local review presets
+    │   ├── http/              # Hono app factory, route classes, request helpers, and route tests
+    │   ├── services/          # application services such as email and invitations
+    │   ├── stories/           # app Storybook helpers and sample data
+    │   └── walks/             # form input validation
+    ├── scripts/               # app dev, E2E, a11y, screenshots, seeds, and verification helpers
+    └── public/                # Vite-copied static public files
+libs/
+├── components/                # reusable server-rendered JSX primitives and component CSS
+├── database/                  # shared database lifecycle and migration primitives
+└── http/                      # reusable form parsing and HTTP response helpers
+e2e/
+├── tests/walking-pace/        # Playwright browser workflows
+└── consumer-compat/           # workspace package consumer compatibility checks
 ```
 
 The boundaries are deliberately plain. There is no global application state, no client-side store, and no framework-specific data loader layer. Routes ask repositories for data, pass that data to JSX components, and return HTML. That makes data flow deliberately visible: form input enters a route, validation runs, persistence changes, the route asks for fresh read models, and the server returns the fragment HTMX should swap into the page.
@@ -145,15 +139,15 @@ Clear actions follow the same fragment pattern. `DELETE /walks/:id` clears one r
 
 `AuthProvider` is the route-facing contract for sessions, sign-in/sign-out, user creation, role changes, and bans. Production composition uses Better Auth with the admin plugin and Postgres. Local SQLite composition uses `SqliteAuthProvider` so a file-backed `DB_PATH` can persist seeded admin accounts for UI review. Route tests use `TestAuthProvider`, which keeps session cookies deterministic without coupling route tests to auth internals.
 
-Better Auth owns production users, credential accounts, sessions, and verification tables. The local SQLite provider owns equivalent local-only user and session tables for development. `src/services/invitations` owns invitations so it can enforce the `USER_LIMIT` cap across existing users and pending invitations before sending email. `InvitationService` hashes invite tokens before persistence, creates accounts through `AuthProvider`, marks invitations accepted or revoked, and sends invite links through `EmailSender` from `src/services/email`.
+Better Auth owns production users, credential accounts, sessions, and verification tables. The local SQLite provider owns equivalent local-only user and session tables for development. `apps/walking-pace/src/services/invitations` owns invitations so it can enforce the `USER_LIMIT` cap across existing users and pending invitations before sending email. `InvitationService` hashes invite tokens before persistence, creates accounts through `AuthProvider`, marks invitations accepted or revoked, and sends invite links through `EmailSender` from `apps/walking-pace/src/services/email`.
 
 Admins are normal users with the `admin` role. They can manage accounts and view another user's scores through a read-only `WalksTable`, but walk mutation routes always use the authenticated user's id and never accept an arbitrary owner id from the request.
 
 ## Deployment Shape
 
-The production deployment target is Railway. `railway.json` pins the Dockerfile builder, runs `bun run db:migrate` as the pre-deploy command, starts the service with `bun run start`, and uses `/healthz` as a public deployment health check. Railway injects `PORT`, and `src/index.ts` reads it before exporting Bun's fetch handler.
+The production deployment target is Railway. `railway.json` pins the Dockerfile builder, runs `bun run db:migrate` as the pre-deploy command, starts the service with `bun run start`, and uses `/healthz` as a public deployment health check. Railway injects `PORT`, and `apps/walking-pace/src/index.ts` reads it before exporting Bun's fetch handler.
 
-`scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `src/envs/local/local-presets.ts` so tests and manual UI review share the same account fixtures.
+`apps/walking-pace/scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `apps/walking-pace/scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `apps/walking-pace/src/envs/local/local-presets.ts` so tests and manual UI review share the same account fixtures.
 
 ## HTMX Pattern
 
@@ -186,12 +180,12 @@ Every mutating control should start as a native HTML form or link, then add HTMX
 
 Components are grouped by how they are used:
 
-- **Atoms** are primitive controls, surfaces, and small indicators such as `Button`, `Card`, `Chip`, `Switch`, and `WalksCell`.
-- **Molecules** compose atoms into small pieces such as `InputGroup`, `LabelledOutput`, `ScrollableTable`, and `WalksRow`.
-- **Organisms** represent feature-level UI such as `WalkForm`, `Stats`, and `WalksTable`.
+- **Shared atoms** are reusable controls, surfaces, and indicators such as `Button`, `Card`, `Chip`, `Switch`, `Icon`, `Panel`, `Badge`, and `TableCell` from `libs/components`.
+- **Shared molecules** compose atoms into small pieces such as `InputGroup`, `LabelledOutput`, `ScrollableTable`, `Accordion`, `CompactList`, and `PopoverMenu` from `libs/components`.
+- **App molecules and organisms** represent walking-pace-specific UI such as `WalksRow`, `WalkForm`, `Stats`, and `WalksTable`.
 - **Pages** compose feature sections into a screen.
 - **Templates** own the HTML document shell and Vite asset tags.
-- **Library exports** in `src/components/library.ts` expose app-agnostic atoms and molecules for reuse without mixing in domain-specific pages or organisms.
+- **Package exports** in `libs/components/src/index.ts` expose app-agnostic atoms and molecules for reuse without mixing in domain-specific pages or organisms.
 
 Each component lives in its own directory with the files that describe its behaviour:
 
@@ -202,7 +196,7 @@ components/atoms/Button/
 └── index.ts
 ```
 
-That local folder shape keeps the implementation, tests, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files. Shared CSS is Vite-managed from `src/client/styles.css`, while component class names keep ownership visible in markup and tests.
+That local folder shape keeps the implementation, tests, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files. Shared app CSS is Vite-managed from `apps/walking-pace/src/client/styles.css`, while component class names keep ownership visible in markup and tests. The reusable component package also exports `@macavitymadcap/hyper-dank-components/styles.css` for package consumers that want the baseline class contracts.
 
 The app uses semantic HTML where possible. The home page uses the reusable `Card` atom rendered as a `main` region, with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body. `Chip` is used for compact metadata such as the walk count, and `LabelledOutput` names the "label plus machine-readable output value" shape used by the summary metrics.
 
@@ -220,19 +214,19 @@ The template tries to make the common path obvious:
 - **CSS class contracts stay visible.** Components keep semantic class names close to their markup, while Vite bundles the shared CSS entry.
 - **CSS variables carry design decisions.** Components consume semantic variables like `--surface`, `--table-text`, and `--border-subtle`; theme switching changes those variables centrally.
 - **Tests follow boundaries.** Component tests cover markup, route tests cover full-page behaviour, HTMX tests cover fragment contracts, database tests cover persistence, and Pa11y covers accessibility regressions.
-- **Services are injected.** Route creation receives providers and services rather than constructing them internally. Scripts follow the same direction by keeping entrypoints small and putting reusable logic behind classes or helper modules in `scripts/lib`.
+- **Services are injected.** Route creation receives providers and services rather than constructing them internally. Scripts follow the same direction by keeping entrypoints small and putting reusable logic behind classes or helper modules in `apps/walking-pace/scripts/lib`.
 
 ## Browser Assets
 
 Vite owns browser CSS, client JavaScript, static files, and production manifests. The app remains server-rendered by Hono and Bun; Vite is not the app server.
 
-- `src/client/main.ts` imports HTMX, exposes it for browser debugging, imports the bundled CSS, and owns theme-toggle behaviour.
-- `src/client/styles.css` imports Open Props and contains the app's CSS class contracts.
-- `public/` contains static public files such as `favicon.svg` and `robots.txt`.
-- `Layout` renders Vite dev-server tags when `VITE_DEV_SERVER_URL` is set, otherwise it reads `dist/client/.vite/manifest.json` and links hashed production assets.
-- `src/http/static-assets.ts` serves Vite-built `/assets/*` files and public root files from the Bun app in production.
+- `apps/walking-pace/src/client/main.ts` imports HTMX, exposes it for browser debugging, imports the bundled CSS, and owns theme-toggle behaviour.
+- `apps/walking-pace/src/client/styles.css` imports Open Props and contains the app's CSS class contracts.
+- `apps/walking-pace/public/` contains static public files such as `favicon.svg` and `robots.txt`.
+- `Layout` renders Vite dev-server tags when `VITE_DEV_SERVER_URL` is set, otherwise it reads `apps/walking-pace/dist/client/.vite/manifest.json` and links hashed production assets.
+- `apps/walking-pace/src/http/static-assets.ts` serves Vite-built `/assets/*` files and public root files from the Bun app in production.
 
-`bun run dev` starts both the Hono server and Vite dev server. `bun run build` emits production browser assets to `dist/client`.
+`bun run dev` starts both the Hono server and Vite dev server. `bun run build` emits production browser assets to `apps/walking-pace/dist/client`.
 
 Theme values are expressed as CSS custom properties mapped to Open Props tokens. Light and dark modes change variables on `:root[data-theme="..."]`, so component styles consume semantic variables such as `--surface`, `--table-bg`, and `--table-text` instead of hard-coding theme-specific colors.
 
@@ -240,7 +234,7 @@ Theme motion is also tokenized. Shared surfaces use `--theme-transition`; text s
 
 ## Persistence
 
-`WalkRepository` in `src/db/model.ts` is the contract used by the app:
+`WalkRepository` in `apps/walking-pace/src/db/model.ts` is the contract used by the app:
 
 ```ts
 export interface WalkRepository {
@@ -252,7 +246,7 @@ export interface WalkRepository {
 }
 ```
 
-`DatabaseProvider` in `src/db/model.ts` is the base database interface used by runtime composition. It owns the selected database kind, migration lifecycle, connection cleanup, and repository factories. The `createRepositories()` method returns the walk and invitation repositories together, so app startup can switch between SQLite and Postgres without knowing the concrete provider type.
+`DatabaseProvider` in `apps/walking-pace/src/db/model.ts` extends shared lifecycle primitives from `libs/database`. It owns the selected database kind, migration lifecycle, connection cleanup, and repository factories. The `createRepositories()` method returns the walk and invitation repositories together, so app startup can switch between SQLite and Postgres without knowing the concrete provider type.
 
 `SqliteDatabaseProvider` powers in-memory tests and local file storage, while `PostgresDatabaseProvider` supports production deployments through `DATABASE_URL`.
 
@@ -268,15 +262,15 @@ The database also enforces core constraints:
 
 Request validation happens before storage, and database constraints remain as a second line of defense.
 
-Shared adapter conformance lives in `src/db/contracts/repository-contracts.ts`. SQLite runs those provider, walk repository, and invitation repository contracts by default. Postgres contract tests run when `TEST_DATABASE_URL` points at a disposable test database. See [docs/architecture/database-adapters.md](./docs/architecture/database-adapters.md) for the adapter checklist.
+Shared adapter conformance lives in `apps/walking-pace/src/db/contracts/repository-contracts.ts`. SQLite runs those provider, walk repository, and invitation repository contracts by default. Postgres contract tests run when `TEST_DATABASE_URL` points at a disposable test database. See [docs/architecture/database-adapters.md](./docs/architecture/database-adapters.md) for the adapter checklist.
 
 ## Testing Strategy
 
 The tests are split by behaviour boundary rather than by implementation detail.
 
 - colocated `*.test.tsx` component tests render JSX to strings and assert semantic markup plus component contracts such as HTMX attributes, switch state, table controls, and empty states.
-- `src/http/app.test.tsx` exercises full-page and error route behaviour through `app.request()`.
-- `src/http/htmx.test.tsx` owns successful HTMX mutations, sends `HX-*` headers, and asserts fragment-only response shape.
+- `apps/walking-pace/src/http/app.test.tsx` exercises full-page and error route behaviour through `app.request()`.
+- `apps/walking-pace/src/http/htmx.test.tsx` owns successful HTMX mutations, sends `HX-*` headers, and asserts fragment-only response shape.
 - `better-auth-provider.test.ts` verifies the auth provider factory can create users, sign in, read sessions, and persist local SQLite auth across provider instances.
 - `local-presets.test.ts` verifies local dev account fixtures, roles, banned state, and repeatable walk seeding.
 - `service.test.ts` under `services/invitations/` verifies invite creation, acceptance, and user-cap enforcement.
@@ -284,8 +278,10 @@ The tests are split by behaviour boundary rather than by implementation detail.
 - `app.e2e.ts` uses Playwright against a seeded in-memory app server to cover browser login, HTMX mutations, stats refresh, and admin score review.
 - Storybook stories cover generic library components and important app states; `bun run test:storybook` smoke-tests those stories in Chromium.
 - `calculator.test.ts` covers pure pace, speed, average, median, and validation behaviour.
-- `scripts/check-deprecations.ts` asks the TypeScript language service for suggestion diagnostics and fails on deprecated API usage, including editor-only warnings that normal typechecking allows.
-- `scripts/lib/coverage-report.test.ts` verifies the local LCOV-to-HTML coverage report generator used by `bun run coverage`.
+- `e2e/consumer-compat/character-sheet-compat.test.tsx` verifies the workspace packages can be imported by a consumer-style test frame.
+- `apps/walking-pace/scripts/check-deprecations.ts` asks the TypeScript language service for suggestion diagnostics and fails on deprecated API usage, including editor-only warnings that normal typechecking allows.
+- `apps/walking-pace/scripts/lib/coverage-report.test.ts` verifies the local LCOV-to-HTML coverage report generator used by `bun run coverage`.
+- `apps/walking-pace/scripts/verify.ts` runs ordered verification gates, writes `.cache/verification-report.md`, and stops at the first failed gate.
 
 This avoids overlap between app tests and HTMX tests. App tests answer "does the server render the full page and reject bad input correctly?" HTMX tests answer "does a successful interaction mutate state and return the fragment contract the browser expects?"
 
@@ -295,9 +291,9 @@ For a new feature, follow the same path:
 
 1. Add domain types and repository methods behind an interface.
 2. Add validation for request input before persistence.
-3. Add or extend a route class under `src/http/routes/`, then register it in `src/http/app.tsx`.
+3. Add or extend a route class under `apps/walking-pace/src/http/routes/`, then register it in `apps/walking-pace/src/http/app.tsx`.
 4. Add JSX components at the smallest useful level.
-5. Add or update CSS class contracts in `src/client/styles.css`.
+5. Add or update CSS class contracts in `apps/walking-pace/src/client/styles.css`.
 6. Add component tests for rendered behaviour.
 7. Add route tests for server-side behaviour.
 8. Add HTMX contract tests for fragment responses.
