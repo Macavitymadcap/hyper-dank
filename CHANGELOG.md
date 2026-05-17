@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.1.2...pace-calculator-v1.2.0) (2026-05-17)
+
+
+### Features
+
+* **template:** add developer experience foundations ([#11](https://github.com/Macavitymadcap/pace-calculator/issues/11)) ([ac009e3](https://github.com/Macavitymadcap/pace-calculator/commit/ac009e32e16644bd3c5155f4509745f5621473e2))
+
 ## [1.1.2](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.1.1...pace-calculator-v1.1.2) (2026-05-16)
 
 
