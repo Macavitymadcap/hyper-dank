@@ -137,6 +137,7 @@ bun run test:e2e:ui
 bun run test:storybook
 bun run test:watch
 bun run typecheck
+bun run verify
 ```
 
 ## Testing
@@ -196,6 +197,17 @@ bun run storybook:build
 bun run test:storybook
 ```
 
+Run the ordered verification gate suite and write a Markdown report:
+
+```bash
+bun run verify
+```
+
+The verifier runs static checks, typechecking, unit tests, build, package compatibility,
+Storybook browser tests, Playwright E2E, Pa11y, and `git diff --check` in fail-fast order. It
+writes `.cache/verification-report.md`, prints the same report, and marks later gates as not run
+when an earlier gate fails. Set `VERIFY_REPORT_PATH` to write the report somewhere else.
+
 Storybook includes per-component docs and controls for atoms, molecules, and organisms, plus a
 shared app-style light/dark switch that applies the same theme mode across every story. The
 production build publishes the static Storybook site under `/storybook/` on the same domain as the
@@ -238,7 +250,7 @@ The native fallback is intentional:
 
 ## Repository Workflow
 
-CI is configured in `.github/workflows/ci.yml` and runs `bun run check`, `bun run typecheck`, `bun run test`, `bun run test:a11y`, `bun run test:e2e`, `bun run storybook:build`, and `bun run test:storybook` on branch pushes and pull requests to `main`. The `check` command includes Biome plus TypeScript deprecation diagnostics, so editor deprecation warnings fail before merge.
+CI is configured in `.github/workflows/ci.yml` and runs `bun run verify` on branch pushes and pull requests to `main`. The verifier runs the same ordered gates used locally, uploads `.cache/verification-report.md`, and stops at the first failed component or test framework. The `check` gate includes Biome plus TypeScript deprecation diagnostics, so editor deprecation warnings fail before merge.
 
 The project uses an epic-and-ticket branch flow. Create an epic branch from `main`, such as `pace-0003`, and make its first commit the detailed epic plan plus ticket plans under `docs/epics/` and `docs/tickets/`. Open that epic branch as a draft PR into `main`. Then create ticket branches such as `pace-0004` from the epic branch and open those PRs back into the epic branch. The epic PR is merged to `main` only after its ticket PRs are complete.
 
@@ -307,40 +319,29 @@ The app also runs migrations during startup as a defensive fallback, but the Rai
 ## Project Structure
 
 ```text
-src/
-├── client/                    # Vite browser entry and bundled CSS
-├── app.tsx                    # public app factory export
-├── index.ts                   # Bun runtime entrypoint
-├── components/                # server-rendered JSX components
-│   ├── atoms/                 # primitive controls, cards, cells, and tests
-│   ├── molecules/             # composed UI pieces such as labelled outputs, rows, and reusable tables
-│   ├── organisms/             # feature sections such as forms and tables
-│   ├── pages/                 # full-page compositions
-│   ├── templates/             # document shell and shared assets
-│   └── library.ts             # reusable app-agnostic component export boundary
-├── auth/                      # auth provider boundary, Better Auth, SQLite local auth, and test provider
-├── db/                        # database contracts, providers, repositories, migrations, and pace math
-│   ├── contracts/             # shared provider and repository conformance tests
-│   ├── providers/             # env selection plus SQLite/Postgres lifecycle adapters
-│   └── repositories/          # SQLite/Postgres walk and invite persistence implementations
-├── envs/                      # local environment fixtures and seed presets
-├── http/                      # Hono app factory, route classes, request helpers, and route tests
-│   └── routes/                # system, auth, walk, and admin route registration
-├── services/                  # application services such as invitations and email delivery
-├── stories/                   # Storybook rendering helpers and sample states
-└── walks/                     # walk input validation
-scripts/
-├── add-pr-screenshots.ts      # mobile PR screenshot capture and PR table updates
-├── configure-main-protection.ts
-├── dev.ts                     # starts Hono and Vite together for local development
-├── generate-coverage-report.ts
-├── pa11y-config.cjs
-├── seed-admin.ts
-├── seed-local-dev.ts
-├── test-a11y.ts
-├── test-e2e.ts
-├── test-storybook.ts
-└── lib/                       # shared script helpers for GitHub, serving, and process calls
+apps/
+└── walking-pace/
+    ├── src/
+    │   ├── client/            # Vite browser entry and bundled CSS
+    │   ├── app.tsx            # public app factory export
+    │   ├── index.ts           # Bun runtime entrypoint
+    │   ├── components/        # app-specific JSX components, pages, and templates
+    │   ├── auth/              # auth provider boundary, Better Auth, SQLite local auth, and test provider
+    │   ├── db/                # app repository contracts, providers, migrations, and pace math
+    │   ├── envs/              # local environment fixtures and seed presets
+    │   ├── http/              # Hono app factory, route classes, request helpers, and route tests
+    │   ├── services/          # application services such as invitations and email delivery
+    │   ├── stories/           # app Storybook rendering helpers and sample states
+    │   └── walks/             # walk input validation
+    ├── scripts/               # app dev, E2E, a11y, screenshots, seeds, and verification helpers
+    └── public/                # static files copied by Vite
+libs/
+├── components/                # reusable server-rendered component package
+├── database/                  # shared database lifecycle and migration primitives
+└── http/                      # reusable form parsing and HTTP response helpers
+e2e/
+├── tests/walking-pace/        # Playwright browser workflows
+└── consumer-compat/           # package consumer compatibility tests
 ```
 
 ## Formulas

@@ -1,0 +1,38 @@
+{
+  "name": "pace-calculator",
+  "version": "1.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun run build:app",
+    "build:app": "vite build",
+    "check:deprecations": "bun scripts/check-deprecations.ts",
+    "coverage:check": "bun scripts/check-coverage.ts",
+    "db:migrate": "bun scripts/db-migrate.ts",
+    "dev": "bun scripts/dev.ts",
+    "dev:app": "bun run --hot src/index.ts",
+    "dev:assets": "vite",
+    "screenshots:pr": "bun scripts/add-pr-screenshots.ts",
+    "seed:admin": "bun scripts/seed-admin.ts",
+    "seed:dev": "bun scripts/seed-local-dev.ts",
+    "start": "bun src/index.ts",
+    "test:a11y": "bun scripts/test-a11y.ts",
+    "test:e2e": "bun run build:app && bun -e 'await import(\"./scripts/test-e2e.ts\")'",
+    "test:e2e:ui": "bun run build:app && bun -e 'await import(\"./scripts/test-e2e.ts\")' -- --ui"
+  },
+  "dependencies": {
+    "@macavitymadcap/hyper-dank-components": "workspace:*",
+    "@macavitymadcap/hyper-dank-database": "workspace:*",
+    "@macavitymadcap/hyper-dank-http": "workspace:*",
+    "better-auth": "^1.6.11",
+    "hono": "^4.0.0",
+    "htmx.org": "^2.0.10",
+    "kysely": "^0.28.17",
+    "open-props": "^1.7.0",
+    "pg": "^8.20.0",
+    "resend": "^6.12.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

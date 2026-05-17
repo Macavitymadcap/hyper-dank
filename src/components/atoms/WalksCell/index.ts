@@ -1,1 +1,0 @@
-export { WalksCell } from "./WalksCell";

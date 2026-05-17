@@ -95,11 +95,11 @@ Do not manually edit `package.json` versions outside a release PR unless you are
 Before asking for review, run:
 
 ```bash
-bun run check
-bun run typecheck
-bun run test
-bun run test:a11y
+bun run verify
 ```
+
+The verifier runs the ordered local quality gates, writes `.cache/verification-report.md`, and stops
+at the first failing gate so the failed component or test framework is easy to find.
 
 For user-facing UI changes, add PR screenshots:
 
@@ -113,6 +113,5 @@ The screenshot script captures Samsung Galaxy A5-sized states for light and dark
 
 - GitHub PRs use `.github/PULL_REQUEST_TEMPLATE.md`.
 - GitHub issues use `.github/ISSUE_TEMPLATE/`.
-- GitLab merge requests use `.gitlab/merge_request_templates/default.md`.
 
 Keep templates in sync when the review flow changes.
