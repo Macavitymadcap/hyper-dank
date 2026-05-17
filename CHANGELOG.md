@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.1...pace-calculator-v1.3.2) (2026-05-17)
+
+
+### Bug Fixes
+
+* **deploy:** restore Railway healthcheck startup ([#17](https://github.com/Macavitymadcap/pace-calculator/issues/17)) ([b2b2f5d](https://github.com/Macavitymadcap/pace-calculator/commit/b2b2f5d46bdc50eea4270992b7af63a69f868604))
+
 ## [1.3.1](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.0...pace-calculator-v1.3.1) (2026-05-17)
 
 
