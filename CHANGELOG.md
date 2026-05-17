@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.0...pace-calculator-v1.3.1) (2026-05-17)
+
+
+### Refactoring
+
+* **workspace:** extract walking pace packages ([#15](https://github.com/Macavitymadcap/pace-calculator/issues/15)) ([0d0504d](https://github.com/Macavitymadcap/pace-calculator/commit/0d0504d1378b447dc8a65c3068c9c3c13651058f))
+
 ## [1.3.0](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.2.0...pace-calculator-v1.3.0) (2026-05-17)
 
 
