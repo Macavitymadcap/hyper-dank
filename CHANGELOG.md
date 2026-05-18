@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.3](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.2...pace-calculator-v1.4.3) (2026-05-18)
+
+
+### Documentation
+
+* **platform:** renumber platform epic ([#31](https://github.com/Macavitymadcap/pace-calculator/issues/31)) ([db38b9c](https://github.com/Macavitymadcap/pace-calculator/commit/db38b9c809170964b06acceb12a674ba0770da69))
+
 ## [1.4.2](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.1...pace-calculator-v1.4.2) (2026-05-18)
 
 
