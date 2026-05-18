@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.1...pace-calculator-v1.4.2) (2026-05-18)
+
+
+### Documentation
+
+* **platform:** plan broader Hyper-Dank primitives ([#29](https://github.com/Macavitymadcap/pace-calculator/issues/29)) ([2f20ac9](https://github.com/Macavitymadcap/pace-calculator/commit/2f20ac964fbed0564c129e3b200e0cef8a3c0510))
+
 ## [1.4.1](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.0...pace-calculator-v1.4.1) (2026-05-18)
 
 
