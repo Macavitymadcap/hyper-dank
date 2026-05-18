@@ -7,9 +7,23 @@ title: Libraries
 
 Hyper-Dank is split into small Bun workspace packages so applications can consume only the contracts
 they need. The packages are designed for server-rendered Hono JSX, progressive HTMX enhancement,
-explicit database lifecycles, and consumer-style compatibility tests.
+explicit database lifecycles, reusable app automation, and consumer-style compatibility tests.
 
-## Components
+<div class="library-tabs" markdown="1">
+  <input class="library-tab-input" id="library-tab-components" name="library-tabs" type="radio" checked>
+  <input class="library-tab-input" id="library-tab-database" name="library-tabs" type="radio">
+  <input class="library-tab-input" id="library-tab-http" name="library-tabs" type="radio">
+  <input class="library-tab-input" id="library-tab-scripts" name="library-tabs" type="radio">
+
+  <div class="library-tab-list" role="tablist" aria-label="Libraries">
+    <label class="library-tab" id="library-tab-components-label" for="library-tab-components" role="tab" aria-controls="library-panel-components">Components</label>
+    <label class="library-tab" id="library-tab-database-label" for="library-tab-database" role="tab" aria-controls="library-panel-database">Database</label>
+    <label class="library-tab" id="library-tab-http-label" for="library-tab-http" role="tab" aria-controls="library-panel-http">HTTP</label>
+    <label class="library-tab" id="library-tab-scripts-label" for="library-tab-scripts" role="tab" aria-controls="library-panel-scripts">Scripts</label>
+  </div>
+
+  <section class="library-panel" id="library-panel-components" role="tabpanel" aria-labelledby="library-tab-components-label" markdown="1">
+    <h2>Components</h2>
 
 `@macavitymadcap/hyper-dank-components` exposes server-rendered Hono JSX primitives plus a small
 CSS export. Import the CSS from the browser asset pipeline, then render components from server JSX.
@@ -83,7 +97,10 @@ available.
 Without JavaScript, the browser submits `POST /walks` through the native `action` and `method`.
 With HTMX, the same form posts to `hx-post` and swaps the fragment named by `hx-target`.
 
-## Database
+  </section>
+
+  <section class="library-panel" id="library-panel-database" role="tabpanel" aria-labelledby="library-tab-database-label" markdown="1">
+    <h2>Database</h2>
 
 `@macavitymadcap/hyper-dank-database` contains provider lifecycle and migration primitives. Apps keep
 their domain repositories and schemas local, then use conformance tests to keep adapters honest.
@@ -143,7 +160,10 @@ describeDatabaseLifecycleContract("SqliteDatabaseProvider", "sqlite", async () =
 asserts that the provider exposes the expected kind, can migrate idempotently, and closes after the
 contract run.
 
-## HTTP
+  </section>
+
+  <section class="library-panel" id="library-panel-http" role="tabpanel" aria-labelledby="library-tab-http-label" markdown="1">
+    <h2>HTTP</h2>
 
 `@macavitymadcap/hyper-dank-http` contains generic form parsing, route parameter, error-message, and
 HTMX response helpers. Auth, permissions, and product routes stay in the consuming app.
@@ -181,3 +201,40 @@ app.post("/walks/:id", async (context) => {
 `HttpResponder.redirectAfterAction()` returns `HX-Redirect` for HTMX requests and a normal redirect
 for native requests. `redirectWithAuthCookies()` preserves cookies from an auth response while using
 the same HTMX-aware redirect behaviour.
+
+  </section>
+
+  <section class="library-panel" id="library-panel-scripts" role="tabpanel" aria-labelledby="library-tab-scripts-label" markdown="1">
+    <h2>Scripts</h2>
+
+`@macavitymadcap/hyper-dank-scripts` is planned in `pace-0030` as the shared automation package for
+Hyper-Dank apps. It will collect the reusable script behaviour currently living in Walking Pace and
+Character Sheet so future apps can keep their local entrypoints small.
+
+```ts
+import {
+  getGitHubRepo,
+  getGitHubToken,
+  runVerification,
+  waitForHttp,
+} from "@macavitymadcap/hyper-dank-scripts";
+```
+
+### Planned Script API
+
+| Group | Purpose |
+| --- | --- |
+| Process helpers | Run sync and async commands with predictable cwd, env, stdio, captured output, and allow-failure behaviour. |
+| GitHub helpers | Parse repository remotes, discover tokens, make REST requests, find pull requests, and update PR bodies. |
+| Verification helpers | Run ordered gates, stop on failure, and render Markdown verification reports. |
+| Local server helpers | Start Hono/Bun test apps on dynamic ports, wait for health checks, and manage request cookies. |
+| Browser helpers | Share Playwright/Puppeteer launch defaults, viewport presets, screenshot flows, and theme setup. |
+| PR image helpers | Build and replace Markdown image sections for persisted PR screenshots. |
+| A11y and smoke helpers | Run named Pa11y pages and smoke workflows while app-specific routes stay local. |
+
+The first implementation target is this repository's script set. Character Sheet is the flagship
+design input and later migration target, but its runtime scripts remain unchanged until a dedicated
+consumer ticket.
+
+  </section>
+</div>

@@ -147,3 +147,91 @@ pre code {
   background: transparent;
   padding: 0;
 }
+
+.library-tabs {
+  margin-top: 2rem;
+}
+
+.library-tab-input {
+  block-size: 1px;
+  inline-size: 1px;
+  opacity: 0;
+  position: absolute;
+}
+
+.library-tab-list {
+  align-items: end;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+}
+
+.library-tab {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-weight: 750;
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+}
+
+.library-tab:hover {
+  color: var(--text);
+}
+
+#library-tab-components:focus-visible ~ .library-tab-list label[for="library-tab-components"],
+#library-tab-database:focus-visible ~ .library-tab-list label[for="library-tab-database"],
+#library-tab-http:focus-visible ~ .library-tab-list label[for="library-tab-http"],
+#library-tab-scripts:focus-visible ~ .library-tab-list label[for="library-tab-scripts"] {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+#library-tab-components:checked ~ .library-tab-list label[for="library-tab-components"],
+#library-tab-database:checked ~ .library-tab-list label[for="library-tab-database"],
+#library-tab-http:checked ~ .library-tab-list label[for="library-tab-http"],
+#library-tab-scripts:checked ~ .library-tab-list label[for="library-tab-scripts"] {
+  background: var(--surface);
+  color: var(--text);
+  margin-bottom: -1px;
+  position: relative;
+}
+
+.library-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 0;
+  display: none;
+  padding: 1.25rem;
+}
+
+.library-panel h2:first-child {
+  margin-top: 0;
+}
+
+#library-tab-components:checked ~ #library-panel-components,
+#library-tab-database:checked ~ #library-panel-database,
+#library-tab-http:checked ~ #library-panel-http,
+#library-tab-scripts:checked ~ #library-panel-scripts {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .library-tab-list {
+    align-items: stretch;
+  }
+
+  .library-tab {
+    min-height: 2.5rem;
+    padding-inline: 0.85rem;
+  }
+
+  .library-panel {
+    padding: 1rem;
+  }
+}
