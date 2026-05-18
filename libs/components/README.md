@@ -3,7 +3,14 @@
 Server-rendered Hono JSX components shared by Hyper-Dank apps.
 
 ```ts
-import { Button, Panel, Switch } from "@macavitymadcap/hyper-dank-components";
+import {
+  Button,
+  Card,
+  HxForm,
+  Panel,
+  ScrollableTable,
+  Switch,
+} from "@macavitymadcap/hyper-dank-components";
 ```
 
 The package publishes source for Bun/workspace consumers and declaration files in `dist/`.
@@ -34,4 +41,6 @@ pipeline; importing the package in server code does not automatically load style
 - Shared types: `HtmxProps`.
 - CSS: `@macavitymadcap/hyper-dank-components/styles.css`.
 
-The public docs site documents every export and points to Storybook examples for each component.
+Compatibility coverage exercises these exports in Character Sheet-style, static blog,
+dashboard/admin, static-demo, and server-app compositions. The public docs site documents every
+export and points to Storybook examples for each component.

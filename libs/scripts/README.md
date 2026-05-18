@@ -35,6 +35,22 @@ const results = await runVerification([
 ]);
 ```
 
+## Compatibility Example
+
+```ts
+import {
+  buildImagesSection,
+  parseGitHubRepo,
+  renderVerificationReport,
+  waitForHttp,
+} from "@macavitymadcap/hyper-dank-scripts";
+
+const repo = parseGitHubRepo("Macavitymadcap/pace-calculator");
+const report = renderVerificationReport([], "/workspace");
+await waitForHttp("http://127.0.0.1:3000/healthz");
+buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
+```
+
 ## Character Sheet-Style Consumer Example
 
 ```ts
