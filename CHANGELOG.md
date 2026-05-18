@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.4](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.3...pace-calculator-v1.4.4) (2026-05-18)
+
+
+### Bug Fixes
+
+* **demo:** restore walk history table layout ([#34](https://github.com/Macavitymadcap/pace-calculator/issues/34)) ([234f01f](https://github.com/Macavitymadcap/pace-calculator/commit/234f01fd4ac3f45206f341a6989a12760451e3ab))
+
+## [1.4.3](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.2...pace-calculator-v1.4.3) (2026-05-18)
+
+
+### Documentation
+
+* **platform:** renumber platform epic ([#31](https://github.com/Macavitymadcap/pace-calculator/issues/31)) ([db38b9c](https://github.com/Macavitymadcap/pace-calculator/commit/db38b9c809170964b06acceb12a674ba0770da69))
+
 ## [1.4.2](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.1...pace-calculator-v1.4.2) (2026-05-18)
 
 
