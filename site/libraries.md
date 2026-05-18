@@ -32,13 +32,13 @@ CSS export. Import the CSS from the browser asset pipeline, then render componen
 import { Button, Card, FormField, HxForm, Switch } from "@macavitymadcap/hyper-dank-components";
 import "@macavitymadcap/hyper-dank-components/styles.css";
 
-export function InviteForm() {
+export function SettingsForm() {
   return (
     <Card as="section">
-      <HxForm action="/admin/invitations" method="post" hx-post="/admin/invitations" hx-target="#admin-panel">
-        <FormField id="email" label="Email" name="email" required type="email" />
-        <Switch id="notify" label="Send email" name="notify" value="yes" />
-        <Button>Invite user</Button>
+      <HxForm action="/settings" method="post" hx-post="/settings" hx-target="#settings-panel">
+        <FormField id="display-name" label="Display name" name="displayName" required />
+        <Switch id="notifications" label="Notifications" name="notifications" value="enabled" />
+        <Button>Save settings</Button>
       </HxForm>
     </Card>
   );
@@ -82,18 +82,18 @@ available.
 
 ```tsx
 <HxForm
-  action="/walks"
+  action="/items"
   method="post"
-  hx-post="/walks"
-  hx-target="#walks-list"
+  hx-post="/items"
+  hx-target="#items-list"
   hx-swap="outerHTML"
 >
-  <FormField id="miles" label="Miles" min={0.01} name="miles" required step="0.01" type="number" />
-  <Button>Add walk</Button>
+  <FormField id="title" label="Title" name="title" required />
+  <Button>Add item</Button>
 </HxForm>
 ```
 
-Without JavaScript, the browser submits `POST /walks` through the native `action` and `method`.
+Without JavaScript, the browser submits through the native `action` and `method`.
 With HTMX, the same form posts to `hx-post` and swaps the fragment named by `hx-target`.
 
   </section>
@@ -113,12 +113,12 @@ import {
 } from "@macavitymadcap/hyper-dank-database";
 
 type Repositories = {
-  walks: WalkRepository;
+  entries: EntryRepository;
 };
 
 export type AppDatabaseProvider = DatabaseProviderBase<Repositories>;
 
-const migrations: Migration[] = [{ id: "0001_create_walks", sql: "create table walks (...)" }];
+const migrations: Migration[] = [{ id: "0001_create_entries", sql: "create table entries (...)" }];
 
 export async function migrate(store: MigrationStore) {
   await runPendingMigrations(store, migrations);
@@ -172,14 +172,14 @@ import { FormValues, HttpResponder, errorMessage, routeParam } from "@macavityma
 
 const responder = new HttpResponder();
 
-app.post("/walks/:id", async (context) => {
+app.post("/entries/:id", async (context) => {
   const id = routeParam(context, "id");
   const values = await FormValues.from(context);
 
   try {
-    await saveWalk(id, {
-      miles: values.string("miles"),
-      minutes: values.string("minutes"),
+    await saveEntry(id, {
+      title: values.string("title"),
+      status: values.string("status"),
     });
     return responder.redirectAfterAction(context, "/");
   } catch (error) {
