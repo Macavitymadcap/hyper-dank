@@ -2,7 +2,7 @@
 import { getGitHubToken, githubRequest, parseGitHubRepo } from "./lib/github";
 import { root } from "./lib/paths";
 
-const repo = parseGitHubRepo(process.argv[2] ?? "Macavitymadcap/pace-calculator");
+const repo = parseGitHubRepo(process.argv[2] ?? "Macavitymadcap/hyper-dank");
 const token = getGitHubToken();
 const configPath = `${root}/.github/branch-protection-main.json`;
 const config = await Bun.file(configPath).text();

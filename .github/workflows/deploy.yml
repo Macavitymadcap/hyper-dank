@@ -7,37 +7,60 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy-production
-  cancel-in-progress: false
+  group: pages-production
+  cancel-in-progress: true
 
 permissions:
   contents: read
+  id-token: write
+  pages: write
 
 jobs:
-  railway:
-    name: railway
+  build:
+    name: build-pages
     runs-on: ubuntu-latest
-    environment: production
-    env:
-      RAILWAY_ENVIRONMENT: ${{ vars.RAILWAY_ENVIRONMENT || 'production' }}
-      RAILWAY_SERVICE: ${{ vars.RAILWAY_SERVICE }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Railway CLI
-        run: npm install --global @railway/cli
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
-      - name: Validate deployment settings
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          test -n "$RAILWAY_TOKEN"
-          test -n "$RAILWAY_SERVICE"
-          test -n "$RAILWAY_ENVIRONMENT"
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-      - name: Deploy to Railway
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build static assets
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --ci --service "$RAILWAY_SERVICE" --environment "$RAILWAY_ENVIRONMENT"
+          PACE_DEMO_BASE: /hyper-dank/pace/
+        run: bun run build:pages-assets
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./site
+          destination: ./.cache/pages/site
+
+      - name: Prepare Pages artifact
+        run: bun run prepare:pages
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./.cache/pages/site
+
+  deploy:
+    name: deploy-pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

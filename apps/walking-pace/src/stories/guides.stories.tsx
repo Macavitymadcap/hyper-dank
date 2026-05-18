@@ -28,7 +28,7 @@ export const Usage: Story = {
             Usage
           </h1>
           <p class="storybook-doc__lede">
-            Pace Calculator is a server-rendered Bun, Hono, HTMX, and JSX template with Storybook
+            Hyper-Dank is a server-rendered Bun, Hono, HTMX, and JSX toolkit with Storybook
             documentation for the reusable UI surface.
           </p>
         </header>

@@ -41,7 +41,7 @@ After pushing this branch, run:
 bun run protect:main
 ```
 
-The script calls the GitHub API and applies `.github/branch-protection-main.json` to `Macavitymadcap/pace-calculator`.
+The script calls the GitHub API and applies `.github/branch-protection-main.json` to `Macavitymadcap/hyper-dank`.
 
 To target a different fork or remote:
 

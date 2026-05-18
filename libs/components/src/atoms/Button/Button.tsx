@@ -1,18 +1,28 @@
 import { type HtmxProps, htmxAttributes } from "../../model";
 
 export interface ButtonProps extends HtmxProps {
-  type: "submit" | "reset" | "button";
   children: unknown;
+  ariaLabel?: string;
   className?: string;
+  disabled?: boolean;
+  id?: string;
+  name?: string;
   size?: "default" | "compact";
-  variant?: "primary" | "danger" | "outline" | "text";
+  type?: "submit" | "reset" | "button";
+  value?: string;
+  variant?: "primary" | "danger" | "outline" | "text" | "ghost";
 }
 
 export const Button = ({
+  ariaLabel,
   className,
-  type,
   children,
+  disabled = false,
+  id,
+  name,
   size = "default",
+  type = "button",
+  value,
   variant = "primary",
   ...hxProps
 }: ButtonProps) => {
@@ -20,8 +30,13 @@ export const Button = ({
 
   return (
     <button
+      id={id}
       className={classes}
       type={type}
+      name={name}
+      value={value}
+      aria-label={ariaLabel}
+      disabled={disabled}
       data-size={size}
       data-variant={variant}
       {...htmxAttributes(hxProps)}

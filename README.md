@@ -1,10 +1,14 @@
-# Walking Pace Tracker
+# Hyper-Dank
 
-A small walking pace tracker built with Hono, HTMX, Bun, TypeScript, JSX, Better Auth, SQLite, and Postgres.
+Hyper-Dank is a hypermedia-first Bun workspace for building server-rendered Hono, HTMX,
+TypeScript, and JSX applications with reusable component, database, and HTTP helper packages.
 
-The app records user-scoped walks, calculates average speed and median pace, supports light/dark mode, and uses server-rendered HTML fragments instead of a client-side framework.
+The repository includes Walking Pace Tracker as the reference app and public demo. The full Hono app
+records user-scoped walks, calculates average speed and median pace, supports light/dark mode, and
+uses server-rendered HTML fragments instead of a client-side framework.
 
-The goal is not only to track pace, but to act as a compact template for Hono + HTMX front ends: routes render semantic HTML, HTMX swaps focused fragments, Vite owns browser assets, and tests exercise the same app factory used in production.
+The public production site is GitHub Pages: Jekyll documentation at `/`, a browser-only
+localStorage pace demo at `/pace/`, and Storybook at `/storybook/`.
 
 For the design philosophy and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
@@ -293,41 +297,42 @@ SQLite database files and sidecar files are ignored by Git.
 `bun run seed:dev` is local-only and refuses to run when `DATABASE_URL` is set. It replaces only the
 preset local SQLite users and their walks, leaving other local accounts untouched.
 
-## Railway Deployment
+## GitHub Pages Deployment
 
-Railway deployment is configured with `Dockerfile` and `railway.json`. The Railway config uses the Dockerfile builder, runs `bun run db:migrate` as a pre-deploy command, starts the app with `bun run start`, and checks `/healthz` before activating a deployment.
+Production deploys are managed by `.github/workflows/deploy.yml`. The workflow runs when changes land
+on `main`, builds the Hyper-Dank Jekyll docs, builds the static pace demo, builds Storybook, and
+publishes one GitHub Pages artifact.
 
-Production deploys are managed by `.github/workflows/deploy.yml`. The workflow runs when changes land on
-`main`, which should only happen through a merged pull request once branch protection is enabled. It uses
-the Railway CLI in CI mode and deploys the current repository contents to the configured Railway service.
+The published routes are:
 
-Add these GitHub environment settings for the `production` environment:
+- `/` for Hyper-Dank documentation from `site/`
+- `/pace/` for the static Walking Pace demo backed by `localStorage`
+- `/storybook/` for the static Storybook build
 
-| Name | Type | Purpose |
-| --- | --- | --- |
-| `RAILWAY_TOKEN` | Secret | Railway project token scoped to the production environment |
-| `RAILWAY_SERVICE` | Variable | App service name to pass to `railway up --service` |
-| `RAILWAY_ENVIRONMENT` | Variable | Railway environment name; defaults to `production` when omitted |
-
-For a new Railway service:
-
-1. Create a Railway app service from the GitHub repo.
-2. Add a Railway Postgres service and expose its `DATABASE_URL` to the app service.
-3. Set `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `RESEND_API_KEY`, `EMAIL_FROM`, and `USER_LIMIT`.
-4. Deploy the app service.
-5. Seed the first admin with Railway environment variables loaded:
+Build the static deployment assets locally with:
 
 ```bash
-railway run bun run seed:admin
+PACE_DEMO_BASE=/hyper-dank/pace/ bun run build:pages-assets
 ```
 
-The app also runs migrations during startup as a defensive fallback, but the Railway pre-deploy command keeps schema changes ahead of traffic.
+The workflow uses GitHub's Jekyll Pages action to build `site/`, then `bun run prepare:pages` copies
+the Vite-built pace demo into `pace/` and Storybook into `storybook/`.
+
+After this epic lands, rename the GitHub repository manually from `Macavitymadcap/pace-calculator` to
+`Macavitymadcap/hyper-dank`. The branch prefix remains `pace`.
+
+## Server App Deployment
+
+The authenticated Walking Pace app still runs locally with `bun run dev` and can be deployed as a
+server app by a downstream consumer, but it is no longer the production deployment target for this
+repository. Server deployments need a Bun runtime plus SQLite or Postgres configuration.
 
 ## Project Structure
 
 ```text
 apps/
 └── walking-pace/
+    ├── static-demo/           # Vite HTML entry for the public localStorage demo
     ├── src/
     │   ├── client/            # Vite browser entry and bundled CSS
     │   ├── app.tsx            # public app factory export
@@ -346,6 +351,7 @@ libs/
 ├── components/                # reusable server-rendered component package
 ├── database/                  # shared database lifecycle and migration primitives
 └── http/                      # reusable form parsing and HTTP response helpers
+site/                          # Jekyll source for the public Hyper-Dank documentation
 e2e/
 ├── tests/walking-pace/        # Playwright browser workflows
 └── consumer-compat/           # package consumer compatibility tests
