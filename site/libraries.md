@@ -201,34 +201,36 @@ the same HTMX-aware redirect behaviour.
   <section class="library-panel" id="scripts" markdown="1">
     <h2>Scripts</h2>
 
-`@macavitymadcap/hyper-dank-scripts` is planned in `pace-0030` as the shared automation package for
-Hyper-Dank apps. It will collect reusable script behaviour from current Hyper-Dank projects so
-future apps can keep their local entrypoints small.
+`@macavitymadcap/hyper-dank-scripts` contains reusable Bun automation helpers for Hyper-Dank apps.
+Use it to keep local script entrypoints small while leaving app-specific routes, fixtures, and
+deployment choices in the app.
 
 ```ts
 import {
+  buildImagesSection,
   getGitHubRepo,
   getGitHubToken,
   runVerification,
+  updateImagesSection,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-scripts";
 ```
 
-### Planned Script API
+### Script API
 
 | Group | Purpose |
 | --- | --- |
 | Process helpers | Run sync and async commands with predictable cwd, env, stdio, captured output, and allow-failure behaviour. |
 | GitHub helpers | Parse repository remotes, discover tokens, make REST requests, find pull requests, and update PR bodies. |
 | Verification helpers | Run ordered gates, stop on failure, and render Markdown verification reports. |
-| Local server helpers | Start Hono/Bun test apps on dynamic ports, wait for health checks, and manage request cookies. |
-| Browser helpers | Share Playwright/Puppeteer launch defaults, viewport presets, screenshot flows, and theme setup. |
+| Local server helpers | Start Bun test servers on dynamic ports and wait for HTTP readiness. |
+| Browser helpers | Orchestrate Playwright screenshot flows and theme setup. |
 | PR image helpers | Build and replace Markdown image sections for persisted PR screenshots. |
-| A11y and smoke helpers | Run named Pa11y pages and smoke workflows while app-specific routes stay local. |
+| A11y helpers | Run Pa11y with optional config paths and auth cookies while app routes stay local. |
 
-The first implementation target is this repository's script set. Consuming apps should keep
-product-specific routes, fixtures, and smoke flows local while importing the shared automation
-building blocks.
+Consuming apps should keep product-specific routes, fixtures, and smoke flows local while importing
+the shared automation building blocks. For app-shape examples, see
+[`/recipes/`]({{ '/recipes/' | relative_url }}).
 
   </section>
 </div>

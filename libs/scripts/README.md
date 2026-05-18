@@ -66,3 +66,9 @@ try {
   server.server.stop(true);
 }
 ```
+
+## Adoption Boundary
+
+Keep app-specific knowledge local: seeded users, route paths, browser flows, and deployment targets.
+Shared helpers should own mechanics such as command execution, GitHub requests, verification
+reporting, server readiness, screenshots, Pa11y invocation, and PR image Markdown.

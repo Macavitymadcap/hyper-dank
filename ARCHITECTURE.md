@@ -35,7 +35,7 @@ Those influences are intentionally applied lightly. The app should be understand
 ## Core Shape
 
 The root repository is a Bun workspace. The deployable app lives in `apps/walking-pace`, while
-app-agnostic helpers live in `libs/components`, `libs/http`, and `libs/database`.
+app-agnostic helpers live in `libs/components`, `libs/http`, `libs/database`, and `libs/scripts`.
 
 The walking pace app has two entry points with different responsibilities:
 
@@ -82,7 +82,8 @@ apps/
 libs/
 ├── components/                # reusable server-rendered JSX primitives and component CSS
 ├── database/                  # shared database lifecycle and migration primitives
-└── http/                      # reusable form parsing and HTTP response helpers
+├── http/                      # reusable form parsing and HTTP response helpers
+└── scripts/                   # reusable Bun automation helpers
 site/                          # Jekyll source for the public Hyper-Dank docs
 e2e/
 ├── tests/walking-pace/        # Playwright browser workflows
@@ -230,7 +231,7 @@ The template tries to make the common path obvious:
 - **CSS class contracts stay visible.** Components keep semantic class names close to their markup, while Vite bundles the shared CSS entry.
 - **CSS variables carry design decisions.** Components consume semantic variables like `--surface`, `--table-text`, and `--border-subtle`; theme switching changes those variables centrally.
 - **Tests follow boundaries.** Component tests cover markup, route tests cover full-page behaviour, HTMX tests cover fragment contracts, database tests cover persistence, and Pa11y covers accessibility regressions.
-- **Services are injected.** Route creation receives providers and services rather than constructing them internally. Scripts follow the same direction by keeping entrypoints small and putting reusable logic behind classes or helper modules in `apps/walking-pace/scripts/lib`.
+- **Services are injected.** Route creation receives providers and services rather than constructing them internally. Scripts follow the same direction by keeping entrypoints small, importing reusable mechanics from `libs/scripts`, and keeping app-specific flows in `apps/walking-pace/scripts`.
 
 ## Browser Assets
 

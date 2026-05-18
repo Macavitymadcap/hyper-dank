@@ -10,4 +10,6 @@ tests, patch whitespace checks, workspace builds, the production healthcheck, th
 smoke, package compatibility tests, Storybook browser tests, Playwright E2E, and Pa11y.
 
 Compatibility is treated as a public contract. `bun run test:compat` packs local workspace packages
-and imports them through consumer-style package paths.
+and imports them through consumer-style package paths. The compatibility harness covers Character
+Sheet-style markup, static blog composition, dashboard/admin screens, static demos, server-app
+progressive actions, and scripts-package helpers with fake inputs.
