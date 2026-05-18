@@ -2,31 +2,20 @@ import "@macavitymadcap/hyper-dank-components/styles.css";
 import "../client/styles.css";
 import "./styles.css";
 import type { WalkWithStats } from "../db";
+import {
+  buildWalkHistoryColumnsTemplate,
+  buildWalkHistoryMobileColumnsTemplate,
+  WALK_HISTORY_MOBILE_ROW_HEIGHT,
+  WALK_HISTORY_ROW_HEIGHT,
+} from "../shared/walk-history-table";
 import { DEMO_STORAGE_KEY, LocalStoragePaceProvider } from "./storage";
 
 const THEME_STORAGE_KEY = "hyper-dank:theme";
 
 const provider = new LocalStoragePaceProvider({ storage: window.localStorage });
 
-const tableColumnsTemplate = [
-  "minmax(5.5rem, 1fr)",
-  "minmax(3.25rem, 0.62fr)",
-  "minmax(3.4rem, 0.65fr)",
-  "minmax(3.4rem, 0.65fr)",
-  "minmax(4rem, 0.76fr)",
-  "minmax(5rem, 0.95fr)",
-  "minmax(5.5rem, 0.95fr)",
-].join(" ");
-
-const tableMobileColumnsTemplate = [
-  "minmax(0, 1.25fr)",
-  "minmax(0, 0.58fr)",
-  "minmax(0, 0.66fr)",
-  "minmax(0, 0.66fr)",
-  "minmax(0, 0.74fr)",
-  "minmax(0, 0.9fr)",
-  "minmax(4.35rem, 0.95fr)",
-].join(" ");
+const tableColumnsTemplate = buildWalkHistoryColumnsTemplate();
+const tableMobileColumnsTemplate = buildWalkHistoryMobileColumnsTemplate();
 
 const form = document.querySelector<HTMLFormElement>("#walk-form");
 const error = document.querySelector<HTMLElement>("#form-error");
@@ -129,10 +118,10 @@ function renderWalks() {
           </button>
         </div>
       </div>
-      <div
+        <div
         class="scrollable-table-container"
         ${walks.length > 3 ? 'data-scrollable="true"' : ""}
-        style="--scrollable-table-columns: ${tableColumnsTemplate}; --scrollable-table-mobile-columns: ${tableMobileColumnsTemplate}; --scrollable-table-mobile-row-height: 3.25rem; --scrollable-table-scroll-body-rows: 4; --scrollable-table-mobile-scroll-body-rows: 3"
+        style="--scrollable-table-columns: ${tableColumnsTemplate}; --scrollable-table-mobile-columns: ${tableMobileColumnsTemplate}; --scrollable-table-row-height: ${WALK_HISTORY_ROW_HEIGHT}; --scrollable-table-mobile-row-height: ${WALK_HISTORY_MOBILE_ROW_HEIGHT}; --scrollable-table-scroll-body-rows: 4; --scrollable-table-mobile-scroll-body-rows: 3"
       >
         <table class="scrollable-table walks-table">
           <thead>
