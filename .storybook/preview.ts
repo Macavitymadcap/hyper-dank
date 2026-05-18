@@ -1,4 +1,4 @@
-import { Switch } from "@macavitymadcap/hyper-dank-components";
+import { Switch } from "@macavitymadcap/hyper-dank-ui";
 import type { Preview } from "@storybook/html-vite";
 import "../libs/components/src/styles.css";
 import "../apps/walking-pace/src/client/styles.css";

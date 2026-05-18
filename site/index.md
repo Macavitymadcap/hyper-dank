@@ -39,6 +39,6 @@ title: Hyper-Dank
       Compose the libraries into static demos, server-rendered apps, dashboards, and documentation
       sites without taking on a large client framework.
     </p>
-    <a href="{{ '/libraries/' | relative_url }}">Compare library roles</a>
+    <a href="{{ '/recipes/' | relative_url }}">Read the app recipes</a>
   </article>
 </section>

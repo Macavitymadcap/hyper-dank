@@ -1,4 +1,4 @@
-import { HttpResponder } from "@macavitymadcap/hyper-dank-http";
+import { HttpResponder } from "@macavitymadcap/hyper-dank-transport";
 import { Hono } from "hono";
 import { AdminPagePresenter } from "./admin-page-presenter";
 import type { AppDependencies } from "./dependencies";

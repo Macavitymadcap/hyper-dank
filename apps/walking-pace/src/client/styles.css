@@ -706,20 +706,24 @@ input[type="number"]:focus {
 
 /* src/components/molecules/WalksRow/WalksRow.styles.ts */
 .walk-created-at {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 var(--size-1);
-  justify-content: center;
+  display: grid;
+  gap: 0;
+  justify-items: center;
+  line-height: 1.15;
   text-align: center;
-  white-space: normal;
 }
 
-@media (max-width: 480px) {
-  .walk-created-at {
-    display: grid;
-    gap: 0;
-    line-height: var(--font-lineheight-0);
+.walk-created-at > span {
+  white-space: nowrap;
+}
+
+.walks-table .clear-walk-btn {
+  min-width: 4.25rem;
+}
+
+@media (max-width: 640px) {
+  .walks-table .clear-walk-btn {
+    min-width: 3.9rem;
   }
 }
 

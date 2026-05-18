@@ -1,4 +1,4 @@
-import { Card } from "@macavitymadcap/hyper-dank-components";
+import { Card } from "@macavitymadcap/hyper-dank-ui";
 import { InviteForm } from "../../organisms/InviteForm";
 import { Layout } from "../../templates/Layout";
 

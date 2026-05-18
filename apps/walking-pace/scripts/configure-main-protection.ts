@@ -1,5 +1,9 @@
 #!/usr/bin/env bun
-import { getGitHubToken, githubRequest, parseGitHubRepo } from "./lib/github";
+import {
+  getGitHubToken,
+  githubRequest,
+  parseGitHubRepo,
+} from "@macavitymadcap/hyper-dank-automation";
 import { root } from "./lib/paths";
 
 const repo = parseGitHubRepo(process.argv[2] ?? "Macavitymadcap/hyper-dank");

@@ -2,24 +2,23 @@
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { chromium, type Page } from "@playwright/test";
-import { startInMemoryAppServer, waitForHttp } from "./lib/app-server";
 import {
+  buildImagesSection,
   type GitHubPullRequest,
   getGitHubRepo,
   getGitHubToken,
   getPullRequest,
   githubRequest,
-} from "./lib/github";
-import { normalizePath, root } from "./lib/paths";
-import {
-  buildImagesSection,
+  run,
   type ScreenshotFlowSummary,
   type ScreenshotResult,
   type Theme,
   updateImagesSection,
-} from "./lib/pr-images";
-import { run } from "./lib/process";
+  waitForHttp,
+} from "@macavitymadcap/hyper-dank-automation";
+import { chromium, type Page } from "@playwright/test";
+import { startInMemoryAppServer } from "./lib/app-server";
+import { normalizePath, root } from "./lib/paths";
 import {
   listScreenshotFlows,
   type ScreenshotFlow,

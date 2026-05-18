@@ -9,12 +9,15 @@ describe("ScrollableTable", () => {
       <ScrollableTable
         className="example-table"
         columns={[
-          { key: "name", header: "Name" },
-          { key: "actions", header: "Actions", isAction: true },
+          {
+            key: "name",
+            header: "Name",
+            width: "minmax(12rem, 2fr)",
+            mobileWidth: "minmax(0, 1fr)",
+          },
+          { key: "actions", header: "Actions", isAction: true, width: "5rem", mobileWidth: "4rem" },
         ]}
-        columnsTemplate="1fr auto"
         isScrollable
-        mobileColumnsTemplate="minmax(0, 1fr) auto"
         mobileScrollBodyRows={2}
         rowClassName="example-row"
         scrollBodyRows={3}
@@ -27,8 +30,8 @@ describe("ScrollableTable", () => {
     );
 
     expect(html).toContain('<div class="scrollable-table-container" data-scrollable="true"');
-    expect(html).toContain("--scrollable-table-columns: 1fr auto");
-    expect(html).toContain("--scrollable-table-mobile-columns: minmax(0, 1fr) auto");
+    expect(html).toContain("--scrollable-table-columns: minmax(12rem, 2fr) 5rem");
+    expect(html).toContain("--scrollable-table-mobile-columns: minmax(0, 1fr) 4rem");
     expect(html).toContain("--scrollable-table-scroll-body-rows: 3");
     expect(html).toContain("--scrollable-table-mobile-scroll-body-rows: 2");
     expect(html).toContain('<table class="scrollable-table example-table">');

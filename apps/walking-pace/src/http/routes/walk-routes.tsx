@@ -1,5 +1,5 @@
-import type { HttpResponder } from "@macavitymadcap/hyper-dank-http";
-import { FormValues } from "@macavitymadcap/hyper-dank-http";
+import type { HttpResponder } from "@macavitymadcap/hyper-dank-transport";
+import { FormValues } from "@macavitymadcap/hyper-dank-transport";
 import type { Context, Hono } from "hono";
 import { Home, StatsSection, WalksTable } from "../../components";
 import type { WalkRepository } from "../../db";

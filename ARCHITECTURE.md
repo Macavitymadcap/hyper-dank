@@ -35,7 +35,7 @@ Those influences are intentionally applied lightly. The app should be understand
 ## Core Shape
 
 The root repository is a Bun workspace. The deployable app lives in `apps/walking-pace`, while
-app-agnostic helpers live in `libs/components`, `libs/http`, and `libs/database`.
+app-agnostic helpers live in `libs/components`, `libs/http`, `libs/database`, and `libs/scripts`.
 
 The walking pace app has two entry points with different responsibilities:
 
@@ -82,7 +82,8 @@ apps/
 libs/
 ├── components/                # reusable server-rendered JSX primitives and component CSS
 ├── database/                  # shared database lifecycle and migration primitives
-└── http/                      # reusable form parsing and HTTP response helpers
+├── http/                      # reusable form parsing and HTTP response helpers
+└── scripts/                   # reusable Bun automation helpers
 site/                          # Jekyll source for the public Hyper-Dank docs
 e2e/
 ├── tests/walking-pace/        # Playwright browser workflows
@@ -212,7 +213,7 @@ components/atoms/Button/
 └── index.ts
 ```
 
-That local folder shape keeps the implementation, tests, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files. Shared app CSS is Vite-managed from `apps/walking-pace/src/client/styles.css`, while component class names keep ownership visible in markup and tests. The reusable component package also exports `@macavitymadcap/hyper-dank-components/styles.css` for package consumers that want the baseline class contracts.
+That local folder shape keeps the implementation, tests, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files. Shared app CSS is Vite-managed from `apps/walking-pace/src/client/styles.css`, while component class names keep ownership visible in markup and tests. The reusable component package also exports `@macavitymadcap/hyper-dank-ui/styles.css` for package consumers that want the baseline class contracts.
 
 The app uses semantic HTML where possible. The home page uses the reusable `Card` atom rendered as a `main` region, with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body. `Chip` is used for compact metadata such as the walk count, and `LabelledOutput` names the "label plus machine-readable output value" shape used by the summary metrics.
 
@@ -230,7 +231,7 @@ The template tries to make the common path obvious:
 - **CSS class contracts stay visible.** Components keep semantic class names close to their markup, while Vite bundles the shared CSS entry.
 - **CSS variables carry design decisions.** Components consume semantic variables like `--surface`, `--table-text`, and `--border-subtle`; theme switching changes those variables centrally.
 - **Tests follow boundaries.** Component tests cover markup, route tests cover full-page behaviour, HTMX tests cover fragment contracts, database tests cover persistence, and Pa11y covers accessibility regressions.
-- **Services are injected.** Route creation receives providers and services rather than constructing them internally. Scripts follow the same direction by keeping entrypoints small and putting reusable logic behind classes or helper modules in `apps/walking-pace/scripts/lib`.
+- **Services are injected.** Route creation receives providers and services rather than constructing them internally. Scripts follow the same direction by keeping entrypoints small, importing reusable mechanics from `libs/scripts`, and keeping app-specific flows in `apps/walking-pace/scripts`.
 
 ## Browser Assets
 

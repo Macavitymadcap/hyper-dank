@@ -1,4 +1,4 @@
-import type { DatabaseProviderBase } from "@macavitymadcap/hyper-dank-database";
+import type { DatabaseProviderBase } from "@macavitymadcap/hyper-dank-data";
 import type { InviteRepository } from "../services/invitations/model";
 
 export interface Walk {

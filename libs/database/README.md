@@ -10,7 +10,7 @@ shape, migration helpers, and conformance checks that future adapters can reuse.
 - Main export: `DatabaseAdapterKind`, `MaybePromise`, `DatabaseLifecycle`, `RepositoryFactory`,
   `DatabaseProviderBase`, `Migration`, `MigrationStore`, and `runPendingMigrations`.
 - Testing export: `DatabaseLifecycleHarness` and `describeDatabaseLifecycleContract` from
-  `@macavitymadcap/hyper-dank-database/testing`.
+  `@macavitymadcap/hyper-dank-data/testing`.
 
 The public docs site includes examples for provider typing, migration stores, and lifecycle contract
 tests.

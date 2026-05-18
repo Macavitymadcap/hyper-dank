@@ -1,4 +1,4 @@
-import { Card, Switch } from "@macavitymadcap/hyper-dank-components";
+import { Card, Switch } from "@macavitymadcap/hyper-dank-ui";
 import type { AuthUser } from "../../../auth";
 import type { Stats, WalkWithStats } from "../../../db";
 import { LogoutForm } from "../../molecules/LogoutForm";

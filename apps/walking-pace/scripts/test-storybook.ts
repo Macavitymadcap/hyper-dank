@@ -2,9 +2,8 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { waitForHttp } from "./lib/app-server";
+import { runAsync, waitForHttp } from "@macavitymadcap/hyper-dank-automation";
 import { root } from "./lib/paths";
-import { runAsync } from "./lib/process";
 
 const portFlag = process.argv.indexOf("--port");
 const portValue =
@@ -31,7 +30,7 @@ const storybook = Bun.spawn(["node", staticServerScript, String(port), staticDir
 
 try {
   await Promise.race([
-    waitForHttp(url, 60, 1000),
+    waitForHttp(url, { attempts: 60, delayMs: 1000 }),
     storybook.exited.then((exitCode) => {
       throw new Error(`Storybook static server exited before tests started: ${exitCode}`);
     }),

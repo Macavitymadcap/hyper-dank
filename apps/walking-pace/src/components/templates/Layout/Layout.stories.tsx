@@ -1,4 +1,4 @@
-import { Card } from "@macavitymadcap/hyper-dank-components";
+import { Card } from "@macavitymadcap/hyper-dank-ui";
 import type { Meta, StoryObj } from "@storybook/html-vite";
 import { expect, within } from "storybook/test";
 import { renderDocumentStory } from "../../../stories/render";

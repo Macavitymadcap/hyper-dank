@@ -15,10 +15,11 @@
     "allowImportingTsExtensions": true,
     "baseUrl": ".",
     "paths": {
-      "@macavitymadcap/hyper-dank-components": ["libs/components/src/index.ts"],
-      "@macavitymadcap/hyper-dank-database": ["libs/database/src/index.ts"],
-      "@macavitymadcap/hyper-dank-database/testing": ["libs/database/src/testing.ts"],
-      "@macavitymadcap/hyper-dank-http": ["libs/http/src/index.ts"]
+      "@macavitymadcap/hyper-dank-ui": ["libs/components/src/index.ts"],
+      "@macavitymadcap/hyper-dank-data": ["libs/database/src/index.ts"],
+      "@macavitymadcap/hyper-dank-data/testing": ["libs/database/src/testing.ts"],
+      "@macavitymadcap/hyper-dank-transport": ["libs/http/src/index.ts"],
+      "@macavitymadcap/hyper-dank-automation": ["libs/scripts/src/index.ts"]
     },
     "verbatimModuleSyntax": true,
     "noEmit": true,

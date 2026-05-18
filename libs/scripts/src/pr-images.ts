@@ -22,7 +22,7 @@ export interface ScreenshotFlowSummary {
   states: ScreenshotStateSummary[];
 }
 
-interface BuildImagesSectionOptions {
+export interface BuildImagesSectionOptions {
   branch: string;
   flows: ScreenshotFlowSummary[];
   repo: GitHubRepo;
@@ -62,7 +62,7 @@ export function buildImagesSection({
 
 export function updateImagesSection(body: string, imagesSection: string) {
   if (body.includes("## Images")) {
-    return body.replace(/## Images\n[\s\S]*?(?=\n## |\s*$)/, `${imagesSection}\n\n`);
+    return body.replace(/## Images\n[\s\S]*?(?=\n## |\s*$)/, `${imagesSection}\n`);
   }
 
   return `${body.trim()}\n\n${imagesSection}\n`;

@@ -1,26 +1,11 @@
-import { Button, Chip, HxForm, ScrollableTable } from "@macavitymadcap/hyper-dank-components";
+import { Button, Chip, HxForm, ScrollableTable } from "@macavitymadcap/hyper-dank-ui";
 import type { WalkWithStats } from "../../../db";
+import {
+  WALK_HISTORY_MOBILE_ROW_HEIGHT,
+  WALK_HISTORY_ROW_HEIGHT,
+  walkHistoryTableColumns,
+} from "../../../shared/walk-history-table";
 import { WalksRow } from "../../molecules/WalksRow";
-
-const columnsTemplate = [
-  "minmax(5.5rem, 1fr)",
-  "minmax(3.25rem, 0.62fr)",
-  "minmax(3.4rem, 0.65fr)",
-  "minmax(3.4rem, 0.65fr)",
-  "minmax(4rem, 0.76fr)",
-  "minmax(5rem, 0.95fr)",
-  "minmax(5.5rem, 0.95fr)",
-].join(" ");
-
-const mobileColumnsTemplate = [
-  "minmax(0, 1.25fr)",
-  "minmax(0, 0.58fr)",
-  "minmax(0, 0.66fr)",
-  "minmax(0, 0.66fr)",
-  "minmax(0, 0.74fr)",
-  "minmax(0, 0.9fr)",
-  "minmax(4.35rem, 0.95fr)",
-].join(" ");
 
 interface WalksTableProps {
   walks: WalkWithStats[];
@@ -56,13 +41,14 @@ export const WalksTable = ({ walks, canMutate = true }: WalksTableProps) => {
       <ScrollableTable
         className="walks-table"
         columns={[
-          { key: "created-at", header: "Date time" },
-          { key: "miles", header: "Mi" },
-          { key: "minutes", header: "Min" },
-          { key: "seconds", header: "Sec" },
-          { key: "speed", header: "mph" },
-          { key: "pace", header: "min/mi" },
+          { ...walkHistoryTableColumns.createdAt, header: "Date time" },
+          { ...walkHistoryTableColumns.miles, header: "Mi" },
+          { ...walkHistoryTableColumns.minutes, header: "Min" },
+          { ...walkHistoryTableColumns.seconds, header: "Sec" },
+          { ...walkHistoryTableColumns.speed, header: "mph" },
+          { ...walkHistoryTableColumns.pace, header: "min/mi" },
           {
+            ...walkHistoryTableColumns.actions,
             key: "actions",
             header: (
               <HxForm action="/walks/delete" method="post">
@@ -83,12 +69,11 @@ export const WalksTable = ({ walks, canMutate = true }: WalksTableProps) => {
             isAction: true,
           },
         ].filter((column) => canMutate || column.key !== "actions")}
-        columnsTemplate={columnsTemplate}
         isScrollable={isScrollable}
-        mobileColumnsTemplate={mobileColumnsTemplate}
-        mobileRowHeight="3.25rem"
+        mobileRowHeight={WALK_HISTORY_MOBILE_ROW_HEIGHT}
         mobileScrollBodyRows={3}
         rowClassName="walks-row"
+        rowHeight={WALK_HISTORY_ROW_HEIGHT}
         scrollBodyRows={4}
       >
         {walks.map((walk) => (

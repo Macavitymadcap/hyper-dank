@@ -1,5 +1,5 @@
 {
-  "name": "@macavitymadcap/hyper-dank-http",
+  "name": "@macavitymadcap/hyper-dank-transport",
   "version": "0.1.0",
   "type": "module",
   "description": "Small Hono and HTMX helpers for hypermedia-first apps.",

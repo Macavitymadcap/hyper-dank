@@ -11,19 +11,18 @@ export interface GitHubPullRequest {
   number: number;
 }
 
-export function parseGitHubRepo(repo: string): GitHubRepo {
-  const [owner, name] = repo.split("/");
-  if (!owner || !name) throw new Error(`Expected OWNER/REPO, received: ${repo}`);
+export type GitHubFetch = (input: string | URL | Request, init?: RequestInit) => Promise<Response>;
 
-  return { owner, name };
+export interface GitHubRequestOptions {
+  fetchImpl?: GitHubFetch;
 }
 
-export function getGitHubRepo(): GitHubRepo {
-  const remote = run("git", ["remote", "get-url", "origin"]);
+export function parseGitHubRepo(remote: string): GitHubRepo {
+  const shorthand = remote.match(/^([^/\s:]+)\/([^/\s]+)$/);
   const sshMatch = remote.match(/github\.com[:/]([^/]+)\/(.+?)(?:\.git)?$/);
   const httpsMatch = remote.match(/github\.com\/([^/]+)\/(.+?)(?:\.git)?$/);
-  const match = sshMatch ?? httpsMatch;
-  if (!match?.[1] || !match[2]) throw new Error(`Could not parse GitHub remote: ${remote}`);
+  const match = shorthand ?? sshMatch ?? httpsMatch;
+  if (!match?.[1] || !match[2]) throw new Error(`Could not parse GitHub repo: ${remote}`);
 
   return {
     owner: match[1],
@@ -31,9 +30,13 @@ export function getGitHubRepo(): GitHubRepo {
   };
 }
 
-export function getGitHubToken() {
-  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
-  if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
+export function getGitHubRepo(remote = run("git", ["remote", "get-url", "origin"])): GitHubRepo {
+  return parseGitHubRepo(remote);
+}
+
+export function getGitHubToken(env: NodeJS.ProcessEnv = process.env) {
+  if (env.GITHUB_TOKEN) return env.GITHUB_TOKEN;
+  if (env.GH_TOKEN) return env.GH_TOKEN;
 
   const credential = run("git", ["credential", "fill"], {
     allowFailure: true,
@@ -79,6 +82,7 @@ export async function githubRequest<T>(
   token: string,
   endpoint: string,
   init: RequestInit = {},
+  options: GitHubRequestOptions = {},
 ): Promise<T> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github+json",
@@ -89,7 +93,7 @@ export async function githubRequest<T>(
 
   if (init.headers) Object.assign(headers, init.headers);
 
-  const response = await fetch(`https://api.github.com${endpoint}`, {
+  const response = await (options.fetchImpl ?? fetch)(`https://api.github.com${endpoint}`, {
     ...init,
     headers,
   });

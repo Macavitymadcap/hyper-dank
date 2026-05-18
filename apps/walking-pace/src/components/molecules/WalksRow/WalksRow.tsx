@@ -1,4 +1,4 @@
-import { Button, HxForm, TableCell } from "@macavitymadcap/hyper-dank-components";
+import { Button, HxForm, TableCell } from "@macavitymadcap/hyper-dank-ui";
 
 interface WalksRowProps {
   id: number;

@@ -1,4 +1,4 @@
-import type { HttpResponder } from "@macavitymadcap/hyper-dank-http";
+import type { HttpResponder } from "@macavitymadcap/hyper-dank-transport";
 import type { Context } from "hono";
 import type { AuthProvider } from "../auth";
 import { AdminDashboard, AdminPage } from "../components";

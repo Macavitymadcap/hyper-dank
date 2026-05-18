@@ -11,6 +11,7 @@ The public production site is GitHub Pages: Jekyll documentation at `/`, a brows
 localStorage pace demo at `/pace/`, and Storybook at `/storybook/`.
 
 For the design philosophy and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+For reusable library roles and app-shape recipes, see the Jekyll docs in [`site/`](./site).
 
 For the solo-maintainer branch workflow, Conventional Commit PR titles, and release/versioning process, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
@@ -244,6 +245,8 @@ The test suite covers:
 - WCAG 2 AA accessibility checks with pa11y
 - SQLite repository behaviour with in-memory databases, including user scoping
 - shared database provider and repository adapter contracts, with optional Postgres conformance via `TEST_DATABASE_URL`
+- consumer compatibility coverage for Character Sheet-style, blog, dashboard/admin, static demo,
+  server-app, and scripts-package imports
 - validation and pace calculations
 
 ## Forms And Progressive Enhancement
