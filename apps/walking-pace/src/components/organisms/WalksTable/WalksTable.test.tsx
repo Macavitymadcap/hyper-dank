@@ -32,8 +32,10 @@ describe("WalksTable", () => {
     expect(html).toContain('<h2 id="history-heading" class="section-title">Walk history</h2>');
     expect(html).toContain('<span class="chip history-count">1 walk</span>');
     expect(html).toContain('<div class="scrollable-table-container"');
-    expect(html).toContain("--scrollable-table-columns:");
-    expect(html).toContain("--scrollable-table-mobile-columns:");
+    expect(html).toContain("--scrollable-table-columns: minmax(6.75rem, 1.2fr)");
+    expect(html).toContain("--scrollable-table-mobile-columns: minmax(0, 1.45fr)");
+    expect(html).toContain("--scrollable-table-row-height: 3.5rem");
+    expect(html).toContain("--scrollable-table-mobile-row-height: 3.75rem");
     expect(html).toContain('<table class="scrollable-table walks-table">');
     expect(html).toContain("<thead>");
     expect(html).toContain("<tbody>");

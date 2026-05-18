@@ -3,13 +3,15 @@ export interface ScrollableTableColumn {
   header: unknown;
   isAction?: boolean;
   key: string;
+  mobileWidth?: string;
+  width?: string;
 }
 
 export interface ScrollableTableProps {
   children: unknown;
   className?: string;
   columns: ScrollableTableColumn[];
-  columnsTemplate: string;
+  columnsTemplate?: string;
   headerHeight?: string;
   isScrollable?: boolean;
   mobileColumnsTemplate?: string;
@@ -38,9 +40,13 @@ export const ScrollableTable = ({
 }: ScrollableTableProps) => {
   const tableClasses = ["scrollable-table", className].filter(Boolean).join(" ");
   const headerRowClasses = ["scrollable-table-row", rowClassName].filter(Boolean).join(" ");
+  const resolvedColumnsTemplate = columnsTemplate ?? buildColumnsTemplate(columns, "width");
+  const resolvedMobileColumnsTemplate =
+    mobileColumnsTemplate ?? buildColumnsTemplate(columns, "mobileWidth", "width");
   const customProperties = [
-    `--scrollable-table-columns: ${columnsTemplate}`,
-    mobileColumnsTemplate && `--scrollable-table-mobile-columns: ${mobileColumnsTemplate}`,
+    `--scrollable-table-columns: ${resolvedColumnsTemplate}`,
+    resolvedMobileColumnsTemplate &&
+      `--scrollable-table-mobile-columns: ${resolvedMobileColumnsTemplate}`,
     headerHeight && `--scrollable-table-header-height: ${headerHeight}`,
     mobileHeaderHeight && `--scrollable-table-mobile-header-height: ${mobileHeaderHeight}`,
     rowHeight && `--scrollable-table-row-height: ${rowHeight}`,
@@ -77,3 +83,16 @@ export const ScrollableTable = ({
     </div>
   );
 };
+
+function buildColumnsTemplate(
+  columns: ScrollableTableColumn[],
+  primaryKey: "width" | "mobileWidth",
+  fallbackKey?: "width",
+) {
+  return columns
+    .map(
+      (column) =>
+        column[primaryKey] ?? (fallbackKey ? column[fallbackKey] : undefined) ?? "minmax(0, 1fr)",
+    )
+    .join(" ");
+}
