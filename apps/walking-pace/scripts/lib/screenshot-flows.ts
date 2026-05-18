@@ -1,4 +1,5 @@
 import { setTimeout as delay } from "node:timers/promises";
+import type { Theme } from "@macavitymadcap/hyper-dank-scripts";
 import type { Page } from "@playwright/test";
 import { LOCAL_DEV_PASSWORD, seedLocalDevPresets } from "../../src/envs/local/local-presets";
 import {
@@ -7,7 +8,6 @@ import {
   type InMemoryAppServer,
   type SampleWalk,
 } from "./app-server";
-import type { Theme } from "./pr-images";
 
 export interface ScreenshotFlowContext {
   page: Page;

@@ -1,4 +1,4 @@
-import { setTimeout as delay } from "node:timers/promises";
+import { startBunServer as startSharedBunServer } from "@macavitymadcap/hyper-dank-scripts";
 import { createApp } from "../../src/app";
 import { type CreateAuthUserInput, TestAuthProvider } from "../../src/auth";
 import {
@@ -42,10 +42,6 @@ const DEFAULT_TEST_USER: AppServerTestUser = {
   role: "user",
 };
 
-const DYNAMIC_PORT_ATTEMPTS = 50;
-const DYNAMIC_PORT_BASE = 45_000;
-const DYNAMIC_PORT_RANGE = 20_000;
-
 export async function startInMemoryAppServer(
   port: number,
   options: StartInMemoryAppServerOptions = {},
@@ -62,7 +58,8 @@ export async function startInMemoryAppServer(
     }
   }
   let fetchApp: ((request: Request) => Response | Promise<Response>) | undefined;
-  const { port: actualPort, server } = startBunServer(port, {
+  const { port: actualPort, server } = startSharedBunServer({
+    port,
     fetch(request) {
       if (!fetchApp) return new Response("Server is not ready.", { status: 503 });
 
@@ -117,59 +114,6 @@ export async function startInMemoryAppServer(
       await databaseProvider.close();
     },
   };
-}
-
-function startBunServer(
-  requestedPort: number,
-  options: { fetch: (request: Request) => Response | Promise<Response> },
-) {
-  let lastError: unknown;
-  const attempts = requestedPort > 0 ? 1 : DYNAMIC_PORT_ATTEMPTS;
-
-  for (let attempt = 0; attempt < attempts; attempt += 1) {
-    const candidatePort = requestedPort > 0 ? requestedPort : dynamicPortCandidate(attempt);
-
-    try {
-      const server = Bun.serve({
-        port: candidatePort,
-        fetch: options.fetch,
-      });
-
-      return {
-        port: server.port ?? candidatePort,
-        server,
-      };
-    } catch (error) {
-      lastError = error;
-      if (requestedPort > 0 || !isAddressInUseError(error)) throw error;
-    }
-  }
-
-  throw new Error(`Unable to start test server on an available port. Last error: ${lastError}`);
-}
-
-function dynamicPortCandidate(attempt: number) {
-  const start = Math.abs(process.pid) % DYNAMIC_PORT_RANGE;
-  return DYNAMIC_PORT_BASE + ((start + attempt) % DYNAMIC_PORT_RANGE);
-}
-
-function isAddressInUseError(error: unknown) {
-  return (
-    typeof error === "object" && error !== null && "code" in error && error.code === "EADDRINUSE"
-  );
-}
-
-export async function waitForHttp(url: string, attempts = 40, delayMs = 500) {
-  for (let attempt = 0; attempt < attempts; attempt += 1) {
-    try {
-      const response = await fetch(url);
-      if (response.ok) return;
-    } catch {}
-
-    await delay(delayMs);
-  }
-
-  throw new Error(`Timed out waiting for ${url}`);
 }
 
 export async function clearWalks(baseUrl: string) {

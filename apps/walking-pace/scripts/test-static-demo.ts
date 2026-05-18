@@ -2,9 +2,9 @@
 import { existsSync } from "node:fs";
 import { createServer, type Server } from "node:http";
 import { extname, resolve } from "node:path";
+import { runAsync } from "@macavitymadcap/hyper-dank-scripts";
 import { chromium, expect } from "@playwright/test";
 import { appRoot } from "./lib/paths";
-import { runAsync } from "./lib/process";
 
 const staticRoot = resolve(appRoot, "dist/static-demo");
 const staticIndex = resolve(staticRoot, "index.html");
