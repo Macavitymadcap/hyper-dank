@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.4...pace-calculator-v1.4.0) (2026-05-18)
+
+
+### Features
+
+* **platform:** add Hyper-Dank Pages platform ([#23](https://github.com/Macavitymadcap/pace-calculator/issues/23)) ([26372dd](https://github.com/Macavitymadcap/pace-calculator/commit/26372ddffdf6eecf40dc13db27616585c119fe07))
+
+
+### Bug Fixes
+
+* **deploy:** enable GitHub Pages setup ([#26](https://github.com/Macavitymadcap/pace-calculator/issues/26)) ([74ff4df](https://github.com/Macavitymadcap/pace-calculator/commit/74ff4df84191f4232001644e80b4273d7e23f4fc))
+
 ## [1.3.4](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.3...pace-calculator-v1.3.4) (2026-05-17)
 
 
