@@ -8,6 +8,26 @@ const THEME_STORAGE_KEY = "hyper-dank:theme";
 
 const provider = new LocalStoragePaceProvider({ storage: window.localStorage });
 
+const tableColumnsTemplate = [
+  "minmax(5.5rem, 1fr)",
+  "minmax(3.25rem, 0.62fr)",
+  "minmax(3.4rem, 0.65fr)",
+  "minmax(3.4rem, 0.65fr)",
+  "minmax(4rem, 0.76fr)",
+  "minmax(5rem, 0.95fr)",
+  "minmax(5.5rem, 0.95fr)",
+].join(" ");
+
+const tableMobileColumnsTemplate = [
+  "minmax(0, 1.25fr)",
+  "minmax(0, 0.58fr)",
+  "minmax(0, 0.66fr)",
+  "minmax(0, 0.66fr)",
+  "minmax(0, 0.74fr)",
+  "minmax(0, 0.9fr)",
+  "minmax(4.35rem, 0.95fr)",
+].join(" ");
+
 const form = document.querySelector<HTMLFormElement>("#walk-form");
 const error = document.querySelector<HTMLElement>("#form-error");
 const stats = document.querySelector<HTMLElement>("#stats");
@@ -109,9 +129,14 @@ function renderWalks() {
           </button>
         </div>
       </div>
-      <table class="scrollable-table walks-table">
-        <thead>
-          <tr>
+      <div
+        class="scrollable-table-container"
+        ${walks.length > 3 ? 'data-scrollable="true"' : ""}
+        style="--scrollable-table-columns: ${tableColumnsTemplate}; --scrollable-table-mobile-columns: ${tableMobileColumnsTemplate}; --scrollable-table-mobile-row-height: 3.25rem; --scrollable-table-scroll-body-rows: 4; --scrollable-table-mobile-scroll-body-rows: 3"
+      >
+        <table class="scrollable-table walks-table">
+          <thead>
+            <tr class="scrollable-table-row walks-row">
             <th scope="col">Date</th>
             <th scope="col">Mi</th>
             <th scope="col">Min</th>
@@ -119,12 +144,13 @@ function renderWalks() {
             <th scope="col">Mph</th>
             <th scope="col">Pace</th>
             <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${walks.map(renderWalkRow).join("")}
-        </tbody>
-      </table>
+            </tr>
+          </thead>
+          <tbody ${walks.length > 3 ? 'tabindex="0"' : ""}>
+            ${walks.map(renderWalkRow).join("")}
+          </tbody>
+        </table>
+      </div>
     </div>
   `;
 }
