@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.0...pace-calculator-v1.4.1) (2026-05-18)
+
+
+### Bug Fixes
+
+* **deploy:** restore Pages artifact ownership ([#27](https://github.com/Macavitymadcap/pace-calculator/issues/27)) ([91dd40e](https://github.com/Macavitymadcap/pace-calculator/commit/91dd40eccf6c4481d58cefd8e4671007f7be0b69))
+
 ## [1.4.0](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.3.4...pace-calculator-v1.4.0) (2026-05-18)
 
 
