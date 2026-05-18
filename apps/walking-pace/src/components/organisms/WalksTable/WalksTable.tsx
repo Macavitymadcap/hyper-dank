@@ -1,4 +1,4 @@
-import { Button, Chip, HxForm, ScrollableTable } from "@macavitymadcap/hyper-dank-components";
+import { Button, Chip, HxForm, ScrollableTable } from "@macavitymadcap/hyper-dank-ui";
 import type { WalkWithStats } from "../../../db";
 import {
   WALK_HISTORY_MOBILE_ROW_HEIGHT,

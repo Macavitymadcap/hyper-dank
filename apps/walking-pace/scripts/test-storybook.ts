@@ -2,7 +2,7 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { runAsync, waitForHttp } from "@macavitymadcap/hyper-dank-scripts";
+import { runAsync, waitForHttp } from "@macavitymadcap/hyper-dank-automation";
 import { root } from "./lib/paths";
 
 const portFlag = process.argv.indexOf("--port");

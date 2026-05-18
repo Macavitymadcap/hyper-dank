@@ -5,7 +5,7 @@ describe("PR image helpers", () => {
   test("builds escaped raw GitHub image URLs", () => {
     const section = buildImagesSection({
       branch: "pace 0034",
-      repo: { owner: "Macavitymadcap", name: "pace-calculator" },
+      repo: { owner: "Macavitymadcap", name: "hyper-dank" },
       flows: [{ id: "walks", label: "Walks", states: [{ label: "No walks", slug: "none" }] }],
       screenshots: [
         {

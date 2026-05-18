@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { runAsync, waitForHttp } from "@macavitymadcap/hyper-dank-scripts";
+import { runAsync, waitForHttp } from "@macavitymadcap/hyper-dank-automation";
 import { LOCAL_DEV_PASSWORD, seedLocalDevPresets } from "../src/envs/local/local-presets";
 import { startInMemoryAppServer } from "./lib/app-server";
 

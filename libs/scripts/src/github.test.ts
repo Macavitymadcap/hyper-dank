@@ -3,17 +3,17 @@ import { githubRequest, parseGitHubRepo } from "./github";
 
 describe("github helpers", () => {
   test("parses GitHub shorthand and remotes", () => {
-    expect(parseGitHubRepo("Macavitymadcap/pace-calculator")).toEqual({
+    expect(parseGitHubRepo("Macavitymadcap/hyper-dank")).toEqual({
       owner: "Macavitymadcap",
-      name: "pace-calculator",
+      name: "hyper-dank",
     });
-    expect(parseGitHubRepo("git@github.com:Macavitymadcap/pace-calculator.git")).toEqual({
+    expect(parseGitHubRepo("git@github.com:Macavitymadcap/hyper-dank.git")).toEqual({
       owner: "Macavitymadcap",
-      name: "pace-calculator",
+      name: "hyper-dank",
     });
-    expect(parseGitHubRepo("https://github.com/Macavitymadcap/pace-calculator.git")).toEqual({
+    expect(parseGitHubRepo("https://github.com/Macavitymadcap/hyper-dank.git")).toEqual({
       owner: "Macavitymadcap",
-      name: "pace-calculator",
+      name: "hyper-dank",
     });
   });
 
@@ -25,12 +25,12 @@ describe("github helpers", () => {
 
     await expect(
       githubRequest(
-        { owner: "Macavitymadcap", name: "pace-calculator" },
+        { owner: "Macavitymadcap", name: "hyper-dank" },
         "token",
-        "/repos/Macavitymadcap/pace-calculator",
+        "/repos/Macavitymadcap/hyper-dank",
         {},
         { fetchImpl },
       ),
-    ).rejects.toThrow("Macavitymadcap/pace-calculator: 401 bad credentials");
+    ).rejects.toThrow("Macavitymadcap/hyper-dank: 401 bad credentials");
   });
 });

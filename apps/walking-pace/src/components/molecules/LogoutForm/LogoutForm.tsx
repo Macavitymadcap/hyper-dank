@@ -1,4 +1,4 @@
-import { Button, HxForm } from "@macavitymadcap/hyper-dank-components";
+import { Button, HxForm } from "@macavitymadcap/hyper-dank-ui";
 
 export interface LogoutFormProps {
   label?: string;

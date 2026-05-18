@@ -17,13 +17,13 @@ state.
 
 | Concern | Hyper-Dank package | App-owned boundary |
 | --- | --- | --- |
-| Page and fragment UI | `@macavitymadcap/hyper-dank-components` | Domain pages, route-specific organisms, product copy |
-| Form parsing and redirects | `@macavitymadcap/hyper-dank-http` | Auth, validation rules, permissions, routes |
-| Migrations and provider lifecycle | `@macavitymadcap/hyper-dank-database` | Schemas, repositories, adapter choice |
-| Verification and browser checks | `@macavitymadcap/hyper-dank-scripts` | Gate list, fixtures, seeded users, smoke flows |
+| Page and fragment UI | `@macavitymadcap/hyper-dank-ui` | Domain pages, route-specific organisms, product copy |
+| Form parsing and redirects | `@macavitymadcap/hyper-dank-transport` | Auth, validation rules, permissions, routes |
+| Migrations and provider lifecycle | `@macavitymadcap/hyper-dank-data` | Schemas, repositories, adapter choice |
+| Verification and browser checks | `@macavitymadcap/hyper-dank-automation` | Gate list, fixtures, seeded users, smoke flows |
 
 ```tsx
-import { Button, FormField, HxForm, Panel } from "@macavitymadcap/hyper-dank-components";
+import { Button, FormField, HxForm, Panel } from "@macavitymadcap/hyper-dank-ui";
 
 export function SettingsPanel() {
   return (
@@ -47,12 +47,12 @@ not in the shared packages.
 Use this shape for docs, journals, release notes, and content-heavy pages served from static hosting.
 
 - Use `Card`, `Panel`, `Badge`, and `CompactList` for article metadata and related links.
-- Import `@macavitymadcap/hyper-dank-components/styles.css` through the static site's asset bundle
+- Import `@macavitymadcap/hyper-dank-ui/styles.css` through the static site's asset bundle
   when you want the baseline component contracts.
 - Keep content rendering, routing, search indexes, and feed generation in the static-site app.
 
 ```tsx
-import { Badge, Card, CompactList, Panel } from "@macavitymadcap/hyper-dank-components";
+import { Badge, Card, CompactList, Panel } from "@macavitymadcap/hyper-dank-ui";
 
 export function ArticleSummary() {
   return (
@@ -84,7 +84,7 @@ import {
   Panel,
   ScrollableTable,
   TableCell,
-} from "@macavitymadcap/hyper-dank-components";
+} from "@macavitymadcap/hyper-dank-ui";
 
 export function AdminList() {
   return (
@@ -114,7 +114,7 @@ Use this shape for GitHub Pages demos or offline examples that should not assume
   the demo.
 
 ```tsx
-import { Button, InputGroup, LabelledOutput, Panel } from "@macavitymadcap/hyper-dank-components";
+import { Button, InputGroup, LabelledOutput, Panel } from "@macavitymadcap/hyper-dank-ui";
 
 export function DemoForm() {
   return (
@@ -132,7 +132,7 @@ export function DemoForm() {
 
 ## Script Consumer
 
-Use `@macavitymadcap/hyper-dank-scripts` when an app needs repeatable local automation without
+Use `@macavitymadcap/hyper-dank-automation` when an app needs repeatable local automation without
 copying one-off helpers.
 
 ```ts
@@ -142,7 +142,7 @@ import {
   renderVerificationReport,
   runVerification,
   waitForHttp,
-} from "@macavitymadcap/hyper-dank-scripts";
+} from "@macavitymadcap/hyper-dank-automation";
 
 const results = await runVerification([
   { id: "check", name: "Static Checks", tooling: "Biome", command: "bun", args: ["run", "check"] },

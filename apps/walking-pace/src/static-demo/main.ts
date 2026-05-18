@@ -1,4 +1,4 @@
-import "@macavitymadcap/hyper-dank-components/styles.css";
+import "@macavitymadcap/hyper-dank-ui/styles.css";
 import "../client/styles.css";
 import "./styles.css";
 import type { WalkWithStats } from "../db";

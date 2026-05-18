@@ -1,5 +1,5 @@
 {
-  "name": "@macavitymadcap/hyper-dank-scripts",
+  "name": "@macavitymadcap/hyper-dank-automation",
   "version": "0.1.0",
   "type": "module",
   "description": "Reusable Bun automation helpers for Hyper-Dank apps.",

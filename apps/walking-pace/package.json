@@ -1,5 +1,5 @@
 {
-  "name": "pace-calculator",
+  "name": "@macavitymadcap/hyper-dank",
   "version": "1.3.0",
   "private": true,
   "type": "module",
@@ -23,9 +23,10 @@
     "test:static-demo": "bun scripts/test-static-demo.ts"
   },
   "dependencies": {
-    "@macavitymadcap/hyper-dank-components": "workspace:*",
-    "@macavitymadcap/hyper-dank-database": "workspace:*",
-    "@macavitymadcap/hyper-dank-http": "workspace:*",
+    "@macavitymadcap/hyper-dank-automation": "workspace:*",
+    "@macavitymadcap/hyper-dank-ui": "workspace:*",
+    "@macavitymadcap/hyper-dank-data": "workspace:*",
+    "@macavitymadcap/hyper-dank-transport": "workspace:*",
     "better-auth": "^1.6.11",
     "hono": "^4.0.0",
     "htmx.org": "^2.0.10",

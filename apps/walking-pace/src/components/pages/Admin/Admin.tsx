@@ -1,4 +1,4 @@
-import { Card } from "@macavitymadcap/hyper-dank-components";
+import { Card } from "@macavitymadcap/hyper-dank-ui";
 import type { AuthUser } from "../../../auth";
 import type { Stats, WalkWithStats } from "../../../db";
 import type { Invitation } from "../../../services/invitations";

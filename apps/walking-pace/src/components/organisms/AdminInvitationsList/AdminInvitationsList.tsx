@@ -1,4 +1,4 @@
-import { Button, Chip, HxForm } from "@macavitymadcap/hyper-dank-components";
+import { Button, Chip, HxForm } from "@macavitymadcap/hyper-dank-ui";
 import type { Invitation } from "../../../services/invitations";
 
 interface AdminInvitationsListProps {

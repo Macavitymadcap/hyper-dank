@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { randomUUID } from "node:crypto";
-import { describeDatabaseLifecycleContract } from "@macavitymadcap/hyper-dank-database/testing";
+import { describeDatabaseLifecycleContract } from "@macavitymadcap/hyper-dank-data/testing";
 import type { InviteRepository } from "../../services/invitations";
 import type { DatabaseKind, DatabaseProvider, WalkRepository } from "../model";
 

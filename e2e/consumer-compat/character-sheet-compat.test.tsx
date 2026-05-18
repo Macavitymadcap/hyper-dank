@@ -1,5 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import {
+  buildImagesSection,
+  parseGitHubRepo,
+  renderVerificationReport,
+  run,
+  updateImagesSection,
+  waitForHttp,
+} from "@macavitymadcap/hyper-dank-automation";
+import { type Migration, runPendingMigrations } from "@macavitymadcap/hyper-dank-data";
+import { errorMessage, FormValues, HttpResponder } from "@macavitymadcap/hyper-dank-transport";
+import {
   Accordion,
   Badge,
   Button,
@@ -15,17 +25,7 @@ import {
   ScrollableTable,
   Switch,
   TableCell,
-} from "@macavitymadcap/hyper-dank-components";
-import { type Migration, runPendingMigrations } from "@macavitymadcap/hyper-dank-database";
-import { errorMessage, FormValues, HttpResponder } from "@macavitymadcap/hyper-dank-http";
-import {
-  buildImagesSection,
-  parseGitHubRepo,
-  renderVerificationReport,
-  run,
-  updateImagesSection,
-  waitForHttp,
-} from "@macavitymadcap/hyper-dank-scripts";
+} from "@macavitymadcap/hyper-dank-ui";
 
 describe("Character Sheet compatibility", () => {
   test("imports generic components needed by the external character-sheet app", () => {
@@ -207,7 +207,7 @@ describe("Hyper-Dank app-shape compatibility", () => {
   });
 
   test("imports script helpers with fake inputs and no live services", async () => {
-    const repo = parseGitHubRepo("Macavitymadcap/pace-calculator");
+    const repo = parseGitHubRepo("Macavitymadcap/hyper-dank");
     const images = buildImagesSection({
       branch: "compat",
       repo,
@@ -244,7 +244,7 @@ describe("Hyper-Dank app-shape compatibility", () => {
       fetchImpl: async () => new Response("ready"),
     });
 
-    expect(repo).toEqual({ owner: "Macavitymadcap", name: "pace-calculator" });
+    expect(repo).toEqual({ owner: "Macavitymadcap", name: "hyper-dank" });
     expect(images).toContain("demo-ready.png");
     expect(updateImagesSection("Body", images)).toContain("## Images");
     expect(report).toContain("Compatibility");

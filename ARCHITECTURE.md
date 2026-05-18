@@ -213,7 +213,7 @@ components/atoms/Button/
 └── index.ts
 ```
 
-That local folder shape keeps the implementation, tests, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files. Shared app CSS is Vite-managed from `apps/walking-pace/src/client/styles.css`, while component class names keep ownership visible in markup and tests. The reusable component package also exports `@macavitymadcap/hyper-dank-components/styles.css` for package consumers that want the baseline class contracts.
+That local folder shape keeps the implementation, tests, and public export together. When a component grows, its related files grow in place instead of spreading across broad global files. Shared app CSS is Vite-managed from `apps/walking-pace/src/client/styles.css`, while component class names keep ownership visible in markup and tests. The reusable component package also exports `@macavitymadcap/hyper-dank-ui/styles.css` for package consumers that want the baseline class contracts.
 
 The app uses semantic HTML where possible. The home page uses the reusable `Card` atom rendered as a `main` region, with separate `section` elements and `h3` section headings. The history region is a real table with a sticky header and a scrollable body. `Chip` is used for compact metadata such as the walk count, and `LabelledOutput` names the "label plus machine-readable output value" shape used by the summary metrics.
 

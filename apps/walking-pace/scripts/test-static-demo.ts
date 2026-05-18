@@ -2,7 +2,7 @@
 import { existsSync } from "node:fs";
 import { createServer, type Server } from "node:http";
 import { extname, resolve } from "node:path";
-import { runAsync } from "@macavitymadcap/hyper-dank-scripts";
+import { runAsync } from "@macavitymadcap/hyper-dank-automation";
 import { chromium, expect } from "@playwright/test";
 import { appRoot } from "./lib/paths";
 

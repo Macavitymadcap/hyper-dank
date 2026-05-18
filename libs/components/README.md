@@ -10,15 +10,15 @@ import {
   Panel,
   ScrollableTable,
   Switch,
-} from "@macavitymadcap/hyper-dank-components";
+} from "@macavitymadcap/hyper-dank-ui";
 ```
 
 The package publishes source for Bun/workspace consumers and declaration files in `dist/`.
-Import `@macavitymadcap/hyper-dank-components/styles.css` when an app wants the baseline
+Import `@macavitymadcap/hyper-dank-ui/styles.css` when an app wants the baseline
 component class contracts.
 
 ```ts
-import "@macavitymadcap/hyper-dank-components/styles.css";
+import "@macavitymadcap/hyper-dank-ui/styles.css";
 ```
 
 The CSS export is intentionally small. It preserves generic class and variant hooks such as
@@ -39,7 +39,7 @@ pipeline; importing the package in server code does not automatically load style
   `InputGroupProps`, `LabelledOutput`, `LabelledOutputProps`, `PopoverMenu`, `PopoverMenuItem`,
   `PopoverMenuProps`, `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps`.
 - Shared types: `HtmxProps`.
-- CSS: `@macavitymadcap/hyper-dank-components/styles.css`.
+- CSS: `@macavitymadcap/hyper-dank-ui/styles.css`.
 
 Compatibility coverage exercises these exports in Character Sheet-style, static blog,
 dashboard/admin, static-demo, and server-app compositions. The public docs site documents every

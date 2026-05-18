@@ -1,4 +1,4 @@
-import { Button, HxForm, InputGroup } from "@macavitymadcap/hyper-dank-components";
+import { Button, HxForm, InputGroup } from "@macavitymadcap/hyper-dank-ui";
 
 export interface WalkFormProps {
   defaultValues?: {

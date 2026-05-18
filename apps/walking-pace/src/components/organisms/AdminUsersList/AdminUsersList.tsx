@@ -1,4 +1,4 @@
-import { Button, Chip, HxForm } from "@macavitymadcap/hyper-dank-components";
+import { Button, Chip, HxForm } from "@macavitymadcap/hyper-dank-ui";
 import type { AuthUser } from "../../../auth";
 
 interface AdminUsersListProps {

@@ -20,12 +20,12 @@ explicit database lifecycles, reusable app automation, and consumer-style compat
   <section class="library-panel" id="components" markdown="1">
     <h2>Components</h2>
 
-`@macavitymadcap/hyper-dank-components` exposes server-rendered Hono JSX primitives plus a small
+`@macavitymadcap/hyper-dank-ui` exposes server-rendered Hono JSX primitives plus a small
 CSS export. Import the CSS from the browser asset pipeline, then render components from server JSX.
 
 ```ts
-import { Button, Card, FormField, HxForm, Switch } from "@macavitymadcap/hyper-dank-components";
-import "@macavitymadcap/hyper-dank-components/styles.css";
+import { Button, Card, FormField, HxForm, Switch } from "@macavitymadcap/hyper-dank-ui";
+import "@macavitymadcap/hyper-dank-ui/styles.css";
 
 export function SettingsForm() {
   return (
@@ -96,7 +96,7 @@ With HTMX, the same form posts to `hx-post` and swaps the fragment named by `hx-
   <section class="library-panel" id="database" markdown="1">
     <h2>Database</h2>
 
-`@macavitymadcap/hyper-dank-database` contains provider lifecycle and migration primitives. Apps keep
+`@macavitymadcap/hyper-dank-data` contains provider lifecycle and migration primitives. Apps keep
 their domain repositories and schemas local, then use conformance tests to keep adapters honest.
 
 ```ts
@@ -105,7 +105,7 @@ import {
   type Migration,
   type MigrationStore,
   runPendingMigrations,
-} from "@macavitymadcap/hyper-dank-database";
+} from "@macavitymadcap/hyper-dank-data";
 
 type Repositories = {
   entries: EntryRepository;
@@ -139,7 +139,7 @@ The testing subpath exports a Bun test contract:
 import {
   type DatabaseLifecycleHarness,
   describeDatabaseLifecycleContract,
-} from "@macavitymadcap/hyper-dank-database/testing";
+} from "@macavitymadcap/hyper-dank-data/testing";
 
 describeDatabaseLifecycleContract("SqliteDatabaseProvider", "sqlite", async () => {
   const provider = createSqliteProvider(":memory:");
@@ -159,11 +159,11 @@ contract run.
   <section class="library-panel" id="http" markdown="1">
     <h2>HTTP</h2>
 
-`@macavitymadcap/hyper-dank-http` contains generic form parsing, route parameter, error-message, and
+`@macavitymadcap/hyper-dank-transport` contains generic form parsing, route parameter, error-message, and
 HTMX response helpers. Auth, permissions, and product routes stay in the consuming app.
 
 ```ts
-import { FormValues, HttpResponder, errorMessage, routeParam } from "@macavitymadcap/hyper-dank-http";
+import { FormValues, HttpResponder, errorMessage, routeParam } from "@macavitymadcap/hyper-dank-transport";
 
 const responder = new HttpResponder();
 
@@ -201,7 +201,7 @@ the same HTMX-aware redirect behaviour.
   <section class="library-panel" id="scripts" markdown="1">
     <h2>Scripts</h2>
 
-`@macavitymadcap/hyper-dank-scripts` contains reusable Bun automation helpers for Hyper-Dank apps.
+`@macavitymadcap/hyper-dank-automation` contains reusable Bun automation helpers for Hyper-Dank apps.
 Use it to keep local script entrypoints small while leaving app-specific routes, fixtures, and
 deployment choices in the app.
 
@@ -213,7 +213,7 @@ import {
   runVerification,
   updateImagesSection,
   waitForHttp,
-} from "@macavitymadcap/hyper-dank-scripts";
+} from "@macavitymadcap/hyper-dank-automation";
 ```
 
 ### Script API
