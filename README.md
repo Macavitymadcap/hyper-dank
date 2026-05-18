@@ -327,6 +327,20 @@ The authenticated Walking Pace app still runs locally with `bun run dev` and can
 server app by a downstream consumer, but it is no longer the production deployment target for this
 repository. Server deployments need a Bun runtime plus SQLite or Postgres configuration.
 
+Railway remains a supported downstream deployment pattern for server apps such as Character Sheet.
+This monorepo keeps the server pieces those apps need:
+
+- `Dockerfile` builds the Bun workspace and copies app/package build output.
+- `bun run start` starts the Walking Pace Hono server from the repository root.
+- `bun run db:migrate` runs app database migrations.
+- `bun run seed:admin` seeds or upgrades the first admin account.
+- `/healthz` remains the server health check route.
+
+For Railway-style deployments, use `bun run db:migrate` as a pre-deploy command, `bun run start` as
+the start command, and `/healthz` as the health check path. See
+[`docs/deployment/railway.md`](./docs/deployment/railway.md) for the reusable runbook and example
+configuration.
+
 ## Project Structure
 
 ```text

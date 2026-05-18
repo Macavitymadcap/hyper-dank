@@ -158,6 +158,12 @@ The authenticated Walking Pace Hono app remains a server-side reference implemen
 entrypoint is still `apps/walking-pace/src/index.ts`, and it can be run locally or deployed by a
 consumer that wants Better Auth, SQLite/Postgres persistence, invitations, and admin routes.
 
+Railway is no longer the active production deployment for this repository, but the server deployment
+shape remains Railway-compatible for downstream Hyper-Dank apps such as Character Sheet. The
+workspace keeps the Dockerfile, root `start`, `db:migrate`, and `seed:admin` scripts, and the
+`/healthz` route so a server app can use a Railway pre-deploy migration, start command, and health
+check.
+
 `apps/walking-pace/scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `apps/walking-pace/scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `apps/walking-pace/src/envs/local/local-presets.ts` so tests and manual UI review share the same account fixtures.
 
 ## HTMX Pattern
