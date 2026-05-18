@@ -23,7 +23,7 @@ It follows an HTML-first philosophy: server routes own state and validation, JSX
 The template borrows from a few ideas and tools:
 
 - [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/) for a shared vocabulary around primitives, composed pieces, feature regions, and pages.
-- [Hypermedia Systems](https://hypermedia.systems/) and [HTMX](https://htmx.org/) for the idea that HTML can remain the application protocol.
+- [Hypermedia Systems](https://hypermedia.systems/), [HTMX](https://htmx.org/), and [Server-Driven Web Apps with htmx](https://pragprog.com/titles/mvhtmx/server-driven-web-apps-with-htmx/) for the idea that HTML can remain the application protocol.
 - [Hono](https://hono.dev/) for a small, dependency-light request layer.
 - [Open Props](https://open-props.style/) for design tokens that keep raw values out of component styles.
 - [Vite](https://vite.dev/) for browser CSS, client JavaScript, static assets, production manifests, and Storybook bundling.

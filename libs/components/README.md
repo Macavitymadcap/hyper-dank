@@ -21,3 +21,17 @@ own their product layout and can layer app-specific styling after the package im
 Vite-backed consumers can import the CSS from their browser entry. Bun/Hono consumers that render
 server-side JSX should still include the CSS through the browser bundle or another static asset
 pipeline; importing the package in server code does not automatically load styles in the browser.
+
+## Public Exports
+
+- Atoms: `Badge`, `BadgeProps`, `Button`, `ButtonProps`, `Card`, `CardElement`, `CardProps`, `Chip`,
+  `ChipProps`, `Icon`, `IconProps`, `Panel`, `PanelProps`, `Switch`, `SwitchProps`, `TableCell`,
+  `TableCellProps`.
+- Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `CompactList`, `CompactListItem`,
+  `CompactListProps`, `FormField`, `FormFieldProps`, `HxForm`, `HxFormProps`, `InputGroup`,
+  `InputGroupProps`, `LabelledOutput`, `LabelledOutputProps`, `PopoverMenu`, `PopoverMenuItem`,
+  `PopoverMenuProps`, `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps`.
+- Shared types: `HtmxProps`.
+- CSS: `@macavitymadcap/hyper-dank-components/styles.css`.
+
+The public docs site documents every export and points to Storybook examples for each component.

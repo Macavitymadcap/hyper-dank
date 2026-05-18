@@ -7,6 +7,9 @@ title: System
 
 Hyper-Dank favours explicit hypermedia flow over framework magic.
 
+- Its HTML-first approach is informed by [Hypermedia Systems](https://hypermedia.systems/),
+  [HTMX](https://htmx.org/), and
+  [Server-Driven Web Apps with htmx](https://pragprog.com/titles/mvhtmx/server-driven-web-apps-with-htmx/).
 - Hono routes receive browser requests and return full documents or small HTML fragments.
 - HTMX attributes live in the component that owns the interaction.
 - Repositories hide persistence details behind narrow app contracts.
