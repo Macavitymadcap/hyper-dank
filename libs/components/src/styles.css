@@ -13,6 +13,16 @@
   font: inherit;
 }
 
+.button[data-variant="ghost"] {
+  background: transparent;
+}
+
+.button:disabled,
+.switch-input:disabled + .switch-track {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .compact-list {
   margin: 0;
 }
@@ -59,4 +69,13 @@
 
 .scrollable-table {
   width: 100%;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+}
+
+.switch[data-variant="compact"] .switch-track {
+  min-width: 3rem;
 }

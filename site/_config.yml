@@ -1,0 +1,9 @@
+title: Hyper-Dank
+description: Hypermedia-first libraries and templates for Hono, HTMX, Bun, TypeScript, and JSX.
+url: "https://macavitymadcap.github.io"
+# CI rewrites this in .cache/pages/source from the current GitHub repository name.
+baseurl: "/hyper-dank"
+markdown: kramdown
+permalink: pretty
+exclude:
+  - README.md

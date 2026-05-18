@@ -9,7 +9,7 @@ interface ButtonStoryArgs {
   onClick: StoryActionHandler;
   size: "default" | "compact";
   type: "button" | "reset" | "submit";
-  variant: "primary" | "danger" | "outline" | "text";
+  variant: "primary" | "danger" | "outline" | "text" | "ghost";
 }
 
 const meta = {
@@ -18,7 +18,7 @@ const meta = {
     onClick: { control: false },
     size: { control: "select", options: ["default", "compact"] },
     type: { control: "select", options: ["button", "reset", "submit"] },
-    variant: { control: "select", options: ["primary", "danger", "outline", "text"] },
+    variant: { control: "select", options: ["primary", "danger", "outline", "text", "ghost"] },
   },
   args: {
     label: "Save",
@@ -72,6 +72,9 @@ export const Variants: Story = {
         </Button>
         <Button type="button" variant="text">
           Text
+        </Button>
+        <Button type="button" variant="ghost">
+          Ghost
         </Button>
       </div>,
     ),

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "bun run build:app",
     "build:app": "vite build",
+    "build:demo": "vite build --config vite.static.config.ts",
     "check:deprecations": "bun scripts/check-deprecations.ts",
     "coverage:check": "bun scripts/check-coverage.ts",
     "db:migrate": "bun scripts/db-migrate.ts",
@@ -18,7 +19,8 @@
     "start": "bun src/index.ts",
     "test:a11y": "bun scripts/test-a11y.ts",
     "test:e2e": "bun run build:app && bun -e 'await import(\"./scripts/test-e2e.ts\")'",
-    "test:e2e:ui": "bun run build:app && bun -e 'await import(\"./scripts/test-e2e.ts\")' -- --ui"
+    "test:e2e:ui": "bun run build:app && bun -e 'await import(\"./scripts/test-e2e.ts\")' -- --ui",
+    "test:static-demo": "bun scripts/test-static-demo.ts"
   },
   "dependencies": {
     "@macavitymadcap/hyper-dank-components": "workspace:*",

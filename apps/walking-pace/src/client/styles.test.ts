@@ -9,8 +9,10 @@ describe("client styles", () => {
     expect(css).toContain(':root[data-theme="dark"]');
     expect(css).toContain("--theme-duration: 480ms");
     expect(css).toContain("--button-text: var(--blue-9)");
+    expect(css).toContain('.button[data-variant="ghost"]');
     expect(css).toContain("--scrollable-table-header-height: 3.5rem");
     expect(css).toContain(".scrollable-table tbody .scrollable-table-row:last-child > td");
+    expect(css).toContain('.switch[data-variant="compact"] .switch-track');
     expect(css).toContain(".switch-input:checked + .switch-track .switch-thumb");
     expect(css).not.toContain(".scrollable-table-filler-row");
   });

@@ -189,6 +189,13 @@ body {
   text-align: left;
 }
 
+.button[data-variant="ghost"] {
+  --button-current-bg: transparent;
+  --button-current-bg-hover: var(--table-row-hover-bg);
+  --button-current-border: transparent;
+  --button-current-text: var(--table-text);
+}
+
 .button:hover {
   background-color: var(--button-current-bg-hover);
 }
@@ -309,8 +316,10 @@ body {
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-round);
   color: var(--switch-icon-dark);
+  background-color: var(--switch-track-bg, transparent);
   transition:
     background-position var(--theme-transition),
+    background-color var(--theme-transition),
     border-color var(--theme-transition),
     color var(--theme-text-transition);
 }
@@ -340,12 +349,15 @@ body {
   inset-inline-start: var(--size-1);
   width: 1.75rem;
   border-radius: var(--radius-round);
-  background-image: linear-gradient(
-    135deg,
-    var(--gray-0) 0%,
-    var(--cyan-0) 36%,
-    var(--blue-2) 68%,
-    var(--gray-12) 100%
+  background: var(
+    --switch-thumb-bg,
+    linear-gradient(
+      135deg,
+      var(--gray-0) 0%,
+      var(--cyan-0) 36%,
+      var(--blue-2) 68%,
+      var(--gray-12) 100%
+    )
   );
   background-size: 280% 100%;
   background-position: 0% 50%;
@@ -387,6 +399,7 @@ body {
 
 .switch-input:checked + .switch-track {
   background-position: 100% 50%;
+  background-color: var(--switch-track-checked-bg, var(--switch-track-bg, transparent));
 }
 
 .switch-input:checked + .switch-track::before {
@@ -406,6 +419,19 @@ body {
 .switch-input:focus-visible + .switch-track {
   outline: var(--border-size-2) solid var(--primary);
   outline-offset: var(--size-1);
+}
+
+.switch[data-variant="compact"] .switch-track {
+  width: 3.25rem;
+  height: 1.75rem;
+}
+
+.switch[data-variant="compact"] .switch-thumb {
+  width: 1.25rem;
+}
+
+.switch[data-variant="compact"] .switch-input:checked + .switch-track .switch-thumb {
+  transform: translateX(1.5rem);
 }
 
 /* src/components/atoms/WalksCell/WalksCell.styles.ts */

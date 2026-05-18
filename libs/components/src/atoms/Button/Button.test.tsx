@@ -27,4 +27,17 @@ describe("Button", () => {
     expect(html).toContain('hx-target="#walks-list"');
     expect(html).toContain(">Clear</button>");
   });
+
+  test("renders consumer defaults and ghost variant", () => {
+    const html = render(
+      <Button id="save-character" variant="ghost" ariaLabel="Save character">
+        Save
+      </Button>,
+    );
+
+    expect(html).toContain('id="save-character"');
+    expect(html).toContain('type="button"');
+    expect(html).toContain('aria-label="Save character"');
+    expect(html).toContain('data-variant="ghost"');
+  });
 });

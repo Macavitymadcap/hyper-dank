@@ -68,6 +68,13 @@ const gates: VerificationGate[] = [
     args: ["run", "test:healthcheck"],
   },
   {
+    id: "static-demo",
+    name: "Static Pace Demo",
+    tooling: "Vite static build and Playwright smoke",
+    command: "bun",
+    args: ["run", "test:static-demo"],
+  },
+  {
     id: "compat",
     name: "Package Compatibility",
     tooling: "Packed package smoke test",

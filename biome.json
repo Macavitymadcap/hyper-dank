@@ -8,7 +8,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!docs/pr-screenshots"]
+    "includes": ["**", "!docs/pr-screenshots", "!site/_layouts"]
   },
   "formatter": {
     "enabled": true,

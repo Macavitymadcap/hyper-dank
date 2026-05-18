@@ -20,10 +20,22 @@ describe("Character Sheet compatibility", () => {
         <h1 id="sheet-heading">Lynott</h1>
         <Badge tone="accent">Player</Badge>
         <Icon label="Inspired" name="workspace_premium" />
-        <Switch id="inspiration" label="Inspiration" checked />
-        <FormField htmlFor="character-name" label="Character name">
-          <input id="character-name" name="characterName" />
-        </FormField>
+        <Switch
+          id="inspiration"
+          label="Inspiration"
+          checked
+          variant="compact"
+          offIcon="radio_button_unchecked"
+          onIcon="bolt"
+          hx-post="/characters/lynott/inspiration"
+          hx-target="#sheet"
+        />
+        <FormField
+          id="character-name"
+          name="characterName"
+          label="Character name"
+          autocomplete="name"
+        />
         <CompactList items={[{ label: "Armour Class", value: "18" }]} />
         <Accordion
           name="features"
@@ -34,12 +46,17 @@ describe("Character Sheet compatibility", () => {
           label="Open sheet menu"
           items={[{ href: "/sheet/lynott", label: "Sheet" }]}
         />
-        <Button type="submit">Save</Button>
+        <Button type="submit" variant="ghost">
+          Save
+        </Button>
       </Panel>,
     );
 
     expect(html).toContain("Lynott");
     expect(html).toContain('class="compact-list"');
+    expect(html).toContain('data-variant="compact"');
+    expect(html).toContain('hx-post="/characters/lynott/inspiration"');
+    expect(html).toContain('data-variant="ghost"');
     expect(html).toContain('aria-label="Open sheet menu"');
   });
 

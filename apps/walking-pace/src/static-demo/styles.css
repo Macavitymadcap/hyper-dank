@@ -1,0 +1,33 @@
+.static-demo {
+  gap: var(--size-5);
+}
+
+.static-demo-eyebrow {
+  color: var(--text-muted);
+  font-size: var(--font-size-0);
+  font-weight: var(--font-weight-7);
+  margin: 0 0 var(--size-1);
+}
+
+.static-demo-form {
+  width: 100%;
+}
+
+.static-demo-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.static-demo .form-error[hidden] {
+  display: none;
+}
+
+.static-demo .form-error {
+  color: var(--danger);
+  font-weight: var(--font-weight-7);
+  margin: var(--size-3) 0 0;
+}
+
+.static-demo .empty-state {
+  margin-block: 0;
+}

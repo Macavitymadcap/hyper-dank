@@ -28,7 +28,7 @@ export const AtomicDesign: Story = {
             Atomic design in this template
           </h1>
           <p class="storybook-doc__lede">
-            Pace Calculator keeps components small, progressively composable, and close to the
+            Hyper-Dank keeps components small, progressively composable, and close to the
             server-rendered workflows they support.
           </p>
         </header>

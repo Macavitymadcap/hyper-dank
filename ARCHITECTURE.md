@@ -1,6 +1,8 @@
 # Architecture
 
-Walking Pace Tracker is intentionally small, but it is structured as a template for Hono + HTMX applications that want server-rendered UI, testable routes, and minimal browser-side JavaScript.
+Hyper-Dank is a Bun workspace for hypermedia-first libraries and templates. Its Walking Pace
+Tracker app is intentionally small, but it is structured as a template for Hono + HTMX applications
+that want server-rendered UI, testable routes, and minimal browser-side JavaScript.
 
 It follows an HTML-first philosophy: server routes own state and validation, JSX components own markup, HTMX owns transport and swaps, and CSS custom properties own presentation decisions. The result should feel like a normal web app, not a miniature SPA hidden inside server code.
 
@@ -21,7 +23,7 @@ It follows an HTML-first philosophy: server routes own state and validation, JSX
 The template borrows from a few ideas and tools:
 
 - [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/) for a shared vocabulary around primitives, composed pieces, feature regions, and pages.
-- [Hypermedia Systems](https://hypermedia.systems/) and [HTMX](https://htmx.org/) for the idea that HTML can remain the application protocol.
+- [Hypermedia Systems](https://hypermedia.systems/), [HTMX](https://htmx.org/), and [Server-Driven Web Apps with htmx](https://pragprog.com/titles/mvhtmx/server-driven-web-apps-with-htmx/) for the idea that HTML can remain the application protocol.
 - [Hono](https://hono.dev/) for a small, dependency-light request layer.
 - [Open Props](https://open-props.style/) for design tokens that keep raw values out of component styles.
 - [Vite](https://vite.dev/) for browser CSS, client JavaScript, static assets, production manifests, and Storybook bundling.
@@ -62,6 +64,7 @@ Tests use the same route tree as production, but swap the database for an in-mem
 ```text
 apps/
 └── walking-pace/
+    ├── static-demo/       # Vite HTML entry for the public localStorage demo
     ├── src/
     │   ├── client/            # Vite browser entry and bundled CSS
     │   ├── index.ts           # process/runtime composition
@@ -80,6 +83,7 @@ libs/
 ├── components/                # reusable server-rendered JSX primitives and component CSS
 ├── database/                  # shared database lifecycle and migration primitives
 └── http/                      # reusable form parsing and HTTP response helpers
+site/                          # Jekyll source for the public Hyper-Dank docs
 e2e/
 ├── tests/walking-pace/        # Playwright browser workflows
 └── consumer-compat/           # workspace package consumer compatibility checks
@@ -145,7 +149,20 @@ Admins are normal users with the `admin` role. They can manage accounts and view
 
 ## Deployment Shape
 
-The production deployment target is Railway. `railway.json` pins the Dockerfile builder, runs `bun run db:migrate` as the pre-deploy command, starts the service with `bun run start`, and uses `/healthz` as a public deployment health check. Railway injects `PORT`, and `apps/walking-pace/src/index.ts` reads it before exporting Bun's fetch handler.
+The production deployment target is GitHub Pages. The Pages workflow builds the Jekyll docs in
+`site/`, the static Walking Pace demo in `apps/walking-pace/dist/static-demo`, and Storybook in
+`storybook-static`, then publishes one artifact with docs at `/`, the demo at `/pace/`, and Storybook
+at `/storybook/`.
+
+The authenticated Walking Pace Hono app remains a server-side reference implementation. Its runtime
+entrypoint is still `apps/walking-pace/src/index.ts`, and it can be run locally or deployed by a
+consumer that wants Better Auth, SQLite/Postgres persistence, invitations, and admin routes.
+
+Railway is no longer the active production deployment for this repository, but the server deployment
+shape remains Railway-compatible for downstream Hyper-Dank apps such as Character Sheet. The
+workspace keeps the Dockerfile, root `start`, `db:migrate`, and `seed:admin` scripts, and the
+`/healthz` route so a server app can use a Railway pre-deploy migration, start command, and health
+check.
 
 `apps/walking-pace/scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `apps/walking-pace/scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `apps/walking-pace/src/envs/local/local-presets.ts` so tests and manual UI review share the same account fixtures.
 
