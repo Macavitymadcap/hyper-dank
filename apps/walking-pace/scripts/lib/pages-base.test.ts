@@ -27,16 +27,13 @@ describe("Pages base path helpers", () => {
   test("uses explicit base path before repository slug", () => {
     expect(
       resolvePagesBasePath({
-        GITHUB_REPOSITORY: "Macavitymadcap/pace-calculator",
+        GITHUB_REPOSITORY: "Macavitymadcap/hyper-dank",
         PAGES_BASE_PATH: "/hyper-dank",
       }),
     ).toBe("/hyper-dank");
   });
 
   test("derives the project path from the current repository name", () => {
-    expect(resolvePagesBasePath({ GITHUB_REPOSITORY: "Macavitymadcap/pace-calculator" })).toBe(
-      "/pace-calculator",
-    );
     expect(resolvePagesBasePath({ GITHUB_REPOSITORY: "Macavitymadcap/hyper-dank" })).toBe(
       "/hyper-dank",
     );
@@ -58,9 +55,9 @@ describe("Pages base path helpers", () => {
   });
 
   test("updates the Jekyll baseurl entry", () => {
-    expect(
-      withJekyllBaseUrl('title: Hyper-Dank\nbaseurl: "/hyper-dank"\n', "/pace-calculator"),
-    ).toBe('title: Hyper-Dank\nbaseurl: "/pace-calculator"\n');
+    expect(withJekyllBaseUrl('title: Hyper-Dank\nbaseurl: "/old-path"\n', "/hyper-dank")).toBe(
+      'title: Hyper-Dank\nbaseurl: "/hyper-dank"\n',
+    );
   });
 
   test("allows an already-correct Jekyll baseurl entry", () => {

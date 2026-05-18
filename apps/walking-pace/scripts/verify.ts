@@ -5,7 +5,7 @@ import {
   renderVerificationReport,
   runVerification,
   type VerificationGate,
-} from "@macavitymadcap/hyper-dank-scripts";
+} from "@macavitymadcap/hyper-dank-automation";
 import { root } from "./lib/paths";
 
 const reportPath =

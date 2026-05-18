@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-import { runPa11y, waitForHttp } from "@macavitymadcap/hyper-dank-scripts";
+import { runPa11y, waitForHttp } from "@macavitymadcap/hyper-dank-automation";
 import { addWalk, startInMemoryAppServer } from "./lib/app-server";
 import { appRoot } from "./lib/paths";
 

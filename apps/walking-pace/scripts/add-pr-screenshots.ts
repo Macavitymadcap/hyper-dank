@@ -15,7 +15,7 @@ import {
   type Theme,
   updateImagesSection,
   waitForHttp,
-} from "@macavitymadcap/hyper-dank-scripts";
+} from "@macavitymadcap/hyper-dank-automation";
 import { chromium, type Page } from "@playwright/test";
 import { startInMemoryAppServer } from "./lib/app-server";
 import { normalizePath, root } from "./lib/paths";

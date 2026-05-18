@@ -1,4 +1,4 @@
-import { Button, FormField, HxForm } from "@macavitymadcap/hyper-dank-components";
+import { Button, FormField, HxForm } from "@macavitymadcap/hyper-dank-ui";
 
 interface LoginFormProps {
   error?: string;

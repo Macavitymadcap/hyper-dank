@@ -1,5 +1,5 @@
-import type { HttpResponder } from "@macavitymadcap/hyper-dank-http";
-import { errorMessage, FormValues, routeParam } from "@macavitymadcap/hyper-dank-http";
+import type { HttpResponder } from "@macavitymadcap/hyper-dank-transport";
+import { errorMessage, FormValues, routeParam } from "@macavitymadcap/hyper-dank-transport";
 import type { Context, Hono } from "hono";
 import type { AuthProvider, UserRole } from "../../auth";
 import type { InvitationService } from "../../services/invitations";

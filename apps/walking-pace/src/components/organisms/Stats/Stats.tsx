@@ -1,4 +1,4 @@
-import { LabelledOutput } from "@macavitymadcap/hyper-dank-components";
+import { LabelledOutput } from "@macavitymadcap/hyper-dank-ui";
 
 interface StatsProps {
   avgSpeed: number;

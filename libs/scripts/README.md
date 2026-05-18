@@ -9,7 +9,7 @@ import {
   getGitHubToken,
   runVerification,
   waitForHttp,
-} from "@macavitymadcap/hyper-dank-scripts";
+} from "@macavitymadcap/hyper-dank-automation";
 ```
 
 ## Helper Groups
@@ -28,7 +28,7 @@ import {
 ## Walking Pace Example
 
 ```ts
-import { runVerification } from "@macavitymadcap/hyper-dank-scripts";
+import { runVerification } from "@macavitymadcap/hyper-dank-automation";
 
 const results = await runVerification([
   { id: "check", name: "Static Checks", tooling: "Biome", command: "bun", args: ["run", "check"] },
@@ -43,9 +43,9 @@ import {
   parseGitHubRepo,
   renderVerificationReport,
   waitForHttp,
-} from "@macavitymadcap/hyper-dank-scripts";
+} from "@macavitymadcap/hyper-dank-automation";
 
-const repo = parseGitHubRepo("Macavitymadcap/pace-calculator");
+const repo = parseGitHubRepo("Macavitymadcap/hyper-dank");
 const report = renderVerificationReport([], "/workspace");
 await waitForHttp("http://127.0.0.1:3000/healthz");
 buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
@@ -54,7 +54,7 @@ buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
 ## Character Sheet-Style Consumer Example
 
 ```ts
-import { startBunServer, waitForHttp } from "@macavitymadcap/hyper-dank-scripts";
+import { startBunServer, waitForHttp } from "@macavitymadcap/hyper-dank-automation";
 
 const server = startBunServer({
   fetch: (request) => app.fetch(request),

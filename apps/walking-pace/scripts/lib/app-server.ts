@@ -1,4 +1,4 @@
-import { startBunServer as startSharedBunServer } from "@macavitymadcap/hyper-dank-scripts";
+import { startBunServer as startSharedBunServer } from "@macavitymadcap/hyper-dank-automation";
 import { createApp } from "../../src/app";
 import { type CreateAuthUserInput, TestAuthProvider } from "../../src/auth";
 import {
