@@ -53,28 +53,27 @@ identical to rendered `hx-*` attributes, so the HTML contract remains visible.
 
 | Export | Purpose | Demonstration |
 | --- | --- | --- |
-| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | Character Sheet reuse story |
+| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | Generic component story |
 | `Button`, `ButtonProps` | Native button with `primary`, `danger`, `outline`, `text`, and `ghost` variants plus optional HTMX attributes. | `Components/Atoms/Button` |
 | `Card`, `CardElement`, `CardProps` | Semantic surface rendered as `article`, `div`, `main`, or `section`, with size custom-property hooks. | `Components/Atoms/Card` |
 | `Chip`, `ChipProps` | Inline status text with optional class hook. | `Components/Atoms/Chip` |
-| `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | Character Sheet reuse story |
-| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | Character Sheet reuse story |
+| `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | Generic component story |
+| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | Generic component story |
 | `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Atoms/Switch` |
 | `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Atoms/TableCell` |
 | `HtmxProps` | Shared prop interface for supported `hx-*` attributes such as `hx-post`, `hx-target`, `hx-swap`, and `hx-trigger`. | Button, Switch, and HxForm stories |
-| `Accordion`, `AccordionItem`, `AccordionProps` | Grouped `details` disclosure list with optional metadata and controls. | Character Sheet reuse story |
-| `CompactList`, `CompactListItem`, `CompactListProps` | Definition-list style rows for label, value, metadata, and controls. | Character Sheet reuse story |
+| `Accordion`, `AccordionItem`, `AccordionProps` | Grouped `details` disclosure list with optional metadata and controls. | Generic component story |
+| `CompactList`, `CompactListItem`, `CompactListProps` | Definition-list style rows for label, value, metadata, and controls. | Generic component story |
 | `FormField`, `FormFieldProps` | Labelled native input wrapper, or a label/control wrapper when children are supplied. | `Components/Molecules/FormField` |
 | `HxForm`, `HxFormProps` | Native `action`/`method` form wrapper that also spreads HTMX attributes for enhanced submissions. | `Components/Molecules/HxForm` |
 | `InputGroup`, `InputGroupProps` | Numeric/text input group used by the pace form pattern. | `Components/Molecules/InputGroup` |
 | `LabelledOutput`, `LabelledOutputProps` | Label/value output pair with placeholder behaviour for empty numbers. | `Components/Molecules/LabelledOutput` |
-| `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | Character Sheet reuse story |
+| `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | Generic component story |
 | `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Molecules/ScrollableTable` |
 
 Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' | relative_url }}).
 `Badge`, `Icon`, `Panel`, `Accordion`, `CompactList`, and `PopoverMenu` are demonstrated together in
-`Components/Generic/Character Sheet Reuse`; the other public components have standalone component
-stories.
+generic component stories; the other public components have standalone component stories.
 
 ### HTMX Form Pattern
 
@@ -208,8 +207,8 @@ the same HTMX-aware redirect behaviour.
     <h2>Scripts</h2>
 
 `@macavitymadcap/hyper-dank-scripts` is planned in `pace-0030` as the shared automation package for
-Hyper-Dank apps. It will collect the reusable script behaviour currently living in Walking Pace and
-Character Sheet so future apps can keep their local entrypoints small.
+Hyper-Dank apps. It will collect reusable script behaviour from current Hyper-Dank projects so
+future apps can keep their local entrypoints small.
 
 ```ts
 import {
@@ -232,9 +231,9 @@ import {
 | PR image helpers | Build and replace Markdown image sections for persisted PR screenshots. |
 | A11y and smoke helpers | Run named Pa11y pages and smoke workflows while app-specific routes stay local. |
 
-The first implementation target is this repository's script set. Character Sheet is the flagship
-design input and later migration target, but its runtime scripts remain unchanged until a dedicated
-consumer ticket.
+The first implementation target is this repository's script set. Consuming apps should keep
+product-specific routes, fixtures, and smoke flows local while importing the shared automation
+building blocks.
 
   </section>
 </div>

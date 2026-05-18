@@ -34,11 +34,11 @@ title: Hyper-Dank
     <a href="{{ '/system/' | relative_url }}">Read the architecture</a>
   </article>
   <article class="card">
-    <h2>Adoption</h2>
+    <h2>Recipes</h2>
     <p>
-      Character Sheet compatibility tests protect the public package contract before a consuming app
-      takes a runtime dependency.
+      Compose the libraries into static demos, server-rendered apps, dashboards, and documentation
+      sites without taking on a large client framework.
     </p>
-    <a href="{{ '/character-sheet/' | relative_url }}">Review the handoff</a>
+    <a href="{{ '/libraries/' | relative_url }}">Compare library roles</a>
   </article>
 </section>
