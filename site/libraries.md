@@ -9,20 +9,15 @@ Hyper-Dank is split into small Bun workspace packages so applications can consum
 they need. The packages are designed for server-rendered Hono JSX, progressive HTMX enhancement,
 explicit database lifecycles, reusable app automation, and consumer-style compatibility tests.
 
-<div class="library-tabs" markdown="1">
-  <input class="library-tab-input" id="library-tab-components" name="library-tabs" type="radio" checked>
-  <input class="library-tab-input" id="library-tab-database" name="library-tabs" type="radio">
-  <input class="library-tab-input" id="library-tab-http" name="library-tabs" type="radio">
-  <input class="library-tab-input" id="library-tab-scripts" name="library-tabs" type="radio">
+<div class="library-tabs" id="libraries" markdown="1">
+  <nav class="library-tab-list" aria-label="Libraries">
+    <a class="library-tab" href="#components">Components</a>
+    <a class="library-tab" href="#database">Database</a>
+    <a class="library-tab" href="#http">HTTP</a>
+    <a class="library-tab" href="#scripts">Scripts</a>
+  </nav>
 
-  <div class="library-tab-list" role="tablist" aria-label="Libraries">
-    <label class="library-tab" id="library-tab-components-label" for="library-tab-components" role="tab" aria-controls="library-panel-components">Components</label>
-    <label class="library-tab" id="library-tab-database-label" for="library-tab-database" role="tab" aria-controls="library-panel-database">Database</label>
-    <label class="library-tab" id="library-tab-http-label" for="library-tab-http" role="tab" aria-controls="library-panel-http">HTTP</label>
-    <label class="library-tab" id="library-tab-scripts-label" for="library-tab-scripts" role="tab" aria-controls="library-panel-scripts">Scripts</label>
-  </div>
-
-  <section class="library-panel" id="library-panel-components" role="tabpanel" aria-labelledby="library-tab-components-label" markdown="1">
+  <section class="library-panel" id="components" markdown="1">
     <h2>Components</h2>
 
 `@macavitymadcap/hyper-dank-components` exposes server-rendered Hono JSX primitives plus a small
@@ -98,7 +93,7 @@ With HTMX, the same form posts to `hx-post` and swaps the fragment named by `hx-
 
   </section>
 
-  <section class="library-panel" id="library-panel-database" role="tabpanel" aria-labelledby="library-tab-database-label" markdown="1">
+  <section class="library-panel" id="database" markdown="1">
     <h2>Database</h2>
 
 `@macavitymadcap/hyper-dank-database` contains provider lifecycle and migration primitives. Apps keep
@@ -161,7 +156,7 @@ contract run.
 
   </section>
 
-  <section class="library-panel" id="library-panel-http" role="tabpanel" aria-labelledby="library-tab-http-label" markdown="1">
+  <section class="library-panel" id="http" markdown="1">
     <h2>HTTP</h2>
 
 `@macavitymadcap/hyper-dank-http` contains generic form parsing, route parameter, error-message, and
@@ -203,7 +198,7 @@ the same HTMX-aware redirect behaviour.
 
   </section>
 
-  <section class="library-panel" id="library-panel-scripts" role="tabpanel" aria-labelledby="library-tab-scripts-label" markdown="1">
+  <section class="library-panel" id="scripts" markdown="1">
     <h2>Scripts</h2>
 
 `@macavitymadcap/hyper-dank-scripts` is planned in `pace-0030` as the shared automation package for

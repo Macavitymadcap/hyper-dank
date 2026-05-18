@@ -5,7 +5,7 @@ const highlightLight = document.querySelector("#highlight-theme-light");
 const highlightDark = document.querySelector("#highlight-theme-dark");
 
 function preferredTheme() {
-  const stored = localStorage.getItem(themeStorageKey);
+  const stored = readStoredTheme();
   if (stored === "dark" || stored === "light") return stored;
 
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
@@ -32,8 +32,22 @@ function applyTheme(theme, { persist = false } = {}) {
   }
 
   if (persist) {
-    localStorage.setItem(themeStorageKey, theme);
+    writeStoredTheme(theme);
   }
+}
+
+function readStoredTheme() {
+  try {
+    return localStorage.getItem(themeStorageKey);
+  } catch {
+    return null;
+  }
+}
+
+function writeStoredTheme(theme) {
+  try {
+    localStorage.setItem(themeStorageKey, theme);
+  } catch {}
 }
 
 applyTheme(preferredTheme());

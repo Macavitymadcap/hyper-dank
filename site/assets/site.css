@@ -217,13 +217,6 @@ pre code {
   margin-top: 2rem;
 }
 
-.library-tab-input {
-  block-size: 1px;
-  inline-size: 1px;
-  opacity: 0;
-  position: absolute;
-}
-
 .library-tab-list {
   align-items: end;
   border-bottom: 1px solid var(--border);
@@ -243,28 +236,17 @@ pre code {
   font-weight: 750;
   min-height: 2.75rem;
   padding: 0.65rem 1rem;
+  text-decoration: none;
 }
 
-.library-tab:hover {
+.library-tab:hover,
+.library-tab:focus-visible {
   color: var(--text);
 }
 
-#library-tab-components:focus-visible ~ .library-tab-list label[for="library-tab-components"],
-#library-tab-database:focus-visible ~ .library-tab-list label[for="library-tab-database"],
-#library-tab-http:focus-visible ~ .library-tab-list label[for="library-tab-http"],
-#library-tab-scripts:focus-visible ~ .library-tab-list label[for="library-tab-scripts"] {
+.library-tab:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -2px;
-}
-
-#library-tab-components:checked ~ .library-tab-list label[for="library-tab-components"],
-#library-tab-database:checked ~ .library-tab-list label[for="library-tab-database"],
-#library-tab-http:checked ~ .library-tab-list label[for="library-tab-http"],
-#library-tab-scripts:checked ~ .library-tab-list label[for="library-tab-scripts"] {
-  background: var(--surface);
-  color: var(--text);
-  margin-bottom: -1px;
-  position: relative;
 }
 
 .library-panel {
@@ -279,10 +261,19 @@ pre code {
   margin-top: 0;
 }
 
-#library-tab-components:checked ~ #library-panel-components,
-#library-tab-database:checked ~ #library-panel-database,
-#library-tab-http:checked ~ #library-panel-http,
-#library-tab-scripts:checked ~ #library-panel-scripts {
+.library-tabs:not(:has(.library-panel:target)) .library-tab[href="#components"],
+.library-tabs:has(#components:target) .library-tab[href="#components"],
+.library-tabs:has(#database:target) .library-tab[href="#database"],
+.library-tabs:has(#http:target) .library-tab[href="#http"],
+.library-tabs:has(#scripts:target) .library-tab[href="#scripts"] {
+  background: var(--surface);
+  color: var(--text);
+  margin-bottom: -1px;
+  position: relative;
+}
+
+.library-tabs:not(:has(.library-panel:target)) #components,
+.library-panel:target {
   display: block;
 }
 
