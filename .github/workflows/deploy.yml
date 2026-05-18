@@ -57,6 +57,9 @@ jobs:
           source: ./.cache/pages/source
           destination: ./.cache/pages/site
 
+      - name: Restore Pages artifact ownership
+        run: sudo chown -R "$USER":"$USER" ./.cache/pages/site
+
       - name: Prepare Pages artifact
         run: bun run prepare:pages
 
