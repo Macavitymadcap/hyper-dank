@@ -5,17 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
     <meta name="description" content="{{ site.description }}" />
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("hyper-dank-docs-theme");
+          const theme =
+            storedTheme === "dark" ||
+            (storedTheme !== "light" && matchMedia("(prefers-color-scheme: dark)").matches)
+              ? "dark"
+              : "light";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch {}
+      })();
+    </script>
     <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}" />
+    {% include code-highlighting.html %}
+    <script defer src="{{ '/assets/site.js' | relative_url }}"></script>
   </head>
   <body>
     <header class="site-header">
       <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="{{ '/' | relative_url }}">Hyper-Dank</a>
-        <div class="nav-links">
-          <a href="{{ '/libraries/' | relative_url }}">Libraries</a>
-          <a href="{{ '/system/' | relative_url }}">System</a>
-          <a href="{{ '/pace/' | relative_url }}">Pace Demo</a>
-          <a href="{{ '/storybook/' | relative_url }}">Storybook</a>
+        <div class="site-actions">
+          <div class="nav-links">
+            <a href="{{ '/libraries/' | relative_url }}">Libraries</a>
+            <a href="{{ '/system/' | relative_url }}">System</a>
+            <a href="{{ '/pace/' | relative_url }}">Pace Demo</a>
+            <a href="{{ '/storybook/' | relative_url }}">Storybook</a>
+          </div>
+          {% include theme-toggle.html %}
         </div>
       </nav>
     </header>

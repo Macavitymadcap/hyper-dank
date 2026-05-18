@@ -159,10 +159,9 @@ entrypoint is still `apps/walking-pace/src/index.ts`, and it can be run locally 
 consumer that wants Better Auth, SQLite/Postgres persistence, invitations, and admin routes.
 
 Railway is no longer the active production deployment for this repository, but the server deployment
-shape remains Railway-compatible for downstream Hyper-Dank apps such as Character Sheet. The
-workspace keeps the Dockerfile, root `start`, `db:migrate`, and `seed:admin` scripts, and the
-`/healthz` route so a server app can use a Railway pre-deploy migration, start command, and health
-check.
+shape remains Railway-compatible for Hyper-Dank server apps. The workspace keeps the Dockerfile,
+root `start`, `db:migrate`, and `seed:admin` scripts, and the `/healthz` route so a server app can
+use a Railway pre-deploy migration, start command, and health check.
 
 `apps/walking-pace/scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `apps/walking-pace/scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `apps/walking-pace/src/envs/local/local-presets.ts` so tests and manual UI review share the same account fixtures.
 
@@ -295,7 +294,8 @@ The tests are split by behaviour boundary rather than by implementation detail.
 - `app.e2e.ts` uses Playwright against a seeded in-memory app server to cover browser login, HTMX mutations, stats refresh, and admin score review.
 - Storybook stories cover generic library components and important app states; `bun run test:storybook` smoke-tests those stories in Chromium.
 - `calculator.test.ts` covers pure pace, speed, average, median, and validation behaviour.
-- `e2e/consumer-compat/character-sheet-compat.test.tsx` verifies the workspace packages can be imported by a consumer-style test frame.
+- The consumer compatibility suite verifies the workspace packages can be imported through public
+  package paths by an external-style test frame.
 - `apps/walking-pace/scripts/check-deprecations.ts` asks the TypeScript language service for suggestion diagnostics and fails on deprecated API usage, including editor-only warnings that normal typechecking allows.
 - `apps/walking-pace/scripts/lib/coverage-report.test.ts` verifies the local LCOV-to-HTML coverage report generator used by `bun run coverage`.
 - `apps/walking-pace/scripts/verify.ts` runs ordered verification gates, writes `.cache/verification-report.md`, and stops at the first failed gate.

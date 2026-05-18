@@ -309,11 +309,8 @@ The published routes are:
 - `/pace/` for the static Walking Pace demo backed by `localStorage`
 - `/storybook/` for the static Storybook build
 
-The workflow resolves the GitHub Pages project path from the current repository name. Before the
-manual repository rename completes, a `main` deploy builds links for `/pace-calculator`; after the
-rename it builds links for `/hyper-dank`. You can override this with a `PAGES_BASE_PATH` repository
-variable, and you should rerun the deploy workflow after the rename to publish the stable
-`/hyper-dank` paths.
+The workflow resolves the GitHub Pages project path from the current repository name. You can
+override this with a `PAGES_BASE_PATH` repository variable when a deployment needs a fixed base path.
 
 Prepare the same deployment inputs locally with:
 
@@ -326,17 +323,14 @@ The workflow prepares a Jekyll source copy with the resolved `baseurl`, uses Git
 action to build that source, then `bun run prepare:pages` copies the Vite-built pace demo into
 `pace/` and Storybook into `storybook/`.
 
-After this epic lands, rename the GitHub repository manually from `Macavitymadcap/pace-calculator` to
-`Macavitymadcap/hyper-dank`. The branch prefix remains `pace`.
-
 ## Server App Deployment
 
 The authenticated Walking Pace app still runs locally with `bun run dev` and can be deployed as a
 server app by a downstream consumer, but it is no longer the production deployment target for this
 repository. Server deployments need a Bun runtime plus SQLite or Postgres configuration.
 
-Railway remains a supported downstream deployment pattern for server apps such as Character Sheet.
-This monorepo keeps the server pieces those apps need:
+Railway remains a supported deployment pattern for Hyper-Dank server apps. This monorepo keeps the
+server pieces those apps need:
 
 - `Dockerfile` builds the Bun workspace and copies app/package build output.
 - `bun run start` starts the Walking Pace Hono server from the repository root.
