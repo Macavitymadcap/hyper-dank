@@ -56,6 +56,9 @@ try {
 
   await expect(page.locator("#walks-list")).toContainText("1 walk");
   await expect(page.locator("#stats")).toContainText("3.8");
+  await expect(page.locator(".scrollable-table-container")).toHaveCSS("display", "flex");
+  await expect(page.locator("thead .scrollable-table-row")).toHaveCSS("display", "grid");
+  await expect(page.locator("tbody .scrollable-table-row")).toHaveCSS("display", "grid");
 
   await page.reload();
   await expect(page.locator("#walks-list")).toContainText("1 walk");
