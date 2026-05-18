@@ -26,6 +26,7 @@
     "lint": "biome lint .",
     "pack:packages": "bun run build:packages && cd libs/components && bun run pack:local && cd ../database && bun run pack:local && cd ../http && bun run pack:local",
     "prepare:pages": "bun apps/walking-pace/scripts/prepare-pages-artifact.ts",
+    "prepare:pages-source": "bun apps/walking-pace/scripts/prepare-pages-source.ts",
     "protect:main": "bun apps/walking-pace/scripts/configure-main-protection.ts",
     "screenshots:pr": "bun apps/walking-pace/scripts/add-pr-screenshots.ts",
     "seed:admin": "bun apps/walking-pace/scripts/seed-admin.ts",

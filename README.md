@@ -309,14 +309,22 @@ The published routes are:
 - `/pace/` for the static Walking Pace demo backed by `localStorage`
 - `/storybook/` for the static Storybook build
 
-Build the static deployment assets locally with:
+The workflow resolves the GitHub Pages project path from the current repository name. Before the
+manual repository rename completes, a `main` deploy builds links for `/pace-calculator`; after the
+rename it builds links for `/hyper-dank`. You can override this with a `PAGES_BASE_PATH` repository
+variable, and you should rerun the deploy workflow after the rename to publish the stable
+`/hyper-dank` paths.
+
+Prepare the same deployment inputs locally with:
 
 ```bash
 PACE_DEMO_BASE=/hyper-dank/pace/ bun run build:pages-assets
+PAGES_BASE_PATH=/hyper-dank bun run prepare:pages-source
 ```
 
-The workflow uses GitHub's Jekyll Pages action to build `site/`, then `bun run prepare:pages` copies
-the Vite-built pace demo into `pace/` and Storybook into `storybook/`.
+The workflow prepares a Jekyll source copy with the resolved `baseurl`, uses GitHub's Jekyll Pages
+action to build that source, then `bun run prepare:pages` copies the Vite-built pace demo into
+`pace/` and Storybook into `storybook/`.
 
 After this epic lands, rename the GitHub repository manually from `Macavitymadcap/pace-calculator` to
 `Macavitymadcap/hyper-dank`. The branch prefix remains `pace`.
