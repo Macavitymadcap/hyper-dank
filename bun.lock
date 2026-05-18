@@ -17,6 +17,7 @@
         "@macavitymadcap/hyper-dank-components": "workspace:*",
         "@macavitymadcap/hyper-dank-database": "workspace:*",
         "@macavitymadcap/hyper-dank-http": "workspace:*",
+        "@macavitymadcap/hyper-dank-scripts": "workspace:*",
         "@playwright/test": "^1.60.0",
         "@storybook/addon-a11y": "^10.4.0",
         "@storybook/addon-docs": "^10.4.0",
@@ -73,6 +74,17 @@
         "hono": "^4.0.0",
         "typescript": "^5",
       },
+    },
+    "libs/scripts": {
+      "name": "@macavitymadcap/hyper-dank-scripts",
+      "version": "0.1.0",
+      "peerDependencies": {
+        "@playwright/test": "^1.60.0",
+        "typescript": "^5",
+      },
+      "optionalPeers": [
+        "@playwright/test",
+      ],
     },
   },
   "packages": {
@@ -307,6 +319,8 @@
     "@macavitymadcap/hyper-dank-database": ["@macavitymadcap/hyper-dank-database@workspace:libs/database"],
 
     "@macavitymadcap/hyper-dank-http": ["@macavitymadcap/hyper-dank-http@workspace:libs/http"],
+
+    "@macavitymadcap/hyper-dank-scripts": ["@macavitymadcap/hyper-dank-scripts@workspace:libs/scripts"],
 
     "@mdx-js/react": ["@mdx-js/react@3.1.1", "", { "dependencies": { "@types/mdx": "^2.0.0" }, "peerDependencies": { "@types/react": ">=16", "react": ">=16" } }, "sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw=="],
 
