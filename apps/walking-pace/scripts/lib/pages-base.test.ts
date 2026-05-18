@@ -62,4 +62,10 @@ describe("Pages base path helpers", () => {
       withJekyllBaseUrl('title: Hyper-Dank\nbaseurl: "/hyper-dank"\n', "/pace-calculator"),
     ).toBe('title: Hyper-Dank\nbaseurl: "/pace-calculator"\n');
   });
+
+  test("allows an already-correct Jekyll baseurl entry", () => {
+    expect(withJekyllBaseUrl('title: Hyper-Dank\nbaseurl: "/hyper-dank"\n', "/hyper-dank")).toBe(
+      'title: Hyper-Dank\nbaseurl: "/hyper-dank"\n',
+    );
+  });
 });
