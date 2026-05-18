@@ -1,7 +1,7 @@
 {
   "packages": {
     ".": {
-      "package-name": "pace-calculator",
+      "package-name": "hyper-dank",
       "release-type": "node",
       "changelog-sections": [
         { "type": "feat", "section": "Features" },
