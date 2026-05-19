@@ -9,18 +9,21 @@ export interface PopoverMenuItem {
 }
 
 export interface PopoverMenuProps {
+  className?: string;
   id: string;
   items: PopoverMenuItem[];
   label: string;
+  trigger?: unknown;
 }
 
-export const PopoverMenu = ({ id, items, label }: PopoverMenuProps) => {
+export const PopoverMenu = ({ className, id, items, label, trigger }: PopoverMenuProps) => {
   const panelId = `${id}-panel`;
   const anchorName = `--${id}-anchor`;
   const anchorStyle = `--popover-anchor-name: ${anchorName};`;
+  const classes = ["popover-menu", className].filter(Boolean).join(" ");
 
   return (
-    <div className="popover-menu" style={anchorStyle}>
+    <div className={classes} style={anchorStyle}>
       <button
         className="popover-menu-trigger"
         type="button"
@@ -29,7 +32,7 @@ export const PopoverMenu = ({ id, items, label }: PopoverMenuProps) => {
         popovertarget={panelId}
         popovertargetaction="toggle"
       >
-        <Icon name="menu" />
+        {trigger ?? <Icon name="menu" />}
       </button>
       <div id={panelId} className="popover-menu-panel" popover="auto" role="menu">
         {items.map((item) =>

@@ -17,4 +17,11 @@ describe("LabelledOutput", () => {
       '<output class="labelled-output-value">--</output>',
     );
   });
+
+  test("renders string values and metadata", () => {
+    const html = render(<LabelledOutput label="Status" value="Ready" meta="Reviewed" />);
+
+    expect(html).toContain("Ready");
+    expect(html).toContain('class="labelled-output-meta"');
+  });
 });

@@ -7,6 +7,17 @@
   font-size: 0.85em;
 }
 
+.app-shell,
+.prose {
+  width: min(100%, 72rem);
+}
+
+.app-shell-body {
+  display: grid;
+  grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
+  gap: 1rem;
+}
+
 .button,
 .link-button,
 .popover-menu-trigger,
@@ -25,6 +36,11 @@
 }
 
 .button-group,
+.dialog-actions,
+.empty-state-actions,
+.page-header,
+.pagination,
+.section-header,
 .segmented-control-options {
   display: flex;
   flex-wrap: wrap;
@@ -41,11 +57,35 @@
   gap: 0.5rem;
 }
 
+.breadcrumbs ol,
+.side-nav ul,
+.tabs ul {
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbs a,
+.pagination a,
+.side-nav a,
+.tabs a {
+  color: inherit;
+}
+
+.callout,
 .choice-field,
+.code-block,
+.dialog,
+.empty-state,
 .fieldset,
 .form-field,
 .input-group,
-.labelled-output {
+.labelled-output,
+.loading-indicator,
+.metadata-list,
+.notice,
+.progress,
+.status-summary,
+.timeline-list {
   display: grid;
   gap: 0.35rem;
 }
@@ -76,6 +116,13 @@
   width: min(100%, 28rem);
 }
 
+.page-header,
+.section-header,
+.toolbar {
+  align-items: center;
+  justify-content: space-between;
+}
+
 .popover-menu {
   position: relative;
 }
@@ -86,6 +133,17 @@
 
 .scrollable-table {
   width: 100%;
+}
+
+.scrollable-table-loading,
+.scrollable-table-pagination {
+  margin-block: 0.5rem;
+}
+
+.stat-block dd,
+.metadata-list dd,
+.timeline-list {
+  margin: 0;
 }
 
 .switch {

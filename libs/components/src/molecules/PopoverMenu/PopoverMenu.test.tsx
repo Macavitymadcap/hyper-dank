@@ -18,5 +18,6 @@ describe("PopoverMenu", () => {
     expect(html).toContain('href="/"');
     expect(html).toContain('action="/logout"');
     expect(html).toContain('role="menuitem"');
+    expect(html).toContain('aria-haspopup="menu"');
   });
 });

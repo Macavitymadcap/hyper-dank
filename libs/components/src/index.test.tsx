@@ -1,17 +1,30 @@
 import { describe, expect, test } from "bun:test";
 import {
+  AppShell,
   Badge,
+  Breadcrumbs,
   Button,
   ButtonGroup,
+  Callout,
   Card,
   CheckboxField,
+  Dialog,
+  EmptyState,
   FormField,
   IconButton,
   LabelledOutput,
   LinkButton,
+  Notice,
+  PageHeader,
+  Pagination,
   Panel,
   PopoverMenu,
+  Prose,
   ScrollableTable,
+  SideNav,
+  StatBlock,
+  Tabs,
+  Toolbar,
 } from "./index";
 
 const render = (node: unknown): string => String(node);
@@ -86,5 +99,63 @@ describe("component library", () => {
     expect(html).toContain('aria-label="Search"');
     expect(html).toContain('class="button link-button"');
     expect(html).toContain('type="checkbox"');
+  });
+
+  test("exports second-wave layout and navigation primitives", () => {
+    const html = render(
+      <AppShell
+        header={<PageHeader title="Dashboard" actions={<LinkButton href="/new">New</LinkButton>} />}
+        navigation={
+          <SideNav
+            ariaLabel="Sections"
+            items={[{ current: true, href: "/dashboard", label: "Dashboard" }]}
+          />
+        }
+      >
+        <Breadcrumbs
+          items={[
+            { href: "/", label: "Home" },
+            { current: true, href: "/dashboard", label: "Dashboard" },
+          ]}
+        />
+        <Toolbar ariaLabel="Tools">
+          <IconButton icon="filter" label="Filter" />
+        </Toolbar>
+        <Tabs
+          ariaLabel="Views"
+          items={[{ current: true, href: "/dashboard", label: "Overview" }]}
+        />
+        <Pagination currentPage={1} totalPages={3} nextHref="/dashboard?page=2" />
+      </AppShell>,
+    );
+
+    expect(html).toContain('class="app-shell"');
+    expect(html).toContain('class="page-header"');
+    expect(html).toContain('class="side-nav"');
+    expect(html).toContain('role="toolbar"');
+    expect(html).toContain('class="pagination"');
+  });
+
+  test("exports second-wave feedback, data, and content primitives", () => {
+    const html = render(
+      <Prose>
+        <Notice tone="success">Saved</Notice>
+        <Dialog id="details" title="Details" triggerLabel="Open details">
+          More
+        </Dialog>
+        <EmptyState title="No results" />
+        <dl>
+          <StatBlock label="Posts" value="12" />
+        </dl>
+        <Callout>Remember this</Callout>
+      </Prose>,
+    );
+
+    expect(html).toContain('class="prose"');
+    expect(html).toContain('class="notice"');
+    expect(html).toContain("<dialog");
+    expect(html).toContain('class="empty-state"');
+    expect(html).toContain('class="stat-block"');
+    expect(html).toContain('class="callout"');
   });
 });
