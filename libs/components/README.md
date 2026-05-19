@@ -32,18 +32,24 @@ pipeline; importing the package in server code does not automatically load style
 ## Public Exports
 
 - Atoms: `Badge`, `BadgeProps`, `Button`, `ButtonProps`, `Card`, `CardElement`, `CardProps`, `Chip`,
-  `ChipProps`, `Icon`, `IconProps`, `Panel`, `PanelProps`, `Switch`, `SwitchProps`, `TableCell`,
+  `ChipProps`, `Icon`, `IconProps`, `IconButton`, `IconButtonProps`, `LinkButton`,
+  `LinkButtonProps`, `Panel`, `PanelProps`, `Switch`, `SwitchProps`, `TableCell`,
   `TableCellProps`.
-- Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `CompactList`, `CompactListItem`,
-  `CompactListProps`, `FormField`, `FormFieldProps`, `HxForm`, `HxFormProps`, `InputGroup`,
-  `InputGroupProps`, `LabelledOutput`, `LabelledOutputProps`, `PopoverMenu`, `PopoverMenuItem`,
-  `PopoverMenuProps`, `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps`.
+- Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `ButtonGroup`, `ButtonGroupProps`,
+  `CheckboxField`, `CheckboxFieldProps`, `CompactList`, `CompactListItem`, `CompactListProps`,
+  `Fieldset`, `FieldsetProps`, `FormField`, `FormFieldProps`, `HxForm`, `HxFormProps`,
+  `InputGroup`, `InputGroupProps`, `LabelledOutput`, `LabelledOutputProps`, `PopoverMenu`,
+  `PopoverMenuItem`, `PopoverMenuProps`, `RadioGroup`, `RadioGroupOption`, `RadioGroupProps`,
+  `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps`, `SegmentedControl`,
+  `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
+  `SelectFieldProps`, `TextareaField`, `TextareaFieldProps`, `ValidationSummary`,
+  `ValidationSummaryItem`, `ValidationSummaryProps`.
 - Shared types: `HtmxProps`.
 - CSS: `@macavitymadcap/hyper-dank-ui/styles.css`.
 
-Compatibility coverage exercises these exports in Character Sheet-style, static blog,
-dashboard/admin, static-demo, and server-app compositions. The public docs site documents every
-export and points to Storybook examples for each component.
+Compatibility coverage exercises these exports in server-app, static blog, dashboard/admin,
+static-demo, and script-consumer compositions. Storybook is the canonical component reference for
+rendered states, accessibility notes, and interaction examples.
 
 ## Composition Patterns
 

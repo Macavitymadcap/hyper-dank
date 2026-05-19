@@ -8,6 +8,7 @@
 }
 
 .button,
+.link-button,
 .popover-menu-trigger,
 .popover-menu-item {
   font: inherit;
@@ -23,6 +24,13 @@
   opacity: 0.6;
 }
 
+.button-group,
+.segmented-control-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .compact-list {
   margin: 0;
 }
@@ -33,11 +41,20 @@
   gap: 0.5rem;
 }
 
+.choice-field,
+.fieldset,
 .form-field,
 .input-group,
 .labelled-output {
   display: grid;
   gap: 0.35rem;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
 }
 
 .icon {
@@ -78,4 +95,9 @@
 
 .switch[data-variant="compact"] .switch-track {
   min-width: 3rem;
+}
+
+.validation-summary {
+  border: 1px solid currentColor;
+  padding: 1rem;
 }

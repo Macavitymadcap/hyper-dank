@@ -2,9 +2,13 @@ import { describe, expect, test } from "bun:test";
 import {
   Badge,
   Button,
+  ButtonGroup,
   Card,
+  CheckboxField,
   FormField,
+  IconButton,
   LabelledOutput,
+  LinkButton,
   Panel,
   PopoverMenu,
   ScrollableTable,
@@ -33,7 +37,7 @@ describe("component library", () => {
     expect(html).toContain("3.8");
   });
 
-  test("exports character-sheet-compatible generic primitives", () => {
+  test("exports app-builder generic primitives", () => {
     const html = render(
       <Panel labelledBy="panel-heading">
         <h2 id="panel-heading">Panel</h2>
@@ -62,5 +66,25 @@ describe("component library", () => {
     expect(html).toContain('class="scrollable-table"');
     expect(html).toContain("Name");
     expect(html).toContain("Example");
+  });
+
+  test("exports app-builder action and form primitives", () => {
+    const html = render(
+      <Panel labelledBy="filters-heading">
+        <h2 id="filters-heading">Filters</h2>
+        <ButtonGroup ariaLabel="View actions">
+          <IconButton icon="search" label="Search" />
+          <LinkButton href="/items" variant="ghost">
+            Items
+          </LinkButton>
+        </ButtonGroup>
+        <CheckboxField id="published" label="Published" />
+      </Panel>,
+    );
+
+    expect(html).toContain('class="button-group"');
+    expect(html).toContain('aria-label="Search"');
+    expect(html).toContain('class="button link-button"');
+    expect(html).toContain('type="checkbox"');
   });
 });

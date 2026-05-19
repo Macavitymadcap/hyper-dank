@@ -1,15 +1,24 @@
 export interface InputGroupProps {
-  type: string;
-  name: string;
+  className?: string;
+  error?: string;
+  helpText?: string;
+  id?: string;
   label: string;
-  min: number;
   max?: number;
-  step?: number;
+  min?: number;
+  name: string;
   placeholder: string;
+  required?: boolean;
+  step?: number;
+  type: string;
   value?: number | string;
 }
 
 export const InputGroup = ({
+  className,
+  error,
+  helpText,
+  id,
   type,
   name,
   label,
@@ -17,24 +26,39 @@ export const InputGroup = ({
   max,
   step,
   placeholder,
+  required = true,
   value,
 }: InputGroupProps) => {
+  const inputId = id ?? name;
+  const classes = ["input-group", className].filter(Boolean).join(" ");
+  const helpId = helpText ? `${inputId}-help` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+  const describedBy = [helpId, errorId].filter(Boolean).join(" ") || undefined;
+
   return (
-    <div className="input-group">
-      <label className="input-label" htmlFor={name}>
+    <div className={classes}>
+      <label className="input-label" htmlFor={inputId}>
         {label}
       </label>
+      {helpText ? <small id={helpId}>{helpText}</small> : undefined}
       <input
         type={type}
-        id={name}
+        id={inputId}
         name={name}
+        aria-describedby={describedBy}
+        aria-invalid={error ? "true" : undefined}
         step={step}
         min={min}
         max={max}
-        required
+        required={required}
         placeholder={placeholder}
         value={value}
       />
+      {error ? (
+        <small id={errorId} role="alert">
+          {error}
+        </small>
+      ) : undefined}
     </div>
   );
 };

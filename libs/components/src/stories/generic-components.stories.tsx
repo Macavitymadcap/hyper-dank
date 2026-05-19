@@ -13,12 +13,12 @@ const meta = {
     docs: {
       description: {
         component:
-          "Reusable components extracted from walking-pace and checked against Character Sheet needs.",
+          "Reusable components shared across server apps, dashboards, static blogs, and demos.",
       },
     },
     layout: "fullscreen",
   },
-  title: "Components/Generic/Character Sheet Reuse",
+  title: "Components/Generic/App Builder Reuse",
 } satisfies Meta;
 
 export default meta;
@@ -28,15 +28,15 @@ export const ReuseSet: Story = {
   render: () =>
     renderStory(
       <Panel labelledBy="reuse-heading">
-        <h2 id="reuse-heading">Reusable sheet primitives</h2>
+        <h2 id="reuse-heading">Reusable app primitives</h2>
         <p>
           <Badge tone="accent">Player</Badge>
           <Icon label="Ready" name="check" tone="success" />
         </p>
         <CompactList
           items={[
-            { label: "Armour Class", value: "18" },
-            { label: "Hit Points", meta: "temporary 4", value: "27" },
+            { label: "Published posts", value: "18" },
+            { label: "Draft pages", meta: "needs review", value: "4" },
           ]}
         />
         <Accordion
@@ -44,10 +44,10 @@ export const ReuseSet: Story = {
           items={[{ body: "Feature details", id: "feature-details", title: "Feature" }]}
         />
         <PopoverMenu
-          id="sheet-actions"
-          label="Open sheet menu"
+          id="app-actions"
+          label="Open app menu"
           items={[
-            { current: true, href: "/sheet/lynott", label: "Sheet" },
+            { current: true, href: "/docs", label: "Docs" },
             { href: "/logout", label: "Sign out", method: "post" },
           ]}
         />
@@ -56,8 +56,8 @@ export const ReuseSet: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(
-      canvas.getByRole("heading", { name: "Reusable sheet primitives" }),
+      canvas.getByRole("heading", { name: "Reusable app primitives" }),
     ).toBeInTheDocument();
-    await expect(canvas.getByRole("button", { name: "Open sheet menu" })).toBeInTheDocument();
+    await expect(canvas.getByRole("button", { name: "Open app menu" })).toBeInTheDocument();
   },
 };
