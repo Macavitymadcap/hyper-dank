@@ -10,5 +10,5 @@ Storybook is published at [`/storybook/`]({{ '/storybook/' | relative_url }}). I
 library component states, Walking Pace reference app states, and guides for the Hyper-Dank component
 system.
 
-The build is static and deploys alongside the Jekyll docs and `/pace/` demo in the same GitHub Pages
-artifact.
+The build is static and deploys alongside the repo-built docs and `/pace/` demo in the same GitHub
+Pages artifact.
