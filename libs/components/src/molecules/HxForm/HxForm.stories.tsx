@@ -29,7 +29,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Progressive-enhancement form wrapper that renders native action/method plus HTMX attributes.",
+          "Progressive-enhancement form wrapper that renders native action/method plus HTMX attributes. Inputs are the fallback route, method, labelled children, and optional hx-* contract; output is a form that submits without JavaScript and swaps fragments when HTMX is available.",
       },
     },
     layout: "fullscreen",
