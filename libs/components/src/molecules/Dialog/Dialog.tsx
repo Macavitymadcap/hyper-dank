@@ -25,7 +25,7 @@ export const Dialog = ({
   const classes = ["dialog", className].filter(Boolean).join(" ");
   const titleId = `${id}-title`;
   const descriptionId = description ? `${id}-description` : undefined;
-  const triggerScript = `document.getElementById('${id}')?.showModal()`;
+  const triggerScript = `document.getElementById(${JSON.stringify(id)})?.showModal()`;
 
   return (
     <div className="dialog-wrapper">

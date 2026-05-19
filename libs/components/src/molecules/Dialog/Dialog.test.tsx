@@ -25,4 +25,15 @@ describe("Dialog", () => {
     expect(html).toContain('hx-get="/confirm"');
     expect(html).toContain('href="/confirm"');
   });
+
+  test("serializes the trigger target id as a JavaScript string literal", () => {
+    const html = render(
+      <Dialog id={`x');alert(1);//`} title="Confirm" triggerLabel="Open confirm">
+        Body
+      </Dialog>,
+    );
+
+    expect(html).toContain("document.getElementById(&quot;x&#39;);alert(1);//&quot;)?.showModal()");
+    expect(html).not.toContain("document.getElementById(&#39;x&#39;);alert(1);//");
+  });
 });
