@@ -222,4 +222,25 @@ describe("app", () => {
       role: "admin",
     });
   });
+
+  test("demo-mode admin invites render the simulated delivery notice", async () => {
+    await harness.close();
+    harness = await createAppHarness({ demoMode: true });
+
+    const response = await harness.app.request("/admin/invites", {
+      method: "POST",
+      headers: {
+        ...harness.adminHeaders,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ email: "reviewer@example.com", role: "user" }),
+    });
+    const html = await response.text();
+    const [invitation] = await harness.invitationService.listInvitations();
+
+    expect(response.status).toBe(200);
+    expect(html).toContain("Demo mode is on, so no email was sent.");
+    expect(html).toContain("/invite/");
+    expect(invitation?.email).toBe("reviewer@example.com");
+  });
 });

@@ -58,6 +58,7 @@ run("bun", ["run", "build"]);
 
 const server = await startInMemoryAppServer(port, {
   authenticatedUserId: null,
+  demoMode: true,
   users: [],
 }).then();
 

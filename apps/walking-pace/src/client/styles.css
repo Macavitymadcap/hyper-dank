@@ -1134,6 +1134,18 @@ input[type="number"]:focus {
   padding: var(--size-3);
 }
 
+.form-notice {
+  background: var(--green-1);
+  border: var(--border-size-1) solid var(--green-6);
+  border-radius: var(--radius-2);
+  color: var(--green-9);
+  font-size: var(--font-size-1);
+  line-height: var(--font-lineheight-3);
+  margin: 0;
+  overflow-wrap: anywhere;
+  padding: var(--size-3);
+}
+
 @media (max-width: 480px) {
   .auth-card .title,
   .auth-title {

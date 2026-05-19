@@ -9,6 +9,7 @@ import { AdminUsersList } from "../AdminUsersList";
 interface AdminDashboardProps {
   error?: string;
   invitations: Invitation[];
+  notice?: string;
   selectedStats: Stats;
   selectedUser?: AuthUser;
   selectedWalks: WalkWithStats[];
@@ -18,6 +19,7 @@ interface AdminDashboardProps {
 export const AdminDashboard = ({
   error,
   invitations,
+  notice,
   selectedStats,
   selectedUser,
   selectedWalks,
@@ -26,6 +28,7 @@ export const AdminDashboard = ({
   return (
     <div id="admin-panel" class="admin-sections">
       {error ? <p class="form-error">{error}</p> : null}
+      {notice ? <p class="form-notice">{notice}</p> : null}
 
       <AdminSection headingId="invite-heading" title="Invite user">
         <AdminInviteForm />

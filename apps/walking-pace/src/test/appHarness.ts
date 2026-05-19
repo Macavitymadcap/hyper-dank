@@ -8,7 +8,11 @@ export const htmxHeaders = {
   "HX-Request": "true",
 };
 
-export const createAppHarness = async () => {
+export interface AppHarnessOptions {
+  demoMode?: boolean;
+}
+
+export const createAppHarness = async ({ demoMode = false }: AppHarnessOptions = {}) => {
   const databaseProvider = createSqliteDatabaseProvider({ filename: ":memory:" });
   await databaseProvider.migrate();
 
@@ -29,6 +33,7 @@ export const createAppHarness = async () => {
   ]);
   const invitationService = new InvitationService({
     authProvider,
+    demoMode,
     emailSender: new ConsoleEmailSender(),
     inviteRepository: repositories.invites,
     baseUrl: "http://localhost",

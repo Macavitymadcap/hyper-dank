@@ -102,10 +102,12 @@ presets:
 
 ```bash
 DB_PATH=/tmp/pace-review.sqlite3 bun run seed:dev
-DB_PATH=/tmp/pace-review.sqlite3 bun run dev
+DB_PATH=/tmp/pace-review.sqlite3 WALKING_PACE_DEMO_MODE=true bun run dev
 ```
 
-All preset users use the password `password123`.
+All preset users use the password `password123`. `WALKING_PACE_DEMO_MODE=true` keeps invitation
+creation reviewable without sending email: admin-created invites are stored, and the admin page
+shows the invite link to share manually.
 
 | Email | Role/state | Profile |
 | --- | --- | --- |
@@ -302,6 +304,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full epic/ticket flow and [.git
 | `BETTER_AUTH_URL` | inferred locally | Public base URL used for auth and invite links |
 | `RESEND_API_KEY` | unset | Sends invitation email when paired with `EMAIL_FROM` |
 | `EMAIL_FROM` | unset | Verified sender address for invitation email |
+| `WALKING_PACE_DEMO_MODE` | unset | When `true`, admin invites are simulated and no invitation email is sent |
 | `USER_LIMIT` | `10` | Maximum total users, with pending invitations counted before creation |
 | `ADMIN_EMAIL` | unset | Email used by `bun run seed:admin`; set `DB_PATH` for local SQLite or `DATABASE_URL` for Postgres |
 | `ADMIN_PASSWORD` | unset | Password used by `bun run seed:admin`; must be at least 8 characters |

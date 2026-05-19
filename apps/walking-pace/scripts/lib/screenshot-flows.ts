@@ -156,6 +156,13 @@ export const screenshotFlows: ScreenshotFlow[] = [
       },
       {
         authUserId: "admin@example.com",
+        label: "Demo invite notice",
+        path: "/admin",
+        slug: "demo-invite-notice",
+        afterLoad: renderDemoInviteNotice,
+      },
+      {
+        authUserId: "admin@example.com",
         label: "Admin score review",
         path: "/admin?userId=history@example.com",
         slug: "admin-score-review",
@@ -248,6 +255,16 @@ async function scrollScoresIntoView({ page }: ScreenshotFlowContext) {
     const { document } = globalThis as unknown as BrowserGlobals;
     document.querySelector("#scores-heading")?.scrollIntoView({ block: "start" });
   });
+}
+
+async function renderDemoInviteNotice({ page, theme }: ScreenshotFlowContext) {
+  await page.locator("#admin-invite-email").fill(`review-${theme}@example.com`);
+  await page.locator("#admin-invite-role").selectOption("user");
+  await Promise.all([
+    page.waitForSelector(".form-notice"),
+    page.click('#invite-heading + form button[type="submit"]'),
+  ]);
+  await setTheme(page, theme);
 }
 
 async function renderConfirmClearAll({ page }: ScreenshotFlowContext) {
