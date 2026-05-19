@@ -57,17 +57,6 @@ export function githubOutputForPagesBasePath(basePath: string): string {
   ].join("\n");
 }
 
-export function withJekyllBaseUrl(config: string, basePath: string): string {
-  const normalizedBasePath = normalizePagesBasePath(basePath);
-  const baseUrlPattern = /^baseurl:\s*.*$/m;
-
-  if (!baseUrlPattern.test(config)) {
-    throw new Error("Could not find a baseurl entry in the Jekyll config.");
-  }
-
-  return config.replace(baseUrlPattern, `baseurl: ${JSON.stringify(normalizedBasePath)}`);
-}
-
 function repositoryNameFromSlug(repositorySlug?: string): string | undefined {
   const trimmed = repositorySlug?.trim();
 

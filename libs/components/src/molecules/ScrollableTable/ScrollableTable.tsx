@@ -1,18 +1,28 @@
+/** Column contract used to render semantic headers and responsive grid widths. */
 export interface ScrollableTableColumn {
   className?: string;
+  /** Header content rendered inside a scoped column header. */
   header: unknown;
+  /** Marks mutation/action columns so app CSS can narrow them on compact screens. */
   isAction?: boolean;
+  /** Stable column key used for rendering and story documentation. */
   key: string;
+  /** Optional mobile grid track, falling back to width and then minmax(0, 1fr). */
   mobileWidth?: string;
+  /** Optional desktop grid track, falling back to minmax(0, 1fr). */
   width?: string;
 }
 
+/** Responsive table shell with sticky headers and keyboard-reachable scroll bodies. */
 export interface ScrollableTableProps {
+  /** Table row elements owned by the consuming app. */
   children: unknown;
   className?: string;
+  /** Ordered column metadata used for headers and CSS grid tracks. */
   columns: ScrollableTableColumn[];
   columnsTemplate?: string;
   headerHeight?: string;
+  /** Enables the scroll-body contract and gives tbody a keyboard focus target. */
   isScrollable?: boolean;
   mobileColumnsTemplate?: string;
   mobileHeaderHeight?: string;

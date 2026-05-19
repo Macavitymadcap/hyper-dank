@@ -6,6 +6,7 @@ const DEFAULT_USER_LIMIT = 10;
 
 export interface InvitationServiceOptions {
   authProvider: AuthProvider;
+  demoMode?: boolean;
   emailSender: EmailSender;
   inviteRepository: InviteRepository;
   baseUrl?: string;
@@ -19,6 +20,10 @@ export interface CreateInvitationInput {
 }
 
 export interface CreateInvitationResult {
+  delivery: {
+    message: string;
+    status: "sent" | "simulated";
+  };
   invitation: Invitation;
   inviteUrl: string;
   token: string;
@@ -32,6 +37,7 @@ export interface AcceptInvitationInput {
 
 export class InvitationService {
   private readonly authProvider: AuthProvider;
+  private readonly demoMode: boolean;
   private readonly emailSender: EmailSender;
   private readonly inviteRepository: InviteRepository;
   private readonly baseUrl: string;
@@ -39,12 +45,14 @@ export class InvitationService {
 
   constructor({
     authProvider,
+    demoMode = false,
     emailSender,
     inviteRepository,
     baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:3000",
     userLimit = Number(process.env.USER_LIMIT ?? DEFAULT_USER_LIMIT),
   }: InvitationServiceOptions) {
     this.authProvider = authProvider;
+    this.demoMode = demoMode;
     this.emailSender = emailSender;
     this.inviteRepository = inviteRepository;
     this.baseUrl = baseUrl.replace(/\/$/, "");
@@ -70,12 +78,25 @@ export class InvitationService {
     });
     const inviteUrl = `${this.baseUrl}/invite/${token}`;
 
-    await this.emailSender.sendInvitation({
-      to: email,
-      inviteUrl,
-    });
+    const delivery = this.demoMode
+      ? {
+          message: `Demo mode is on, so no email was sent. Share this review invite link manually: ${inviteUrl}`,
+          status: "simulated" as const,
+        }
+      : {
+          message: "Invitation email sent.",
+          status: "sent" as const,
+        };
+
+    if (!this.demoMode) {
+      await this.emailSender.sendInvitation({
+        to: email,
+        inviteUrl,
+      });
+    }
 
     return {
+      delivery,
       invitation,
       inviteUrl,
       token,

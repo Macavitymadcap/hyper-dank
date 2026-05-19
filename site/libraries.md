@@ -1,236 +1,73 @@
 ---
 layout: default
 title: Libraries
+permalink: /libraries/
 ---
 
 # Libraries
 
-Hyper-Dank is split into small Bun workspace packages so applications can consume only the contracts
-they need. The packages are designed for server-rendered Hono JSX, progressive HTMX enhancement,
-explicit database lifecycles, reusable app automation, and consumer-style compatibility tests.
+Hyper-Dank packages are small shared contracts for Hono, HTMX, Bun, and server-rendered JSX apps.
+They keep mechanics reusable while product behaviour stays in the consuming application.
 
-<div class="library-tabs" id="libraries" markdown="1">
-  <nav class="library-tab-list" aria-label="Libraries">
-    <a class="library-tab" href="#components">Components</a>
-    <a class="library-tab" href="#database">Database</a>
-    <a class="library-tab" href="#http">HTTP</a>
-    <a class="library-tab" href="#scripts">Scripts</a>
+<div class="library-layout">
+<details class="library-side-nav" open>
+  <summary>Library docs</summary>
+  <nav aria-label="Library docs">
+    <a aria-current="page" href="{{ '/libraries/' | relative_url }}">Overview</a>
+    <a href="{{ '/libraries/ui/' | relative_url }}">UI</a>
+    <a href="{{ '/libraries/data/' | relative_url }}">Data</a>
+    <a href="{{ '/libraries/transport/' | relative_url }}">Transport</a>
+    <a href="{{ '/libraries/automation/' | relative_url }}">Automation</a>
   </nav>
+</details>
 
-  <section class="library-panel" id="components" markdown="1">
-    <h2>Components</h2>
+<div class="library-page">
 
-`@macavitymadcap/hyper-dank-ui` exposes server-rendered Hono JSX primitives plus a small
-CSS export. Import the CSS from the browser asset pipeline, then render components from server JSX.
+The libraries deliberately stop at reusable boundaries: component primitives, database lifecycle
+contracts, Hono/HTMX transport helpers, and script automation. App-owned language, routes,
+permissions, schemas, repositories, fixtures, and release choices stay local.
 
-```ts
-import { Button, Card, FormField, HxForm, Switch } from "@macavitymadcap/hyper-dank-ui";
-import "@macavitymadcap/hyper-dank-ui/styles.css";
+<div class="library-card-grid">
+  <a class="library-card" href="{{ '/libraries/ui/' | relative_url }}">
+    <span class="library-meta">Components and CSS</span>
+    <strong>UI package</strong>
+    <span class="library-package">@macavitymadcap/hyper-dank-ui</span>
+    <span>Server-rendered Hono JSX primitives, HTMX-friendly props, and a small baseline CSS export.</span>
+  </a>
+  <a class="library-card" href="{{ '/libraries/data/' | relative_url }}">
+    <span class="library-meta">Lifecycle and migrations</span>
+    <strong>Data package</strong>
+    <span class="library-package">@macavitymadcap/hyper-dank-data</span>
+    <span>Provider shapes, migration helpers, and Bun conformance tests for app-owned adapters.</span>
+  </a>
+  <a class="library-card" href="{{ '/libraries/transport/' | relative_url }}">
+    <span class="library-meta">Hono and HTMX</span>
+    <strong>Transport package</strong>
+    <span class="library-package">@macavitymadcap/hyper-dank-transport</span>
+    <span>Form parsing, route parameters, safe error messages, and HTMX-aware redirects.</span>
+  </a>
+  <a class="library-card" href="{{ '/libraries/automation/' | relative_url }}">
+    <span class="library-meta">Bun scripts</span>
+    <strong>Automation package</strong>
+    <span class="library-package">@macavitymadcap/hyper-dank-automation</span>
+    <span>Shared process, GitHub, verification, server, screenshot, PR-image, and a11y helpers.</span>
+  </a>
+</div>
 
-export function SettingsForm() {
-  return (
-    <Card as="section">
-      <HxForm action="/settings" method="post" hx-post="/settings" hx-target="#settings-panel">
-        <FormField id="display-name" label="Display name" name="displayName" required />
-        <Switch id="notifications" label="Notifications" name="notifications" value="enabled" />
-        <Button>Save settings</Button>
-      </HxForm>
-    </Card>
-  );
-}
-```
+## Shared Boundaries
 
-The CSS export is a baseline contract. App-specific layout and product styling should layer on top.
-`Button`, `Switch`, `HxForm`, and any component that accepts `HtmxProps` keep the JSX prop names
-identical to rendered `hx-*` attributes, so the HTML contract remains visible.
-
-### Component API
-
-| Export | Purpose | Demonstration |
+| Package | Owns | Leaves to Apps |
 | --- | --- | --- |
-| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | Generic component story |
-| `Button`, `ButtonProps` | Native button with `primary`, `danger`, `outline`, `text`, and `ghost` variants plus optional HTMX attributes. | `Components/Atoms/Button` |
-| `Card`, `CardElement`, `CardProps` | Semantic surface rendered as `article`, `div`, `main`, or `section`, with size custom-property hooks. | `Components/Atoms/Card` |
-| `Chip`, `ChipProps` | Inline status text with optional class hook. | `Components/Atoms/Chip` |
-| `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | Generic component story |
-| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | Generic component story |
-| `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Atoms/Switch` |
-| `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Atoms/TableCell` |
-| `HtmxProps` | Shared prop interface for supported `hx-*` attributes such as `hx-post`, `hx-target`, `hx-swap`, and `hx-trigger`. | Button, Switch, and HxForm stories |
-| `Accordion`, `AccordionItem`, `AccordionProps` | Grouped `details` disclosure list with optional metadata and controls. | Generic component story |
-| `CompactList`, `CompactListItem`, `CompactListProps` | Definition-list style rows for label, value, metadata, and controls. | Generic component story |
-| `FormField`, `FormFieldProps` | Labelled native input wrapper, or a label/control wrapper when children are supplied. | `Components/Molecules/FormField` |
-| `HxForm`, `HxFormProps` | Native `action`/`method` form wrapper that also spreads HTMX attributes for enhanced submissions. | `Components/Molecules/HxForm` |
-| `InputGroup`, `InputGroupProps` | Numeric/text input group used by the pace form pattern. | `Components/Molecules/InputGroup` |
-| `LabelledOutput`, `LabelledOutputProps` | Label/value output pair with placeholder behaviour for empty numbers. | `Components/Molecules/LabelledOutput` |
-| `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | Generic component story |
-| `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Molecules/ScrollableTable` |
+| UI | Generic JSX components, class contracts, HTMX prop surfaces, baseline CSS. | Product layout, feature organisms, wording, route paths, permissions. |
+| Data | Provider lifecycle types, migration store contract, ordered migration runner, lifecycle tests. | Domain schemas, repositories, adapter setup, transaction policy. |
+| Transport | Request form helpers, route parameter normalisation, safe error strings, action redirects. | Auth, permissions, services, validation rules, route composition. |
+| Automation | Script mechanics for processes, GitHub, checks, local servers, browsers, PR screenshots, Pa11y. | App fixtures, smoke journeys, deployment targets, release decisions. |
 
-Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' | relative_url }}).
-`Badge`, `Icon`, `Panel`, `Accordion`, `CompactList`, and `PopoverMenu` are demonstrated together in
-generic component stories; the other public components have standalone component stories.
+## Consumption Pattern
 
-### HTMX Form Pattern
+Use a package when it removes repeated mechanics without hiding the app contract. Keep imports close
+to the consuming boundary, add app-specific wrappers only when they clarify product behaviour, and
+cover package use through consumer-style compatibility tests.
 
-Use `HxForm` when a control must work as normal HTML first and become fragment-driven when HTMX is
-available.
-
-```tsx
-<HxForm
-  action="/items"
-  method="post"
-  hx-post="/items"
-  hx-target="#items-list"
-  hx-swap="outerHTML"
->
-  <FormField id="title" label="Title" name="title" required />
-  <Button>Add item</Button>
-</HxForm>
-```
-
-Without JavaScript, the browser submits through the native `action` and `method`.
-With HTMX, the same form posts to `hx-post` and swaps the fragment named by `hx-target`.
-
-  </section>
-
-  <section class="library-panel" id="database" markdown="1">
-    <h2>Database</h2>
-
-`@macavitymadcap/hyper-dank-data` contains provider lifecycle and migration primitives. Apps keep
-their domain repositories and schemas local, then use conformance tests to keep adapters honest.
-
-```ts
-import {
-  type DatabaseProviderBase,
-  type Migration,
-  type MigrationStore,
-  runPendingMigrations,
-} from "@macavitymadcap/hyper-dank-data";
-
-type Repositories = {
-  entries: EntryRepository;
-};
-
-export type AppDatabaseProvider = DatabaseProviderBase<Repositories>;
-
-const migrations: Migration[] = [{ id: "0001_create_entries", sql: "create table entries (...)" }];
-
-export async function migrate(store: MigrationStore) {
-  await runPendingMigrations(store, migrations);
-}
-```
-
-### Database API
-
-| Export | Purpose |
-| --- | --- |
-| `DatabaseAdapterKind` | Built-in adapter names, currently `sqlite` and `postgres`, while allowing app-specific string kinds. |
-| `MaybePromise<T>` | Helper type for lifecycle methods that may be sync or async. |
-| `DatabaseLifecycle` | Provider contract for `kind`, `migrate()`, and `close()`. |
-| `RepositoryFactory<TRepositories>` | Contract for creating app-owned repositories from a provider. |
-| `DatabaseProviderBase<TRepositories, TKind>` | Combined lifecycle and repository factory shape for app providers. |
-| `Migration` | Immutable migration id plus SQL body. |
-| `MigrationStore` | Adapter contract for checking, running, and recording migrations. |
-| `runPendingMigrations` | Runs migrations in order, skipping ids already recorded by the store. |
-
-The testing subpath exports a Bun test contract:
-
-```ts
-import {
-  type DatabaseLifecycleHarness,
-  describeDatabaseLifecycleContract,
-} from "@macavitymadcap/hyper-dank-data/testing";
-
-describeDatabaseLifecycleContract("SqliteDatabaseProvider", "sqlite", async () => {
-  const provider = createSqliteProvider(":memory:");
-  return {
-    provider,
-    cleanup: () => provider.close(),
-  } satisfies DatabaseLifecycleHarness<typeof provider>;
-});
-```
-
-`DatabaseLifecycleHarness` describes the provider and optional cleanup callback. `describeDatabaseLifecycleContract`
-asserts that the provider exposes the expected kind, can migrate idempotently, and closes after the
-contract run.
-
-  </section>
-
-  <section class="library-panel" id="http" markdown="1">
-    <h2>HTTP</h2>
-
-`@macavitymadcap/hyper-dank-transport` contains generic form parsing, route parameter, error-message, and
-HTMX response helpers. Auth, permissions, and product routes stay in the consuming app.
-
-```ts
-import { FormValues, HttpResponder, errorMessage, routeParam } from "@macavitymadcap/hyper-dank-transport";
-
-const responder = new HttpResponder();
-
-app.post("/entries/:id", async (context) => {
-  const id = routeParam(context, "id");
-  const values = await FormValues.from(context);
-
-  try {
-    await saveEntry(id, {
-      title: values.string("title"),
-      status: values.string("status"),
-    });
-    return responder.redirectAfterAction(context, "/");
-  } catch (error) {
-    return context.text(errorMessage(error), 400);
-  }
-});
-```
-
-### HTTP API
-
-| Export | Purpose |
-| --- | --- |
-| `FormValues` | Wraps parsed Hono form bodies and normalises missing or repeated values through `string(key)`. |
-| `errorMessage` | Converts unknown thrown values into a safe message string. |
-| `routeParam` | Reads a route parameter from a Hono context and returns an empty string when it is absent. |
-| `HttpResponder` | Detects HTMX requests and centralises action redirects. |
-
-`HttpResponder.redirectAfterAction()` returns `HX-Redirect` for HTMX requests and a normal redirect
-for native requests. `redirectWithAuthCookies()` preserves cookies from an auth response while using
-the same HTMX-aware redirect behaviour.
-
-  </section>
-
-  <section class="library-panel" id="scripts" markdown="1">
-    <h2>Scripts</h2>
-
-`@macavitymadcap/hyper-dank-automation` contains reusable Bun automation helpers for Hyper-Dank apps.
-Use it to keep local script entrypoints small while leaving app-specific routes, fixtures, and
-deployment choices in the app.
-
-```ts
-import {
-  buildImagesSection,
-  getGitHubRepo,
-  getGitHubToken,
-  runVerification,
-  updateImagesSection,
-  waitForHttp,
-} from "@macavitymadcap/hyper-dank-automation";
-```
-
-### Script API
-
-| Group | Purpose |
-| --- | --- |
-| Process helpers | Run sync and async commands with predictable cwd, env, stdio, captured output, and allow-failure behaviour. |
-| GitHub helpers | Parse repository remotes, discover tokens, make REST requests, find pull requests, and update PR bodies. |
-| Verification helpers | Run ordered gates, stop on failure, and render Markdown verification reports. |
-| Local server helpers | Start Bun test servers on dynamic ports and wait for HTTP readiness. |
-| Browser helpers | Orchestrate Playwright screenshot flows and theme setup. |
-| PR image helpers | Build and replace Markdown image sections for persisted PR screenshots. |
-| A11y helpers | Run Pa11y with optional config paths and auth cookies while app routes stay local. |
-
-Consuming apps should keep product-specific routes, fixtures, and smoke flows local while importing
-the shared automation building blocks. For app-shape examples, see
-[`/recipes/`]({{ '/recipes/' | relative_url }}).
-
-  </section>
+</div>
 </div>

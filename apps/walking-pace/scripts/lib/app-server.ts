@@ -7,7 +7,10 @@ import {
   type WalkRepository,
 } from "../../src/db";
 import { ConsoleEmailSender } from "../../src/services/email";
-import { InvitationService } from "../../src/services/invitations";
+import {
+  InvitationService,
+  type InvitationService as InvitationServiceInstance,
+} from "../../src/services/invitations";
 
 export interface SampleWalk {
   miles: string;
@@ -23,6 +26,7 @@ export interface InMemoryAppServer {
   authCookie: string;
   authProvider: TestAuthProvider;
   databaseProvider: DatabaseProvider;
+  invitationService: InvitationServiceInstance;
   port: number;
   setAuthUser(userId: string | null): string;
   stop(): Promise<void>;
@@ -32,6 +36,7 @@ export interface InMemoryAppServer {
 
 interface StartInMemoryAppServerOptions {
   authenticatedUserId?: string | null;
+  demoMode?: boolean;
   users?: AppServerTestUser[];
 }
 
@@ -69,6 +74,7 @@ export async function startInMemoryAppServer(
   const url = `http://localhost:${actualPort}`;
   const invitationService = new InvitationService({
     authProvider,
+    demoMode: Boolean(options.demoMode),
     emailSender: new ConsoleEmailSender(),
     inviteRepository: repositories.invites,
     baseUrl: url,
@@ -101,6 +107,7 @@ export async function startInMemoryAppServer(
   return {
     authProvider,
     databaseProvider,
+    invitationService,
     port: actualPort,
     url,
     get authCookie() {

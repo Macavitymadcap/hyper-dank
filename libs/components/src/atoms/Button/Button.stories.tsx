@@ -30,7 +30,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "Primitive button with size, variant, native type, and HTMX attribute support.",
+        component:
+          "Primitive button with size, variant, native type, disabled state, accessible labelling, and HTMX attribute support. Outputs a native button with stable data-size and data-variant hooks; events remain standard click or form-submit browser behaviour.",
       },
     },
     layout: "fullscreen",

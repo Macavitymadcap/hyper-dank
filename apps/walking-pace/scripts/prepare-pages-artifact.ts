@@ -10,7 +10,7 @@ const storybookDir = path.resolve(
   process.env.STORYBOOK_DIST ?? path.join(root, "storybook-static"),
 );
 
-assertFile(path.join(siteDir, "index.html"), "Jekyll site index");
+assertFile(path.join(siteDir, "index.html"), "docs site index");
 assertFile(path.join(demoDir, "index.html"), "static pace demo index");
 assertFile(path.join(storybookDir, "index.html"), "Storybook index");
 

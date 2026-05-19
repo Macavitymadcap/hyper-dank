@@ -13,7 +13,7 @@ export class AdminPagePresenter {
     private readonly responder: HttpResponder,
   ) {}
 
-  async render(context: Context, error?: string): Promise<Response> {
+  async render(context: Context, error?: string, notice?: string): Promise<Response> {
     const users = await this.authProvider.listUsers();
     const selectedUserId = context.req.query("userId") ?? users[0]?.id;
     const selectedUser = users.find((user) => user.id === selectedUserId);
@@ -28,6 +28,7 @@ export class AdminPagePresenter {
     const props = {
       error,
       invitations,
+      notice,
       selectedStats,
       selectedUser,
       selectedWalks,
