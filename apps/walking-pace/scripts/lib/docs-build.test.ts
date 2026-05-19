@@ -90,6 +90,65 @@ describe("docs build", () => {
     await expect(readFile(path.join(destinationDir, ".nojekyll"), "utf8")).resolves.toBe("");
   });
 
+  test("builds library package pages from permalink routes", async () => {
+    const tmp = await mkdtemp(path.join(os.tmpdir(), "hyper-dank-docs-"));
+    const sourceDir = path.join(tmp, "site");
+    const destinationDir = path.join(tmp, "public");
+
+    await mkdir(path.join(sourceDir, "assets"), { recursive: true });
+    await writeFile(
+      path.join(sourceDir, "_config.yml"),
+      "title: Hyper-Dank\ndescription: Docs for tests\n",
+    );
+    await writeFile(
+      path.join(sourceDir, "libraries.md"),
+      [
+        "---",
+        "layout: default",
+        "title: Libraries",
+        "permalink: /libraries/",
+        "---",
+        "",
+        "# Libraries",
+        "",
+        '<details class="library-side-nav" open>',
+        "  <summary>Library docs</summary>",
+        '  <nav aria-label="Library docs">',
+        "    <a href=\"{{ '/libraries/ui/' | relative_url }}\">UI</a>",
+        "  </nav>",
+        "</details>",
+      ].join("\n"),
+    );
+    await writeFile(
+      path.join(sourceDir, "libraries-ui.md"),
+      [
+        "---",
+        "layout: default",
+        "title: UI Library",
+        "permalink: /libraries/ui/",
+        "---",
+        "",
+        "# UI Library",
+        "",
+        "| Export | Purpose |",
+        "| --- | --- |",
+        "| `Button` | Action |",
+      ].join("\n"),
+    );
+
+    await buildDocsSite({ basePath: "/hyper-dank", destinationDir, sourceDir });
+
+    await expect(
+      readFile(path.join(destinationDir, "libraries/index.html"), "utf8"),
+    ).resolves.toContain('href="/hyper-dank/libraries/ui/"');
+    await expect(
+      readFile(path.join(destinationDir, "libraries/ui/index.html"), "utf8"),
+    ).resolves.toContain("<h1>UI Library</h1>");
+    await expect(
+      readFile(path.join(destinationDir, "libraries/ui/index.html"), "utf8"),
+    ).resolves.toContain('<div class="table-scroll" tabindex="0">');
+  });
+
   test("renders compact docs navigation and checkbox-backed theme switch", async () => {
     const tmp = await mkdtemp(path.join(os.tmpdir(), "hyper-dank-docs-"));
     const sourceDir = path.join(tmp, "site");
