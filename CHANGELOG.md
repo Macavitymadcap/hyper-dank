@@ -1,5 +1,67 @@
 # Changelog
 
+## [2.0.0](https://github.com/Macavitymadcap/pace-calculator/compare/hyper-dank-v1.4.4...hyper-dank-v2.0.0) (2026-05-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* Public package imports now use @macavitymadcap/hyper-dank-ui, @macavitymadcap/hyper-dank-data, @macavitymadcap/hyper-dank-transport, and @macavitymadcap/hyper-dank-automation.
+
+### Features
+
+* add auth and railway deployment ([#3](https://github.com/Macavitymadcap/pace-calculator/issues/3)) ([4196b94](https://github.com/Macavitymadcap/pace-calculator/commit/4196b94c8dec21788e126db44fda2ebbf6e3f116))
+* broaden Hyper-Dank platform primitives ([#43](https://github.com/Macavitymadcap/pace-calculator/issues/43)) ([fe740d1](https://github.com/Macavitymadcap/pace-calculator/commit/fe740d157e6e99f50e1dabb43bc5fbcf52c1c3cf))
+* **platform:** add Hyper-Dank Pages platform ([#23](https://github.com/Macavitymadcap/pace-calculator/issues/23)) ([26372dd](https://github.com/Macavitymadcap/pace-calculator/commit/26372ddffdf6eecf40dc13db27616585c119fe07))
+* **template:** add developer experience foundations ([#11](https://github.com/Macavitymadcap/pace-calculator/issues/11)) ([ac009e3](https://github.com/Macavitymadcap/pace-calculator/commit/ac009e32e16644bd3c5155f4509745f5621473e2))
+* **template:** add developer experience foundations ([#13](https://github.com/Macavitymadcap/pace-calculator/issues/13)) ([7781c70](https://github.com/Macavitymadcap/pace-calculator/commit/7781c7015803b52d31dfce9ba47335d5e3eb661a))
+
+
+### Bug Fixes
+
+* bind railway server explicitly ([#4](https://github.com/Macavitymadcap/pace-calculator/issues/4)) ([5a1526a](https://github.com/Macavitymadcap/pace-calculator/commit/5a1526a350375a919edb859dc7cff787ca1ee9f8))
+* **demo:** restore walk history table layout ([#34](https://github.com/Macavitymadcap/pace-calculator/issues/34)) ([234f01f](https://github.com/Macavitymadcap/pace-calculator/commit/234f01fd4ac3f45206f341a6989a12760451e3ab))
+* **deploy:** enable GitHub Pages setup ([#26](https://github.com/Macavitymadcap/pace-calculator/issues/26)) ([74ff4df](https://github.com/Macavitymadcap/pace-calculator/commit/74ff4df84191f4232001644e80b4273d7e23f4fc))
+* **deploy:** restore Pages artifact ownership ([#27](https://github.com/Macavitymadcap/pace-calculator/issues/27)) ([91dd40e](https://github.com/Macavitymadcap/pace-calculator/commit/91dd40eccf6c4481d58cefd8e4671007f7be0b69))
+* **deploy:** restore Railway healthcheck startup ([#17](https://github.com/Macavitymadcap/pace-calculator/issues/17)) ([b2b2f5d](https://github.com/Macavitymadcap/pace-calculator/commit/b2b2f5d46bdc50eea4270992b7af63a69f868604))
+* **pace-0001:** refactor app ([a253c2a](https://github.com/Macavitymadcap/pace-calculator/commit/a253c2a0be16535c1c3cb704b194bef095a5fcc3))
+
+
+### Refactoring
+
+* **workspace:** extract walking pace packages ([#15](https://github.com/Macavitymadcap/pace-calculator/issues/15)) ([0d0504d](https://github.com/Macavitymadcap/pace-calculator/commit/0d0504d1378b447dc8a65c3068c9c3c13651058f))
+
+
+### Documentation
+
+* **platform:** plan broader Hyper-Dank primitives ([#29](https://github.com/Macavitymadcap/pace-calculator/issues/29)) ([2f20ac9](https://github.com/Macavitymadcap/pace-calculator/commit/2f20ac964fbed0564c129e3b200e0cef8a3c0510))
+* **platform:** renumber platform epic ([#31](https://github.com/Macavitymadcap/pace-calculator/issues/31)) ([db38b9c](https://github.com/Macavitymadcap/pace-calculator/commit/db38b9c809170964b06acceb12a674ba0770da69))
+* reconcile pace 0002 status ([#19](https://github.com/Macavitymadcap/pace-calculator/issues/19)) ([1d5a258](https://github.com/Macavitymadcap/pace-calculator/commit/1d5a258fdac4250b97552df71856b69098938152))
+* **workflow:** add epic ticket branch flow ([#9](https://github.com/Macavitymadcap/pace-calculator/issues/9)) ([3f21fc9](https://github.com/Macavitymadcap/pace-calculator/commit/3f21fc92c4070532165e24af6cc901240f3360cd))
+* **workflow:** reconcile branch-flow roadmap ([#21](https://github.com/Macavitymadcap/pace-calculator/issues/21)) ([d726818](https://github.com/Macavitymadcap/pace-calculator/commit/d726818a6859d38ce630f2b15d6f51329d5ef282))
+
+
+### CI
+
+* use release token for release please ([#7](https://github.com/Macavitymadcap/pace-calculator/issues/7)) ([25e563a](https://github.com/Macavitymadcap/pace-calculator/commit/25e563a6e505c298dae7ddd8a1a15dcc406b3834))
+
+
+### Chores
+
+* **main:** release pace-calculator 1.1.0 ([#6](https://github.com/Macavitymadcap/pace-calculator/issues/6)) ([51f9acb](https://github.com/Macavitymadcap/pace-calculator/commit/51f9acb7719b49c03cda3398cfc646530029166e))
+* **main:** release pace-calculator 1.1.1 ([#8](https://github.com/Macavitymadcap/pace-calculator/issues/8)) ([8111f67](https://github.com/Macavitymadcap/pace-calculator/commit/8111f6778a4156140e8bbba3b4f4a177e02557c7))
+* **main:** release pace-calculator 1.1.2 ([#10](https://github.com/Macavitymadcap/pace-calculator/issues/10)) ([4ff0700](https://github.com/Macavitymadcap/pace-calculator/commit/4ff070016f41de84e536d105c28679c059c7a53f))
+* **main:** release pace-calculator 1.2.0 ([#12](https://github.com/Macavitymadcap/pace-calculator/issues/12)) ([25428b5](https://github.com/Macavitymadcap/pace-calculator/commit/25428b5e82e0bc33d883dd9c375ae41ee63cadbc))
+* **main:** release pace-calculator 1.3.0 ([#14](https://github.com/Macavitymadcap/pace-calculator/issues/14)) ([0011986](https://github.com/Macavitymadcap/pace-calculator/commit/001198684a6b95010a91fa3acb7f64ece53f1b7b))
+* **main:** release pace-calculator 1.3.1 ([#16](https://github.com/Macavitymadcap/pace-calculator/issues/16)) ([61b1f7c](https://github.com/Macavitymadcap/pace-calculator/commit/61b1f7c391e3c3959ea667a69ce4cff1a0865772))
+* **main:** release pace-calculator 1.3.2 ([0e70b70](https://github.com/Macavitymadcap/pace-calculator/commit/0e70b7076623dc943fe77b95772e299b6a29ccda))
+* **main:** release pace-calculator 1.3.3 ([#20](https://github.com/Macavitymadcap/pace-calculator/issues/20)) ([3f1a025](https://github.com/Macavitymadcap/pace-calculator/commit/3f1a0253da929384456697c54363b136228becb1))
+* **main:** release pace-calculator 1.3.4 ([#22](https://github.com/Macavitymadcap/pace-calculator/issues/22)) ([ca8a828](https://github.com/Macavitymadcap/pace-calculator/commit/ca8a82811029f05b849aba87737414a5ff517d37))
+* **main:** release pace-calculator 1.4.0 ([#24](https://github.com/Macavitymadcap/pace-calculator/issues/24)) ([917e069](https://github.com/Macavitymadcap/pace-calculator/commit/917e0698a1888a7956f725465c3bf60b9a33b78e))
+* **main:** release pace-calculator 1.4.1 ([#28](https://github.com/Macavitymadcap/pace-calculator/issues/28)) ([86316f6](https://github.com/Macavitymadcap/pace-calculator/commit/86316f694f75fdcfafa2f517ba7e1d9f561b6600))
+* **main:** release pace-calculator 1.4.2 ([#30](https://github.com/Macavitymadcap/pace-calculator/issues/30)) ([689cd6b](https://github.com/Macavitymadcap/pace-calculator/commit/689cd6bd403bcc3dad0111cd7ce482010e2027ce))
+* **main:** release pace-calculator 1.4.3 ([#32](https://github.com/Macavitymadcap/pace-calculator/issues/32)) ([ee097e7](https://github.com/Macavitymadcap/pace-calculator/commit/ee097e7e7c5c47dbc5906b5fbb50a8ff82b3db65))
+* **main:** release pace-calculator 1.4.4 ([#35](https://github.com/Macavitymadcap/pace-calculator/issues/35)) ([b097824](https://github.com/Macavitymadcap/pace-calculator/commit/b0978242263488f6fdd7659a2612588a67fdc551))
+
 ## [1.4.4](https://github.com/Macavitymadcap/pace-calculator/compare/pace-calculator-v1.4.3...pace-calculator-v1.4.4) (2026-05-18)
 
 
