@@ -11,12 +11,15 @@ describe("shared component styles", () => {
     expect(css).toContain(".callout");
     expect(css).toContain(".choice-field");
     expect(css).toContain(".dialog");
+    expect(css).toContain("dialog.dialog:not([open])");
     expect(css).toContain(".empty-state");
     expect(css).toContain(".icon-button");
     expect(css).toContain(".metadata-list");
     expect(css).toContain(".pagination");
     expect(css).toContain(".prose");
+    expect(css).toContain(".side-nav ul");
     expect(css).toContain(".stat-block");
+    expect(css).toContain(".timeline-list");
     expect(css).toContain(".validation-summary");
     expect(css).toContain(".button:disabled");
     expect(css).toContain('.switch[data-variant="compact"] .switch-track');
