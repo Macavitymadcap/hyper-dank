@@ -14,6 +14,7 @@ const authProvider = createAuthProvider({ databaseProvider });
 const emailSender = createEmailSender();
 const invitationService = new InvitationService({
   authProvider,
+  demoMode: process.env.WALKING_PACE_DEMO_MODE === "true",
   emailSender,
   inviteRepository: repositories.invites,
 });

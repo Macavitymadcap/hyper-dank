@@ -13,6 +13,7 @@ interface AdminPageProps {
   selectedWalks: WalkWithStats[];
   selectedStats: Stats;
   error?: string;
+  notice?: string;
 }
 
 export const AdminPage = ({
@@ -22,6 +23,7 @@ export const AdminPage = ({
   selectedWalks,
   selectedStats,
   error,
+  notice,
 }: AdminPageProps) => {
   return (
     <Layout>
@@ -41,6 +43,7 @@ export const AdminPage = ({
 
         <AdminDashboard
           error={error}
+          notice={notice}
           users={users}
           invitations={invitations}
           selectedUser={selectedUser}

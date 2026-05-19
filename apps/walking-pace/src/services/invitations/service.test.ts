@@ -36,6 +36,7 @@ describe("InvitationService", () => {
     });
 
     expect(result.invitation.email).toBe("invited@example.com");
+    expect(result.delivery.status).toBe("sent");
     expect(result.inviteUrl).toContain(`/invite/${result.token}`);
     expect(emailSender.sentInvitations[0]?.to).toBe("invited@example.com");
 
@@ -48,6 +49,21 @@ describe("InvitationService", () => {
     expect(user.email).toBe("invited@example.com");
     expect(await authProvider.countUsers()).toBe(2);
     expect((await service.listInvitations())[0]?.status).toBe("accepted");
+  });
+
+  test("simulates delivery without sending email in demo mode", async () => {
+    const service = createService(10, true);
+    const result = await service.createInvitation({
+      email: "reviewer@example.com",
+      role: "user",
+      invitedByUserId: "admin@example.com",
+    });
+
+    expect(result.delivery.status).toBe("simulated");
+    expect(result.delivery.message).toContain("Demo mode is on");
+    expect(result.delivery.message).toContain(result.inviteUrl);
+    expect(emailSender.sentInvitations).toHaveLength(0);
+    expect((await service.listInvitations())[0]?.email).toBe("reviewer@example.com");
   });
 
   test("enforces the user cap across users and pending invitations", async () => {
@@ -108,9 +124,10 @@ describe("InvitationService", () => {
   });
 });
 
-function createService(userLimit = 10) {
+function createService(userLimit = 10, demoMode = false) {
   return new InvitationService({
     authProvider,
+    demoMode,
     emailSender,
     inviteRepository: databaseProvider.createInviteRepository(),
     baseUrl: "http://localhost",

@@ -37,14 +37,22 @@ export class AdminRoutes {
     if ("response" in auth) return auth.response;
 
     const form = await FormValues.from(context);
+    let notice: string | undefined;
     try {
-      await this.invitationService.createInvitation({
+      const result = await this.invitationService.createInvitation({
         email: form.string("email"),
         role: userRole(form.string("role")),
         invitedByUserId: auth.session.user.id,
       });
+      if (result.delivery.status === "simulated") {
+        notice = result.delivery.message;
+      }
     } catch (error) {
       return this.presenter.render(context, errorMessage(error));
+    }
+
+    if (notice) {
+      return this.presenter.render(context, undefined, notice);
     }
 
     return this.responder.redirectAfterAction(context, "/admin");
