@@ -111,9 +111,9 @@ export const ApplicationFlow: Story = {
           <section class="storybook-doc__section" aria-labelledby="flow-state-heading">
             <h2 id="flow-state-heading">Server state</h2>
             <p>
-              Kysely owns database access behind typed repositories and adapters. Services compose
-              those adapters into user-facing behaviors such as walks, invitations, and admin
-              review.
+              Repositories own database access behind typed app contracts and adapters. Services
+              compose those adapters into user-facing behaviors such as walks, invitations, and
+              admin review.
             </p>
           </section>
 

@@ -7,11 +7,12 @@ The repository includes Walking Pace Tracker as the reference app and public dem
 records user-scoped walks, calculates average speed and median pace, supports light/dark mode, and
 uses server-rendered HTML fragments instead of a client-side framework.
 
-The public production site is GitHub Pages: Jekyll documentation at `/`, a browser-only
-localStorage pace demo at `/pace/`, and Storybook at `/storybook/`.
+The public production site is GitHub Pages: the current docs build publishes Jekyll documentation at
+`/`, a browser-only localStorage pace demo at `/pace/`, and Storybook at `/storybook/`.
 
 For the design philosophy and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
-For reusable library roles and app-shape recipes, see the Jekyll docs in [`site/`](./site).
+For reusable library roles and app-shape recipes, see the current public docs source in
+[`site/`](./site).
 
 For the solo-maintainer branch workflow, Conventional Commit PR titles, and release/versioning process, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
@@ -326,6 +327,10 @@ The workflow prepares a Jekyll source copy with the resolved `baseurl`, uses Git
 action to build that source, then `bun run prepare:pages` copies the Vite-built pace demo into
 `pace/` and Storybook into `storybook/`.
 
+The Jekyll step is the current production baseline. The `pace-0041` documentation epic tracks a
+planned move to a repo-owned Bun docs build so Markdown parsing and page generation can be reused by
+future static content.
+
 ## Server App Deployment
 
 The authenticated Walking Pace app still runs locally with `bun run dev` and can be deployed as a
@@ -369,7 +374,8 @@ apps/
 libs/
 ├── components/                # reusable server-rendered component package
 ├── database/                  # shared database lifecycle and migration primitives
-└── http/                      # reusable form parsing and HTTP response helpers
+├── http/                      # reusable form parsing and HTTP response helpers
+└── scripts/                   # reusable Bun automation helpers
 site/                          # Jekyll source for the public Hyper-Dank documentation
 e2e/
 ├── tests/walking-pace/        # Playwright browser workflows

@@ -84,7 +84,7 @@ libs/
 ├── database/                  # shared database lifecycle and migration primitives
 ├── http/                      # reusable form parsing and HTTP response helpers
 └── scripts/                   # reusable Bun automation helpers
-site/                          # Jekyll source for the public Hyper-Dank docs
+site/                          # current Jekyll source for the public Hyper-Dank docs
 e2e/
 ├── tests/walking-pace/        # Playwright browser workflows
 └── consumer-compat/           # workspace package consumer compatibility checks
@@ -150,7 +150,7 @@ Admins are normal users with the `admin` role. They can manage accounts and view
 
 ## Deployment Shape
 
-The production deployment target is GitHub Pages. The Pages workflow builds the Jekyll docs in
+The production deployment target is GitHub Pages. The current Pages workflow builds the Jekyll docs in
 `site/`, the static Walking Pace demo in `apps/walking-pace/dist/static-demo`, and Storybook in
 `storybook-static`, then publishes one artifact with docs at `/`, the demo at `/pace/`, and Storybook
 at `/storybook/`.
@@ -163,6 +163,10 @@ Railway is no longer the active production deployment for this repository, but t
 shape remains Railway-compatible for Hyper-Dank server apps. The workspace keeps the Dockerfile,
 root `start`, `db:migrate`, and `seed:admin` scripts, and the `/healthz` route so a server app can
 use a Railway pre-deploy migration, start command, and health check.
+
+The Jekyll docs build is an implementation detail of the current public site, not a long-term
+constraint on the architecture. The documentation build can move to repo-owned Bun tooling while the
+published route shape stays the same.
 
 `apps/walking-pace/scripts/seed-admin.ts` is intentionally separate from app startup. It uses the same database and auth provider selection as the app: `DATABASE_URL` seeds Postgres through Better Auth, while `DB_PATH` seeds a local SQLite database. It either creates the first admin or upgrades an existing account to the `admin` role. `apps/walking-pace/scripts/seed-local-dev.ts` is local-only and seeds reusable SQLite review profiles from `apps/walking-pace/src/envs/local/local-presets.ts` so tests and manual UI review share the same account fixtures.
 
