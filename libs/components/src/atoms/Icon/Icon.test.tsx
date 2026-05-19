@@ -23,6 +23,47 @@ describe("Icon", () => {
     expect(html).toContain('data-icon="floppy"');
   });
 
+  test("covers the required app-builder icon catalogue", () => {
+    const requiredIcons = [
+      ["menu", "menu"],
+      ["check", "check-circle"],
+      ["dark_mode", "moon"],
+      ["light_mode", "sun"],
+      ["workspace_premium", "star"],
+      ["radio_button_unchecked", "circle"],
+      ["document", "document"],
+      ["search", "search"],
+      ["filter", "filter"],
+      ["edit", "pencil"],
+      ["delete", "trash"],
+      ["add", "plus"],
+      ["save", "floppy"],
+      ["download", "download"],
+      ["upload", "upload"],
+      ["settings", "gear"],
+      ["user", "user"],
+      ["lock", "lock"],
+      ["warning", "warning"],
+      ["close", "close"],
+      ["external-link", "external-link"],
+      ["home", "home"],
+      ["calendar", "calendar"],
+      ["tag", "tag"],
+      ["folder", "folder"],
+      ["database", "database"],
+      ["dice", "dice"],
+      ["shield", "shield"],
+      ["book", "book-open"],
+      ["map", "map"],
+    ] as const;
+
+    for (const [name, expectedIcon] of requiredIcons) {
+      const html = String(<Icon name={name} />);
+
+      expect(html).toContain(`data-icon="${expectedIcon}"`);
+    }
+  });
+
   test("falls back to the circle icon for unknown names", () => {
     const html = String(<Icon name="missing" />);
 
