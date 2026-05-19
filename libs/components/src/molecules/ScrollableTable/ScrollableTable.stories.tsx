@@ -20,7 +20,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "Generic sticky-header table shell with responsive column sizing.",
+        component:
+          "Generic sticky-header table shell with responsive column sizing. Inputs are column metadata, row children, scroll counts, and optional sizing properties; output remains a semantic table with scoped headers and a keyboard-focusable scroll body when scrolling is enabled.",
       },
     },
     layout: "fullscreen",

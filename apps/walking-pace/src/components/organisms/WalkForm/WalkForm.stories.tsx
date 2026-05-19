@@ -31,7 +31,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "Progressively enhanced walk-entry form targeting the walk-history fragment.",
+        component:
+          "Progressively enhanced walk-entry form targeting the walk-history fragment. Inputs are default distance/time values and submit label; output is a labelled native form with HTMX attributes for updating walk history while preserving fallback submission.",
       },
     },
     layout: "fullscreen",

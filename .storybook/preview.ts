@@ -92,6 +92,18 @@ const preview: Preview = {
       toc: true,
     },
     layout: "centered",
+    options: {
+      storySort: {
+        method: "alphabetical",
+        order: [
+          "Introduction",
+          ["Component Philosophy", "Reference Map"],
+          "Components",
+          ["Atoms", "Molecules", "Organisms", "Pages", "Templates", "Generic"],
+          "Guides",
+        ],
+      },
+    },
   },
 };
 

@@ -162,6 +162,46 @@ body {
   line-height: var(--font-lineheight-3);
 }
 
+.storybook-doc__table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-2);
+}
+
+.storybook-doc__table-scroll:focus-visible {
+  outline: var(--border-size-2) solid var(--primary);
+  outline-offset: var(--size-1);
+}
+
+.storybook-doc__table {
+  width: 100%;
+  min-width: 48rem;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.storybook-doc__table th,
+.storybook-doc__table td {
+  padding: var(--size-3);
+  border-bottom: var(--border-size-1) solid var(--border-subtle);
+  text-align: left;
+  vertical-align: top;
+}
+
+.storybook-doc__table th {
+  background: var(--surface-raised);
+  color: var(--text);
+}
+
+.storybook-doc__table td {
+  color: var(--text-muted);
+}
+
+.storybook-doc__table tr:last-child td {
+  border-bottom: 0;
+}
+
 .storybook-doc__code {
   display: inline-block;
   padding: var(--size-1) var(--size-2);
