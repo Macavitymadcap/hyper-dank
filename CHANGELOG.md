@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.0.1...hyper-dank-v2.1.0) (2026-05-19)
+
+
+### Features
+
+* **docs:** improve public docs and review flow ([#56](https://github.com/Macavitymadcap/hyper-dank/issues/56)) ([279ba86](https://github.com/Macavitymadcap/hyper-dank/commit/279ba86b7d9d5f117f8a8da8bc9251a646101cde))
+
 ## [2.0.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.0.0...hyper-dank-v2.0.1) (2026-05-19)
 
 
