@@ -30,22 +30,26 @@ permissions, schemas, repositories, fixtures, and release choices stay local.
 <div class="library-card-grid">
   <a class="library-card" href="{{ '/libraries/ui/' | relative_url }}">
     <span class="library-meta">Components and CSS</span>
-    <strong>@macavitymadcap/hyper-dank-ui</strong>
+    <strong>UI package</strong>
+    <span class="library-package">@macavitymadcap/hyper-dank-ui</span>
     <span>Server-rendered Hono JSX primitives, HTMX-friendly props, and a small baseline CSS export.</span>
   </a>
   <a class="library-card" href="{{ '/libraries/data/' | relative_url }}">
     <span class="library-meta">Lifecycle and migrations</span>
-    <strong>@macavitymadcap/hyper-dank-data</strong>
+    <strong>Data package</strong>
+    <span class="library-package">@macavitymadcap/hyper-dank-data</span>
     <span>Provider shapes, migration helpers, and Bun conformance tests for app-owned adapters.</span>
   </a>
   <a class="library-card" href="{{ '/libraries/transport/' | relative_url }}">
     <span class="library-meta">Hono and HTMX</span>
-    <strong>@macavitymadcap/hyper-dank-transport</strong>
+    <strong>Transport package</strong>
+    <span class="library-package">@macavitymadcap/hyper-dank-transport</span>
     <span>Form parsing, route parameters, safe error messages, and HTMX-aware redirects.</span>
   </a>
   <a class="library-card" href="{{ '/libraries/automation/' | relative_url }}">
     <span class="library-meta">Bun scripts</span>
-    <strong>@macavitymadcap/hyper-dank-automation</strong>
+    <strong>Automation package</strong>
+    <span class="library-package">@macavitymadcap/hyper-dank-automation</span>
     <span>Shared process, GitHub, verification, server, screenshot, PR-image, and a11y helpers.</span>
   </a>
 </div>

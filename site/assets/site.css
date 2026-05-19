@@ -8,6 +8,8 @@
   --text-muted: #52616f;
   --accent: #0f6b6e;
   --accent-strong: #0a4c4f;
+  --active-nav-bg: #0f6b6e;
+  --active-nav-text: #ffffff;
   --border: #d5dde4;
   --code-bg: #f1f4f7;
   --shadow: 0 12px 24px rgb(23 32 42 / 8%);
@@ -22,6 +24,8 @@
   --text-muted: #b9c6d1;
   --accent: #53c7c3;
   --accent-strong: #8de1de;
+  --active-nav-bg: #8de1de;
+  --active-nav-text: #11181f;
   --border: #334554;
   --code-bg: #202b36;
   --shadow: 0 12px 24px rgb(0 0 0 / 22%);
@@ -445,8 +449,8 @@ pre code {
 }
 
 .library-side-nav a[aria-current="page"] {
-  background: var(--accent);
-  color: white;
+  background: var(--active-nav-bg);
+  color: var(--active-nav-text);
 }
 
 .library-page {
@@ -460,7 +464,7 @@ pre code {
 .library-card-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
   margin: 1.5rem 0;
 }
 
@@ -486,10 +490,16 @@ pre code {
 .library-card strong {
   font-size: 1.05rem;
   line-height: 1.35;
+}
+
+.library-package {
+  color: var(--text-muted);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.84rem;
   overflow-wrap: anywhere;
 }
 
-.library-card span:last-child {
+.library-card span:last-child:not(.library-package) {
   color: var(--text-muted);
 }
 
