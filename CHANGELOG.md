@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.0.0...hyper-dank-v2.0.1) (2026-05-19)
+
+
+### Bug Fixes
+
+* **deploy:** include automation package in Docker build ([#46](https://github.com/Macavitymadcap/hyper-dank/issues/46)) ([4e3d69a](https://github.com/Macavitymadcap/hyper-dank/commit/4e3d69a24e83c7469106fc0c361445fdd167ebbe))
+
 ## [2.0.0](https://github.com/Macavitymadcap/pace-calculator/compare/hyper-dank-v1.4.4...hyper-dank-v2.0.0) (2026-05-18)
 
 
