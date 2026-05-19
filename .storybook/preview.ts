@@ -9,6 +9,12 @@ type StorybookTheme = "light" | "dark";
 const appThemeControlId = "storybook-app-theme-control";
 const appThemeSwitchId = "storybook-app-theme-switch";
 
+const quickLinks = [
+  { href: "../", label: "Docs" },
+  { href: "../libraries/", label: "Libraries" },
+  { href: "../pace/", label: "Demo" },
+];
+
 const getTheme = (value: unknown): StorybookTheme => (value === "dark" ? "dark" : "light");
 
 const applyTheme = (theme: StorybookTheme) => {
@@ -29,14 +35,28 @@ const syncAppThemeSwitch = (
     document.body.append(control);
   }
 
-  control.innerHTML = String(
-    Switch({
-      checked: theme === "dark",
-      dataThemeToggle: true,
-      id: appThemeSwitchId,
-      label: "Storybook color mode",
-    }),
-  );
+  const quickLinkMarkup = quickLinks
+    .map(
+      (link) =>
+        `<a class="storybook-utility-control__link" href="${link.href}" target="_top">${link.label}</a>`,
+    )
+    .join("");
+
+  control.innerHTML = [
+    '<nav class="storybook-utility-control__links" aria-label="Storybook quick links">',
+    quickLinkMarkup,
+    "</nav>",
+    '<div class="storybook-utility-control__theme">',
+    String(
+      Switch({
+        checked: theme === "dark",
+        dataThemeToggle: true,
+        id: appThemeSwitchId,
+        label: "Storybook color mode",
+      }),
+    ),
+    "</div>",
+  ].join("");
 
   const input = control.querySelector<HTMLInputElement>("input");
   if (!input) return;
