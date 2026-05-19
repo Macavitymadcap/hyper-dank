@@ -139,14 +139,19 @@ function renderDocument({
       <nav class="site-nav" aria-label="Primary">
         <a class="brand" href="${relativeUrl("/", basePath)}">Hyper-Dank</a>
         <div class="site-actions">
-          <div class="nav-links">
-            <a href="${relativeUrl("/libraries/", basePath)}">Libraries</a>
-            <a href="${relativeUrl("/recipes/", basePath)}">Recipes</a>
-            <a href="${relativeUrl("/system/", basePath)}">System</a>
-            <a href="${relativeUrl("/pace/", basePath)}">Pace Demo</a>
-            <a href="${relativeUrl("/storybook/", basePath)}">Storybook</a>
-          </div>
           ${themeToggleHtml()}
+          <details class="nav-menu">
+            <summary class="nav-menu__summary">Menu</summary>
+            <div class="nav-menu__panel">
+              <a href="${relativeUrl("/", basePath)}">Docs home</a>
+              <a href="${relativeUrl("/libraries/", basePath)}">Libraries</a>
+              <a href="${relativeUrl("/recipes/", basePath)}">Recipes</a>
+              <a href="${relativeUrl("/system/", basePath)}">System</a>
+              <a href="${relativeUrl("/verification/", basePath)}">Verification</a>
+              <a href="${relativeUrl("/pace/", basePath)}">Pace demo</a>
+              <a href="${relativeUrl("/storybook/", basePath)}">Storybook</a>
+            </div>
+          </details>
         </div>
       </nav>
     </header>
@@ -185,6 +190,7 @@ export function renderMarkdown(markdown: string, basePath = "") {
     const [head, separator, ...body] = table;
 
     if (head && separator?.every((cell) => /^:?-{3,}:?$/.test(cell.trim()))) {
+      html.push('<div class="table-scroll" tabindex="0">');
       html.push("<table>");
       html.push(
         `<thead><tr>${head.map((cell) => `<th>${renderInline(cell.trim(), basePath)}</th>`).join("")}</tr></thead>`,
@@ -196,6 +202,7 @@ export function renderMarkdown(markdown: string, basePath = "") {
         );
       }
       html.push("</tbody></table>");
+      html.push("</div>");
     } else {
       for (const row of table) html.push(`<p>${renderInline(row.join(" | "), basePath)}</p>`);
     }
@@ -420,8 +427,13 @@ function codeHighlightingHtml() {
 }
 
 function themeToggleHtml() {
-  return `<button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">
-            <span class="theme-toggle__icon" aria-hidden="true"></span>
-            <span data-theme-toggle-label>Dark</span>
-          </button>`;
+  return `<label class="theme-toggle" for="theme-toggle">
+            <span class="theme-toggle__label">Colour mode</span>
+            <input id="theme-toggle" class="theme-toggle__input" type="checkbox" role="switch" aria-label="Colour mode" aria-checked="false" data-theme-toggle />
+            <span class="theme-toggle__track" aria-hidden="true">
+              <span class="theme-toggle__icon theme-toggle__icon--light">☀</span>
+              <span class="theme-toggle__icon theme-toggle__icon--dark">☾</span>
+              <span class="theme-toggle__thumb"></span>
+            </span>
+          </label>`;
 }
