@@ -8,6 +8,8 @@
   --text-muted: #52616f;
   --accent: #0f6b6e;
   --accent-strong: #0a4c4f;
+  --active-nav-bg: #0f6b6e;
+  --active-nav-text: #ffffff;
   --border: #d5dde4;
   --code-bg: #f1f4f7;
   --shadow: 0 12px 24px rgb(23 32 42 / 8%);
@@ -22,6 +24,8 @@
   --text-muted: #b9c6d1;
   --accent: #53c7c3;
   --accent-strong: #8de1de;
+  --active-nav-bg: #8de1de;
+  --active-nav-text: #11181f;
   --border: #334554;
   --code-bg: #202b36;
   --shadow: 0 12px 24px rgb(0 0 0 / 22%);
@@ -384,81 +388,140 @@ pre code {
   color: inherit;
 }
 
-.library-tabs {
+.library-layout {
+  align-items: start;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
   margin-top: 2rem;
 }
 
-.library-tab-list {
-  align-items: end;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  gap: 0.35rem;
-  overflow-x: auto;
+.library-side-nav {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 0.4rem;
+  position: sticky;
+  top: 5.5rem;
 }
 
-.library-tab {
-  background: var(--surface-muted);
-  border: 1px solid var(--border);
-  border-bottom: 0;
-  border-radius: 8px 8px 0 0;
-  color: var(--text-muted);
+.library-side-nav summary {
+  border-radius: 6px;
   cursor: pointer;
-  flex: 0 0 auto;
-  font-weight: 750;
-  min-height: 2.75rem;
-  padding: 0.65rem 1rem;
+  font-weight: 800;
+  list-style: none;
+  padding: 0.55rem 0.65rem;
+}
+
+.library-side-nav summary::-webkit-details-marker {
+  display: none;
+}
+
+.library-side-nav summary::after {
+  content: "⌄";
+  float: right;
+}
+
+.library-side-nav[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.library-side-nav nav {
+  display: grid;
+  gap: 0.15rem;
+  margin-top: 0.2rem;
+}
+
+.library-side-nav a {
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-weight: 700;
+  padding: 0.55rem 0.65rem;
   text-decoration: none;
 }
 
-.library-tab:hover,
-.library-tab:focus-visible {
+.library-side-nav a:hover,
+.library-side-nav a:focus-visible {
+  background: var(--surface-muted);
   color: var(--text);
+  outline: none;
 }
 
-.library-tab:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: -2px;
+.library-side-nav a[aria-current="page"] {
+  background: var(--active-nav-bg);
+  color: var(--active-nav-text);
 }
 
-.library-panel {
-  background: var(--surface-raised);
-  border: 1px solid var(--border);
-  border-top: 0;
-  display: none;
-  padding: 1.25rem;
+.library-page {
+  min-width: 0;
 }
 
-.library-panel h2:first-child {
+.library-page > :first-child {
   margin-top: 0;
 }
 
-.library-tabs:not(:has(.library-panel:target)) .library-tab[href="#components"],
-.library-tabs:has(#components:target) .library-tab[href="#components"],
-.library-tabs:has(#database:target) .library-tab[href="#database"],
-.library-tabs:has(#http:target) .library-tab[href="#http"],
-.library-tabs:has(#scripts:target) .library-tab[href="#scripts"] {
-  background: var(--surface);
-  color: var(--text);
-  margin-bottom: -1px;
-  position: relative;
+.library-card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  margin: 1.5rem 0;
 }
 
-.library-tabs:not(:has(.library-panel:target)) #components,
-.library-panel:target {
-  display: block;
+.library-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  display: grid;
+  gap: 0.45rem;
+  min-height: 11rem;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.library-card:hover,
+.library-card:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid transparent;
+}
+
+.library-card strong {
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.library-package {
+  color: var(--text-muted);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+
+.library-card span:last-child:not(.library-package) {
+  color: var(--text-muted);
+}
+
+.library-meta {
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 640px) {
-  .library-tab-list {
-    align-items: stretch;
+  .library-layout {
+    grid-template-columns: 1fr;
+    margin-top: 1.25rem;
   }
 
-  .library-tab {
-    min-height: 2.5rem;
-    padding-inline: 0.85rem;
+  .library-side-nav {
+    position: static;
   }
 
-  .library-panel {
-    padding: 1rem;
+  .library-card-grid {
+    grid-template-columns: 1fr;
   }
 }
