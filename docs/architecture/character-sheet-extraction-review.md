@@ -56,4 +56,3 @@ this document uses that branch as the live comparison point while still treating
   Character Sheet attempts the `sheet-0040` platform-adoption epic.
 - The current Character Sheet work strengthens Hyper-Dank's roadmap, but it does not justify a
   cross-repo migration during the active SRD/deployment sequence.
-
