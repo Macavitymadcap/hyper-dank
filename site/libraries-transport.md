@@ -9,7 +9,7 @@ permalink: /libraries/transport/
 `@macavitymadcap/hyper-dank-transport` contains generic Hono and HTMX helpers for hypermedia-first
 apps. Auth, permissions, services, validation, and product routes stay in the consuming app.
 
-<div class="library-layout" markdown="1">
+<div class="library-layout">
 <details class="library-side-nav" open>
   <summary>Library docs</summary>
   <nav aria-label="Library docs">
@@ -21,7 +21,7 @@ apps. Auth, permissions, services, validation, and product routes stay in the co
   </nav>
 </details>
 
-<div class="library-page" markdown="1">
+<div class="library-page">
 
 ```ts
 import {

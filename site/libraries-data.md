@@ -10,7 +10,7 @@ permalink: /libraries/data/
 Apps keep their domain schemas and repositories local, then use conformance tests to keep adapters
 honest.
 
-<div class="library-layout" markdown="1">
+<div class="library-layout">
 <details class="library-side-nav" open>
   <summary>Library docs</summary>
   <nav aria-label="Library docs">
@@ -22,7 +22,7 @@ honest.
   </nav>
 </details>
 
-<div class="library-page" markdown="1">
+<div class="library-page">
 
 ```ts
 import {

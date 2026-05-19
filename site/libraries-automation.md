@@ -10,7 +10,7 @@ permalink: /libraries/automation/
 apps. It keeps local script entrypoints small while app-specific routes, fixtures, and deployment
 choices remain in the app.
 
-<div class="library-layout" markdown="1">
+<div class="library-layout">
 <details class="library-side-nav" open>
   <summary>Library docs</summary>
   <nav aria-label="Library docs">
@@ -22,7 +22,7 @@ choices remain in the app.
   </nav>
 </details>
 
-<div class="library-page" markdown="1">
+<div class="library-page">
 
 ```ts
 import {

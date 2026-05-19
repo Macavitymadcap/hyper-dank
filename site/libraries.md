@@ -9,7 +9,7 @@ permalink: /libraries/
 Hyper-Dank packages are small shared contracts for Hono, HTMX, Bun, and server-rendered JSX apps.
 They keep mechanics reusable while product behaviour stays in the consuming application.
 
-<div class="library-layout" markdown="1">
+<div class="library-layout">
 <details class="library-side-nav" open>
   <summary>Library docs</summary>
   <nav aria-label="Library docs">
@@ -21,7 +21,7 @@ They keep mechanics reusable while product behaviour stays in the consuming appl
   </nav>
 </details>
 
-<div class="library-page" markdown="1">
+<div class="library-page">
 
 The libraries deliberately stop at reusable boundaries: component primitives, database lifecycle
 contracts, Hono/HTMX transport helpers, and script automation. App-owned language, routes,

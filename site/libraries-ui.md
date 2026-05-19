@@ -9,7 +9,7 @@ permalink: /libraries/ui/
 `@macavitymadcap/hyper-dank-ui` exposes server-rendered Hono JSX primitives plus a small CSS export.
 It is for generic structure and HTML contracts, not product-specific screens.
 
-<div class="library-layout" markdown="1">
+<div class="library-layout">
 <details class="library-side-nav" open>
   <summary>Library docs</summary>
   <nav aria-label="Library docs">
@@ -21,7 +21,7 @@ It is for generic structure and HTML contracts, not product-specific screens.
   </nav>
 </details>
 
-<div class="library-page" markdown="1">
+<div class="library-page">
 
 Import components from server JSX and import the CSS through the browser asset pipeline. Importing a
 component in server code does not automatically load browser styles.
