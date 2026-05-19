@@ -19,8 +19,12 @@ body {
   z-index: 1000;
   inset-block-start: var(--size-3);
   inset-inline-end: var(--size-3);
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--size-2);
+  max-width: calc(100vw - (var(--size-3) * 2));
   padding: var(--size-2);
   background: color-mix(in oklab, var(--surface) 88%, transparent);
   border: var(--border-size-1) solid var(--border-subtle);
@@ -28,6 +32,40 @@ body {
   box-shadow: var(--shadow-2);
   color: var(--text);
   backdrop-filter: blur(10px);
+}
+
+.storybook-utility-control__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-1);
+}
+
+.storybook-utility-control__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 var(--size-2);
+  color: var(--text);
+  font-size: var(--font-size-0);
+  font-weight: var(--font-weight-7);
+  line-height: 1;
+  text-decoration: none;
+  background: var(--surface-raised);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-2);
+}
+
+.storybook-utility-control__link:hover,
+.storybook-utility-control__link:focus-visible {
+  color: var(--button-text);
+  outline: var(--border-size-2) solid var(--primary);
+  outline-offset: var(--size-1);
+}
+
+.storybook-utility-control__theme {
+  display: grid;
+  place-items: center;
 }
 
 .storybook-surface {
@@ -42,6 +80,12 @@ body {
 
 .storybook-surface[data-size="full"] {
   width: 100%;
+}
+
+@media (max-width: 640px) {
+  .storybook-surface {
+    padding-block-start: calc(var(--size-5) + 3.75rem);
+  }
 }
 
 .storybook-stack {
