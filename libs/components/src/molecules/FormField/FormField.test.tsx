@@ -36,4 +36,16 @@ describe("FormField", () => {
     expect(html).toContain('placeholder="Lynott"');
     expect(html).toContain('required=""');
   });
+
+  test("connects generated fields to help and error text", () => {
+    const html = renderToString(
+      <FormField id="title" label="Title" helpText="Use a short title." error="Enter a title." />,
+    );
+
+    expect(html).toContain('id="title-help"');
+    expect(html).toContain('id="title-error"');
+    expect(html).toContain('aria-describedby="title-help title-error"');
+    expect(html).toContain('aria-invalid="true"');
+    expect(html).toContain('role="alert"');
+  });
 });
