@@ -41,27 +41,11 @@ jobs:
           PAGES_BASE_PATH: ${{ vars.PAGES_BASE_PATH }}
         run: bun apps/walking-pace/scripts/prepare-pages-source.ts --github-output
 
-      - name: Build static assets
-        env:
-          PACE_DEMO_BASE: ${{ steps.pages-base.outputs.pace_demo_base }}
-        run: bun run build:pages-assets
-
-      - name: Prepare Jekyll source
+      - name: Build Pages artifact
         env:
           PAGES_BASE_PATH: ${{ steps.pages-base.outputs.base_path }}
-        run: bun run prepare:pages-source
-
-      - name: Build Jekyll site
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./.cache/pages/source
-          destination: ./.cache/pages/site
-
-      - name: Restore Pages artifact ownership
-        run: sudo chown -R "$USER":"$USER" ./.cache/pages/site
-
-      - name: Prepare Pages artifact
-        run: bun run prepare:pages
+          PACE_DEMO_BASE: ${{ steps.pages-base.outputs.pace_demo_base }}
+        run: bun run build:pages-assets
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

@@ -7,8 +7,8 @@ The repository includes Walking Pace Tracker as the reference app and public dem
 records user-scoped walks, calculates average speed and median pace, supports light/dark mode, and
 uses server-rendered HTML fragments instead of a client-side framework.
 
-The public production site is GitHub Pages: the current docs build publishes Jekyll documentation at
-`/`, a browser-only localStorage pace demo at `/pace/`, and Storybook at `/storybook/`.
+The public production site is GitHub Pages: repo-built static documentation at `/`, a browser-only
+localStorage pace demo at `/pace/`, and Storybook at `/storybook/`.
 
 For the design philosophy and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 For reusable library roles and app-shape recipes, see the current public docs source in
@@ -67,6 +67,16 @@ bun run dev
 
 The app dev server runs on `http://localhost:3000` by default. `bun run dev` also starts Vite on `http://localhost:5173` so the server-rendered layout can load browser CSS, HTMX, and theme behaviour from the Vite dev server.
 
+To review the public documentation site locally, build and serve the Pages artifact instead:
+
+```bash
+bun run dev:docs
+```
+
+The docs preview serves the generated artifact at `http://127.0.0.1:4173/`, with the static demo at
+`/pace/` and Storybook at `/storybook/`. Use `PAGES_PORT=4174 bun run start:pages` to serve an
+already-built artifact on another port.
+
 You can change the port or database path with environment variables:
 
 ```bash
@@ -120,6 +130,7 @@ Better Auth with Postgres when `DATABASE_URL` is set.
 bun run dev
 bun run dev:app
 bun run dev:assets
+bun run dev:docs
 bun run build
 bun run check
 bun run check:deprecations
@@ -134,6 +145,7 @@ bun run screenshots:pr
 bun run seed:admin
 bun run seed:dev
 bun run start
+bun run start:pages
 bun run storybook
 bun run storybook:build
 bun run test
@@ -304,7 +316,7 @@ preset local SQLite users and their walks, leaving other local accounts untouche
 ## GitHub Pages Deployment
 
 Production deploys are managed by `.github/workflows/deploy.yml`. The workflow runs when changes land
-on `main`, builds the Hyper-Dank Jekyll docs, builds the static pace demo, builds Storybook, and
+on `main`, builds the Hyper-Dank docs, builds the static pace demo, builds Storybook, and
 publishes one GitHub Pages artifact.
 
 The published routes are:
@@ -319,17 +331,13 @@ override this with a `PAGES_BASE_PATH` repository variable when a deployment nee
 Prepare the same deployment inputs locally with:
 
 ```bash
-PACE_DEMO_BASE=/hyper-dank/pace/ bun run build:pages-assets
-PAGES_BASE_PATH=/hyper-dank bun run prepare:pages-source
+PAGES_BASE_PATH=/hyper-dank PACE_DEMO_BASE=/hyper-dank/pace/ bun run build:pages-assets
 ```
 
-The workflow prepares a Jekyll source copy with the resolved `baseurl`, uses GitHub's Jekyll Pages
-action to build that source, then `bun run prepare:pages` copies the Vite-built pace demo into
-`pace/` and Storybook into `storybook/`.
-
-The Jekyll step is the current production baseline. The `pace-0041` documentation epic tracks a
-planned move to a repo-owned Bun docs build so Markdown parsing and page generation can be reused by
-future static content.
+The workflow resolves the Pages base path, runs the Bun docs builder from `site/` into
+`.cache/pages/site`, then copies the Vite-built pace demo into `pace/` and Storybook into
+`storybook/`. The generated artifact includes `.nojekyll` so GitHub Pages serves the repo-built
+HTML directly.
 
 ## Server App Deployment
 
@@ -376,7 +384,7 @@ libs/
 ├── database/                  # shared database lifecycle and migration primitives
 ├── http/                      # reusable form parsing and HTTP response helpers
 └── scripts/                   # reusable Bun automation helpers
-site/                          # Jekyll source for the public Hyper-Dank documentation
+site/                          # Markdown source for the public Hyper-Dank documentation
 e2e/
 ├── tests/walking-pace/        # Playwright browser workflows
 └── consumer-compat/           # package consumer compatibility tests

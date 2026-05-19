@@ -5,7 +5,6 @@ import {
   normalizePagesBasePath,
   paceDemoBaseFromPagesBasePath,
   resolvePagesBasePath,
-  withJekyllBaseUrl,
 } from "./pages-base";
 
 describe("Pages base path helpers", () => {
@@ -51,18 +50,6 @@ describe("Pages base path helpers", () => {
   test("formats GitHub Actions outputs", () => {
     expect(githubOutputForPagesBasePath("/hyper-dank")).toBe(
       "base_path=/hyper-dank\npace_demo_base=/hyper-dank/pace/\n",
-    );
-  });
-
-  test("updates the Jekyll baseurl entry", () => {
-    expect(withJekyllBaseUrl('title: Hyper-Dank\nbaseurl: "/old-path"\n', "/hyper-dank")).toBe(
-      'title: Hyper-Dank\nbaseurl: "/hyper-dank"\n',
-    );
-  });
-
-  test("allows an already-correct Jekyll baseurl entry", () => {
-    expect(withJekyllBaseUrl('title: Hyper-Dank\nbaseurl: "/hyper-dank"\n', "/hyper-dank")).toBe(
-      'title: Hyper-Dank\nbaseurl: "/hyper-dank"\n',
     );
   });
 });
