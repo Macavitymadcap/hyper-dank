@@ -27,6 +27,7 @@ describe("docs build", () => {
 
     expect(html).toContain("<h1>Libraries</h1>");
     expect(html).toContain('<a href="/hyper-dank/storybook/">Storybook</a>');
+    expect(html).toContain('<div class="table-scroll" tabindex="0">');
     expect(html).toContain("<table>");
     expect(html).toContain("<code>Button</code>");
     expect(html).toContain("const value = '&lt;safe&gt;';");
@@ -87,5 +88,30 @@ describe("docs build", () => {
       "body",
     );
     await expect(readFile(path.join(destinationDir, ".nojekyll"), "utf8")).resolves.toBe("");
+  });
+
+  test("renders compact docs navigation and checkbox-backed theme switch", async () => {
+    const tmp = await mkdtemp(path.join(os.tmpdir(), "hyper-dank-docs-"));
+    const sourceDir = path.join(tmp, "site");
+    const destinationDir = path.join(tmp, "public");
+
+    await mkdir(path.join(sourceDir, "assets"), { recursive: true });
+    await writeFile(
+      path.join(sourceDir, "_config.yml"),
+      "title: Hyper-Dank\ndescription: Docs for tests\n",
+    );
+    await writeFile(
+      path.join(sourceDir, "index.md"),
+      "---\nlayout: default\ntitle: Home\n---\n\n# Hello\n",
+    );
+
+    await buildDocsSite({ basePath: "/hyper-dank", destinationDir, sourceDir });
+
+    const html = await readFile(path.join(destinationDir, "index.html"), "utf8");
+
+    expect(html).toContain('<details class="nav-menu">');
+    expect(html).toContain('<summary class="nav-menu__summary">Menu</summary>');
+    expect(html).toContain('class="theme-toggle__input" type="checkbox" role="switch"');
+    expect(html).toContain('href="/hyper-dank/verification/"');
   });
 });
