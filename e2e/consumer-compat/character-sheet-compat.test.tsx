@@ -7,7 +7,17 @@ import {
   updateImagesSection,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
-import { type Migration, runPendingMigrations } from "@macavitymadcap/hyper-dank-data";
+import {
+  createProviderRegistry,
+  type Migration,
+  planMigrations,
+  type RepositoryContract,
+  runPendingMigrations,
+} from "@macavitymadcap/hyper-dank-data";
+import {
+  type RepositoryHarness,
+  runRepositoryHarness,
+} from "@macavitymadcap/hyper-dank-data/testing";
 import { errorMessage, FormValues, HttpResponder } from "@macavitymadcap/hyper-dank-transport";
 import {
   Accordion,
@@ -95,6 +105,24 @@ describe("Character Sheet compatibility", () => {
   test("imports generic database and HTTP primitives", async () => {
     const applied: string[] = [];
     const migrations: Migration[] = [{ id: "001", sql: "select 1" }];
+    const providers = createProviderRegistry({
+      memory: ({ label }: { label: string }) => ({
+        close: () => {},
+        createRepositories: () => ({}),
+        kind: "memory" as const,
+        label,
+        migrate: () => {},
+      }),
+    });
+    const entries: RepositoryContract<{ id: string; title: string }, string> = {
+      delete: () => true,
+      findById: (id) => ({ id, title: "Compat" }),
+      list: () => [{ id: "entry", title: "Compat" }],
+      save: (record) => record,
+    };
+    const harness: RepositoryHarness<typeof entries> = {
+      repository: entries,
+    };
 
     await runPendingMigrations(
       {
@@ -107,10 +135,27 @@ describe("Character Sheet compatibility", () => {
       migrations,
     );
 
+    const plan = await planMigrations(
+      {
+        hasMigration: (id) => applied.includes(id),
+      },
+      migrations,
+    );
+    const provider = await providers.create("memory", { label: "compat" });
+    const title = await runRepositoryHarness(
+      () => harness,
+      async (repository) => {
+        const entry = await repository.findById("entry");
+        return entry?.title;
+      },
+    );
     const form = new FormValues({ email: "lynott@example.local" });
     const responder = new HttpResponder();
 
     expect(applied).toEqual(["001"]);
+    expect(plan.skipped).toEqual([{ id: "001", reason: "already-applied" }]);
+    expect(provider.label).toBe("compat");
+    expect(title).toBe("Compat");
     expect(form.string("email")).toBe("lynott@example.local");
     expect(errorMessage("unknown")).toBe("Something went wrong.");
     expect(responder).toBeInstanceOf(HttpResponder);
