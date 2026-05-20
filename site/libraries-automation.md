@@ -33,6 +33,12 @@ import {
   updateImagesSection,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
+
+import {
+  buildStaticContentSite,
+  escapeHtml,
+  renderMarkdown,
+} from "@macavitymadcap/hyper-dank-automation/content";
 ```
 
 ## Helper Groups
@@ -46,6 +52,7 @@ import {
 | Browser helpers | Orchestrate Playwright screenshot flows and theme setup. |
 | PR image helpers | Build and replace Markdown image sections for persisted PR screenshots. |
 | A11y helpers | Run Pa11y with optional config paths and auth cookies while app routes stay local. |
+| Content helpers | Parse front matter, render Markdown, rewrite content URLs, discover Markdown pages, and build static content through an app-owned document renderer. |
 
 ## Walking Pace Example
 
@@ -73,6 +80,33 @@ await waitForHttp("http://127.0.0.1:3000/healthz");
 buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
 ```
 
+## Content Example
+
+```ts
+import {
+  buildStaticContentSite,
+  escapeHtml,
+  renderMarkdown,
+} from "@macavitymadcap/hyper-dank-automation/content";
+
+renderMarkdown("# Release notes", { basePath: "/docs" });
+
+await buildStaticContentSite({
+  assets: [{ from: "site/assets", to: "assets" }],
+  basePath: "/docs",
+  destinationDir: "public",
+  renderDocument: ({ content, page }) =>
+    `<!doctype html><title>${escapeHtml(page.title)}</title>${content}`,
+  sourceDir: "site",
+});
+```
+
+The `/content` subpath includes `parseFrontMatter`, `renderMarkdown`, `renderInlineMarkdown`,
+`rewriteContentUrl`, `relativeContentUrl`, `discoverMarkdownPages`, `outputPathForContentPage`,
+`titleFromFilename`, and `buildStaticContentSite`. These helpers return strings or typed page
+models and throw normal filesystem errors with the source paths supplied by the caller when files
+cannot be read or written.
+
 ## Adoption Boundary
 
 | Shared Package | Consuming App |
@@ -81,6 +115,7 @@ buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
 | GitHub request helpers and PR-body section replacement. | PR narrative, release policy, and review expectations. |
 | Dynamic local server and browser helpers. | App routes, seeded users, fixtures, and smoke journeys. |
 | Pa11y runner wrapper. | A11y configuration and product-specific authentication cookies. |
+| Markdown, URL, route, and static-content build mechanics. | Document chrome, navigation, CSS, deployment layout, taxonomy, RSS, search, and product metadata. |
 
 For app-shape examples, see [`/recipes/`]({{ '/recipes/' | relative_url }}).
 
