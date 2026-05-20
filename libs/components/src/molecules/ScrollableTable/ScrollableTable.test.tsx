@@ -41,4 +41,19 @@ describe("ScrollableTable", () => {
     expect(html).toContain('<tbody tabindex="0"><tr class="scrollable-table-row example-row">');
     expect(html).not.toContain("scrollable-table-filler-row");
   });
+
+  test("supports loading, empty, and pagination composition", () => {
+    const html = render(
+      <ScrollableTable
+        columns={[{ key: "name", header: "Name" }]}
+        loading={<span>Loading rows</span>}
+        emptyState={<p>No rows</p>}
+        pagination={<nav aria-label="Pages">Pages</nav>}
+      />,
+    );
+
+    expect(html).toContain('class="scrollable-table-loading"');
+    expect(html).toContain("No rows");
+    expect(html).toContain('class="scrollable-table-pagination"');
+  });
 });

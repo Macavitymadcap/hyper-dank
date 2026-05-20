@@ -6,12 +6,15 @@ export interface CompactListItem {
 }
 
 export interface CompactListProps {
+  className?: string;
   items: CompactListItem[];
 }
 
-export const CompactList = ({ items }: CompactListProps) => {
+export const CompactList = ({ className, items }: CompactListProps) => {
+  const classes = ["compact-list", className].filter(Boolean).join(" ");
+
   return (
-    <dl className="compact-list">
+    <dl className={classes}>
       {items.map((item) => (
         <div className="compact-list-row">
           <dt>{item.label}</dt>

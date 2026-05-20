@@ -11,20 +11,38 @@ import { type Migration, runPendingMigrations } from "@macavitymadcap/hyper-dank
 import { errorMessage, FormValues, HttpResponder } from "@macavitymadcap/hyper-dank-transport";
 import {
   Accordion,
+  AppShell,
   Badge,
+  Breadcrumbs,
   Button,
+  Callout,
   Card,
+  CodeBlock,
   CompactList,
+  Dialog,
+  EmptyState,
   FormField,
   HxForm,
   Icon,
   InputGroup,
   LabelledOutput,
+  MetadataList,
+  Notice,
+  PageHeader,
+  Pagination,
   Panel,
   PopoverMenu,
+  Progress,
+  Prose,
   ScrollableTable,
+  SideNav,
+  StatBlock,
+  StatusSummary,
   Switch,
   TableCell,
+  Tabs,
+  TimelineList,
+  Toolbar,
 } from "@macavitymadcap/hyper-dank-ui";
 
 describe("Character Sheet compatibility", () => {
@@ -127,9 +145,22 @@ describe("Hyper-Dank app-shape compatibility", () => {
 
   test("renders a dashboard/admin composition with table and filters", () => {
     const html = String(
-      <Card as="main" fill>
+      <AppShell
+        header={<PageHeader title="Operations" actions={<Button type="button">Refresh</Button>} />}
+        navigation={
+          <SideNav
+            ariaLabel="Admin sections"
+            items={[{ current: true, href: "/admin", label: "Admin" }]}
+          />
+        }
+      >
         <Panel labelledBy="dashboard-heading">
-          <h1 id="dashboard-heading">Operations</h1>
+          <h2 id="dashboard-heading">Operations</h2>
+          <Toolbar ariaLabel="Dashboard tools">
+            <Button type="button" variant="ghost">
+              Export
+            </Button>
+          </Toolbar>
           <HxForm
             action="/admin/filter"
             method="get"
@@ -153,13 +184,19 @@ describe("Hyper-Dank app-shape compatibility", () => {
               <TableCell value="Open" />
             </tr>
           </ScrollableTable>
+          <Pagination currentPage={1} totalPages={2} nextHref="/admin?page=2" />
+          <StatusSummary items={[{ label: "Checks", tone: "success", value: "Passing" }]} />
         </Panel>
-      </Card>,
+      </AppShell>,
     );
 
     expect(html).toContain('hx-get="/admin/filter"');
+    expect(html).toContain('class="app-shell"');
+    expect(html).toContain('class="toolbar"');
     expect(html).toContain('data-scrollable="true"');
     expect(html).toContain('data-action-column="true"');
+    expect(html).toContain('class="pagination"');
+    expect(html).toContain('class="status-summary"');
     expect(html).toContain("Build checks");
     expect(html).toContain("Passing");
   });
@@ -198,12 +235,60 @@ describe("Hyper-Dank app-shape compatibility", () => {
           name="server-status"
           items={[{ id: "health", title: "Health", body: <Badge tone="accent">Online</Badge> }]}
         />
+        <Notice tone="success">Saved</Notice>
+        <Dialog
+          id="server-dialog"
+          title="Server action"
+          triggerLabel="Open server action"
+          hx-get="/action"
+        >
+          Confirm action
+        </Dialog>
+        <Progress label="Import" value={25} />
       </Panel>,
     );
 
     expect(html).toContain('aria-label="Open actions"');
     expect(html).toContain('action="/logout"');
+    expect(html).toContain("<dialog");
+    expect(html).toContain('class="notice"');
+    expect(html).toContain("<progress");
     expect(html).toContain("Online");
+  });
+
+  test("renders docs and content primitives through public component imports", () => {
+    const html = String(
+      <Prose>
+        <Breadcrumbs
+          items={[
+            { href: "/", label: "Home" },
+            { current: true, href: "/notes", label: "Notes" },
+          ]}
+        />
+        <MetadataList items={[{ label: "Author", value: "Platform" }]} />
+        <TimelineList items={[{ label: "Published", time: "2026-05-19" }]} />
+        <CodeBlock language="ts" code={"const ready = true;"} />
+        <Callout title="Note">Reusable content shell</Callout>
+        <EmptyState title="No posts" />
+        <dl>
+          <StatBlock label="Posts" value="12" />
+        </dl>
+        <Tabs
+          ariaLabel="Content views"
+          items={[{ current: true, href: "/notes", label: "Notes" }]}
+        />
+      </Prose>,
+    );
+
+    expect(html).toContain('class="prose"');
+    expect(html).toContain('class="breadcrumbs"');
+    expect(html).toContain('class="metadata-list"');
+    expect(html).toContain('class="timeline-list"');
+    expect(html).toContain('class="code-block"');
+    expect(html).toContain('class="callout"');
+    expect(html).toContain('class="empty-state"');
+    expect(html).toContain('class="stat-block"');
+    expect(html).toContain('class="tabs"');
   });
 
   test("imports script helpers with fake inputs and no live services", async () => {

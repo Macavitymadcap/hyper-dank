@@ -14,5 +14,6 @@ describe("Accordion", () => {
     expect(html).toContain('name="example"');
     expect(html).toContain("Title");
     expect(html).toContain("Meta");
+    expect(html).toContain('aria-controls="item-body"');
   });
 });

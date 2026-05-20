@@ -9,4 +9,12 @@ describe("CompactList", () => {
     expect(html).toContain("<dt>HP</dt>");
     expect(html).toContain("<strong>27</strong>");
   });
+
+  test("accepts an additional class hook", () => {
+    const html = String(
+      <CompactList className="article-meta" items={[{ label: "Author", value: "Ada" }]} />,
+    );
+
+    expect(html).toContain('class="compact-list article-meta"');
+  });
 });
