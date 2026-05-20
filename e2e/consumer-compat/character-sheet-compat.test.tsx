@@ -8,6 +8,11 @@ import {
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
 import {
+  outputPathForContentPage,
+  renderMarkdown,
+  rewriteContentUrl,
+} from "@macavitymadcap/hyper-dank-automation/content";
+import {
   createProviderRegistry,
   type Migration,
   planMigrations,
@@ -380,5 +385,16 @@ describe("Hyper-Dank app-shape compatibility", () => {
     expect(report).toContain("Compatibility");
     expect(run("bun", ["-e", "console.log('compat')"])).toBe("compat");
     expect(await response.text()).toBe("ready");
+  });
+
+  test("imports static content helpers through the public automation content subpath", () => {
+    const html = renderMarkdown("# Notes\n\nRead [docs](/docs/).", { basePath: "/hyper-dank" });
+
+    expect(html).toContain("<h1>Notes</h1>");
+    expect(html).toContain('<a href="/hyper-dank/docs/">docs</a>');
+    expect(outputPathForContentPage("release-notes.md")).toBe("release-notes/index.html");
+    expect(rewriteContentUrl("{{ '/recipes/' | relative_url }}", { basePath: "/hyper-dank" })).toBe(
+      "/hyper-dank/recipes/",
+    );
   });
 });

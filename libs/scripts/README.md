@@ -24,6 +24,35 @@ import {
 - `browser`: Playwright screenshot flow orchestration for light and dark theme states.
 - `pr-images`: PR image table generation and body section replacement.
 - `pa11y`: a small Pa11y runner wrapper that supports config paths and auth cookies.
+- `content`: Markdown, front matter, URL, route, page discovery, and static-content build helpers
+  from `@macavitymadcap/hyper-dank-automation/content`.
+
+## Static Content Helpers
+
+```ts
+import {
+  buildStaticContentSite,
+  discoverMarkdownPages,
+  escapeHtml,
+  renderMarkdown,
+} from "@macavitymadcap/hyper-dank-automation/content";
+
+const pages = await discoverMarkdownPages({ sourceDir: "site" });
+
+await buildStaticContentSite({
+  assets: [{ from: "site/assets", to: "assets" }],
+  basePath: "/docs",
+  destinationDir: "public",
+  renderDocument: ({ content, page }) =>
+    `<!doctype html><title>${escapeHtml(page.title)}</title>${content}`,
+  sourceDir: "site",
+});
+
+renderMarkdown("# Hello", { basePath: "/docs" });
+```
+
+The content subpath owns reusable mechanics only. Apps still own their document shell, navigation,
+CSS, deployment layout, content taxonomy, RSS/search decisions, and any product-specific metadata.
 
 ## Walking Pace Example
 
@@ -71,4 +100,5 @@ try {
 
 Keep app-specific knowledge local: seeded users, route paths, browser flows, and deployment targets.
 Shared helpers should own mechanics such as command execution, GitHub requests, verification
-reporting, server readiness, screenshots, Pa11y invocation, and PR image Markdown.
+reporting, server readiness, screenshots, Pa11y invocation, PR image Markdown, and generic static
+content rendering.
