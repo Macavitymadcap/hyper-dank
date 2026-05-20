@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { Context } from "hono";
-import { HttpResponder } from "./responder";
+import { fragmentOrPage, HttpResponder, isHtmxRequest } from "./responder";
 
 describe("HttpResponder", () => {
   test("detects HTMX requests by header", () => {
@@ -8,6 +8,8 @@ describe("HttpResponder", () => {
 
     expect(responder.isHtmxRequest(createContext("true"))).toBe(true);
     expect(responder.isHtmxRequest(createContext())).toBe(false);
+    expect(isHtmxRequest(new Headers({ "HX-Request": "true" }))).toBe(true);
+    expect(isHtmxRequest({ "hx-request": "true" })).toBe(true);
   });
 
   test("redirects HTMX requests through HX-Redirect and preserves cookies", () => {
@@ -44,11 +46,33 @@ describe("HttpResponder", () => {
     expect(response.headers.get("location")).toBe("/login");
     expect(response.headers.get("set-cookie")).toBeNull();
   });
+
+  test("renders fragments for HTMX and pages for native requests", async () => {
+    const htmxResponse = await fragmentOrPage(createContext("true"), {
+      fragment: "<p>Saved</p>",
+      page: "<html><body>Saved</body></html>",
+    });
+    const nativeResponse = await fragmentOrPage(createContext(), {
+      fragment: "<p>Saved</p>",
+      page: "<html><body>Saved</body></html>",
+      status: 201,
+    });
+
+    expect(await htmxResponse.text()).toBe("<p>Saved</p>");
+    expect(htmxResponse.status).toBe(200);
+    expect(await nativeResponse.text()).toBe("<html><body>Saved</body></html>");
+    expect(nativeResponse.status).toBe(201);
+  });
 });
 
 function createContext(hxRequest?: string): Context {
   return {
     body: (body: string | null, status: number) => new Response(body, { status }),
+    html: (body: string, status: number) =>
+      new Response(body, {
+        headers: { "content-type": "text/html; charset=UTF-8" },
+        status,
+      }),
     redirect: (location: string, status: number) =>
       new Response(null, {
         headers: { location },

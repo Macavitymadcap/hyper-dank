@@ -8,6 +8,8 @@ export interface VerificationGate {
   tooling: string;
 }
 
+export type VerificationGateInput = VerificationGate | Omit<VerificationGate, "tooling">;
+
 export interface VerificationResult extends VerificationGate {
   durationMs?: number;
   exitCode?: number | null;
@@ -43,6 +45,23 @@ export async function runVerification(
   }
 
   return results;
+}
+
+export function createVerificationGate(input: VerificationGateInput): VerificationGate {
+  return {
+    tooling: input.command,
+    ...input,
+  };
+}
+
+export function createCommandGate(
+  id: string,
+  name: string,
+  command: string,
+  args: string[] = [],
+  tooling = command,
+): VerificationGate {
+  return { args, command, id, name, tooling };
 }
 
 export function renderVerificationReport(results: VerificationResult[], root = process.cwd()) {

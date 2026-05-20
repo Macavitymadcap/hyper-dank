@@ -27,9 +27,13 @@ choices remain in the app.
 ```ts
 import {
   buildImagesSection,
+  createCommandGate,
   getGitHubRepo,
   getGitHubToken,
+  runPa11yTargets,
   runVerification,
+  smokeStaticSite,
+  summariseScreenshotTargets,
   updateImagesSection,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
@@ -47,20 +51,21 @@ import {
 | --- | --- |
 | Process helpers | Run sync and async commands with predictable cwd, env, stdio, captured output, and allow-failure behaviour. |
 | GitHub helpers | Parse repository remotes, discover tokens, make REST requests, find pull requests, and update PR bodies. |
-| Verification helpers | Run ordered gates, stop on failure, and render Markdown verification reports. |
-| Local server helpers | Start Bun test servers on dynamic ports and wait for HTTP readiness. |
-| Browser helpers | Orchestrate Playwright screenshot flows and theme setup. |
+| Verification helpers | Run ordered gates, stop on failure, build command gates, and render Markdown verification reports. |
+| Local server helpers | Start Bun test servers, wrap app server setup/teardown, and wait for HTTP readiness. |
+| Browser helpers | Orchestrate Playwright screenshot flows, theme setup, and target summaries. |
 | PR image helpers | Build and replace Markdown image sections for persisted PR screenshots. |
-| A11y helpers | Run Pa11y with optional config paths and auth cookies while app routes stay local. |
+| A11y helpers | Run Pa11y for one URL or named target lists with optional config paths and auth cookies while app routes stay local. |
+| Static-site helpers | Assert generated static artifacts and smoke-check expected file contents. |
 | Content helpers | Parse front matter, render Markdown, rewrite content URLs, discover Markdown pages, and build static content through an app-owned document renderer. |
 
 ## Walking Pace Example
 
 ```ts
-import { runVerification } from "@macavitymadcap/hyper-dank-automation";
+import { createCommandGate, runVerification } from "@macavitymadcap/hyper-dank-automation";
 
 const results = await runVerification([
-  { id: "check", name: "Static Checks", tooling: "Biome", command: "bun", args: ["run", "check"] },
+  createCommandGate("check", "Static Checks", "bun", ["run", "check"], "Biome"),
 ]);
 ```
 
@@ -69,15 +74,42 @@ const results = await runVerification([
 ```ts
 import {
   buildImagesSection,
+  createCommandGate,
   parseGitHubRepo,
   renderVerificationReport,
+  smokeStaticSite,
+  summariseScreenshotTargets,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
 
 const repo = parseGitHubRepo("Macavitymadcap/hyper-dank");
-const report = renderVerificationReport([], "/workspace");
+const gate = createCommandGate("check", "Static Checks", "bun", ["run", "check"], "Biome");
+const report = renderVerificationReport(
+  [{ ...gate, status: "not run", stdout: "", stderr: "" }],
+  "/workspace",
+);
 await waitForHttp("http://127.0.0.1:3000/healthz");
+await smokeStaticSite({ root: "dist", routes: [{ path: "index.html" }] });
+summariseScreenshotTargets([{ id: "home", label: "Home", description: "Home", states: [] }]);
 buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
+```
+
+`createCommandGate()` builds the common command-shaped verification entries used by
+`runVerification()`, while `renderVerificationReport()` turns completed or pending gate results into
+Markdown. `smokeStaticSite()` and `assertStaticArtifact()` are for generated local directories; they
+check relative paths and reject paths that escape the static root. `summariseScreenshotTargets()`
+describes app-owned screenshot flows for PR evidence without needing a browser page.
+
+For accessibility batches, pass named targets to `runPa11yTargets()`:
+
+```ts
+await runPa11yTargets(
+  [
+    { name: "Home", path: "/" },
+    { name: "Admin", path: "/admin", cookie: "session=admin" },
+  ],
+  { baseUrl: "http://127.0.0.1:3000", configPath: "pa11y-config.cjs" },
+);
 ```
 
 ## Content Example

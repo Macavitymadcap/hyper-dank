@@ -1,9 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import {
   buildImagesSection,
+  createCommandGate,
   parseGitHubRepo,
   renderVerificationReport,
   run,
+  summariseScreenshotTargets,
   updateImagesSection,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
@@ -23,7 +25,12 @@ import {
   type RepositoryHarness,
   runRepositoryHarness,
 } from "@macavitymadcap/hyper-dank-data/testing";
-import { errorMessage, FormValues, HttpResponder } from "@macavitymadcap/hyper-dank-transport";
+import {
+  errorMessage,
+  FormValues,
+  HttpResponder,
+  isHtmxRequest,
+} from "@macavitymadcap/hyper-dank-transport";
 import {
   Accordion,
   AppShell,
@@ -162,8 +169,12 @@ describe("Character Sheet compatibility", () => {
     expect(provider.label).toBe("compat");
     expect(title).toBe("Compat");
     expect(form.string("email")).toBe("lynott@example.local");
+    expect(form.optionalString("email")).toBe("lynott@example.local");
+    expect(new FormValues({ enabled: "on", limit: "5" }).boolean("enabled")).toBe(true);
+    expect(new FormValues({ enabled: "on", limit: "5" }).number("limit")).toBe(5);
     expect(errorMessage("unknown")).toBe("Something went wrong.");
     expect(responder).toBeInstanceOf(HttpResponder);
+    expect(isHtmxRequest({ "HX-Request": "true" })).toBe(true);
   });
 });
 
@@ -378,6 +389,15 @@ describe("Hyper-Dank app-shape compatibility", () => {
       attempts: 1,
       fetchImpl: async () => new Response("ready"),
     });
+    const gate = createCommandGate("compat", "Compatibility", "bun", ["test"], "Bun");
+    const targets = summariseScreenshotTargets([
+      {
+        id: "demo",
+        label: "Demo",
+        description: "Demo flow",
+        states: [{ label: "Ready", slug: "ready", path: "/demo" }],
+      },
+    ]);
 
     expect(repo).toEqual({ owner: "Macavitymadcap", name: "hyper-dank" });
     expect(images).toContain("demo-ready.png");
@@ -385,6 +405,8 @@ describe("Hyper-Dank app-shape compatibility", () => {
     expect(report).toContain("Compatibility");
     expect(run("bun", ["-e", "console.log('compat')"])).toBe("compat");
     expect(await response.text()).toBe("ready");
+    expect(gate).toMatchObject({ id: "compat", command: "bun" });
+    expect(targets[0]).toMatchObject({ flowId: "demo", path: "/demo" });
   });
 
   test("imports static content helpers through the public automation content subpath", () => {

@@ -1,14 +1,11 @@
 #!/usr/bin/env bun
 import { existsSync } from "node:fs";
-import { createServer, type Server } from "node:http";
-import { extname, resolve } from "node:path";
-import { runAsync } from "@macavitymadcap/hyper-dank-automation";
-import { chromium, expect } from "@playwright/test";
+import { extname, relative, resolve } from "node:path";
+import { runAsync, smokeStaticSite } from "@macavitymadcap/hyper-dank-automation";
 import { appRoot } from "./lib/paths";
 
 const staticRoot = resolve(appRoot, "dist/static-demo");
-const staticIndex = resolve(staticRoot, "index.html");
-const requestedPort = Number(process.env.STATIC_DEMO_PORT ?? 4301);
+const baseUrl = "http://static-demo.test";
 const contentTypes: Record<string, string> = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
@@ -22,21 +19,30 @@ await runAsync("bun", ["run", "build:demo"], {
   env: { ...process.env, PACE_DEMO_BASE: "/pace/" },
 });
 
-if (!existsSync(staticIndex)) {
-  throw new Error(`Missing static demo build at ${staticIndex}`);
-}
+await smokeStaticSite({
+  root: staticRoot,
+  routes: [{ path: "index.html", includes: "Walking Pace Demo" }],
+});
 
-const server = await startStaticServer(requestedPort);
-const address = server.address();
-if (typeof address !== "object" || address === null) {
-  throw new Error("Static demo server did not expose a TCP address.");
-}
-const baseUrl = `http://127.0.0.1:${address.port}`;
-
+const { chromium, expect } = await import("@playwright/test");
 const browser = await chromium.launch();
 
 try {
   const page = await browser.newPage();
+  await page.route(`${baseUrl}/**`, async (route) => {
+    const response = serveStaticDemo(new Request(route.request().url()));
+    const body = Buffer.from(await response.arrayBuffer());
+    const headers: Record<string, string> = {};
+    response.headers.forEach((value, key) => {
+      headers[key] = value;
+    });
+
+    await route.fulfill({
+      body,
+      headers,
+      status: response.status,
+    });
+  });
   const serverMutations: string[] = [];
   page.on("request", (request) => {
     const url = new URL(request.url());
@@ -72,7 +78,6 @@ try {
   console.log(`Static pace demo smoke passed at ${baseUrl}/pace/`);
 } finally {
   await browser.close();
-  await new Promise<void>((resolve) => server.close(() => resolve()));
 }
 
 function serveStaticDemo(request: Request) {
@@ -82,7 +87,10 @@ function serveStaticDemo(request: Request) {
 
   const relative = pathname.replace(/^\/pace\/?/, "") || "index.html";
   const filePath = resolve(staticRoot, relative);
-  if (!filePath.startsWith(staticRoot)) return new Response("Not found", { status: 404 });
+  const relativeFilePath = relativePath(staticRoot, filePath);
+  if (relativeFilePath === "" || relativeFilePath.startsWith("..")) {
+    return new Response("Not found", { status: 404 });
+  }
   if (!existsSync(filePath)) return new Response("Not found", { status: 404 });
 
   const file = Bun.file(filePath);
@@ -93,48 +101,6 @@ function serveStaticDemo(request: Request) {
   });
 }
 
-async function startStaticServer(port: number): Promise<Server> {
-  const attempts = process.env.STATIC_DEMO_PORT ? 1 : 50;
-  let lastError: unknown;
-
-  for (let attempt = 0; attempt < attempts; attempt += 1) {
-    const candidate = port + attempt;
-    const server = createServer(async (request, response) => {
-      const demoResponse = await serveStaticDemo(
-        new Request(`http://127.0.0.1:${candidate}${request.url ?? "/"}`),
-      );
-      const headers: Record<string, string> = {};
-      demoResponse.headers.forEach((value, key) => {
-        headers[key] = value;
-      });
-      response.writeHead(demoResponse.status, headers);
-      response.end(Buffer.from(await demoResponse.arrayBuffer()));
-    });
-
-    try {
-      await listen(server, candidate);
-      return server;
-    } catch (error) {
-      lastError = error;
-      if (!isAddressInUseError(error)) throw error;
-    }
-  }
-
-  throw new Error(`Unable to start static demo server. Last error: ${lastError}`);
-}
-
-async function listen(server: Server, port: number) {
-  await new Promise<void>((resolve, reject) => {
-    server.once("error", reject);
-    server.listen(port, "127.0.0.1", () => {
-      server.off("error", reject);
-      resolve();
-    });
-  });
-}
-
-function isAddressInUseError(error: unknown) {
-  return (
-    typeof error === "object" && error !== null && "code" in error && error.code === "EADDRINUSE"
-  );
+function relativePath(from: string, to: string) {
+  return relative(from, to);
 }
