@@ -129,4 +129,3 @@ Implement the short-list in this order:
 Do not implement password visibility, copy controls, app header extraction, asset placeholder
 helpers, or role-aware verification catalogues in `pace-0015` unless one of the three short-list
 items is deliberately dropped first.
-
