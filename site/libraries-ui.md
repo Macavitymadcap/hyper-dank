@@ -60,13 +60,14 @@ layer after the package CSS.
 | `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Shared/Switch` |
 | `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Shared/TableCell` |
 | `HtmxProps` | Shared prop interface for supported `hx-*` attributes such as `hx-post`, `hx-target`, `hx-swap`, and `hx-trigger`. | Shared form and control stories |
-| `Accordion`, `AccordionItem`, `AccordionProps` | Grouped `details` disclosure list with optional metadata and controls. | `Components/Shared` |
-| `CompactList`, `CompactListItem`, `CompactListProps` | Definition-list style rows for label, value, metadata, and controls. | `Components/Shared` |
+| `Accordion`, `AccordionItem`, `AccordionProps` | Grouped `details` disclosure list with optional metadata and controls. | `Components/Shared/Reusable Patterns` |
+| `BasicGraph`, `BasicGraphDatum`, `BasicGraphProps` | Small accessible SVG graph for static dashboard, docs, and content examples. | `Components/Shared/Reusable Patterns` |
+| `CompactList`, `CompactListItem`, `CompactListProps` | Definition-list style rows for label, value, metadata, and controls. | `Components/Shared/Reusable Patterns` |
 | `FormField`, `FormFieldProps` | Labelled native input wrapper, or a label/control wrapper when children are supplied. | `Components/Shared/FormField` |
 | `HxForm`, `HxFormProps` | Native `action`/`method` form wrapper that also spreads HTMX attributes for enhanced submissions. | `Components/Shared/HxForm` |
 | `InputGroup`, `InputGroupProps` | Labelled input group for compact numeric or text-entry forms. | `Components/Shared/InputGroup` |
 | `LabelledOutput`, `LabelledOutputProps` | Label/value output pair with placeholder behaviour for empty numbers. | `Components/Shared/LabelledOutput` |
-| `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | `Components/Shared` |
+| `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | `Components/Shared/Reusable Patterns` |
 | `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Shared/ScrollableTable` |
 
 Storybook is the canonical rendered reference. Shared package examples are grouped under
@@ -79,7 +80,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | --- | --- | --- |
 | Server apps | `HxForm`, `FormField`, `Button`, `Panel` | Routes, validation, auth, and permissions stay local. |
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
-| Dashboards | `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, `PopoverMenu` | Domain actions and role rules stay local. |
+| Dashboards | `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, `PopoverMenu`, `BasicGraph` | Domain actions, live data, analytics rules, and role rules stay local. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
 
 Use `HxForm` when a control must work as normal HTML first and become fragment-driven when HTMX is
@@ -97,6 +98,31 @@ available.
   <Button>Add item</Button>
 </HxForm>
 ```
+
+## BasicGraph
+
+Use `BasicGraph` when a page needs a small static chart for comparison or trend context. It renders
+an SVG with `role="img"`, a connected title and description, and a visible caption. The component is
+for already-prepared values; apps still own analytics queries, aggregation, permissions, live data,
+and any interactive exploration.
+
+```tsx
+<BasicGraph
+  id="content-activity"
+  title="Content activity"
+  summary="Published content is trending upwards across three review periods."
+  kind="line"
+  data={[
+    { label: "Week 1", value: 8 },
+    { label: "Week 2", value: 13 },
+    { label: "Week 3", value: 18 },
+  ]}
+/>
+```
+
+The component accepts `kind`, `data`, `max`, `summary`, `valueFormatter`, `width`, `height`, and
+`className`. Its CSS uses `currentColor` and `--hd-accent`, so the graph can follow light, dark, or
+app-specific themes without changing the JSX contract.
 
 </div>
 </div>

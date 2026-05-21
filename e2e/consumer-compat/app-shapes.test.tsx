@@ -14,7 +14,10 @@ import {
 } from "@macavitymadcap/hyper-dank-automation";
 import {
   buildStaticContentSite,
+  createContentNavigation,
   outputPathForContentPage,
+  renderAccessibilityStatementMarkdown,
+  renderChoiceListMarkdown,
   renderMarkdown,
   rewriteContentUrl,
 } from "@macavitymadcap/hyper-dank-automation/content";
@@ -39,6 +42,7 @@ import {
   Accordion,
   AppShell,
   Badge,
+  BasicGraph,
   Breadcrumbs,
   Button,
   Callout,
@@ -243,6 +247,16 @@ describe("Hyper-Dank recipe compatibility", () => {
           </ScrollableTable>
           <Pagination currentPage={1} totalPages={2} nextHref="/admin?page=2" />
           <StatusSummary items={[{ label: "Checks", tone: "success", value: "Passing" }]} />
+          <BasicGraph
+            id="dashboard-checks"
+            title="Check volume"
+            summary="Three checks ran this week."
+            data={[
+              { label: "Mon", value: 1 },
+              { label: "Tue", value: 2 },
+              { label: "Wed", value: 3 },
+            ]}
+          />
         </Panel>
       </AppShell>,
     );
@@ -254,6 +268,8 @@ describe("Hyper-Dank recipe compatibility", () => {
     expect(html).toContain('data-action-column="true"');
     expect(html).toContain('class="pagination"');
     expect(html).toContain('class="status-summary"');
+    expect(html).toContain('class="basic-graph"');
+    expect(html).toContain('aria-labelledby="dashboard-checks-title dashboard-checks-summary"');
     expect(html).toContain("Build checks");
     expect(html).toContain("Passing");
   });
@@ -418,6 +434,25 @@ describe("Hyper-Dank recipe compatibility", () => {
     await writeFile(path.join(sourceDir, "assets/site.css"), "body { color: black; }\n");
 
     const html = renderMarkdown("# Notes\n\nRead [docs](/docs/).", { basePath: "/hyper-dank" });
+    const statement = renderAccessibilityStatementMarkdown({
+      contact: "Open an issue.",
+      knownLimitations: ["Example limitations are app-owned."],
+      siteName: "Example docs",
+      statementDate: "2026-05-21",
+      supportSummary: "Example docs uses semantic HTML.",
+      testing: ["Pa11y checks"],
+    });
+    const navigation = createContentNavigation(
+      [
+        { href: "/chapter-1/", label: "Chapter one", order: 1 },
+        { href: "/chapter-2/", label: "Chapter two", order: 2 },
+      ],
+      "/chapter-1/",
+    );
+    const choices = renderChoiceListMarkdown([
+      { href: "/start/", label: "Begin" },
+      { href: "/archive/", label: "Read the archive", summary: "Static branch" },
+    ]);
 
     await buildStaticContentSite({
       assets: [{ from: path.join(sourceDir, "assets"), to: "assets" }],
@@ -440,5 +475,8 @@ describe("Hyper-Dank recipe compatibility", () => {
     expect(rewriteContentUrl("{{ '/recipes/' | relative_url }}", { basePath: "/hyper-dank" })).toBe(
       "/hyper-dank/recipes/",
     );
+    expect(statement).toContain("# Accessibility statement for Example docs");
+    expect(navigation.next?.href).toBe("/chapter-2/");
+    expect(choices).toContain("[Read the archive](/archive/) — Static branch");
   });
 });

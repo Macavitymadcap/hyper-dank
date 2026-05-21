@@ -14,6 +14,7 @@ describe("Layout", () => {
 
     expect(html).toContain('<html lang="en">');
     expect(html).toContain("<title>Walking Pace Tracker</title>");
+    expect(html).toContain('<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>');
     expect(html).toContain("pace-calculator-theme");
     expect(html).toContain("fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
     expect(html).not.toContain("<style>");

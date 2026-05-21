@@ -78,6 +78,7 @@ function renderDocument({
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${documentTitle}</title>
     <meta name="description" content="${escapeHtml(description)}" />
+    <link rel="icon" type="image/svg+xml" href="${relativeContentUrl("/assets/favicon.svg", basePath)}" />
     <script>
       (() => {
         try {
@@ -99,7 +100,10 @@ function renderDocument({
   <body>
     <header class="site-header">
       <nav class="site-nav" aria-label="Primary">
-        <a class="brand" href="${relativeContentUrl("/", basePath)}">Hyper-Dank</a>
+        <a class="brand" href="${relativeContentUrl("/", basePath)}" aria-label="Hyper-Dank home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Hyper-Dank</span>
+        </a>
         <div class="site-actions">
           ${themeToggleHtml()}
           <details class="nav-menu">

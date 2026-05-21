@@ -11,6 +11,7 @@ export { TableCell, type TableCellProps } from "./atoms/TableCell";
 export type { HtmxProps } from "./model";
 export { Accordion, type AccordionItem, type AccordionProps } from "./molecules/Accordion";
 export { AppShell, type AppShellProps } from "./molecules/AppShell";
+export { BasicGraph, type BasicGraphDatum, type BasicGraphProps } from "./molecules/BasicGraph";
 export { type BreadcrumbItem, Breadcrumbs, type BreadcrumbsProps } from "./molecules/Breadcrumbs";
 export { ButtonGroup, type ButtonGroupProps } from "./molecules/ButtonGroup";
 export { Callout, type CalloutProps } from "./molecules/Callout";
