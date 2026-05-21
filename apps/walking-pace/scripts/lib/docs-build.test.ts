@@ -170,6 +170,8 @@ describe("docs build", () => {
 
     expect(html).toContain('<details class="nav-menu">');
     expect(html).toContain('<summary class="nav-menu__summary">Menu</summary>');
+    expect(html).toContain('href="/hyper-dank/assets/favicon.svg"');
+    expect(html).toContain('<span class="brand-mark" aria-hidden="true"></span>');
     expect(html).toContain('class="theme-toggle__input" type="checkbox" role="switch"');
     expect(html).toContain('href="/hyper-dank/verification/"');
   });

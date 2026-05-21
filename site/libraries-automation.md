@@ -39,8 +39,12 @@ import {
 } from "@macavitymadcap/hyper-dank-automation";
 
 import {
+  buildAccessibilityStatementPage,
   buildStaticContentSite,
+  createContentNavigation,
   escapeHtml,
+  renderAccessibilityStatementMarkdown,
+  renderChoiceListMarkdown,
   renderMarkdown,
 } from "@macavitymadcap/hyper-dank-automation/content";
 ```
@@ -146,18 +150,38 @@ await buildStaticContentSite({
     `<!doctype html><title>${escapeHtml(page.title)}</title>${content}`,
   sourceDir: "site",
 });
+
+renderAccessibilityStatementMarkdown({
+  contact: "Open an issue.",
+  knownLimitations: ["Third-party embeds may vary."],
+  siteName: "Docs",
+  statementDate: "2026-05-21",
+  supportSummary: "Docs uses semantic HTML and keyboard reachable controls.",
+  testing: ["Pa11y checks", "Keyboard review"],
+});
+
+createContentNavigation(
+  [
+    { href: "/chapter-1/", label: "Chapter one", order: 1 },
+    { href: "/chapter-2/", label: "Chapter two", order: 2 },
+  ],
+  "/chapter-1/",
+);
+
+renderChoiceListMarkdown([{ href: "/start/", label: "Begin" }]);
 ```
 
 The `/content` subpath includes `parseFrontMatter`, `renderMarkdown`, `renderInlineMarkdown`,
 `rewriteContentUrl`, `relativeContentUrl`, `discoverMarkdownPages`, `outputPathForContentPage`,
-`titleFromFilename`, and `buildStaticContentSite`. These helpers return strings or typed page
-models and throw normal filesystem errors with the source paths supplied by the caller when files
-cannot be read or written.
+`titleFromFilename`, `buildStaticContentSite`, `renderAccessibilityStatementMarkdown`,
+`buildAccessibilityStatementPage`, `createContentNavigation`, and `renderChoiceListMarkdown`.
+These helpers return strings or typed page models and throw normal filesystem errors with the
+source paths supplied by the caller when files cannot be read or written.
 
 `buildStaticContentSite()` accepts the source directory, destination directory, base path, assets,
 and an app-owned document renderer. The helper discovers Markdown pages, renders Markdown, rewrites
-content URLs, writes pretty route output, and copies assets. The app still owns navigation, layout,
-metadata, CSS, search, feeds, and any content model beyond front matter plus Markdown.
+content URLs, writes pretty route output, and copies assets. The app still owns layout, CSS, search,
+feeds, accessibility evidence and claims, and any content model beyond front matter plus Markdown.
 
 ## Adoption Boundary
 
@@ -167,7 +191,7 @@ metadata, CSS, search, feeds, and any content model beyond front matter plus Mar
 | GitHub request helpers and PR-body section replacement. | PR narrative, release policy, and review expectations. |
 | Dynamic local server and browser helpers. | App routes, seeded users, fixtures, and smoke journeys. |
 | Pa11y runner wrapper. | A11y configuration and product-specific authentication cookies. |
-| Markdown, URL, route, and static-content build mechanics. | Document chrome, navigation, CSS, deployment layout, taxonomy, RSS, search, and product metadata. |
+| Markdown, URL, route, accessibility statement, and static-content build mechanics. | Document chrome, CSS, deployment layout, taxonomy, RSS, search, accessibility evidence, legal claims, and product metadata. |
 
 For app-shape examples, see [`/recipes/`]({{ '/recipes/' | relative_url }}).
 

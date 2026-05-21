@@ -4,6 +4,7 @@ import { Badge } from "../atoms/Badge";
 import { Icon } from "../atoms/Icon";
 import { Panel } from "../atoms/Panel";
 import { Accordion } from "../molecules/Accordion";
+import { BasicGraph } from "../molecules/BasicGraph";
 import { CompactList } from "../molecules/CompactList";
 import { PopoverMenu } from "../molecules/PopoverMenu";
 import { renderStory } from "./render";
@@ -13,12 +14,12 @@ const meta = {
     docs: {
       description: {
         component:
-          "Reusable components shared across server apps, dashboards, static blogs, and demos.",
+          "Reusable composition patterns for app screens, dashboards, static blogs, and demos. These examples show generic Hyper-Dank primitives working together; product routes, state, and domain copy stay in the consuming app.",
       },
     },
     layout: "fullscreen",
   },
-  title: "Components/Shared/App Builder Reuse",
+  title: "Components/Shared/Reusable Patterns",
 } satisfies Meta;
 
 export default meta;
@@ -37,6 +38,17 @@ export const ReuseSet: Story = {
           items={[
             { label: "Published posts", value: "18" },
             { label: "Draft pages", meta: "needs review", value: "4" },
+          ]}
+        />
+        <BasicGraph
+          id="content-activity"
+          title="Content activity"
+          summary="Published content is trending upwards across three review periods."
+          kind="line"
+          data={[
+            { label: "Week 1", value: 8 },
+            { label: "Week 2", value: 13 },
+            { label: "Week 3", value: 18 },
           ]}
         />
         <Accordion

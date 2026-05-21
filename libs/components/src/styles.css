@@ -30,6 +30,46 @@
   font: inherit;
 }
 
+.basic-graph {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 100%;
+}
+
+.basic-graph-svg {
+  display: block;
+  width: 100%;
+  max-width: 32rem;
+  height: auto;
+}
+
+.basic-graph-bar,
+.basic-graph-line,
+.basic-graph-point {
+  color: var(--hd-accent, currentColor);
+}
+
+.basic-graph-bar,
+.basic-graph-point {
+  fill: currentColor;
+}
+
+.basic-graph-line {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.basic-graph-caption {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.basic-graph-caption span:first-child {
+  font-weight: 700;
+}
+
 .button[data-variant="ghost"] {
   background: transparent;
 }
