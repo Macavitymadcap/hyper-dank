@@ -235,8 +235,8 @@ package compatibility, Storybook browser tests, Playwright E2E, Pa11y, and `git 
 writes `.cache/verification-report.md`, prints the same report, and marks later gates as not run
 when an earlier gate fails. Set `VERIFY_REPORT_PATH` to write the report somewhere else.
 
-Storybook includes per-component docs and controls for atoms, molecules, and organisms, plus a
-shared app-style light/dark switch that applies the same theme mode across every story. The
+Storybook includes per-component docs and controls for `Components/Shared` package exports plus
+`Components/Reference App` examples, with a shared app-style light/dark switch across every story. The
 production build publishes the static Storybook site under `/storybook/` on the same domain as the
 app.
 
@@ -260,8 +260,8 @@ The test suite covers:
 - WCAG 2 AA accessibility checks with pa11y
 - SQLite repository behaviour with in-memory databases, including user scoping
 - shared database provider and repository adapter contracts, with optional Postgres conformance via `TEST_DATABASE_URL`
-- consumer compatibility coverage for Character Sheet-style, blog, dashboard/admin, static demo,
-  server-app, and scripts-package imports
+- consumer compatibility coverage for server-app, static blog, dashboard/admin, static demo, and
+  scripts-package imports
 - validation and pace calculations
 
 ## Forms And Progressive Enhancement
