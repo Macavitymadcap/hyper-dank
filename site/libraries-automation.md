@@ -59,7 +59,7 @@ import {
 | Static-site helpers | Assert generated static artifacts and smoke-check expected file contents. |
 | Content helpers | Parse front matter, render Markdown, rewrite content URLs, discover Markdown pages, and build static content through an app-owned document renderer. |
 
-## Walking Pace Example
+## Verification Example
 
 ```ts
 import { createCommandGate, runVerification } from "@macavitymadcap/hyper-dank-automation";
@@ -100,6 +100,21 @@ Markdown. `smokeStaticSite()` and `assertStaticArtifact()` are for generated loc
 check relative paths and reject paths that escape the static root. `summariseScreenshotTargets()`
 describes app-owned screenshot flows for PR evidence without needing a browser page.
 
+`runVerification()` runs gates in order and stops after the first failure. Each gate returns an id,
+name, status, stdout, stderr, and optional duration. Command gates accept a command, arguments, cwd,
+environment, display tooling name, and optional allow-failure setting, so apps can build local
+verifiers without duplicating process handling.
+
+`getGitHubRepo()` and `parseGitHubRepo()` understand normal GitHub remote formats and return an
+owner/name pair. `getGitHubToken()` reads the token source used by local scripts, while
+`githubRequest()` applies the standard GitHub API headers. Higher-level helpers such as
+`getPullRequest()` and PR body update utilities keep app scripts focused on which section to update
+and what evidence to attach.
+
+`waitForHttp(url)` polls until a local route is ready or times out. Pair it with `startBunServer()`
+or an app-owned server command when a script needs to start a temporary review app, run checks, and
+tear it down predictably.
+
 For accessibility batches, pass named targets to `runPa11yTargets()`:
 
 ```ts
@@ -138,6 +153,11 @@ The `/content` subpath includes `parseFrontMatter`, `renderMarkdown`, `renderInl
 `titleFromFilename`, and `buildStaticContentSite`. These helpers return strings or typed page
 models and throw normal filesystem errors with the source paths supplied by the caller when files
 cannot be read or written.
+
+`buildStaticContentSite()` accepts the source directory, destination directory, base path, assets,
+and an app-owned document renderer. The helper discovers Markdown pages, renders Markdown, rewrites
+content URLs, writes pretty route output, and copies assets. The app still owns navigation, layout,
+metadata, CSS, search, feeds, and any content model beyond front matter plus Markdown.
 
 ## Adoption Boundary
 

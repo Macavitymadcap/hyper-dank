@@ -57,7 +57,7 @@ renderMarkdown("# Hello", { basePath: "/docs" });
 The content subpath owns reusable mechanics only. Apps still own their document shell, navigation,
 CSS, deployment layout, content taxonomy, RSS/search decisions, and any product-specific metadata.
 
-## Walking Pace Example
+## Verification Example
 
 ```ts
 import { runVerification } from "@macavitymadcap/hyper-dank-automation";
@@ -89,7 +89,7 @@ summariseScreenshotTargets([{ id: "home", label: "Home", description: "Home", st
 buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
 ```
 
-## Character Sheet-Style Consumer Example
+## Local Server Example
 
 ```ts
 import { startBunServer, waitForHttp } from "@macavitymadcap/hyper-dank-automation";

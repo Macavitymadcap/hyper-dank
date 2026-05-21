@@ -81,14 +81,32 @@ export const providers = createProviderRegistry({
 still own repository method names beyond these conventional operations, query implementation,
 schema design, transaction policy, and seed data.
 
+Use the repository contracts when a reusable app surface only needs conventional operations:
+`findById(id)`, `list()`, `save(record)`, and `delete(id)`. Pass the record and id types explicitly
+so callers keep domain-specific field names and identifier types. If a domain needs richer verbs
+such as `publishPost()`, `acceptInvite()`, or `recordPayment()`, keep those methods on the app
+repository instead of forcing them into the generic contract.
+
 `createProviderRegistry()` does not read `process.env`. Pass it factories that accept environment
 objects already parsed by your app, then call `registry.create(kind, environment)` once the app has
-decided which adapter kind to use.
+decided which adapter kind to use. The registry preserves each factory's environment type, so
+`registry.create("sqlite", { path })` and `registry.create("postgres", { databaseUrl })` can have
+different input shapes. A missing kind throws a normal error that names the requested adapter.
+
+`DatabaseProviderBase<TRepositories, TKind>` combines lifecycle and repository creation. A provider
+should expose its `kind`, run its app migrations through `migrate()`, return repositories from
+`createRepositories()`, and release connections in `close()`. The package does not define how many
+repositories an app should have or whether they share a transaction boundary.
 
 `planMigrations()` is the dry-run helper. It calls only `hasMigration(id)` on the store and returns
 pending migrations plus skipped records such as `{ id: "0001", reason: "already-applied" }`.
 `runPendingMigrations()` uses the same validation and planning path, then executes and records the
 pending migrations. Existing callers that only awaited completion can keep doing so.
+
+Migration ids are treated as immutable public history within an app. `validateMigrations()` rejects
+blank and duplicate ids before any store work begins. A `MigrationStore` should make
+`recordMigration(id)` durable only after `runMigration(migration)` succeeds, so a failed migration
+can be retried by the app's normal deployment process.
 
 The testing subpath exports a Bun test contract:
 
@@ -116,6 +134,11 @@ idempotently, and closes after the contract run.
 `runRepositoryHarness()` runs app assertions and then calls cleanup in a `finally` block, so adapter
 contract suites can share the same setup pattern without importing application internals into the
 shared package.
+
+Use `describeDatabaseLifecycleContract()` for provider-level behaviour and keep domain assertions in
+your app test suite. The shared contract can prove that an adapter migrates, closes, and reports the
+expected kind; the app still needs tests for constraints, query shape, ownership scoping, and
+rollback or retry behaviour.
 
 ## Boundary
 
