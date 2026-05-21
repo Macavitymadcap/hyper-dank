@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.1.0...hyper-dank-v2.2.0) (2026-05-21)
+
+
+### Features
+
+* **platform:** complete app-builder readiness epic ([#59](https://github.com/Macavitymadcap/hyper-dank/issues/59)) ([570ce07](https://github.com/Macavitymadcap/hyper-dank/commit/570ce071981370e934bb5fb9634bae268eee8224))
+
 ## [2.1.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.0.1...hyper-dank-v2.1.0) (2026-05-19)
 
 
