@@ -34,9 +34,13 @@ import {
 
 ```ts
 import {
+  buildAccessibilityStatementPage,
   buildStaticContentSite,
+  createContentNavigation,
   discoverMarkdownPages,
   escapeHtml,
+  renderAccessibilityStatementMarkdown,
+  renderChoiceListMarkdown,
   renderMarkdown,
 } from "@macavitymadcap/hyper-dank-automation/content";
 
@@ -52,10 +56,29 @@ await buildStaticContentSite({
 });
 
 renderMarkdown("# Hello", { basePath: "/docs" });
+
+renderAccessibilityStatementMarkdown({
+  contact: "Open an issue.",
+  siteName: "Docs",
+  statementDate: "2026-05-21",
+  supportSummary: "Docs uses semantic HTML and keyboard reachable controls.",
+  testing: ["Pa11y checks"],
+});
+
+createContentNavigation(
+  [
+    { href: "/chapter-1/", label: "Chapter one", order: 1 },
+    { href: "/chapter-2/", label: "Chapter two", order: 2 },
+  ],
+  "/chapter-1/",
+);
+
+renderChoiceListMarkdown([{ href: "/start/", label: "Begin" }]);
 ```
 
 The content subpath owns reusable mechanics only. Apps still own their document shell, navigation,
-CSS, deployment layout, content taxonomy, RSS/search decisions, and any product-specific metadata.
+CSS, deployment layout, content taxonomy, RSS/search decisions, accessibility claims, and any
+product-specific metadata.
 
 ## Verification Example
 

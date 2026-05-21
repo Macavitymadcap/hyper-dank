@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420" width="520" height="420" role="img" aria-labelledby="title desc">
+  <title id="title">Hyper Dank Stacked Logo</title>
+  <desc id="desc">A stacked monoline logo reading HYPER above DANK, with a clean rune-inspired style and the original abstract Hyper-Dank K glyph.</desc>
+  <style>
+    .glyph {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 9;
+      stroke-linecap: round;
+      stroke-linejoin: miter;
+    }
+  </style>
+
+  <g transform="translate(56 42)">
+    <g class="glyph" transform="translate(0 0)">
+      <path d="M 10 20 L 10 150 M 70 20 L 70 150 M 10 72 L 70 120" />
+    </g>
+    <g class="glyph" transform="translate(82 0)">
+      <path d="M 8 20 L 42 82 L 76 20 M 42 82 L 42 150" />
+    </g>
+    <g class="glyph" transform="translate(164 0)">
+      <path d="M 10 150 L 10 20 L 76 70 L 10 112" />
+    </g>
+    <g class="glyph" transform="translate(232 0)">
+      <path d="M 76 20 L 18 86 L 76 150 M 38 108 L 56 90 L 76 90" />
+    </g>
+    <g class="glyph" transform="translate(314 0)">
+      <path d="M 10 150 L 10 20 L 76 70 L 10 112 M 10 112 L 78 150" />
+    </g>
+  </g>
+
+  <g transform="translate(56 226)">
+    <g class="glyph" transform="translate(0 0)">
+      <path d="M 10 20 L 10 150 L 76 86 Z" />
+    </g>
+    <g class="glyph" transform="translate(108 0)">
+      <path d="M 10 150 L 10 74 L 42 20 L 74 74 L 74 150 M 10 74 L 74 126 M 74 74 L 10 126" />
+    </g>
+    <g class="glyph" transform="translate(216 0)">
+      <path d="M 10 150 L 10 20 M 76 20 L 76 150 M 10 38 L 76 126" />
+    </g>
+    <g class="glyph" transform="translate(322 0)">
+      <path d="M 36 20 L 36 150 M 36 150 L 86 52 L 8 52 L 86 150" />
+    </g>
+  </g>
+</svg>
+

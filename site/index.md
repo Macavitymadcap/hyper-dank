@@ -4,6 +4,7 @@ title: Hyper-Dank
 ---
 
 <section class="hero">
+  <div class="hero-logo" aria-hidden="true"></div>
   <h1>Hyper-Dank</h1>
   <p class="lede">
     Hyper-Dank is a small hypermedia-first toolkit for building server-rendered Hono, HTMX, Bun,

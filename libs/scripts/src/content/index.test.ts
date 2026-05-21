@@ -3,10 +3,14 @@ import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import {
+  buildAccessibilityStatementPage,
   buildStaticContentSite,
+  createContentNavigation,
   discoverMarkdownPages,
   outputPathForContentPage,
   parseFrontMatter,
+  renderAccessibilityStatementMarkdown,
+  renderChoiceListMarkdown,
   renderInlineMarkdown,
   renderMarkdown,
   rewriteContentUrl,
@@ -203,6 +207,75 @@ describe("static content build", () => {
   test("rejects absolute destinations", () => {
     expect(() => safeDestinationPath("/tmp/site", "/tmp/outside.html")).toThrow(
       "Static content destination must be relative: /tmp/outside.html",
+    );
+  });
+});
+
+describe("accessibility statements", () => {
+  test("renders statement markdown from app-owned evidence", () => {
+    const markdown = renderAccessibilityStatementMarkdown({
+      contact: "Email accessibility@example.test.",
+      knownLimitations: ["Third-party embeds may vary."],
+      reviewCadence: "Reviewed before major releases.",
+      siteName: "Example Site",
+      statementDate: "2026-05-21",
+      supportSummary: "Example Site is built with semantic HTML and keyboard reachable controls.",
+      testing: ["Pa11y checks on public pages", "Keyboard review on core flows"],
+    });
+
+    expect(markdown).toContain("# Accessibility statement for Example Site");
+    expect(markdown).toContain("Last reviewed: 2026-05-21");
+    expect(markdown).toContain("- Pa11y checks on public pages");
+    expect(markdown).toContain("- Third-party embeds may vary.");
+    expect(markdown).toContain("Email accessibility@example.test.");
+    expect(markdown).not.toContain("fully compliant");
+  });
+
+  test("builds a static accessibility statement page", async () => {
+    const tmp = await mkdtemp(path.join(os.tmpdir(), "hyper-dank-a11y-statement-"));
+
+    const result = await buildAccessibilityStatementPage({
+      destinationDir: tmp,
+      renderDocument: ({ content, title }) => `<!doctype html><title>${title}</title>${content}`,
+      statement: {
+        contact: "Open an issue.",
+        siteName: "Docs",
+        statementDate: "2026-05-21",
+        supportSummary: "Docs uses semantic landmarks.",
+      },
+    });
+
+    expect(result.outputPath).toBe("accessibility/index.html");
+    await expect(readFile(path.join(tmp, "accessibility/index.html"), "utf8")).resolves.toContain(
+      "<h1>Accessibility statement for Docs</h1>",
+    );
+  });
+});
+
+describe("authored content helpers", () => {
+  test("creates previous and next navigation from ordered content", () => {
+    const navigation = createContentNavigation(
+      [
+        { href: "/chapter-2/", label: "Chapter two", order: 2 },
+        { href: "/chapter-1/", label: "Chapter one", order: 1 },
+        { href: "/chapter-3/", label: "Chapter three", order: 3 },
+      ],
+      "/chapter-2/",
+    );
+
+    expect(navigation.current.label).toBe("Chapter two");
+    expect(navigation.previous?.href).toBe("/chapter-1/");
+    expect(navigation.next?.href).toBe("/chapter-3/");
+  });
+
+  test("renders a small markdown choice list for branching content", () => {
+    expect(
+      renderChoiceListMarkdown([
+        { href: "/left/", label: "Take the left path", summary: "A quiet corridor." },
+        { href: "/right/", label: "Take the right path" },
+      ]),
+    ).toBe(
+      "- [Take the left path](/left/) — A quiet corridor.\n- [Take the right path](/right/)\n",
     );
   });
 });

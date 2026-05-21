@@ -22,6 +22,42 @@ export interface ContentPage {
   title: string;
 }
 
+export interface AccessibilityStatementInput {
+  contact: string;
+  knownLimitations?: string[];
+  reviewCadence?: string;
+  siteName: string;
+  statementDate: string;
+  supportSummary: string;
+  testing?: string[];
+}
+
+export interface BuildAccessibilityStatementPageOptions {
+  basePath?: string;
+  destinationDir: string;
+  outputPath?: string;
+  renderDocument(options: { content: string; title: string }): string;
+  statement: AccessibilityStatementInput;
+}
+
+export interface OrderedContentItem {
+  href: string;
+  label: string;
+  order?: number;
+}
+
+export interface ContentNavigation {
+  current: OrderedContentItem;
+  next?: OrderedContentItem;
+  previous?: OrderedContentItem;
+}
+
+export interface ChoiceListItem {
+  href: string;
+  label: string;
+  summary?: string;
+}
+
 export interface DiscoverMarkdownPagesOptions {
   sourceDir: string;
 }
@@ -70,6 +106,81 @@ export async function buildStaticContentSite({
   }
 
   return pages;
+}
+
+export async function buildAccessibilityStatementPage({
+  basePath = "",
+  destinationDir,
+  outputPath = "accessibility/index.html",
+  renderDocument,
+  statement,
+}: BuildAccessibilityStatementPageOptions) {
+  const markdown = renderAccessibilityStatementMarkdown(statement);
+  const content = renderMarkdown(markdown, { basePath });
+  const destinationPath = safeDestinationPath(destinationDir, outputPath);
+
+  await mkdir(path.dirname(destinationPath), { recursive: true });
+  await writeFile(destinationPath, renderDocument({ content, title: "Accessibility statement" }));
+
+  return {
+    content,
+    markdown,
+    outputPath,
+  };
+}
+
+export function renderAccessibilityStatementMarkdown(statement: AccessibilityStatementInput) {
+  const lines = [
+    `# Accessibility statement for ${statement.siteName}`,
+    "",
+    statement.supportSummary.trim(),
+    "",
+    `Last reviewed: ${statement.statementDate}`,
+  ];
+
+  appendListSection(lines, "Testing and review", statement.testing);
+  appendListSection(lines, "Known limitations", statement.knownLimitations);
+
+  lines.push("", "## Contact", "", statement.contact.trim());
+
+  if (statement.reviewCadence?.trim()) {
+    lines.push("", "## Review cadence", "", statement.reviewCadence.trim());
+  }
+
+  return `${lines.join("\n").trim()}\n`;
+}
+
+export function createContentNavigation(
+  items: OrderedContentItem[],
+  currentHref: string,
+): ContentNavigation {
+  const sortedItems = [...items].sort((a, b) => {
+    const orderDifference =
+      (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER);
+    return orderDifference === 0 ? a.href.localeCompare(b.href) : orderDifference;
+  });
+  const currentIndex = sortedItems.findIndex((item) => item.href === currentHref);
+
+  if (currentIndex === -1) {
+    throw new Error(`Cannot create content navigation for missing href: ${currentHref}`);
+  }
+
+  return {
+    current: sortedItems[currentIndex] as OrderedContentItem,
+    next: sortedItems[currentIndex + 1],
+    previous: sortedItems[currentIndex - 1],
+  };
+}
+
+export function renderChoiceListMarkdown(items: ChoiceListItem[]) {
+  if (items.length === 0) return "";
+
+  return `${items
+    .map((item) => {
+      const summary = item.summary ? ` — ${item.summary}` : "";
+      return `- [${item.label}](${item.href})${summary}`;
+    })
+    .join("\n")}\n`;
 }
 
 export async function discoverMarkdownPages({ sourceDir }: DiscoverMarkdownPagesOptions) {
@@ -355,6 +466,13 @@ function rewriteLiquidUrls(value: string, options: ContentUrlOptions) {
   return value.replace(/\{\{\s*'([^']+)'\s*\|\s*relative_url\s*\}\}/g, (_match, url: string) =>
     relativeContentUrl(url, options.basePath ?? ""),
   );
+}
+
+function appendListSection(lines: string[], title: string, items: string[] | undefined) {
+  if (!items?.length) return;
+
+  lines.push("", `## ${title}`, "");
+  for (const item of items) lines.push(`- ${item.trim()}`);
 }
 
 function unquoteYamlString(value: string) {

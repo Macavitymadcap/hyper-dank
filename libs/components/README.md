@@ -4,6 +4,7 @@ Server-rendered Hono JSX components shared by Hyper-Dank apps.
 
 ```ts
 import {
+  BasicGraph,
   Button,
   Card,
   HxForm,
@@ -36,11 +37,12 @@ pipeline; importing the package in server code does not automatically load style
   `LinkButtonProps`, `Panel`, `PanelProps`, `Switch`, `SwitchProps`, `TableCell`,
   `TableCellProps`.
 - Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `AppShell`, `AppShellProps`,
-  `Breadcrumbs`, `BreadcrumbItem`, `BreadcrumbsProps`, `ButtonGroup`, `ButtonGroupProps`,
-  `Callout`, `CalloutProps`, `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`,
-  `CodeBlockProps`, `CompactList`, `CompactListItem`, `CompactListProps`, `Dialog`,
-  `DialogProps`, `EmptyState`, `EmptyStateProps`, `Fieldset`, `FieldsetProps`, `FormField`,
-  `FormFieldProps`, `HxForm`, `HxFormProps`, `InputGroup`, `InputGroupProps`, `LabelledOutput`,
+  `BasicGraph`, `BasicGraphDatum`, `BasicGraphProps`, `Breadcrumbs`, `BreadcrumbItem`,
+  `BreadcrumbsProps`, `ButtonGroup`, `ButtonGroupProps`, `Callout`, `CalloutProps`,
+  `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`, `CodeBlockProps`, `CompactList`,
+  `CompactListItem`, `CompactListProps`, `Dialog`, `DialogProps`, `EmptyState`,
+  `EmptyStateProps`, `Fieldset`, `FieldsetProps`, `FormField`, `FormFieldProps`, `HxForm`,
+  `HxFormProps`, `InputGroup`, `InputGroupProps`, `LabelledOutput`,
   `LabelledOutputProps`, `LoadingIndicator`, `LoadingIndicatorProps`, `MetadataList`,
   `MetadataListItem`, `MetadataListProps`, `Notice`, `NoticeProps`, `PageHeader`,
   `PageHeaderProps`, `Pagination`, `PaginationProps`, `PopoverMenu`, `PopoverMenuItem`,
@@ -67,8 +69,9 @@ rendered states, accessibility notes, and interaction examples.
 - Static blogs can use `Card`, `Panel`, `Badge`, and `CompactList` for article summaries and
   metadata while keeping content routing in the static-site app.
 - Dashboards and admin tools should combine `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, and
-  `PopoverMenu` with `AppShell`, `PageHeader`, `Toolbar`, `Tabs`, `Pagination`, `StatBlock`, and
-  `StatusSummary` for dense, progressively enhanced screens.
+  `PopoverMenu` with `AppShell`, `PageHeader`, `Toolbar`, `Tabs`, `Pagination`, `StatBlock`,
+  `StatusSummary`, and `BasicGraph` for dense, progressively enhanced screens with small static
+  data visualisations.
 - Static demos can use `InputGroup`, `LabelledOutput`, `Button`, and `Panel` without importing
   server-only app code.
 - Docs and static blogs can use `Prose`, `CodeBlock`, `Callout`, `MetadataList`, `TimelineList`,
@@ -76,5 +79,28 @@ rendered states, accessibility notes, and interaction examples.
 
 The shared components deliberately stop at generic structure and CSS contracts. Product language,
 feature organisms, route paths, permissions, and persistence stay in the consuming application.
+
+## BasicGraph Contract
+
+`BasicGraph` renders a static SVG chart inside a `<figure>` for small dashboard, documentation, and
+content-summary views. It is intentionally not an analytics engine: the consuming app owns data
+queries, aggregation, live updates, interactivity, and domain labels.
+
+| Prop | Contract |
+| --- | --- |
+| `id` | Required stable id used to connect the SVG title and description. Use a unique value per page. |
+| `title` | Required human-readable chart title. Rendered in the SVG `<title>` and visible caption. |
+| `data` | Required array of `{ label, value }` points. Labels appear in the accessible summary. Values are non-negative numbers scaled against `max` or the largest data value. |
+| `kind` | Optional `"bar"` or `"line"` chart. Defaults to `"bar"`. |
+| `summary` | Optional accessible summary. When omitted, the component builds one from labels and formatted values. |
+| `valueFormatter` | Optional formatter for values in generated summaries. It does not change graph geometry. |
+| `max` | Optional scale maximum. Use it when several graphs must share a visual scale. |
+| `width`, `height` | Optional SVG viewBox dimensions. Defaults to `320` by `160`; CSS keeps the graph responsive. |
+| `className` | Optional extra class for app styling. Baseline hooks include `.basic-graph`, `.basic-graph-svg`, `.basic-graph-bar`, `.basic-graph-line`, `.basic-graph-point`, and `.basic-graph-caption`. |
+
+The graph uses `role="img"` with labelled title and description, and the visible caption repeats the
+summary so sighted users get the same context. Colours inherit from `currentColor` through the
+`--hd-accent` custom property, so apps can make it respond to light, dark, or product themes without
+changing component markup.
 
 For app-shape guidance, see the public recipes in `site/recipes.md`.

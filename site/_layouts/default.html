@@ -26,7 +26,10 @@
   <body>
     <header class="site-header">
       <nav class="site-nav" aria-label="Primary">
-        <a class="brand" href="{{ '/' | relative_url }}">Hyper-Dank</a>
+        <a class="brand" href="{{ '/' | relative_url }}" aria-label="Hyper-Dank home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Hyper-Dank</span>
+        </a>
         <div class="site-actions">
           <div class="nav-links">
             <a href="{{ '/libraries/' | relative_url }}">Libraries</a>
