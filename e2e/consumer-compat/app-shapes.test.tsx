@@ -1,4 +1,7 @@
 import { describe, expect, test } from "bun:test";
+import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import {
   buildImagesSection,
   createCommandGate,
@@ -10,6 +13,7 @@ import {
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
 import {
+  buildStaticContentSite,
   outputPathForContentPage,
   renderMarkdown,
   rewriteContentUrl,
@@ -67,38 +71,33 @@ import {
   Toolbar,
 } from "@macavitymadcap/hyper-dank-ui";
 
-describe("Character Sheet compatibility", () => {
-  test("imports generic components needed by the external character-sheet app", () => {
+describe("Hyper-Dank recipe compatibility", () => {
+  test("renders server-app controls through public component imports", () => {
     const html = String(
-      <Panel labelledBy="sheet-heading">
-        <h1 id="sheet-heading">Lynott</h1>
-        <Badge tone="accent">Player</Badge>
-        <Icon label="Inspired" name="workspace_premium" />
+      <Panel labelledBy="workspace-heading">
+        <h1 id="workspace-heading">Workspace</h1>
+        <Badge tone="accent">Active</Badge>
+        <Icon label="Verified" name="workspace_premium" />
         <Switch
-          id="inspiration"
-          label="Inspiration"
+          id="notifications"
+          label="Notifications"
           checked
           variant="compact"
           offIcon="radio_button_unchecked"
           onIcon="bolt"
-          hx-post="/characters/lynott/inspiration"
-          hx-target="#sheet"
+          hx-post="/settings/notifications"
+          hx-target="#workspace-panel"
         />
-        <FormField
-          id="character-name"
-          name="characterName"
-          label="Character name"
-          autocomplete="name"
-        />
-        <CompactList items={[{ label: "Armour Class", value: "18" }]} />
+        <FormField id="display-name" name="displayName" label="Display name" autocomplete="name" />
+        <CompactList items={[{ label: "Status", value: "Ready" }]} />
         <Accordion
-          name="features"
-          items={[{ body: "Arcane Firearm", id: "feature", title: "Feature" }]}
+          name="workspace-sections"
+          items={[{ body: "Recent activity", id: "activity", title: "Activity" }]}
         />
         <PopoverMenu
-          id="sheet-menu"
-          label="Open sheet menu"
-          items={[{ href: "/sheet/lynott", label: "Sheet" }]}
+          id="workspace-menu"
+          label="Open workspace menu"
+          items={[{ href: "/settings", label: "Settings" }]}
         />
         <Button type="submit" variant="ghost">
           Save
@@ -106,15 +105,15 @@ describe("Character Sheet compatibility", () => {
       </Panel>,
     );
 
-    expect(html).toContain("Lynott");
+    expect(html).toContain("Workspace");
     expect(html).toContain('class="compact-list"');
     expect(html).toContain('data-variant="compact"');
-    expect(html).toContain('hx-post="/characters/lynott/inspiration"');
+    expect(html).toContain('hx-post="/settings/notifications"');
     expect(html).toContain('data-variant="ghost"');
-    expect(html).toContain('aria-label="Open sheet menu"');
+    expect(html).toContain('aria-label="Open workspace menu"');
   });
 
-  test("imports generic database and HTTP primitives", async () => {
+  test("composes data and transport helpers for server-app routes", async () => {
     const applied: string[] = [];
     const migrations: Migration[] = [{ id: "001", sql: "select 1" }];
     const providers = createProviderRegistry({
@@ -161,24 +160,21 @@ describe("Character Sheet compatibility", () => {
         return entry?.title;
       },
     );
-    const form = new FormValues({ email: "lynott@example.local" });
+    const form = new FormValues({ email: "user@example.test" });
     const responder = new HttpResponder();
 
     expect(applied).toEqual(["001"]);
     expect(plan.skipped).toEqual([{ id: "001", reason: "already-applied" }]);
     expect(provider.label).toBe("compat");
     expect(title).toBe("Compat");
-    expect(form.string("email")).toBe("lynott@example.local");
-    expect(form.optionalString("email")).toBe("lynott@example.local");
+    expect(form.string("email")).toBe("user@example.test");
+    expect(form.optionalString("email")).toBe("user@example.test");
     expect(new FormValues({ enabled: "on", limit: "5" }).boolean("enabled")).toBe(true);
     expect(new FormValues({ enabled: "on", limit: "5" }).number("limit")).toBe(5);
     expect(errorMessage("unknown")).toBe("Something went wrong.");
     expect(responder).toBeInstanceOf(HttpResponder);
     expect(isHtmxRequest({ "HX-Request": "true" })).toBe(true);
   });
-});
-
-describe("Hyper-Dank app-shape compatibility", () => {
   test("renders a static blog composition through public component imports", () => {
     const html = String(
       <Card as="article" className="blog-entry" radius="6px">
@@ -409,11 +405,37 @@ describe("Hyper-Dank app-shape compatibility", () => {
     expect(targets[0]).toMatchObject({ flowId: "demo", path: "/demo" });
   });
 
-  test("imports static content helpers through the public automation content subpath", () => {
+  test("builds static-content generator output through the public automation content subpath", async () => {
+    const tmp = await mkdtemp(path.join(os.tmpdir(), "hyper-dank-recipe-"));
+    const sourceDir = path.join(tmp, "content");
+    const destinationDir = path.join(tmp, "public");
+
+    await mkdir(path.join(sourceDir, "assets"), { recursive: true });
+    await writeFile(
+      path.join(sourceDir, "index.md"),
+      "---\ntitle: Notes\n---\n\n# Notes\n\nRead [docs](/docs/).",
+    );
+    await writeFile(path.join(sourceDir, "assets/site.css"), "body { color: black; }\n");
+
     const html = renderMarkdown("# Notes\n\nRead [docs](/docs/).", { basePath: "/hyper-dank" });
+
+    await buildStaticContentSite({
+      assets: [{ from: path.join(sourceDir, "assets"), to: "assets" }],
+      basePath: "/hyper-dank",
+      destinationDir,
+      renderDocument: ({ content, page }) =>
+        `<!doctype html><title>${page.title}</title>${content}`,
+      sourceDir,
+    });
 
     expect(html).toContain("<h1>Notes</h1>");
     expect(html).toContain('<a href="/hyper-dank/docs/">docs</a>');
+    await expect(readFile(path.join(destinationDir, "index.html"), "utf8")).resolves.toContain(
+      '<a href="/hyper-dank/docs/">docs</a>',
+    );
+    await expect(readFile(path.join(destinationDir, "assets/site.css"), "utf8")).resolves.toContain(
+      "body",
+    );
     expect(outputPathForContentPage("release-notes.md")).toBe("release-notes/index.html");
     expect(rewriteContentUrl("{{ '/recipes/' | relative_url }}", { basePath: "/hyper-dank" })).toBe(
       "/hyper-dank/recipes/",

@@ -66,3 +66,5 @@ predictable after both successful and failing assertions.
 
 The public docs site includes examples for provider typing, migration stores, planning, and
 lifecycle contract tests.
+
+For app-shape guidance, see the public recipes in `site/recipes.md`.

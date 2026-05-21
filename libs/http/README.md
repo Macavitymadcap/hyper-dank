@@ -18,3 +18,5 @@ helpers. App-specific auth, permissions, routes, and services stay in the consum
   native requests.
 
 The public docs site includes route-level examples for these helpers.
+
+For app-shape guidance, see the public recipes in `site/recipes.md`.
