@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.2.0...hyper-dank-v2.3.0) (2026-05-21)
+
+
+### Features
+
+* **platform:** implement campaign ledger bridge epic ([#78](https://github.com/Macavitymadcap/hyper-dank/issues/78)) ([634adbd](https://github.com/Macavitymadcap/hyper-dank/commit/634adbd28eb2fa50e27c0b807c5ef723f6fa0811))
+
 ## [2.2.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.1.0...hyper-dank-v2.2.0) (2026-05-21)
 
 
