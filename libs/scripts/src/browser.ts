@@ -26,6 +26,15 @@ export interface ScreenshotFlow<TServer = unknown> {
   states: ScreenshotStateBehavior<TServer>[];
 }
 
+export interface ScreenshotTargetSummary {
+  flowId: string;
+  flowLabel: string;
+  label: string;
+  path: string;
+  slug: string;
+  themes: Theme[];
+}
+
 export interface CaptureScreenshotsOptions<TServer = unknown> {
   baseUrl: string;
   flows: ScreenshotFlow<TServer>[];
@@ -94,4 +103,20 @@ export async function setTheme(page: Page, theme: Theme) {
       toggle.setAttribute("aria-checked", String(isDark));
     }
   }, theme);
+}
+
+export function summariseScreenshotTargets<TServer = unknown>(
+  flows: ScreenshotFlow<TServer>[],
+  themes: Theme[] = ["light", "dark"],
+): ScreenshotTargetSummary[] {
+  return flows.flatMap((flow) =>
+    flow.states.map((state) => ({
+      flowId: flow.id,
+      flowLabel: flow.label,
+      label: state.label,
+      path: state.path ?? "/",
+      slug: state.slug,
+      themes,
+    })),
+  );
 }

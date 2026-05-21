@@ -24,20 +24,36 @@ export interface WaitForHttpOptions {
   ok?: (response: Response) => boolean;
 }
 
+export interface AppServerHarness<TServer = StartedBunServer> {
+  server: TServer;
+  stop(): Promise<void>;
+  url: string;
+}
+
+export interface CreateAppServerHarnessOptions<TServer = StartedBunServer> {
+  readinessPath?: string;
+  setup?: (server: TServer) => Promise<void> | void;
+  start: () => Promise<TServer> | TServer;
+  stop?: (server: TServer) => Promise<void> | void;
+  url: (server: TServer) => string;
+  wait?: WaitForHttpOptions | false;
+}
+
 const DEFAULT_PORT_ATTEMPTS = 50;
 const DEFAULT_PORT_BASE = 45_000;
 const DEFAULT_PORT_RANGE = 20_000;
 
 export function startBunServer(options: StartBunServerOptions): StartedBunServer {
   const requestedPort = options.port ?? 0;
-  const attempts = requestedPort > 0 ? 1 : (options.attempts ?? DEFAULT_PORT_ATTEMPTS);
+  const attempts =
+    requestedPort > 0 ? (options.attempts ?? 1) : (options.attempts ?? DEFAULT_PORT_ATTEMPTS);
   const hostname = options.hostname ?? "127.0.0.1";
   let lastError: unknown;
 
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     const candidatePort =
       requestedPort > 0
-        ? requestedPort
+        ? requestedPort + attempt
         : dynamicPortCandidate(
             attempt,
             options.portBase ?? DEFAULT_PORT_BASE,
@@ -46,7 +62,7 @@ export function startBunServer(options: StartBunServerOptions): StartedBunServer
 
     try {
       const server = Bun.serve({
-        ...(options.hostname ? { hostname } : {}),
+        hostname,
         port: candidatePort,
         fetch: options.fetch,
       });
@@ -59,7 +75,7 @@ export function startBunServer(options: StartBunServerOptions): StartedBunServer
       };
     } catch (error) {
       lastError = error;
-      if (requestedPort > 0 || !isAddressInUseError(error)) throw error;
+      if (!isAddressInUseError(error) || (requestedPort > 0 && attempts === 1)) throw error;
     }
   }
 
@@ -82,6 +98,31 @@ export async function waitForHttp(url: string, options: WaitForHttpOptions = {})
   }
 
   throw new Error(`Timed out waiting for ${url}`);
+}
+
+export async function createAppServerHarness<TServer = StartedBunServer>(
+  options: CreateAppServerHarnessOptions<TServer>,
+): Promise<AppServerHarness<TServer>> {
+  const server = await options.start();
+  const url = options.url(server);
+
+  try {
+    await options.setup?.(server);
+    if (options.wait !== false) {
+      await waitForHttp(new URL(options.readinessPath ?? "/", url).toString(), options.wait);
+    }
+  } catch (error) {
+    await options.stop?.(server);
+    throw error;
+  }
+
+  return {
+    server,
+    url,
+    stop: async () => {
+      await options.stop?.(server);
+    },
+  };
 }
 
 export function dynamicPortCandidate(

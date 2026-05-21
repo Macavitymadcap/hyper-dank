@@ -19,11 +19,14 @@ import {
 - `github`: GitHub remote parsing, token lookup, REST requests, and current-branch pull request
   discovery.
 - `verification`: ordered verification gates with stop-on-failure behaviour and Markdown report
-  rendering.
-- `local-server`: dynamic Bun server startup and HTTP readiness polling.
-- `browser`: Playwright screenshot flow orchestration for light and dark theme states.
+  rendering, plus small gate builders for command-based checks.
+- `local-server`: dynamic Bun server startup, app server harness setup/teardown, and HTTP readiness
+  polling.
+- `browser`: Playwright screenshot flow orchestration for light and dark theme states, with target
+  summaries for PR evidence.
 - `pr-images`: PR image table generation and body section replacement.
-- `pa11y`: a small Pa11y runner wrapper that supports config paths and auth cookies.
+- `pa11y`: a small Pa11y runner wrapper that supports named targets, config paths, and auth cookies.
+- `static-site`: static artifact assertions and smoke checks for generated HTML directories.
 - `content`: Markdown, front matter, URL, route, page discovery, and static-content build helpers
   from `@macavitymadcap/hyper-dank-automation/content`.
 
@@ -69,14 +72,20 @@ const results = await runVerification([
 ```ts
 import {
   buildImagesSection,
+  createCommandGate,
   parseGitHubRepo,
   renderVerificationReport,
+  smokeStaticSite,
+  summariseScreenshotTargets,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
 
 const repo = parseGitHubRepo("Macavitymadcap/hyper-dank");
-const report = renderVerificationReport([], "/workspace");
+const gate = createCommandGate("check", "Static Checks", "bun", ["run", "check"], "Biome");
+const report = renderVerificationReport([{ ...gate, status: "not run", stdout: "", stderr: "" }], "/workspace");
 await waitForHttp("http://127.0.0.1:3000/healthz");
+await smokeStaticSite({ root: "dist", routes: [{ path: "index.html" }] });
+summariseScreenshotTargets([{ id: "home", label: "Home", description: "Home", states: [] }]);
 buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
 ```
 

@@ -42,7 +42,7 @@
     "test:e2e": "bun run build:app && bun -e 'await import(\"./apps/walking-pace/scripts/test-e2e.ts\")'",
     "test:e2e:ui": "bun run build:app && bun -e 'await import(\"./apps/walking-pace/scripts/test-e2e.ts\")' -- --ui",
     "test:healthcheck": "bun apps/walking-pace/scripts/test-healthcheck.ts",
-    "test:static-demo": "bun apps/walking-pace/scripts/test-static-demo.ts",
+    "test:static-demo": "bun -e 'await import(\"./apps/walking-pace/scripts/test-static-demo.ts\")'",
     "test:storybook": "bun apps/walking-pace/scripts/test-storybook.ts",
     "test:watch": "bun test --watch",
     "typecheck": "tsc --noEmit",

@@ -11,6 +11,28 @@ describe("FormValues", () => {
     expect(values.string("missing")).toBe("");
     expect(values.string("other")).toBe("");
   });
+
+  test("reads optional strings, numbers, and checkbox-style booleans", () => {
+    const values = new FormValues({
+      confirmed: "on",
+      disabled: "false",
+      empty: "",
+      repeated: ["one", "two"],
+      retries: "3",
+      title: "Draft",
+      invalid: "three",
+    });
+
+    expect(values.optionalString("title")).toBe("Draft");
+    expect(values.optionalString("missing")).toBeUndefined();
+    expect(values.optionalString("repeated")).toBeUndefined();
+    expect(values.number("retries")).toBe(3);
+    expect(values.number("empty")).toBeUndefined();
+    expect(values.number("invalid")).toBeUndefined();
+    expect(values.boolean("confirmed")).toBe(true);
+    expect(values.boolean("disabled")).toBe(false);
+    expect(values.boolean("missing")).toBe(false);
+  });
 });
 
 describe("errorMessage", () => {
