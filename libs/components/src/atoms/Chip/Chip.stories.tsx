@@ -30,7 +30,7 @@ const meta = {
       size: "compact",
     }),
   tags: ["autodocs"],
-  title: "Components/Atoms/Chip",
+  title: "Components/Shared/Atoms/Chip",
 } satisfies Meta<ChipStoryArgs>;
 
 export default meta;

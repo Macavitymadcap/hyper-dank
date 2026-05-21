@@ -28,7 +28,7 @@ const meta = {
   render: (args) =>
     renderStory(<LabelledOutput label={args.label} value={args.value} />, { size: "compact" }),
   tags: ["autodocs"],
-  title: "Components/Molecules/LabelledOutput",
+  title: "Components/Shared/Molecules/LabelledOutput",
 } satisfies Meta<LabelledOutputStoryArgs>;
 
 export default meta;

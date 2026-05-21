@@ -69,7 +69,7 @@ const meta = {
       ],
     ),
   tags: ["autodocs"],
-  title: "Components/Organisms/AdminUsersList",
+  title: "Components/Reference App/Organisms/AdminUsersList",
 } satisfies Meta<AdminUsersListStoryArgs>;
 
 export default meta;

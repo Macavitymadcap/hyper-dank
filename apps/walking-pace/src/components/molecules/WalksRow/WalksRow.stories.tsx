@@ -62,7 +62,7 @@ const meta = {
       [{ event: "submit", handler: args.onClear, preventDefault: true, selector: "form" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Molecules/WalksRow",
+  title: "Components/Reference App/Molecules/WalksRow",
 } satisfies Meta<WalksRowStoryArgs>;
 
 export default meta;

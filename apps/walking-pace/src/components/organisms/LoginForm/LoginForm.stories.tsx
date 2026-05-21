@@ -36,7 +36,7 @@ const meta = {
       [{ event: "submit", handler: args.onSubmit, preventDefault: true, selector: "form" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Organisms/LoginForm",
+  title: "Components/Reference App/Organisms/LoginForm",
 } satisfies Meta<LoginFormStoryArgs>;
 
 export default meta;

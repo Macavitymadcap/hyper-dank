@@ -53,7 +53,7 @@ const meta = {
       { size: "compact" },
     ),
   tags: ["autodocs"],
-  title: "Components/Atoms/Card",
+  title: "Components/Shared/Atoms/Card",
 } satisfies Meta<CardStoryArgs>;
 
 export default meta;

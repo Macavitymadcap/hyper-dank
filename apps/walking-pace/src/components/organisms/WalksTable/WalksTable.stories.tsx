@@ -78,7 +78,7 @@ const meta = {
       ],
     ),
   tags: ["autodocs"],
-  title: "Components/Organisms/WalksTable",
+  title: "Components/Reference App/Organisms/WalksTable",
 } satisfies Meta<WalksTableStoryArgs>;
 
 export default meta;

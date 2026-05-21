@@ -41,7 +41,7 @@ const meta = {
       [{ event: "input", handler: args.onInput, selector: "input" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Molecules/FormField",
+  title: "Components/Shared/Molecules/FormField",
 } satisfies Meta<FormFieldStoryArgs>;
 
 export default meta;

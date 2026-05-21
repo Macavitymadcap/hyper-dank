@@ -71,7 +71,7 @@ body {
 .storybook-surface {
   width: min(100%, 72rem);
   margin: 0 auto;
-  padding: var(--size-5);
+  padding: calc(var(--size-5) + 3.75rem) var(--size-5) var(--size-5);
 }
 
 .storybook-surface[data-size="compact"] {
@@ -80,12 +80,6 @@ body {
 
 .storybook-surface[data-size="full"] {
   width: 100%;
-}
-
-@media (max-width: 640px) {
-  .storybook-surface {
-    padding-block-start: calc(var(--size-5) + 3.75rem);
-  }
 }
 
 .storybook-stack {
@@ -191,6 +185,17 @@ body {
 .storybook-doc__section ol,
 .storybook-doc__section ul {
   padding-left: var(--size-4);
+}
+
+.storybook-reference-rules .compact-list-row {
+  grid-template-columns: minmax(7rem, 0.8fr) minmax(0, 2fr);
+}
+
+@media (max-width: 640px) {
+  .storybook-reference-rules .compact-list-row {
+    grid-template-columns: 1fr;
+    gap: var(--size-1);
+  }
 }
 
 .storybook-doc__callout {

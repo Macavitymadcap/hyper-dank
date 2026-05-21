@@ -13,6 +13,7 @@ import { SelectField } from "../molecules/SelectField";
 import { TextareaField } from "../molecules/TextareaField";
 import { ValidationSummary } from "../molecules/ValidationSummary";
 import { renderStory } from "./render";
+import { sharedIconStoryNames } from "./storybook-coverage";
 
 const meta = {
   parameters: {
@@ -88,32 +89,7 @@ export const IconCatalogue: Story = {
     renderStory(
       <div class="storybook-doc__section">
         <div class="storybook-row">
-          {[
-            "document",
-            "search",
-            "filter",
-            "edit",
-            "delete",
-            "add",
-            "save",
-            "download",
-            "upload",
-            "settings",
-            "user",
-            "lock",
-            "warning",
-            "close",
-            "external-link",
-            "home",
-            "calendar",
-            "tag",
-            "folder",
-            "database",
-            "dice",
-            "shield",
-            "book",
-            "map",
-          ].map((name) => (
+          {sharedIconStoryNames.map((name) => (
             <span class="storybook-icon-sample">
               <Icon name={name} label={name} />
               <span>{name}</span>
@@ -126,5 +102,7 @@ export const IconCatalogue: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("img", { name: "save" })).toBeInTheDocument();
     await expect(canvas.getByRole("img", { name: "dice" })).toBeInTheDocument();
+    await expect(canvas.getByRole("img", { name: "sun" })).toBeInTheDocument();
+    await expect(canvas.getByRole("img", { name: "moon" })).toBeInTheDocument();
   },
 };

@@ -18,7 +18,7 @@ const meta = {
     },
     layout: "fullscreen",
   },
-  title: "Components/Generic/App Builder Reuse",
+  title: "Components/Shared/App Builder Reuse",
 } satisfies Meta;
 
 export default meta;

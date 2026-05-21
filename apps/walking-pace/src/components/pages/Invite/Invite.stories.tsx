@@ -30,7 +30,7 @@ const meta = {
       size: "full",
     }),
   tags: ["autodocs"],
-  title: "Components/Pages/Invite",
+  title: "Components/Reference App/Pages/Invite",
 } satisfies Meta<InvitePageStoryArgs>;
 
 export default meta;

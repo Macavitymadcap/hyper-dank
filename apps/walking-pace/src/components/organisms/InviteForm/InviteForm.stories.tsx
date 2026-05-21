@@ -39,7 +39,7 @@ const meta = {
       [{ event: "submit", handler: args.onSubmit, preventDefault: true, selector: "form" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Organisms/InviteForm",
+  title: "Components/Reference App/Organisms/InviteForm",
 } satisfies Meta<InviteFormStoryArgs>;
 
 export default meta;
