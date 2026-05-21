@@ -4,16 +4,20 @@ title: Hyper-Dank
 ---
 
 <section class="hero">
-  <div class="hero-logo" aria-hidden="true"></div>
-  <h1>Hyper-Dank</h1>
-  <p class="lede">
-    Hyper-Dank is a small hypermedia-first toolkit for building server-rendered Hono, HTMX, Bun,
-    TypeScript, and JSX applications with reusable components, explicit data boundaries, and serious
-    verification.
-  </p>
-  <div class="button-row">
-    <a class="button" href="{{ '/pace/' | relative_url }}">Try the pace demo</a>
-    <a class="button secondary" href="{{ '/storybook/' | relative_url }}">Open Storybook</a>
+  <div class="hero-logo-shell" aria-hidden="true">
+    <div class="hero-logo"></div>
+  </div>
+  <div class="hero-copy">
+    <h1>Hyper-Dank</h1>
+    <p class="lede">
+      Hyper-Dank is a small hypermedia-first toolkit for building server-rendered Hono, HTMX, Bun,
+      TypeScript, and JSX applications with reusable components, explicit data boundaries, and
+      serious verification.
+    </p>
+    <div class="button-row">
+      <a class="button" href="{{ '/pace/' | relative_url }}">Try the pace demo</a>
+      <a class="button secondary" href="{{ '/storybook/' | relative_url }}">Open Storybook</a>
+    </div>
   </div>
 </section>
 
