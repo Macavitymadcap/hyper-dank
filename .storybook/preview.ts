@@ -119,7 +119,7 @@ const preview: Preview = {
           "Introduction",
           ["Component Philosophy", "Reference Map"],
           "Components",
-          ["Atoms", "Molecules", "Organisms", "Pages", "Templates", "Generic"],
+          ["Shared", "Reference App"],
           "Guides",
         ],
       },

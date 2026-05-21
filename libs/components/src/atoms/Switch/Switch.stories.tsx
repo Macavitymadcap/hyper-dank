@@ -47,7 +47,7 @@ const meta = {
       [{ event: "change", handler: args.onChange, selector: "input" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Atoms/Switch",
+  title: "Components/Shared/Atoms/Switch",
 } satisfies Meta<SwitchStoryArgs>;
 
 export default meta;

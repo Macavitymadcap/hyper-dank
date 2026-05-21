@@ -52,7 +52,7 @@ const meta = {
       [{ event: "submit", handler: args.onSubmit, preventDefault: true, selector: "form" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Molecules/HxForm",
+  title: "Components/Shared/Molecules/HxForm",
 } satisfies Meta<HxFormStoryArgs>;
 
 export default meta;

@@ -31,7 +31,7 @@ const meta = {
       { event: "submit", handler: args.onSubmit, preventDefault: true, selector: "form" },
     ]),
   tags: ["autodocs"],
-  title: "Components/Molecules/LogoutForm",
+  title: "Components/Reference App/Molecules/LogoutForm",
 } satisfies Meta<LogoutFormStoryArgs>;
 
 export default meta;

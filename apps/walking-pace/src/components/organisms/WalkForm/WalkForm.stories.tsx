@@ -53,7 +53,7 @@ const meta = {
       [{ event: "submit", handler: args.onSubmit, preventDefault: true, selector: "form" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Organisms/WalkForm",
+  title: "Components/Reference App/Organisms/WalkForm",
 } satisfies Meta<WalkFormStoryArgs>;
 
 export default meta;

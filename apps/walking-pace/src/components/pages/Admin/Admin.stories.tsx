@@ -46,7 +46,7 @@ const meta = {
       { size: "full" },
     ),
   tags: ["autodocs"],
-  title: "Components/Pages/Admin",
+  title: "Components/Reference App/Pages/Admin",
 } satisfies Meta<AdminPageStoryArgs>;
 
 export default meta;

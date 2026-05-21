@@ -30,7 +30,7 @@ const meta = {
       size: "compact",
     }),
   tags: ["autodocs"],
-  title: "Components/Organisms/Stats",
+  title: "Components/Reference App/Organisms/Stats",
 } satisfies Meta<StatsStoryArgs>;
 
 export default meta;

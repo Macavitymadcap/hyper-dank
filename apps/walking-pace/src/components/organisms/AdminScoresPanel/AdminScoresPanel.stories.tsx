@@ -33,7 +33,7 @@ const meta = {
       { size: "full" },
     ),
   tags: ["autodocs"],
-  title: "Components/Organisms/AdminScoresPanel",
+  title: "Components/Reference App/Organisms/AdminScoresPanel",
 } satisfies Meta<AdminScoresPanelStoryArgs>;
 
 export default meta;

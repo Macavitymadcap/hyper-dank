@@ -54,7 +54,7 @@ const meta = {
     );
   },
   tags: ["autodocs"],
-  title: "Components/Pages/Home",
+  title: "Components/Reference App/Pages/Home",
 } satisfies Meta<HomeStoryArgs>;
 
 export default meta;

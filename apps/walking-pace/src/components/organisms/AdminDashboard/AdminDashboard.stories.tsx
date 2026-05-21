@@ -43,7 +43,7 @@ const meta = {
       { size: "full" },
     ),
   tags: ["autodocs"],
-  title: "Components/Organisms/AdminDashboard",
+  title: "Components/Reference App/Organisms/AdminDashboard",
 } satisfies Meta<AdminDashboardStoryArgs>;
 
 export default meta;

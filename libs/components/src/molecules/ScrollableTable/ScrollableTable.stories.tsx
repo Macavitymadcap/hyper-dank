@@ -49,7 +49,7 @@ const meta = {
       { size: "full" },
     ),
   tags: ["autodocs"],
-  title: "Components/Molecules/ScrollableTable",
+  title: "Components/Shared/Molecules/ScrollableTable",
 } satisfies Meta<ScrollableTableStoryArgs>;
 
 export default meta;
