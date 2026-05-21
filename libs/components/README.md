@@ -76,3 +76,5 @@ rendered states, accessibility notes, and interaction examples.
 
 The shared components deliberately stop at generic structure and CSS contracts. Product language,
 feature organisms, route paths, permissions, and persistence stay in the consuming application.
+
+For app-shape guidance, see the public recipes in `site/recipes.md`.

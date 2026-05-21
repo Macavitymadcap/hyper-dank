@@ -111,3 +111,5 @@ Keep app-specific knowledge local: seeded users, route paths, browser flows, and
 Shared helpers should own mechanics such as command execution, GitHub requests, verification
 reporting, server readiness, screenshots, Pa11y invocation, PR image Markdown, and generic static
 content rendering.
+
+For app-shape guidance, see the public recipes in `site/recipes.md`.
