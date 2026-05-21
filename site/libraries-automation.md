@@ -27,12 +27,22 @@ choices remain in the app.
 ```ts
 import {
   buildImagesSection,
+  createCommandGate,
   getGitHubRepo,
   getGitHubToken,
+  runPa11yTargets,
   runVerification,
+  smokeStaticSite,
+  summariseScreenshotTargets,
   updateImagesSection,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
+
+import {
+  buildStaticContentSite,
+  escapeHtml,
+  renderMarkdown,
+} from "@macavitymadcap/hyper-dank-automation/content";
 ```
 
 ## Helper Groups
@@ -41,19 +51,21 @@ import {
 | --- | --- |
 | Process helpers | Run sync and async commands with predictable cwd, env, stdio, captured output, and allow-failure behaviour. |
 | GitHub helpers | Parse repository remotes, discover tokens, make REST requests, find pull requests, and update PR bodies. |
-| Verification helpers | Run ordered gates, stop on failure, and render Markdown verification reports. |
-| Local server helpers | Start Bun test servers on dynamic ports and wait for HTTP readiness. |
-| Browser helpers | Orchestrate Playwright screenshot flows and theme setup. |
+| Verification helpers | Run ordered gates, stop on failure, build command gates, and render Markdown verification reports. |
+| Local server helpers | Start Bun test servers, wrap app server setup/teardown, and wait for HTTP readiness. |
+| Browser helpers | Orchestrate Playwright screenshot flows, theme setup, and target summaries. |
 | PR image helpers | Build and replace Markdown image sections for persisted PR screenshots. |
-| A11y helpers | Run Pa11y with optional config paths and auth cookies while app routes stay local. |
+| A11y helpers | Run Pa11y for one URL or named target lists with optional config paths and auth cookies while app routes stay local. |
+| Static-site helpers | Assert generated static artifacts and smoke-check expected file contents. |
+| Content helpers | Parse front matter, render Markdown, rewrite content URLs, discover Markdown pages, and build static content through an app-owned document renderer. |
 
-## Walking Pace Example
+## Verification Example
 
 ```ts
-import { runVerification } from "@macavitymadcap/hyper-dank-automation";
+import { createCommandGate, runVerification } from "@macavitymadcap/hyper-dank-automation";
 
 const results = await runVerification([
-  { id: "check", name: "Static Checks", tooling: "Biome", command: "bun", args: ["run", "check"] },
+  createCommandGate("check", "Static Checks", "bun", ["run", "check"], "Biome"),
 ]);
 ```
 
@@ -62,16 +74,90 @@ const results = await runVerification([
 ```ts
 import {
   buildImagesSection,
+  createCommandGate,
   parseGitHubRepo,
   renderVerificationReport,
+  smokeStaticSite,
+  summariseScreenshotTargets,
   waitForHttp,
 } from "@macavitymadcap/hyper-dank-automation";
 
 const repo = parseGitHubRepo("Macavitymadcap/hyper-dank");
-const report = renderVerificationReport([], "/workspace");
+const gate = createCommandGate("check", "Static Checks", "bun", ["run", "check"], "Biome");
+const report = renderVerificationReport(
+  [{ ...gate, status: "not run", stdout: "", stderr: "" }],
+  "/workspace",
+);
 await waitForHttp("http://127.0.0.1:3000/healthz");
+await smokeStaticSite({ root: "dist", routes: [{ path: "index.html" }] });
+summariseScreenshotTargets([{ id: "home", label: "Home", description: "Home", states: [] }]);
 buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
 ```
+
+`createCommandGate()` builds the common command-shaped verification entries used by
+`runVerification()`, while `renderVerificationReport()` turns completed or pending gate results into
+Markdown. `smokeStaticSite()` and `assertStaticArtifact()` are for generated local directories; they
+check relative paths and reject paths that escape the static root. `summariseScreenshotTargets()`
+describes app-owned screenshot flows for PR evidence without needing a browser page.
+
+`runVerification()` runs gates in order and stops after the first failure. Each gate returns an id,
+name, status, stdout, stderr, and optional duration. Command gates accept a command, arguments, cwd,
+environment, display tooling name, and optional allow-failure setting, so apps can build local
+verifiers without duplicating process handling.
+
+`getGitHubRepo()` and `parseGitHubRepo()` understand normal GitHub remote formats and return an
+owner/name pair. `getGitHubToken()` reads the token source used by local scripts, while
+`githubRequest()` applies the standard GitHub API headers. Higher-level helpers such as
+`getPullRequest()` and PR body update utilities keep app scripts focused on which section to update
+and what evidence to attach.
+
+`waitForHttp(url)` polls until a local route is ready or times out. Pair it with `startBunServer()`
+or an app-owned server command when a script needs to start a temporary review app, run checks, and
+tear it down predictably.
+
+For accessibility batches, pass named targets to `runPa11yTargets()`:
+
+```ts
+await runPa11yTargets(
+  [
+    { name: "Home", path: "/" },
+    { name: "Admin", path: "/admin", cookie: "session=admin" },
+  ],
+  { baseUrl: "http://127.0.0.1:3000", configPath: "pa11y-config.cjs" },
+);
+```
+
+## Content Example
+
+```ts
+import {
+  buildStaticContentSite,
+  escapeHtml,
+  renderMarkdown,
+} from "@macavitymadcap/hyper-dank-automation/content";
+
+renderMarkdown("# Release notes", { basePath: "/docs" });
+
+await buildStaticContentSite({
+  assets: [{ from: "site/assets", to: "assets" }],
+  basePath: "/docs",
+  destinationDir: "public",
+  renderDocument: ({ content, page }) =>
+    `<!doctype html><title>${escapeHtml(page.title)}</title>${content}`,
+  sourceDir: "site",
+});
+```
+
+The `/content` subpath includes `parseFrontMatter`, `renderMarkdown`, `renderInlineMarkdown`,
+`rewriteContentUrl`, `relativeContentUrl`, `discoverMarkdownPages`, `outputPathForContentPage`,
+`titleFromFilename`, and `buildStaticContentSite`. These helpers return strings or typed page
+models and throw normal filesystem errors with the source paths supplied by the caller when files
+cannot be read or written.
+
+`buildStaticContentSite()` accepts the source directory, destination directory, base path, assets,
+and an app-owned document renderer. The helper discovers Markdown pages, renders Markdown, rewrites
+content URLs, writes pretty route output, and copies assets. The app still owns navigation, layout,
+metadata, CSS, search, feeds, and any content model beyond front matter plus Markdown.
 
 ## Adoption Boundary
 
@@ -81,6 +167,7 @@ buildImagesSection({ branch: "main", repo, flows: [], screenshots: [] });
 | GitHub request helpers and PR-body section replacement. | PR narrative, release policy, and review expectations. |
 | Dynamic local server and browser helpers. | App routes, seeded users, fixtures, and smoke journeys. |
 | Pa11y runner wrapper. | A11y configuration and product-specific authentication cookies. |
+| Markdown, URL, route, and static-content build mechanics. | Document chrome, navigation, CSS, deployment layout, taxonomy, RSS, search, and product metadata. |
 
 For app-shape examples, see [`/recipes/`]({{ '/recipes/' | relative_url }}).
 

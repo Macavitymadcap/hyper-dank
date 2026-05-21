@@ -1,3 +1,4 @@
+import { Callout, CompactList } from "@macavitymadcap/hyper-dank-ui";
 import type { Meta, StoryObj } from "@storybook/html-vite";
 import { expect, within } from "storybook/test";
 import { renderStory } from "./render";
@@ -75,12 +76,12 @@ export const AtomicDesign: Story = {
           </section>
         </div>
 
-        <aside class="storybook-doc__callout">
+        <Callout title="Extraction rule">
           <p>
             New UI should usually start as a page or organism story. Extract lower-level atoms or
             molecules only when a pattern repeats or needs a stable testing surface.
           </p>
-        </aside>
+        </Callout>
       </article>,
     ),
   play: async ({ canvasElement }) => {
@@ -108,19 +109,31 @@ export const ReferenceMap: Story = {
 
         <section class="storybook-doc__section" aria-labelledby="reference-rules-heading">
           <h2 id="reference-rules-heading">Documentation rules</h2>
-          <ul>
-            <li>
-              Inputs include props, child content, CSS custom properties, and HTMX attributes.
-            </li>
-            <li>Outputs include rendered semantic HTML, data attributes, and class hooks.</li>
-            <li>Events include native form, button, link, disclosure, and table interactions.</li>
-            <li>
-              Accessibility notes cover labels, keyboard behaviour, landmarks, and focus targets.
-            </li>
-            <li>
-              Ownership notes call out what stays app-specific rather than shared package logic.
-            </li>
-          </ul>
+          <CompactList
+            className="storybook-reference-rules"
+            items={[
+              {
+                label: "Inputs",
+                value: "Props, child content, CSS custom properties, and HTMX attributes.",
+              },
+              {
+                label: "Outputs",
+                value: "Semantic HTML, data attributes, and class hooks.",
+              },
+              {
+                label: "Events",
+                value: "Native form, button, link, disclosure, and table interactions.",
+              },
+              {
+                label: "Accessibility",
+                value: "Labels, keyboard behaviour, landmarks, and focus targets.",
+              },
+              {
+                label: "Ownership",
+                value: "What stays app-specific rather than shared package logic.",
+              },
+            ]}
+          />
         </section>
 
         <div class="storybook-doc__table-scroll" tabindex={0}>

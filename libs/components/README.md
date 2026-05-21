@@ -32,18 +32,33 @@ pipeline; importing the package in server code does not automatically load style
 ## Public Exports
 
 - Atoms: `Badge`, `BadgeProps`, `Button`, `ButtonProps`, `Card`, `CardElement`, `CardProps`, `Chip`,
-  `ChipProps`, `Icon`, `IconProps`, `Panel`, `PanelProps`, `Switch`, `SwitchProps`, `TableCell`,
+  `ChipProps`, `Icon`, `IconProps`, `IconButton`, `IconButtonProps`, `LinkButton`,
+  `LinkButtonProps`, `Panel`, `PanelProps`, `Switch`, `SwitchProps`, `TableCell`,
   `TableCellProps`.
-- Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `CompactList`, `CompactListItem`,
-  `CompactListProps`, `FormField`, `FormFieldProps`, `HxForm`, `HxFormProps`, `InputGroup`,
-  `InputGroupProps`, `LabelledOutput`, `LabelledOutputProps`, `PopoverMenu`, `PopoverMenuItem`,
-  `PopoverMenuProps`, `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps`.
+- Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `AppShell`, `AppShellProps`,
+  `Breadcrumbs`, `BreadcrumbItem`, `BreadcrumbsProps`, `ButtonGroup`, `ButtonGroupProps`,
+  `Callout`, `CalloutProps`, `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`,
+  `CodeBlockProps`, `CompactList`, `CompactListItem`, `CompactListProps`, `Dialog`,
+  `DialogProps`, `EmptyState`, `EmptyStateProps`, `Fieldset`, `FieldsetProps`, `FormField`,
+  `FormFieldProps`, `HxForm`, `HxFormProps`, `InputGroup`, `InputGroupProps`, `LabelledOutput`,
+  `LabelledOutputProps`, `LoadingIndicator`, `LoadingIndicatorProps`, `MetadataList`,
+  `MetadataListItem`, `MetadataListProps`, `Notice`, `NoticeProps`, `PageHeader`,
+  `PageHeaderProps`, `Pagination`, `PaginationProps`, `PopoverMenu`, `PopoverMenuItem`,
+  `PopoverMenuProps`, `Progress`, `ProgressProps`, `Prose`, `ProseProps`, `RadioGroup`,
+  `RadioGroupOption`, `RadioGroupProps`, `ScrollableTable`, `ScrollableTableColumn`,
+  `ScrollableTableProps`, `SectionHeader`, `SectionHeaderProps`, `SegmentedControl`,
+  `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
+  `SelectFieldProps`, `SideNav`, `SideNavItem`, `SideNavProps`, `StatBlock`, `StatBlockProps`,
+  `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
+  `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
+  `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,
+  `ValidationSummaryProps`.
 - Shared types: `HtmxProps`.
 - CSS: `@macavitymadcap/hyper-dank-ui/styles.css`.
 
-Compatibility coverage exercises these exports in Character Sheet-style, static blog,
-dashboard/admin, static-demo, and server-app compositions. The public docs site documents every
-export and points to Storybook examples for each component.
+Compatibility coverage exercises these exports in server-app, static blog, dashboard/admin,
+static-demo, and script-consumer compositions. Storybook is the canonical component reference for
+rendered states, accessibility notes, and interaction examples.
 
 ## Composition Patterns
 
@@ -52,9 +67,14 @@ export and points to Storybook examples for each component.
 - Static blogs can use `Card`, `Panel`, `Badge`, and `CompactList` for article summaries and
   metadata while keeping content routing in the static-site app.
 - Dashboards and admin tools should combine `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, and
-  `PopoverMenu` for dense, progressively enhanced screens.
+  `PopoverMenu` with `AppShell`, `PageHeader`, `Toolbar`, `Tabs`, `Pagination`, `StatBlock`, and
+  `StatusSummary` for dense, progressively enhanced screens.
 - Static demos can use `InputGroup`, `LabelledOutput`, `Button`, and `Panel` without importing
   server-only app code.
+- Docs and static blogs can use `Prose`, `CodeBlock`, `Callout`, `MetadataList`, `TimelineList`,
+  `Breadcrumbs`, and `SideNav` while keeping routing and content collections app-owned.
 
 The shared components deliberately stop at generic structure and CSS contracts. Product language,
 feature organisms, route paths, permissions, and persistence stay in the consuming application.
+
+For app-shape guidance, see the public recipes in `site/recipes.md`.

@@ -25,7 +25,7 @@ const meta = {
   render: (args) =>
     renderDocumentStory(<LoginPage error={args.error || undefined} />, { size: "full" }),
   tags: ["autodocs"],
-  title: "Components/Pages/Login",
+  title: "Components/Reference App/Pages/Login",
 } satisfies Meta<LoginPageStoryArgs>;
 
 export default meta;

@@ -1,7 +1,21 @@
 import type { Context } from "hono";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+
+export const HTMX_REQUEST_HEADER = "HX-Request";
+
+export type HeaderSource =
+  | Headers
+  | Record<string, string | null | undefined>
+  | { get(name: string): string | null | undefined };
+
+export interface FragmentOrPageOptions {
+  fragment: string | Promise<string>;
+  page: string | Promise<string>;
+  status?: ContentfulStatusCode;
+}
 
 export class HttpResponder {
-  constructor(private readonly htmxHeaderName = "HX-Request") {}
+  constructor(private readonly htmxHeaderName = HTMX_REQUEST_HEADER) {}
 
   isHtmxRequest(context: Context): boolean {
     return context.req.header(this.htmxHeaderName) === "true";
@@ -23,4 +37,28 @@ export class HttpResponder {
     if (cookie) response.headers.append("set-cookie", cookie);
     return response;
   }
+}
+
+export function isHtmxRequest(headers: HeaderSource, headerName = HTMX_REQUEST_HEADER): boolean {
+  return readHeader(headers, headerName) === "true";
+}
+
+export async function fragmentOrPage(
+  context: Context,
+  options: FragmentOrPageOptions,
+  responder = new HttpResponder(),
+): Promise<Response> {
+  const body = await (responder.isHtmxRequest(context) ? options.fragment : options.page);
+  return context.html(body, options.status ?? 200);
+}
+
+function readHeader(headers: HeaderSource, name: string): string | undefined {
+  if (headers instanceof Headers) return headers.get(name) ?? undefined;
+
+  if ("get" in headers && typeof headers.get === "function") {
+    return headers.get(name) ?? undefined;
+  }
+
+  const headerRecord = headers as Record<string, string | null | undefined>;
+  return headerRecord[name] ?? headerRecord[name.toLowerCase()] ?? undefined;
 }

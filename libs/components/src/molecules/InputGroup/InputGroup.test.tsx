@@ -14,6 +14,8 @@ describe("InputGroup", () => {
         min={0}
         max={100}
         placeholder="0.0"
+        helpText="Use miles."
+        error="Enter miles."
       />,
     );
 
@@ -23,5 +25,8 @@ describe("InputGroup", () => {
     expect(html).toContain('name="miles"');
     expect(html).toContain('step="0.1"');
     expect(html).toContain('required=""');
+    expect(html).toContain('aria-describedby="miles-help miles-error"');
+    expect(html).toContain('aria-invalid="true"');
+    expect(html).toContain('role="alert"');
   });
 });

@@ -2,6 +2,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
+  createCommandGate,
   renderVerificationReport,
   runVerification,
   type VerificationGate,
@@ -12,83 +13,59 @@ const reportPath =
   process.env.VERIFY_REPORT_PATH ?? path.join(root, ".cache", "verification-report.md");
 
 const gates: VerificationGate[] = [
-  {
-    id: "check",
-    name: "Static Checks",
-    tooling: "Biome and deprecated TypeScript API scanner",
-    command: "bun",
-    args: ["run", "check"],
-  },
-  {
-    id: "typecheck",
-    name: "Typecheck",
-    tooling: "TypeScript",
-    command: "bun",
-    args: ["run", "typecheck"],
-  },
-  {
-    id: "unit",
-    name: "Unit And Contract Tests",
-    tooling: "Bun test",
-    command: "bun",
-    args: ["test"],
-  },
-  {
-    id: "diff-check",
-    name: "Patch Whitespace",
-    tooling: "git diff --check",
-    command: "git",
-    args: ["diff", "--check"],
-  },
-  {
-    id: "build",
-    name: "Workspace Build",
-    tooling: "Package declarations, Vite, and Storybook build",
-    command: "bun",
-    args: ["run", "build"],
-  },
-  {
-    id: "healthcheck",
-    name: "Production Healthcheck",
-    tooling: "Root start command and HTTP healthcheck",
-    command: "bun",
-    args: ["run", "test:healthcheck"],
-  },
-  {
-    id: "static-demo",
-    name: "Static Pace Demo",
-    tooling: "Vite static build and Playwright smoke",
-    command: "bun",
-    args: ["run", "test:static-demo"],
-  },
-  {
-    id: "compat",
-    name: "Package Compatibility",
-    tooling: "Packed package smoke test",
-    command: "bun",
-    args: ["run", "test:compat"],
-  },
-  {
-    id: "storybook",
-    name: "Storybook Browser Tests",
-    tooling: "Storybook test runner",
-    command: "bun",
-    args: ["run", "test:storybook"],
-  },
-  {
-    id: "e2e",
-    name: "Browser E2E",
-    tooling: "Playwright",
-    command: "bun",
-    args: ["run", "test:e2e"],
-  },
-  {
-    id: "a11y",
-    name: "Accessibility",
-    tooling: "Pa11y",
-    command: "bun",
-    args: ["run", "test:a11y"],
-  },
+  createCommandGate(
+    "check",
+    "Static Checks",
+    "bun",
+    ["run", "check"],
+    "Biome and deprecated TypeScript API scanner",
+  ),
+  createCommandGate("typecheck", "Typecheck", "bun", ["run", "typecheck"], "TypeScript"),
+  createCommandGate("unit", "Unit And Contract Tests", "bun", ["test"], "Bun test"),
+  createCommandGate(
+    "diff-check",
+    "Patch Whitespace",
+    "git",
+    ["diff", "--check"],
+    "git diff --check",
+  ),
+  createCommandGate(
+    "build",
+    "Workspace Build",
+    "bun",
+    ["run", "build"],
+    "Package declarations, Vite, and Storybook build",
+  ),
+  createCommandGate(
+    "healthcheck",
+    "Production Healthcheck",
+    "bun",
+    ["run", "test:healthcheck"],
+    "Root start command and HTTP healthcheck",
+  ),
+  createCommandGate(
+    "static-demo",
+    "Static Pace Demo",
+    "bun",
+    ["run", "test:static-demo"],
+    "Vite static build and Playwright smoke",
+  ),
+  createCommandGate(
+    "compat",
+    "Package Compatibility",
+    "bun",
+    ["run", "test:compat"],
+    "Packed package smoke test",
+  ),
+  createCommandGate(
+    "storybook",
+    "Storybook Browser Tests",
+    "bun",
+    ["run", "test:storybook"],
+    "Storybook test runner",
+  ),
+  createCommandGate("e2e", "Browser E2E", "bun", ["run", "test:e2e"], "Playwright"),
+  createCommandGate("a11y", "Accessibility", "bun", ["run", "test:a11y"], "Pa11y"),
 ];
 
 const results = await runVerification(gates, {

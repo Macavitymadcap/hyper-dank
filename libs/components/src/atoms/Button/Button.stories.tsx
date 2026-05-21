@@ -45,7 +45,7 @@ const meta = {
       [{ event: "click", handler: args.onClick, selector: "button" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Atoms/Button",
+  title: "Components/Shared/Atoms/Button",
 } satisfies Meta<ButtonStoryArgs>;
 
 export default meta;

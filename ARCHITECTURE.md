@@ -298,7 +298,9 @@ The tests are split by behaviour boundary rather than by implementation detail.
 - `service.test.ts` under `services/invitations/` verifies invite creation, acceptance, and user-cap enforcement.
 - `repository-contracts.ts` defines shared SQLite/Postgres provider and repository conformance suites.
 - `app.e2e.ts` uses Playwright against a seeded in-memory app server to cover browser login, HTMX mutations, stats refresh, and admin score review.
-- Storybook stories cover generic library components and important app states; `bun run test:storybook` smoke-tests those stories in Chromium.
+- Storybook stories cover `Components/Shared` package exports and important
+  `Components/Reference App` states; `bun run test:storybook` smoke-tests those stories in
+  Chromium.
 - `calculator.test.ts` covers pure pace, speed, average, median, and validation behaviour.
 - The consumer compatibility suite verifies the workspace packages can be imported through public
   package paths by an external-style test frame.

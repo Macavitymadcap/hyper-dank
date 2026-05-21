@@ -1,3 +1,4 @@
+import { Callout } from "@macavitymadcap/hyper-dank-ui";
 import type { Meta, StoryObj } from "@storybook/html-vite";
 import { expect, within } from "storybook/test";
 import { renderStory } from "./render";
@@ -68,13 +69,13 @@ export const Usage: Story = {
           </section>
         </div>
 
-        <aside class="storybook-doc__callout">
+        <Callout title="Storybook structure">
           <p>
             The Storybook catalog is intentionally component-first: each atom, molecule, organism,
             template, and page owns its controls, docs, and interaction checks beside the
             implementation.
           </p>
-        </aside>
+        </Callout>
       </article>,
     ),
   play: async ({ canvasElement }) => {
@@ -186,13 +187,13 @@ export const TestingPipeline: Story = {
           </section>
         </div>
 
-        <aside class="storybook-doc__callout">
+        <Callout title="Smallest useful check">
           <p>
             Component stories should include the smallest useful play check: assert the landmark,
             control output, form field, or table row that proves the documented state actually
             rendered.
           </p>
-        </aside>
+        </Callout>
       </article>,
     ),
   play: async ({ canvasElement }) => {

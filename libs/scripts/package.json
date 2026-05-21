@@ -12,6 +12,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./src/index.ts"
+    },
+    "./content": {
+      "types": "./dist/content/index.d.ts",
+      "import": "./src/content/index.ts"
     }
   },
   "types": "./dist/index.d.ts",

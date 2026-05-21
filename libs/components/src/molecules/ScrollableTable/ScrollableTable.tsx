@@ -16,18 +16,21 @@ export interface ScrollableTableColumn {
 /** Responsive table shell with sticky headers and keyboard-reachable scroll bodies. */
 export interface ScrollableTableProps {
   /** Table row elements owned by the consuming app. */
-  children: unknown;
+  children?: unknown;
   className?: string;
   /** Ordered column metadata used for headers and CSS grid tracks. */
   columns: ScrollableTableColumn[];
   columnsTemplate?: string;
+  emptyState?: unknown;
   headerHeight?: string;
   /** Enables the scroll-body contract and gives tbody a keyboard focus target. */
   isScrollable?: boolean;
+  loading?: unknown;
   mobileColumnsTemplate?: string;
   mobileHeaderHeight?: string;
   mobileRowHeight?: string;
   mobileScrollBodyRows?: number;
+  pagination?: unknown;
   rowClassName?: string;
   rowHeight?: string;
   scrollBodyRows?: number;
@@ -38,12 +41,15 @@ export const ScrollableTable = ({
   className,
   columns,
   columnsTemplate,
+  emptyState,
   headerHeight,
   isScrollable = false,
+  loading,
   mobileColumnsTemplate,
   mobileHeaderHeight,
   mobileRowHeight,
   mobileScrollBodyRows,
+  pagination,
   rowClassName,
   rowHeight,
   scrollBodyRows,
@@ -73,23 +79,29 @@ export const ScrollableTable = ({
       data-scrollable={isScrollable ? "true" : undefined}
       style={customProperties || undefined}
     >
-      <table className={tableClasses}>
-        <thead>
-          <tr className={headerRowClasses}>
-            {columns.map((column) => (
-              <th
-                key={column.key}
-                className={column.className}
-                data-action-column={column.isAction ? "true" : undefined}
-                scope="col"
-              >
-                {column.header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody tabindex={isScrollable ? 0 : undefined}>{children}</tbody>
-      </table>
+      {loading ? <div className="scrollable-table-loading">{loading}</div> : undefined}
+      {children ? (
+        <table className={tableClasses}>
+          <thead>
+            <tr className={headerRowClasses}>
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  className={column.className}
+                  data-action-column={column.isAction ? "true" : undefined}
+                  scope="col"
+                >
+                  {column.header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody tabindex={isScrollable ? 0 : undefined}>{children}</tbody>
+        </table>
+      ) : (
+        emptyState
+      )}
+      {pagination ? <div className="scrollable-table-pagination">{pagination}</div> : undefined}
     </div>
   );
 };

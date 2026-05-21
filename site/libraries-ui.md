@@ -51,24 +51,26 @@ layer after the package CSS.
 
 | Export | Purpose | Demonstration |
 | --- | --- | --- |
-| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | Generic component story |
-| `Button`, `ButtonProps` | Native button with `primary`, `danger`, `outline`, `text`, and `ghost` variants plus optional HTMX attributes. | `Components/Atoms/Button` |
-| `Card`, `CardElement`, `CardProps` | Semantic surface rendered as `article`, `div`, `main`, or `section`, with size custom-property hooks. | `Components/Atoms/Card` |
-| `Chip`, `ChipProps` | Inline status text with optional class hook. | `Components/Atoms/Chip` |
-| `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | Generic component story |
-| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | Generic component story |
-| `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Atoms/Switch` |
-| `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Atoms/TableCell` |
-| `HtmxProps` | Shared prop interface for supported `hx-*` attributes such as `hx-post`, `hx-target`, `hx-swap`, and `hx-trigger`. | Button, Switch, and HxForm stories |
-| `Accordion`, `AccordionItem`, `AccordionProps` | Grouped `details` disclosure list with optional metadata and controls. | Generic component story |
-| `CompactList`, `CompactListItem`, `CompactListProps` | Definition-list style rows for label, value, metadata, and controls. | Generic component story |
-| `FormField`, `FormFieldProps` | Labelled native input wrapper, or a label/control wrapper when children are supplied. | `Components/Molecules/FormField` |
-| `HxForm`, `HxFormProps` | Native `action`/`method` form wrapper that also spreads HTMX attributes for enhanced submissions. | `Components/Molecules/HxForm` |
-| `InputGroup`, `InputGroupProps` | Numeric/text input group used by the pace form pattern. | `Components/Molecules/InputGroup` |
-| `LabelledOutput`, `LabelledOutputProps` | Label/value output pair with placeholder behaviour for empty numbers. | `Components/Molecules/LabelledOutput` |
-| `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | Generic component story |
-| `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Molecules/ScrollableTable` |
+| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | `Components/Shared` |
+| `Button`, `ButtonProps` | Native button with `primary`, `danger`, `outline`, `text`, and `ghost` variants plus optional HTMX attributes. | `Components/Shared/Button` |
+| `Card`, `CardElement`, `CardProps` | Semantic surface rendered as `article`, `div`, `main`, or `section`, with size custom-property hooks. | `Components/Shared/Card` |
+| `Chip`, `ChipProps` | Inline status text with optional class hook. | `Components/Shared/Chip` |
+| `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | `Components/Shared` |
+| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | `Components/Shared` |
+| `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Shared/Switch` |
+| `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Shared/TableCell` |
+| `HtmxProps` | Shared prop interface for supported `hx-*` attributes such as `hx-post`, `hx-target`, `hx-swap`, and `hx-trigger`. | Shared form and control stories |
+| `Accordion`, `AccordionItem`, `AccordionProps` | Grouped `details` disclosure list with optional metadata and controls. | `Components/Shared` |
+| `CompactList`, `CompactListItem`, `CompactListProps` | Definition-list style rows for label, value, metadata, and controls. | `Components/Shared` |
+| `FormField`, `FormFieldProps` | Labelled native input wrapper, or a label/control wrapper when children are supplied. | `Components/Shared/FormField` |
+| `HxForm`, `HxFormProps` | Native `action`/`method` form wrapper that also spreads HTMX attributes for enhanced submissions. | `Components/Shared/HxForm` |
+| `InputGroup`, `InputGroupProps` | Labelled input group for compact numeric or text-entry forms. | `Components/Shared/InputGroup` |
+| `LabelledOutput`, `LabelledOutputProps` | Label/value output pair with placeholder behaviour for empty numbers. | `Components/Shared/LabelledOutput` |
+| `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | `Components/Shared` |
+| `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Shared/ScrollableTable` |
 
+Storybook is the canonical rendered reference. Shared package examples are grouped under
+`Components/Shared`, while Walking Pace examples are grouped under `Components/Reference App`.
 Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' | relative_url }}).
 
 ## Composition Patterns

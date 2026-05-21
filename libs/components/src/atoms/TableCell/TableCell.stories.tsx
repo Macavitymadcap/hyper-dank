@@ -34,7 +34,7 @@ const meta = {
       { size: "full" },
     ),
   tags: ["autodocs"],
-  title: "Components/Atoms/TableCell",
+  title: "Components/Shared/Atoms/TableCell",
 } satisfies Meta<TableCellStoryArgs>;
 
 export default meta;

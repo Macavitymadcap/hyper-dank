@@ -39,7 +39,7 @@ const meta = {
       { size: "full" },
     ),
   tags: ["autodocs"],
-  title: "Components/Templates/Layout",
+  title: "Components/Reference App/Templates/Layout",
 } satisfies Meta<LayoutStoryArgs>;
 
 export default meta;

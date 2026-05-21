@@ -63,7 +63,7 @@ const meta = {
       [{ event: "input", handler: args.onInput, selector: "input" }],
     ),
   tags: ["autodocs"],
-  title: "Components/Molecules/InputGroup",
+  title: "Components/Shared/Molecules/InputGroup",
 } satisfies Meta<InputGroupStoryArgs>;
 
 export default meta;
