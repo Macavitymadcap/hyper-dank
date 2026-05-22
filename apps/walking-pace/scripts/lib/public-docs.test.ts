@@ -120,6 +120,123 @@ describe("public docs", () => {
 
     expect(missingExports).toEqual([]);
   });
+
+  test("keep recipe guidance complete and navigable", () => {
+    const recipes = readFileSync(path.join(root, "site/recipes.md"), "utf8");
+    const expectedSections = [
+      {
+        id: "server-app",
+        packages: [
+          "@macavitymadcap/hyper-dank-ui",
+          "@macavitymadcap/hyper-dank-transport",
+          "@macavitymadcap/hyper-dank-data",
+          "@macavitymadcap/hyper-dank-automation",
+        ],
+      },
+      {
+        id: "static-blog",
+        packages: [
+          "@macavitymadcap/hyper-dank-ui",
+          "@macavitymadcap/hyper-dank-automation/content",
+          "@macavitymadcap/hyper-dank-automation",
+        ],
+      },
+      {
+        id: "dashboard-admin-tool",
+        packages: [
+          "@macavitymadcap/hyper-dank-ui",
+          "@macavitymadcap/hyper-dank-transport",
+          "@macavitymadcap/hyper-dank-data",
+          "@macavitymadcap/hyper-dank-automation",
+        ],
+      },
+      {
+        id: "static-demo",
+        packages: ["@macavitymadcap/hyper-dank-ui", "@macavitymadcap/hyper-dank-automation"],
+      },
+      {
+        id: "script-consumer",
+        packages: ["@macavitymadcap/hyper-dank-automation"],
+      },
+      {
+        id: "static-content-generator",
+        packages: [
+          "@macavitymadcap/hyper-dank-automation/content",
+          "@macavitymadcap/hyper-dank-automation",
+        ],
+      },
+    ];
+
+    expect(recipes).toContain('<details class="docs-side-nav recipe-side-nav" open>');
+    expect(recipes).toContain('<summary aria-label="Toggle recipe navigation">');
+    expect(recipes).toContain('<nav aria-label="Recipe sections">');
+
+    const wrappedPackageItems = Array.from(
+      recipes.matchAll(/\n- `@macavitymadcap\/hyper-dank-[^`]+`[^\n]*\n {2}\S/g),
+    ).map((match) => match[0].trim());
+
+    const missingContent = expectedSections.flatMap(({ id, packages }) => {
+      const section = recipeSection(recipes, id);
+      const missingHeadings = [
+        "### Required packages",
+        "### App-owned responsibilities",
+        "### Verification",
+        "### References",
+      ].flatMap((heading) => (section.includes(heading) ? [] : [`${id}: missing ${heading}`]));
+      const missingPackages = packages.flatMap((packageName) =>
+        section.includes(packageName) ? [] : [`${id}: missing ${packageName}`],
+      );
+
+      return [
+        recipes.includes(`href="#${id}"`) ? "" : `${id}: missing recipe nav link`,
+        ...missingHeadings,
+        ...missingPackages,
+      ].filter(Boolean);
+    });
+
+    expect(wrappedPackageItems).toEqual([]);
+    expect(missingContent).toEqual([]);
+  });
+
+  test("uses route icons for side-panelled homepage destinations", () => {
+    const home = readFileSync(path.join(root, "site/index.md"), "utf8");
+
+    expect(home).toContain('<h2 class="route-card-heading">');
+    expect(home).toContain('<span class="docs-side-nav__icon" aria-hidden="true">');
+    expect(home).toContain("M4 5.5c3 0 5 .7 8 2.2");
+    expect(home).toContain("M4 6l5-2 6 2 5-2");
+  });
+
+  test("keeps docs side navigation stretched while open and compact while closed", () => {
+    const css = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
+    const script = readFileSync(path.join(root, "site/assets/site.js"), "utf8");
+
+    expect(css).toContain("align-items: stretch;");
+    expect(css).toContain(".docs-side-nav[open],\n.library-side-nav[open]");
+    expect(css).toContain(".docs-side-nav:not([open]),\n.library-side-nav:not([open])");
+    expect(css).toContain(".docs-layout:has(.docs-side-nav:not([open])),");
+    expect(css).toContain("grid-template-columns: 4.75rem minmax(0, 1fr);");
+    expect(css).toContain(".docs-page,\n  .library-page");
+    expect(css).toContain("grid-column: 1;");
+    expect(css).toContain("align-self: stretch;");
+    expect(css).toContain("align-self: start;");
+    expect(css).toContain("position: fixed;");
+    expect(css).toContain("height: calc(100dvh - 7rem);");
+    expect(css).toContain(".site-main:has(.docs-side-nav)");
+    expect(css).toContain("padding-left: 4.75rem;");
+    expect(css).toContain("width: 3.75rem;");
+    expect(css).toContain("width: min(20rem, calc(100vw - 1rem));");
+    expect(css).toContain('content: "›";');
+    expect(css).toContain('content: "‹";');
+    expect(css).toContain("grid-template-columns: 1fr;");
+    expect(css).toContain("grid-template-columns: 2rem minmax(0, 1fr) 2rem;");
+    expect(css).toContain(".docs-side-nav__icon");
+    expect(css).toContain(".docs-side-nav__mobile-label");
+    expect(script).toContain('window.matchMedia("(max-width: 640px)").matches');
+    expect(script).toContain('document.querySelectorAll(".docs-side-nav[open]")');
+    expect(script).toContain('document.querySelectorAll(".docs-side-nav a")');
+    expect(script).toContain('link.closest(".docs-side-nav")?.removeAttribute("open")');
+  });
 });
 
 function markdownFiles(relativeDir: string): string[] {
@@ -202,4 +319,12 @@ function publicExportNames(relativePath: string) {
   }
 
   return [...names].sort();
+}
+
+function recipeSection(markdown: string, id: string) {
+  const match = new RegExp(
+    `<section id="${id}" class="recipe-section">(?<section>[\\s\\S]*?)</section>`,
+  ).exec(markdown);
+
+  return match?.groups?.section ?? "";
 }

@@ -11,20 +11,34 @@ then keep product routes, permissions, schemas, copy, fixtures, and deployment d
 Use these recipes as adoption maps. They show which public packages compose well together, what the
 shared code owns, what the app still owns, and which checks prove the boundary.
 
-## Server App
+<div class="docs-layout recipe-layout">
+<details class="docs-side-nav recipe-side-nav" open>
+  <summary aria-label="Toggle recipe navigation"><span class="docs-side-nav__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 6l5-2 6 2 5-2v14l-5 2-6-2-5 2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg></span><span class="docs-side-nav__label">Recipe map</span><span class="docs-side-nav__mobile-label">Recipes</span></summary>
+  <nav aria-label="Recipe sections">
+    <a href="#server-app">Server app</a>
+    <a href="#static-blog">Static blog</a>
+    <a href="#dashboard-admin-tool">Dashboard or admin tool</a>
+    <a href="#static-demo">Static demo</a>
+    <a href="#script-consumer">Script consumer</a>
+    <a href="#static-content-generator">Static-content generator</a>
+    <a href="#recipe-protection">Recipe protection</a>
+  </nav>
+</details>
 
-Use this shape for authenticated Hono apps and workflows where the server owns state.
+<div class="docs-page recipe-page">
 
-Useful packages:
+<section id="server-app" class="recipe-section">
 
-- `@macavitymadcap/hyper-dank-ui` for server-rendered controls, panels, forms, menus, and status
-  views.
-- `@macavitymadcap/hyper-dank-transport` for form values, route params, HTMX detection, and
-  progressive redirects.
-- `@macavitymadcap/hyper-dank-data` for provider lifecycle, migration planning, repository
-  contracts, and adapter test harnesses.
-- `@macavitymadcap/hyper-dank-automation` for verification gates, local server readiness, Pa11y,
-  screenshots, and PR evidence.
+<h2>Server App</h2>
+
+<p class="recipe-summary">Use this shape for authenticated Hono apps and workflows where the server owns state.</p>
+
+### Required packages
+
+- `@macavitymadcap/hyper-dank-ui` for server-rendered controls, panels, forms, menus, and status views.
+- `@macavitymadcap/hyper-dank-transport` for form values, route params, HTMX detection, and progressive redirects.
+- `@macavitymadcap/hyper-dank-data` for provider lifecycle, migration planning, repository contracts, and adapter test harnesses.
+- `@macavitymadcap/hyper-dank-automation` for verification gates, local server readiness, Pa11y, screenshots, and PR evidence.
 
 ```tsx
 import { Button, FormField, HxForm, Panel } from "@macavitymadcap/hyper-dank-ui";
@@ -43,32 +57,39 @@ export function SettingsPanel() {
 ```
 
 Start with native HTML first. Add HTMX attributes to the same controls when a fragment response
-improves the workflow. Keep auth, permissions, domain validation, route names, schemas, services,
-repositories, seeded users, and deployment target in the app.
+improves the workflow.
 
-Verify server apps with route tests for full pages, HTMX contract tests for fragments, repository
-contract tests for adapter behaviour, Playwright for browser journeys, and Pa11y for user-facing
-screens.
+### App-owned responsibilities
 
-Deeper references:
+Keep auth, permissions, domain validation, route names, schemas, services, repositories, seeded
+users, and deployment targets in the app.
+
+### Verification
+
+Use route tests for full pages, HTMX contract tests for fragments, repository contract tests for
+adapter behaviour, Playwright for browser journeys, and Pa11y for user-facing screens.
+
+### References
+
 [UI]({{ '/libraries/ui/' | relative_url }}),
 [Transport]({{ '/libraries/transport/' | relative_url }}),
-[Data]({{ '/libraries/data/' | relative_url }}), and
-[Automation]({{ '/libraries/automation/' | relative_url }}).
+[Data]({{ '/libraries/data/' | relative_url }}),
+[Automation]({{ '/libraries/automation/' | relative_url }}), and
+[Storybook]({{ '/storybook/' | relative_url }}).
 
-## Static Blog
+</section>
 
-Use this shape for docs, journals, release notes, and content-heavy pages served from static
-hosting.
+<section id="static-blog" class="recipe-section">
 
-Useful packages:
+<h2>Static Blog</h2>
 
-- `@macavitymadcap/hyper-dank-ui` for article cards, metadata, breadcrumbs, prose, code blocks,
-  callouts, timelines, tabs, and empty states.
-- `@macavitymadcap/hyper-dank-automation/content` for Markdown rendering, route output paths, URL
-  rewriting, page discovery, and static content builds when the app wants a generated site.
-- `@macavitymadcap/hyper-dank-automation` for static artifact smoke checks and local script
-  plumbing.
+<p class="recipe-summary">Use this shape for docs, journals, release notes, and content-heavy pages served from static hosting.</p>
+
+### Required packages
+
+- `@macavitymadcap/hyper-dank-ui` for article cards, metadata, breadcrumbs, prose, code blocks, callouts, timelines, tabs, and empty states.
+- `@macavitymadcap/hyper-dank-automation/content` for Markdown rendering, route output paths, URL rewriting, page discovery, and static content builds when the app wants a generated site.
+- `@macavitymadcap/hyper-dank-automation` for static artifact smoke checks and local script plumbing.
 
 ```tsx
 import { Badge, Card, CompactList, Panel } from "@macavitymadcap/hyper-dank-ui";
@@ -86,27 +107,38 @@ export function ArticleSummary() {
 }
 ```
 
+### App-owned responsibilities
+
 The app owns content collections, front matter schema, taxonomy, navigation, feeds, search, layout,
 editorial copy, and publishing workflow. Import `@macavitymadcap/hyper-dank-ui/styles.css` through
 the app's asset bundle when you want the baseline component class contracts.
 
-Verify static blogs with content helper tests, generated artifact smoke checks, link checks, and a
-browser pass over important responsive article layouts.
+### Verification
 
-## Dashboard Or Admin Tool
+Use content helper tests, generated artifact smoke checks, link checks, and a browser pass over
+important responsive article layouts.
 
-Use this shape for dense screens that need repeated scanning, filtering, pagination, and action
-review.
+### References
 
-Useful packages:
+[UI]({{ '/libraries/ui/' | relative_url }}),
+[Automation]({{ '/libraries/automation/' | relative_url }}),
+[Static-content API]({{ '/libraries/automation/' | relative_url }}), and
+[Storybook content primitives]({{ '/storybook/' | relative_url }}).
 
-- `@macavitymadcap/hyper-dank-ui` for `AppShell`, `PageHeader`, `SideNav`, `Toolbar`, `HxForm`,
-  `ScrollableTable`, `TableCell`, `Pagination`, `StatusSummary`, `Badge`, and `PopoverMenu`.
-- `@macavitymadcap/hyper-dank-transport` for GET filters, POST actions, HTMX redirects, and
-  fragment-or-page responses.
+</section>
+
+<section id="dashboard-admin-tool" class="recipe-section">
+
+<h2>Dashboard Or Admin Tool</h2>
+
+<p class="recipe-summary">Use this shape for dense screens that need repeated scanning, filtering, pagination, and action review.</p>
+
+### Required packages
+
+- `@macavitymadcap/hyper-dank-ui` for `AppShell`, `PageHeader`, `SideNav`, `Toolbar`, `HxForm`, `ScrollableTable`, `TableCell`, `Pagination`, `StatusSummary`, `Badge`, and `PopoverMenu`.
+- `@macavitymadcap/hyper-dank-transport` for GET filters, POST actions, HTMX redirects, and fragment-or-page responses.
 - `@macavitymadcap/hyper-dank-data` for provider lifecycle and app-owned repository contracts.
-- `@macavitymadcap/hyper-dank-automation` for seeded review flows, screenshots, Pa11y, and browser
-  checks.
+- `@macavitymadcap/hyper-dank-automation` for seeded review flows, screenshots, Pa11y, and browser checks.
 
 ```tsx
 import {
@@ -136,22 +168,37 @@ export function AdminList() {
 }
 ```
 
+### App-owned responsibilities
+
 The app owns domain tables, filter semantics, roles, audit trails, mutations, destructive-action
 policy, empty states, and seeded review data. Shared components provide structure and class hooks;
 they do not decide who can act or what a row means.
 
-Verify dashboards with component tests for dense states, route tests for permissions, HTMX tests for
-filter and mutation fragments, screenshots for light and dark review states, and Pa11y for the main
-admin route.
+### Verification
 
-## Static Demo
+Use component tests for dense states, route tests for permissions, HTMX tests for filter and
+mutation fragments, screenshots for light and dark review states, and Pa11y for the main admin
+route.
 
-Use this shape for GitHub Pages demos or offline examples that should not assume a server.
+### References
 
-Useful packages:
+[UI]({{ '/libraries/ui/' | relative_url }}),
+[Transport]({{ '/libraries/transport/' | relative_url }}),
+[Data]({{ '/libraries/data/' | relative_url }}),
+[Automation]({{ '/libraries/automation/' | relative_url }}), and
+[Storybook dashboard examples]({{ '/storybook/' | relative_url }}).
 
-- `@macavitymadcap/hyper-dank-ui` for panels, inputs, outputs, buttons, notices, and compact data
-  displays.
+</section>
+
+<section id="static-demo" class="recipe-section">
+
+<h2>Static Demo</h2>
+
+<p class="recipe-summary">Use this shape for GitHub Pages demos or offline examples that should not assume a server.</p>
+
+### Required packages
+
+- `@macavitymadcap/hyper-dank-ui` for panels, inputs, outputs, buttons, notices, and compact data displays.
 - `@macavitymadcap/hyper-dank-automation` for static-site smoke checks and local preview scripts.
 
 ```tsx
@@ -171,17 +218,35 @@ export function DemoForm() {
 }
 ```
 
+### App-owned responsibilities
+
 The app owns browser state, local persistence, calculation logic, demo copy, routing, and hosting
 target. Avoid server-only helpers in the demo runtime; keep build, smoke, and publish mechanics in
 scripts.
 
-Verify static demos with storage tests for browser state, a static artifact smoke test, a mobile
-browser pass, and an accessibility check for the published route.
+### Verification
 
-## Script Consumer
+Use storage tests for browser state, a static artifact smoke test, a mobile browser pass, and an
+accessibility check for the published route.
 
-Use `@macavitymadcap/hyper-dank-automation` when an app needs repeatable local automation without
-copying one-off helpers.
+### References
+
+[UI]({{ '/libraries/ui/' | relative_url }}),
+[Automation]({{ '/libraries/automation/' | relative_url }}),
+[Pace demo]({{ '/pace/' | relative_url }}), and
+[Storybook]({{ '/storybook/' | relative_url }}).
+
+</section>
+
+<section id="script-consumer" class="recipe-section">
+
+<h2>Script Consumer</h2>
+
+<p class="recipe-summary">Use this shape when an app needs repeatable local automation without copying one-off helpers.</p>
+
+### Required packages
+
+- `@macavitymadcap/hyper-dank-automation` for command gates, verification reports, process helpers, local server readiness, GitHub requests, Pa11y, and PR image Markdown.
 
 ```ts
 import {
@@ -199,18 +264,32 @@ console.log(renderVerificationReport(results));
 await waitForHttp("http://127.0.0.1:3000/healthz");
 ```
 
+### App-owned responsibilities
+
 The app owns the command list, environment variables, secrets policy, seeded fixtures, smoke
-journeys, release process, and PR narrative. Shared helpers own mechanics such as command execution,
-GitHub requests, verification reporting, server readiness, screenshots, Pa11y invocation, and PR
-image Markdown.
+journeys, release process, and PR narrative.
 
-Verify script consumers with fake inputs, no live network services, and command tests that make
-failure output clear.
+### Verification
 
-## Static-Content Generator
+Use fake inputs, no live network services, and command tests that make failure output clear.
 
-Use `@macavitymadcap/hyper-dank-automation/content` when a static site needs Markdown pages, pretty
-routes, copied assets, and a custom document shell.
+### References
+
+[Automation]({{ '/libraries/automation/' | relative_url }}) and
+[Verification guidance]({{ '/verification/' | relative_url }}).
+
+</section>
+
+<section id="static-content-generator" class="recipe-section">
+
+<h2>Static-Content Generator</h2>
+
+<p class="recipe-summary">Use this shape when a static site needs Markdown pages, pretty routes, copied assets, and a custom document shell.</p>
+
+### Required packages
+
+- `@macavitymadcap/hyper-dank-automation/content` for Markdown pages, route output, URL rewriting, page discovery, copied assets, and static HTML generation.
+- `@macavitymadcap/hyper-dank-automation` for static artifact smoke checks around the generated output.
 
 ```ts
 import {
@@ -228,15 +307,27 @@ await buildStaticContentSite({
 });
 ```
 
+### App-owned responsibilities
+
 The app owns source directories, front matter meaning, document chrome, navigation, CSS, content
-taxonomy, RSS or search policy, deployment layout, and product metadata. The package owns the
-repeatable mechanics: parse front matter, render Markdown, rewrite root-relative URLs, discover
-pages, compute output paths, copy assets, and write static HTML.
+taxonomy, RSS or search policy, deployment layout, and product metadata.
 
-Verify generated sites with unit tests for route output, static artifact checks for generated
-files, public link checks, and a browser smoke test for the deployed base path.
+### Verification
 
-## How The Recipes Are Protected
+Use unit tests for route output, static artifact checks for generated files, public link checks, and
+a browser smoke test for the deployed base path.
+
+### References
+
+[Automation content API]({{ '/libraries/automation/' | relative_url }}),
+[System docs]({{ '/system/' | relative_url }}), and
+[Verification guidance]({{ '/verification/' | relative_url }}).
+
+</section>
+
+<section id="recipe-protection" class="recipe-section">
+
+<h2>How The Recipes Are Protected</h2>
 
 `bun run test:compat` packs the local workspace packages and runs app-shape compatibility tests
 through public package paths. The harness covers these recipe shapes without importing monorepo
@@ -250,3 +341,8 @@ internals:
 - static-content generation through the automation content subpath
 
 Run `bun run verify` before shipping a recipe or package-boundary change.
+
+</section>
+
+</div>
+</div>
