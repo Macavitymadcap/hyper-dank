@@ -52,6 +52,7 @@ interface BrowserDocument {
   body: BrowserElement;
   documentElement: {
     dataset: Record<string, string | undefined>;
+    style: { colorScheme: string };
   };
   createElement(tagName: string): BrowserElement;
   querySelector(selector: string): BrowserElement | null;
@@ -215,20 +216,28 @@ export function listScreenshotFlows(): string {
 }
 
 export async function setTheme(page: Page, theme: Theme) {
-  await page.evaluate((selectedTheme) => {
-    const browser = globalThis as unknown as BrowserGlobals;
-    const document = browser.document;
+  const applySelectedTheme = async () => {
+    await page.evaluate((selectedTheme) => {
+      const browser = globalThis as unknown as BrowserGlobals;
+      const document = browser.document;
 
-    browser.localStorage.setItem("pace-calculator-theme", selectedTheme);
-    document.documentElement.dataset.theme = selectedTheme;
+      browser.localStorage.setItem("pace-calculator-theme", selectedTheme);
+      document.documentElement.dataset.theme = selectedTheme;
+      document.documentElement.style.colorScheme = selectedTheme;
+      document.body.setAttribute("data-theme", selectedTheme);
 
-    const toggle = document.querySelector("[data-theme-toggle]");
-    if (toggle instanceof browser.HTMLInputElement) {
-      const isDark = selectedTheme === "dark";
-      toggle.checked = isDark;
-      toggle.setAttribute("aria-checked", String(isDark));
-    }
-  }, theme);
+      const toggle = document.querySelector("[data-theme-toggle]");
+      if (toggle instanceof browser.HTMLInputElement) {
+        const isDark = selectedTheme === "dark";
+        toggle.checked = isDark;
+        toggle.setAttribute("aria-checked", String(isDark));
+      }
+    }, theme);
+  };
+
+  await applySelectedTheme();
+  await delay(60);
+  await applySelectedTheme();
   await delay(560);
 }
 

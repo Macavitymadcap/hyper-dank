@@ -140,7 +140,6 @@ export const IconCatalogue: Story = {
                   <li class="storybook-icon-card" data-icon-name={name}>
                     <Icon name={name} label={name} />
                     <code class="storybook-icon-name">{name}</code>
-                    <span class="storybook-icon-meta">Icon name</span>
                   </li>
                 ))}
               </ul>

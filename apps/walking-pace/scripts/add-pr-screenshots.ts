@@ -122,7 +122,9 @@ async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {
         await setAuthCookie(page, state.authUserId ?? flow.defaultAuthUserId ?? null);
         await state.setup?.(context);
         await setAuthCookie(page, state.authUserId ?? flow.defaultAuthUserId ?? null);
-        await page.goto(`${server.url}${state.path ?? "/"}`, { waitUntil: "domcontentloaded" });
+        await page.goto(`${server.url}${themedPath(state.path ?? "/", theme)}`, {
+          waitUntil: "domcontentloaded",
+        });
         await setTheme(page, theme);
         await state.afterLoad?.(context);
         await delay(120);
@@ -188,6 +190,15 @@ async function setAuthCookie(page: Page, userId: string | null) {
 function screenshotPath(flow: ScreenshotFlow, stateSlug: string, theme: Theme) {
   const flowDirectory = selectedFlows.length > 1 ? flow.id : "";
   return normalizePath(path.join(screenshotRoot, flowDirectory, `${stateSlug}-${theme}.png`));
+}
+
+function themedPath(routePath: string, theme: Theme) {
+  if (!routePath.startsWith("/storybook/iframe.html")) return routePath;
+
+  const url = new URL(routePath, "http://example.test");
+  url.searchParams.set("globals", `theme:${theme}`);
+
+  return `${url.pathname}${url.search}`;
 }
 
 async function updatePullRequest(screenshots: ScreenshotResult[]) {

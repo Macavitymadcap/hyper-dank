@@ -117,9 +117,9 @@ body {
 .storybook-icon-card {
   display: grid;
   grid-template-columns: 2rem minmax(0, 1fr);
-  gap: var(--size-1) var(--size-2);
+  gap: var(--size-2);
   align-items: center;
-  min-height: 4.25rem;
+  min-height: 3.25rem;
   padding: var(--size-3);
   background: var(--surface-raised);
   border: var(--border-size-1) solid var(--border-subtle);
@@ -127,21 +127,18 @@ body {
 }
 
 .storybook-icon-card .icon {
-  grid-row: span 2;
   color: var(--button-text);
 }
 
 .storybook-icon-name {
   min-width: 0;
+  padding: 0;
+  background: transparent;
   color: var(--text);
+  border: 0;
   font-family: var(--font-mono);
   font-size: var(--font-size-0);
   overflow-wrap: anywhere;
-}
-
-.storybook-icon-meta {
-  color: var(--text-muted);
-  font-size: var(--font-size-0);
 }
 
 .storybook-note {
