@@ -29,9 +29,10 @@ export const AtomicDesign: Story = {
             Component contracts
           </h1>
           <p class="storybook-doc__lede">
-            Hyper-Dank keeps components small, progressively composable, and close to the
+            Hyper-Dank keeps components small, progressively enhanced, and close to the
             server-rendered workflows they support. Shared primitives document reusable guarantees;
-            reference-app stories show one complete composition.
+            reference-app stories show one complete composition without turning that product shape
+            into package logic.
           </p>
         </header>
 
@@ -102,7 +103,8 @@ export const ReferenceMap: Story = {
           </h1>
           <p class="storybook-doc__lede">
             Component pages should explain the contract a consuming app relies on: inputs, rendered
-            output, events, HTMX attributes, accessibility expectations, and ownership boundaries.
+            output, events, HTMX attributes, accessibility expectations, theme behaviour, and
+            ownership boundaries.
           </p>
         </header>
 

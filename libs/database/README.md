@@ -1,14 +1,14 @@
 # Hyper-Dank Database
 
-Database lifecycle and adapter-test primitives for Hyper-Dank apps.
+Database lifecycle, migration planning, and adapter-test primitives for Hyper-Dank apps.
 
 App packages own their domain schemas and repositories. This package only defines shared provider
 shape, migration helpers, and conformance checks that future adapters can reuse.
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-data` is not published to npm yet. Install it from the local package
-tarball produced by the Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-data` is not published to npm yet. The supported route today is the
+local package tarball produced by the Hyper-Dank workspace:
 
 ```bash
 # from hyper-dank
@@ -22,7 +22,8 @@ bun add typescript
 The package peers on `typescript` for declaration-aware tooling. The tarball route is verified by
 `bun run test:packages`, which installs the package into a clean temporary app outside this
 workspace and imports both `@macavitymadcap/hyper-dank-data` and
-`@macavitymadcap/hyper-dank-data/testing` by package name.
+`@macavitymadcap/hyper-dank-data/testing` by package name. npm publication and managed adapter
+packages are follow-up work.
 
 ## Public Exports
 

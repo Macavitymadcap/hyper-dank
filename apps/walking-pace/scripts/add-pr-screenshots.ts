@@ -27,6 +27,17 @@ import {
   setTheme,
 } from "./lib/screenshot-flows";
 
+interface ScreenshotViewport {
+  deviceScaleFactor: number;
+  hasTouch: boolean;
+  height: number;
+  isMobile: boolean;
+  label: string;
+  slug: string;
+  userAgent?: string;
+  width: number;
+}
+
 const args = process.argv.slice(2);
 const argSet = new Set(args);
 const port = Number(process.env.PR_SCREENSHOT_PORT ?? 0);
@@ -42,6 +53,28 @@ const shouldStage = shouldPersist && !argSet.has("--no-stage");
 const shouldUpdatePr = shouldPersist && !argSet.has("--no-update-pr");
 const themes: Theme[] = ["light", "dark"];
 const selectedFlows = selectScreenshotFlows(getFlowArgs(args));
+const screenshotViewports: ScreenshotViewport[] = [
+  {
+    deviceScaleFactor: 3,
+    hasTouch: true,
+    height: 640,
+    isMobile: true,
+    label: "Mobile",
+    slug: "mobile",
+    userAgent:
+      "Mozilla/5.0 (Linux; Android 8.0.0; SAMSUNG SM-A520F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Mobile Safari/537.36",
+    width: 360,
+  },
+  {
+    deviceScaleFactor: 1,
+    hasTouch: false,
+    height: 900,
+    isMobile: false,
+    label: "Desktop",
+    slug: "desktop",
+    width: 1440,
+  },
+];
 
 if (argSet.has("--list-flows")) {
   console.log(listScreenshotFlows());
@@ -68,20 +101,22 @@ try {
   const browser = await chromium.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
-  const context = await browser.newContext({
-    deviceScaleFactor: 3,
-    hasTouch: true,
-    isMobile: true,
-    userAgent:
-      "Mozilla/5.0 (Linux; Android 8.0.0; SAMSUNG SM-A520F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Mobile Safari/537.36",
-    viewport: {
-      height: 640,
-      width: 360,
-    },
-  });
-  const page = await context.newPage();
-
-  const screenshots = await captureScreenshots(page);
+  const screenshots: ScreenshotResult[] = [];
+  for (const viewport of screenshotViewports) {
+    const context = await browser.newContext({
+      deviceScaleFactor: viewport.deviceScaleFactor,
+      hasTouch: viewport.hasTouch,
+      isMobile: viewport.isMobile,
+      userAgent: viewport.userAgent,
+      viewport: {
+        height: viewport.height,
+        width: viewport.width,
+      },
+    });
+    const page = await context.newPage();
+    screenshots.push(...(await captureScreenshots(page, viewport)));
+    await context.close();
+  }
   await browser.close();
 
   if (shouldStage || shouldCommitAndPush) {
@@ -98,7 +133,13 @@ try {
     console.log(`Updated PR screenshots: ${pr.html_url}`);
   } else if (shouldPersist) {
     console.log(
-      buildImagesSection({ branch, repo: getGitHubRepo(), screenshots, flows: flowSummaries() }),
+      buildImagesSection({
+        branch,
+        cacheKey: screenshotCacheKey(),
+        repo: getGitHubRepo(),
+        screenshots,
+        flows: flowSummaries(),
+      }),
     );
   } else {
     console.log(
@@ -111,7 +152,10 @@ try {
   await server.stop();
 }
 
-async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {
+async function captureScreenshots(
+  page: Page,
+  viewport: ScreenshotViewport,
+): Promise<ScreenshotResult[]> {
   const screenshots: ScreenshotResult[] = [];
 
   for (const flow of selectedFlows) {
@@ -129,7 +173,7 @@ async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {
         await state.afterLoad?.(context);
         await delay(120);
 
-        const relativePath = screenshotPath(flow, state.slug, theme);
+        const relativePath = screenshotPath(flow, state.slug, theme, viewport);
         const absolutePath = path.join(root, relativePath);
         await mkdir(path.dirname(absolutePath), { recursive: true });
         await page.screenshot({ path: absolutePath });
@@ -141,6 +185,8 @@ async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {
           stateSlug: state.slug,
           theme,
           relativePath,
+          viewportLabel: viewport.label,
+          viewportSlug: viewport.slug,
         });
       }
     }
@@ -152,14 +198,18 @@ async function captureScreenshots(page: Page): Promise<ScreenshotResult[]> {
 function expectedScreenshots(): ScreenshotResult[] {
   return selectedFlows.flatMap((flow) =>
     flow.states.flatMap((state) =>
-      themes.map((theme) => ({
-        flowId: flow.id,
-        flowLabel: flow.label,
-        label: state.label,
-        stateSlug: state.slug,
-        theme,
-        relativePath: screenshotPath(flow, state.slug, theme),
-      })),
+      screenshotViewports.flatMap((viewport) =>
+        themes.map((theme) => ({
+          flowId: flow.id,
+          flowLabel: flow.label,
+          label: state.label,
+          stateSlug: state.slug,
+          theme,
+          relativePath: screenshotPath(flow, state.slug, theme, viewport),
+          viewportLabel: viewport.label,
+          viewportSlug: viewport.slug,
+        })),
+      ),
     ),
   );
 }
@@ -187,9 +237,16 @@ async function setAuthCookie(page: Page, userId: string | null) {
   ]);
 }
 
-function screenshotPath(flow: ScreenshotFlow, stateSlug: string, theme: Theme) {
+function screenshotPath(
+  flow: ScreenshotFlow,
+  stateSlug: string,
+  theme: Theme,
+  viewport: ScreenshotViewport,
+) {
   const flowDirectory = selectedFlows.length > 1 ? flow.id : "";
-  return normalizePath(path.join(screenshotRoot, flowDirectory, `${stateSlug}-${theme}.png`));
+  return normalizePath(
+    path.join(screenshotRoot, flowDirectory, `${stateSlug}-${viewport.slug}-${theme}.png`),
+  );
 }
 
 function themedPath(routePath: string, theme: Theme) {
@@ -214,6 +271,7 @@ async function updatePullRequest(screenshots: ScreenshotResult[]) {
   const body = pr.body ?? "";
   const imagesSection = buildImagesSection({
     branch,
+    cacheKey: screenshotCacheKey(),
     flows: flowSummaries(),
     repo,
     screenshots,
@@ -268,6 +326,10 @@ function getFlowArgs(values: string[]) {
   }
 
   return flowIds;
+}
+
+function screenshotCacheKey() {
+  return process.env.PR_SCREENSHOT_CACHE_KEY ?? run("git", ["rev-parse", "--short=12", "HEAD"]);
 }
 
 function hasChanges(relativePath: string) {

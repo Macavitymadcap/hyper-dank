@@ -6,7 +6,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "About page for Hyper-Dank and the included reference app.",
+        component: "Adopter-facing summary of Hyper-Dank and the included reference app.",
       },
     },
     layout: "fullscreen",
@@ -28,7 +28,7 @@ export const About: Story = {
           </h1>
           <p className="storybook-doc__lede">
             Hyper-Dank is a hypermedia-first toolkit for building server-rendered Hono, HTMX,
-            TypeScript, and Bun applications.
+            TypeScript, and Bun apps with reusable package contracts and app-owned domain code.
           </p>
         </header>
 
@@ -36,8 +36,8 @@ export const About: Story = {
           <section className="storybook-doc__section" aria-labelledby="about-toolkit-heading">
             <h2 id="about-toolkit-heading">Toolkit</h2>
             <p>
-              Shared packages provide reusable component, database, and HTTP primitives without
-              turning app-specific domains into framework code.
+              Shared packages provide reusable component, database, HTTP, and automation mechanics
+              without turning app-specific domains into framework code.
             </p>
           </section>
 

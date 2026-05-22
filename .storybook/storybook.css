@@ -34,6 +34,35 @@ body {
   backdrop-filter: blur(10px);
 }
 
+.storybook-utility-control__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 1.75rem;
+  padding: var(--size-1);
+  color: var(--text);
+  background: var(--surface-raised);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-2);
+}
+
+.storybook-utility-control__brand:hover,
+.storybook-utility-control__brand:focus-visible {
+  color: var(--button-text);
+  outline: var(--border-size-2) solid var(--primary);
+  outline-offset: var(--size-1);
+}
+
+.storybook-utility-control__brand-mark {
+  display: block;
+  width: clamp(1.75rem, 6vw, 2.25rem);
+  aspect-ratio: 460 / 374;
+  background: currentColor;
+  mask: url("../site/assets/hyper-dank-stacked-logo.svg") center / contain no-repeat;
+  -webkit-mask: url("../site/assets/hyper-dank-stacked-logo.svg") center / contain no-repeat;
+}
+
 .storybook-utility-control__links {
   display: flex;
   flex-wrap: wrap;
@@ -68,7 +97,45 @@ body {
   place-items: center;
 }
 
+@media (max-width: 520px) {
+  .storybook-theme-control {
+    inset-inline: var(--size-3);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    gap: var(--size-1);
+    padding: var(--size-1);
+  }
+
+  .storybook-utility-control__brand {
+    width: 100%;
+  }
+
+  .storybook-utility-control__brand-mark {
+    width: 1.45rem;
+  }
+
+  .storybook-utility-control__links {
+    display: contents;
+    flex-wrap: nowrap;
+  }
+
+  .storybook-utility-control__link {
+    justify-content: center;
+    min-height: 1.75rem;
+    padding: 0 var(--size-1);
+    font-size: var(--font-size-00);
+  }
+
+  .storybook-utility-control__theme .switch {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .storybook-surface {
+  box-sizing: border-box;
   width: min(100%, 72rem);
   margin: 0 auto;
   padding: calc(var(--size-5) + 3.75rem) var(--size-5) var(--size-5);
@@ -80,6 +147,12 @@ body {
 
 .storybook-surface[data-size="full"] {
   width: 100%;
+}
+
+@media (max-width: 520px) {
+  .storybook-surface {
+    padding-block-start: calc(var(--size-5) + 3.75rem);
+  }
 }
 
 .storybook-stack {
@@ -155,6 +228,8 @@ body {
 .storybook-doc {
   display: grid;
   gap: var(--size-6);
+  min-width: 0;
+  container-type: inline-size;
   color: var(--text);
 }
 
@@ -176,8 +251,9 @@ body {
 .storybook-doc__title {
   margin: 0;
   color: var(--text);
-  font-size: var(--font-size-6);
+  font-size: clamp(var(--font-size-4), 10cqi, var(--font-size-6));
   line-height: var(--font-lineheight-0);
+  text-wrap: balance;
 }
 
 .storybook-doc__lede {
@@ -196,6 +272,7 @@ body {
 .storybook-doc__section {
   display: grid;
   gap: var(--size-3);
+  min-width: 0;
   padding: var(--size-4);
   background: var(--surface);
   border: var(--border-size-1) solid var(--border-subtle);
@@ -214,6 +291,13 @@ body {
 .storybook-doc__section h4 {
   color: var(--text);
   line-height: var(--font-lineheight-1);
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+.storybook-doc__section h2 {
+  font-size: clamp(var(--font-size-2), 8cqi, var(--font-size-5));
 }
 
 .storybook-doc__section p,
@@ -221,6 +305,7 @@ body {
   color: var(--text-muted);
   font-size: var(--font-size-1);
   line-height: var(--font-lineheight-3);
+  overflow-wrap: anywhere;
 }
 
 .storybook-doc__section ol,
@@ -230,6 +315,31 @@ body {
 
 .storybook-reference-rules .compact-list-row {
   grid-template-columns: minmax(7rem, 0.8fr) minmax(0, 2fr);
+  align-items: start;
+  padding-block: var(--size-2);
+  border-block-start: var(--border-size-1) solid var(--border-subtle);
+}
+
+.storybook-reference-rules .compact-list-row:first-child {
+  border-block-start: 0;
+}
+
+.storybook-reference-rules dt {
+  color: var(--text);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-7);
+  line-height: var(--font-lineheight-1);
+}
+
+.storybook-reference-rules dd {
+  margin: 0;
+}
+
+.storybook-reference-rules dd strong {
+  color: var(--text-muted);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-4);
+  line-height: var(--font-lineheight-3);
 }
 
 @media (max-width: 640px) {
@@ -275,6 +385,7 @@ body {
 .storybook-doc__table td {
   padding: var(--size-3);
   border-bottom: var(--border-size-1) solid var(--border-subtle);
+  background: var(--surface);
   text-align: left;
   vertical-align: top;
 }

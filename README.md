@@ -1,14 +1,15 @@
 # Hyper-Dank
 
 Hyper-Dank is a hypermedia-first Bun workspace for building server-rendered Hono, HTMX,
-TypeScript, and JSX applications with reusable component, database, and HTTP helper packages.
+TypeScript, and JSX apps without rebuilding the same component, data, transport, and automation
+helpers in each project.
 
 The repository includes Walking Pace Tracker as the reference app and public demo. The full Hono app
 records user-scoped walks, calculates average speed and median pace, supports light/dark mode, and
-uses server-rendered HTML fragments instead of a client-side framework.
+uses server-rendered HTML fragments rather than a client-side SPA framework.
 
-The public production site is GitHub Pages: repo-built static documentation at `/`, a browser-only
-localStorage pace demo at `/pace/`, and Storybook at `/storybook/`.
+The public production site is a GitHub Pages artifact: repo-built documentation at `/`, a
+browser-only localStorage pace demo at `/pace/`, and Storybook at `/storybook/`.
 
 For the design philosophy and template patterns behind the app, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 For reusable library roles and app-shape recipes, see the current public docs source in
@@ -61,9 +62,9 @@ bun install
 
 ## Package Installation
 
-The scoped Hyper-Dank packages are not published to npm yet. The supported near-term route is to
-pack this workspace locally, then install the generated tarballs into a downstream Bun app with the
-peer dependencies that app needs.
+The scoped Hyper-Dank packages are not published to npm yet. The supported route today is a local
+tarball install: pack this workspace, then install the generated tarballs into a downstream Bun app
+with the peer dependencies that app needs.
 
 From this repository:
 
@@ -86,7 +87,7 @@ Server-rendered UI and transport consumers need `hono`. All packages expect Type
 tooling. The automation package keeps `@playwright/test` as an optional peer: install it only when
 using browser screenshot, E2E, or Playwright-backed helpers.
 
-Verify the route from a clean external fixture with:
+Verify that route from a clean external fixture with:
 
 ```bash
 bun run test:packages
@@ -94,7 +95,11 @@ bun run test:packages
 
 That script packs the four packages, creates a temporary app outside this workspace, installs the
 tarballs through their public package names, typechecks the public imports, resolves
-`@macavitymadcap/hyper-dank-ui/styles.css`, and runs a small Bun smoke.
+`@macavitymadcap/hyper-dank-ui/styles.css`, and runs a small Bun smoke test.
+
+This is a consumption contract, not a publishing workflow. npm or GitHub Packages publication,
+versioned release tarballs, and starter templates remain follow-up work until the package boundary
+has settled.
 
 ## Run Locally
 
@@ -275,14 +280,16 @@ bun run verify
 ```
 
 The verifier runs static checks, typechecking, unit tests, build, the production healthcheck,
-package compatibility, Storybook browser tests, Playwright E2E, Pa11y, and `git diff --check` in fail-fast order. It
-writes `.cache/verification-report.md`, prints the same report, and marks later gates as not run
-when an earlier gate fails. Set `VERIFY_REPORT_PATH` to write the report somewhere else.
+package compatibility, Storybook browser tests, Playwright E2E, Pa11y, and `git diff --check` in
+fail-fast order. It writes `.cache/verification-report.md`, prints the same report, and marks later
+gates as not run when an earlier gate fails. Set `VERIFY_REPORT_PATH` to write the report somewhere
+else.
 
 Storybook includes per-component docs and controls for `Components/Shared` package exports plus
-`Components/Reference App` examples, with a shared app-style light/dark switch across every story. The
-production build publishes the static Storybook site under `/storybook/` on the same domain as the
-app.
+`Components/Reference App` examples, with a shared app-style light/dark switch across every story.
+Use it to inspect rendered component contracts, theme behaviour, accessibility notes, and
+reference-app composition. The production build publishes the static Storybook site under
+`/storybook/` on the same domain as the docs.
 
 Capture Samsung Galaxy A5-sized PR screenshots with Playwright and update the open pull request image table:
 
@@ -326,7 +333,14 @@ The native fallback is intentional:
 
 CI is configured in `.github/workflows/ci.yml` and runs `bun run verify` on branch pushes and pull requests to `main`. The verifier runs the same ordered gates used locally, uploads `.cache/verification-report.md`, and stops at the first failed component or test framework. The `check` gate includes Biome plus TypeScript deprecation diagnostics, so editor deprecation warnings fail before merge.
 
-The project uses an epic-and-ticket branch flow. Create an epic branch from `main`, such as `pace-0003`, and make its first commit the detailed epic plan plus ticket plans under `docs/epics/` and `docs/tickets/`. Open that epic branch as a draft PR into `main`. Then create ticket branches such as `pace-0004` from the epic branch and open those PRs back into the epic branch. The epic PR is merged to `main` only after its ticket PRs are complete.
+The project currently uses an epic-and-ticket branch flow. Create an epic branch from `main`, such
+as `pace-0003`, and make its first commit the detailed epic plan plus ticket plans under
+`docs/epics/` and `docs/tickets/`. Open that epic branch as a draft PR into `main`. Then create
+ticket branches such as `pace-0004` from the epic branch and open those PRs back into the epic
+branch. The epic PR is merged to `main` only after its ticket PRs are complete.
+
+The `pace-0060` epic is also documenting the move towards GitHub Issues and Projects for future
+ticket state. Until that workflow lands, Markdown plans remain the durable source of truth.
 
 `main` should be protected as PR-only with passing CI, branch-flow validation, a Conventional Commit PR title, and resolved conversations. Approving reviews are disabled for the solo-maintainer workflow because GitHub does not allow a PR author to approve their own PR for branch protection. After pushing this branch, apply the repository protection with:
 
