@@ -1,11 +1,13 @@
 # Hyper-Dank Scripts
 
-Reusable Bun automation helpers for Hyper-Dank apps.
+Reusable Bun automation helpers for Hyper-Dank apps. Use this package for repeatable script
+mechanics such as command gates, verification reports, local server readiness, GitHub requests,
+Pa11y, screenshots, PR image tables, and static-content builds.
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-automation` is not published to npm yet. Install it from the local
-package tarball produced by the Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-automation` is not published to npm yet. The supported route today is
+the local package tarball produced by the Hyper-Dank workspace:
 
 ```bash
 # from hyper-dank
@@ -21,7 +23,8 @@ peer for browser screenshot, E2E, and Playwright-backed helpers; install it only
 are part of the downstream app. The tarball route is verified by `bun run test:packages`, which
 installs the package into a clean temporary app outside this workspace and imports both
 `@macavitymadcap/hyper-dank-automation` and `@macavitymadcap/hyper-dank-automation/content` by
-package name.
+package name. npm publication, GitHub package publication, and release automation are follow-up
+work.
 
 ```ts
 import {

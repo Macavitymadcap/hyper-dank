@@ -8,7 +8,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Consumer-facing guidance for installing Hyper-Dank, composing app workflows, and reusing the verification model.",
+          "Consumer-facing guidance for installing Hyper-Dank tarballs, composing app workflows, and reusing the verification model.",
       },
     },
     layout: "fullscreen",
@@ -29,8 +29,9 @@ export const Usage: Story = {
             Using Hyper-Dank
           </h1>
           <p class="storybook-doc__lede">
-            Hyper-Dank is a server-rendered Bun, Hono, HTMX, and JSX toolkit with Storybook
-            documentation for the reusable UI surface.
+            Hyper-Dank is a server-rendered Bun, Hono, HTMX, TypeScript, and JSX toolkit. Storybook
+            shows the reusable UI surface; the docs and READMEs explain installation, package
+            boundaries, and app-owned responsibilities.
           </p>
         </header>
 
@@ -40,6 +41,10 @@ export const Usage: Story = {
             <ol>
               <li>
                 Install dependencies with <code class="storybook-doc__code">bun install</code>.
+              </li>
+              <li>
+                Pack installable tarballs with{" "}
+                <code class="storybook-doc__code">bun run pack:packages</code>.
               </li>
               <li>
                 Run the app with <code class="storybook-doc__code">bun run dev</code>.
@@ -55,7 +60,8 @@ export const Usage: Story = {
             <p>
               Application entrypoints build the route tree, shared primitives come from{" "}
               <code class="storybook-doc__code">@macavitymadcap/hyper-dank-ui</code>, and local
-              stories document app-owned composition beside the workflows they support.
+              stories document app-owned composition beside the workflows they support. The packages
+              do not own product routes, permissions, schemas, or copy.
             </p>
           </section>
 
@@ -96,6 +102,7 @@ export const ApplicationFlow: Story = {
           <p class="storybook-doc__lede">
             Hyper-Dank apps keep request handling, auth, persistence, service logic, and UI
             rendering in clear layers so new vertical slices have an obvious path through the app.
+            The reusable packages provide mechanics; the consuming app still owns the domain.
           </p>
         </header>
 
@@ -156,7 +163,7 @@ export const TestingPipeline: Story = {
             Reusable verification
           </h1>
           <p class="storybook-doc__lede">
-            Hyper-Dank uses layered checks so fast feedback stays cheap while Storybook and browser
+            Hyper-Dank uses layered checks so cheap feedback runs first while Storybook and browser
             coverage protect the consumer-facing component reference.
           </p>
         </header>

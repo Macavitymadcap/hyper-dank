@@ -7,14 +7,14 @@ title: System
 
 Hyper-Dank is a small framework pattern for apps that treat HTML as the application protocol. It
 favours explicit request flow, app-owned domain code, and package boundaries that can be copied into
-ordinary Hono, HTMX, Bun, TypeScript, and JSX applications without adopting a large private
-framework.
+ordinary Hono, HTMX, Bun, TypeScript, and JSX apps without adopting a private framework or a
+client-side SPA stack.
 
 Its HTML-first approach is informed by [Hypermedia Systems](https://hypermedia.systems/),
 [HTMX](https://htmx.org/), and
 [Server-Driven Web Apps with htmx](https://pragprog.com/titles/mvhtmx/server-driven-web-apps-with-htmx/).
-The practical rule is simple: render useful HTML first, then enhance it with HTMX where fragment
-updates make the workflow faster.
+The practical rule is direct: render useful HTML first, then enhance it with HTMX where fragment
+updates shorten the workflow.
 
 ## Application Shape
 
@@ -58,8 +58,8 @@ App responsibility: script entrypoints, fixtures, route lists, release policy, a
 layout.
 
 That split keeps shared code boring and reusable. If a helper needs to know a product route, a user
-role, a database table, or a deployment target, it belongs in the consuming app instead of the
-package.
+role, a database table, or a deployment target, it belongs in the consuming app instead of a
+Hyper-Dank package.
 
 ## Browser Assets
 

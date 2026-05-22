@@ -6,9 +6,9 @@ permalink: /storybook-docs/
 
 # Storybook
 
-Storybook is published at [`/storybook/`]({{ '/storybook/' | relative_url }}). It contains reusable
-library component states, Walking Pace reference app states, and guides for the Hyper-Dank component
-system.
+Storybook is published at [`/storybook/`]({{ '/storybook/' | relative_url }}). Use it to inspect
+rendered UI contracts: shared component states, accessibility notes, theme behaviour, icon choices,
+and complete reference-app compositions.
 
 The build is static and deploys alongside the repo-built docs and `/pace/` demo in the same GitHub
 Pages artifact.
