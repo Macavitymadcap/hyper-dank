@@ -1,0 +1,36 @@
+name: Follow-up
+description: Capture non-blocking future work from a review, audit, or PR.
+title: "hd-0000: "
+labels:
+  - "type: follow-up"
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Link the PR, issue, review, or doc that produced this follow-up.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should change later?
+    validations:
+      required: true
+  - type: textarea
+    id: value
+    attributes:
+      label: Value
+      description: Why is this worth doing?
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - P3
+        - P2
+        - P1
+        - P0
+    validations:
+      required: true
