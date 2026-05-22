@@ -6,7 +6,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "About page for Hyper-Dank and the walking pace example app.",
+        component: "About page for Hyper-Dank and the included reference app.",
       },
     },
     layout: "fullscreen",
@@ -42,10 +42,11 @@ export const About: Story = {
           </section>
 
           <section className="storybook-doc__section" aria-labelledby="about-example-heading">
-            <h2 id="about-example-heading">Example app</h2>
+            <h2 id="about-example-heading">Reference app</h2>
             <p>
               Walking Pace Tracker remains the first app in the monorepo and demonstrates the
-              toolkit in a small authenticated Hono + HTMX workflow.
+              toolkit in a small authenticated Hono + HTMX workflow without turning that domain into
+              shared package logic.
             </p>
           </section>
         </div>

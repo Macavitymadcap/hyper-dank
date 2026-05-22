@@ -100,6 +100,47 @@ body {
   gap: var(--size-3);
 }
 
+.storybook-icon-catalogue {
+  display: grid;
+  gap: var(--size-4);
+}
+
+.storybook-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--size-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.storybook-icon-card {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: var(--size-2);
+  align-items: center;
+  min-height: 3.25rem;
+  padding: var(--size-3);
+  background: var(--surface-raised);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-2);
+}
+
+.storybook-icon-card .icon {
+  color: var(--button-text);
+}
+
+.storybook-icon-name {
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-0);
+  overflow-wrap: anywhere;
+}
+
 .storybook-note {
   margin: 0;
   color: var(--text-muted);

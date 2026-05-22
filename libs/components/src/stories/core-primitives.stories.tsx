@@ -15,6 +15,40 @@ import { ValidationSummary } from "../molecules/ValidationSummary";
 import { renderStory } from "./render";
 import { sharedIconStoryNames } from "./storybook-coverage";
 
+const iconGroups = [
+  {
+    id: "actions",
+    label: "Actions",
+    names: ["add", "delete", "download", "edit", "filter", "save", "search", "settings", "upload"],
+  },
+  {
+    id: "navigation",
+    label: "Navigation",
+    names: ["close", "external-link", "home", "map", "menu"],
+  },
+  {
+    id: "status",
+    label: "Status",
+    names: ["check", "lock", "shield", "sparkles", "star", "warning"],
+  },
+  {
+    id: "objects-theme",
+    label: "Objects and theme",
+    names: [
+      "book",
+      "calendar",
+      "database",
+      "dice",
+      "document",
+      "folder",
+      "moon",
+      "sun",
+      "tag",
+      "user",
+    ],
+  },
+] as const;
+
 const meta = {
   parameters: {
     docs: {
@@ -87,19 +121,37 @@ export const ActionsAndForms: Story = {
 export const IconCatalogue: Story = {
   render: () =>
     renderStory(
-      <div class="storybook-doc__section">
-        <div class="storybook-row">
-          {sharedIconStoryNames.map((name) => (
-            <span class="storybook-icon-sample">
-              <Icon name={name} label={name} />
-              <span>{name}</span>
-            </span>
+      <div class="storybook-doc">
+        <header class="storybook-doc__header">
+          <p class="storybook-doc__eyebrow">Shared icon contract</p>
+          <h1 class="storybook-doc__title">Icon catalogue</h1>
+          <p class="storybook-doc__lede">
+            Every published generic icon renders through the shared Icon primitive with a stable
+            name, accessible label support, and theme-aware colour inheritance.
+          </p>
+        </header>
+
+        <div class="storybook-icon-catalogue">
+          {iconGroups.map((group) => (
+            <section class="storybook-doc__section" aria-labelledby={`icon-group-${group.id}`}>
+              <h2 id={`icon-group-${group.id}`}>{group.label}</h2>
+              <ul class="storybook-icon-grid">
+                {group.names.map((name) => (
+                  <li class="storybook-icon-card" data-icon-name={name}>
+                    <Icon name={name} label={name} />
+                    <code class="storybook-icon-name">{name}</code>
+                  </li>
+                ))}
+              </ul>
+            </section>
           ))}
         </div>
       </div>,
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    await expect(canvas.getByRole("heading", { name: "Icon catalogue" })).toBeInTheDocument();
+    await expect(canvas.getAllByRole("listitem")).toHaveLength(sharedIconStoryNames.length);
     await expect(canvas.getByRole("img", { name: "save" })).toBeInTheDocument();
     await expect(canvas.getByRole("img", { name: "dice" })).toBeInTheDocument();
     await expect(canvas.getByRole("img", { name: "sun" })).toBeInTheDocument();

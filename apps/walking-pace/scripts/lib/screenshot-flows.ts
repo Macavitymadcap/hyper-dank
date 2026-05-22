@@ -52,6 +52,7 @@ interface BrowserDocument {
   body: BrowserElement;
   documentElement: {
     dataset: Record<string, string | undefined>;
+    style: { colorScheme: string };
   };
   createElement(tagName: string): BrowserElement;
   querySelector(selector: string): BrowserElement | null;
@@ -176,6 +177,31 @@ export const screenshotFlows: ScreenshotFlow[] = [
       },
     ],
   },
+  {
+    id: "storybook-reference",
+    label: "Storybook Reference",
+    description: "Consumer-reference Storybook pages for shared icons, contracts, and guides.",
+    states: [
+      {
+        authUserId: null,
+        label: "Icon catalogue",
+        path: "/storybook/iframe.html?id=components-shared-core-primitives--icon-catalogue",
+        slug: "icon-catalogue",
+      },
+      {
+        authUserId: null,
+        label: "Component contracts",
+        path: "/storybook/iframe.html?id=introduction-component-contracts--reference-map",
+        slug: "component-contracts",
+      },
+      {
+        authUserId: null,
+        label: "Using Hyper-Dank",
+        path: "/storybook/iframe.html?id=guides-using-hyper-dank--usage",
+        slug: "using-hyper-dank",
+      },
+    ],
+  },
 ];
 
 export function selectScreenshotFlows(flowIds: string[]): ScreenshotFlow[] {
@@ -190,20 +216,28 @@ export function listScreenshotFlows(): string {
 }
 
 export async function setTheme(page: Page, theme: Theme) {
-  await page.evaluate((selectedTheme) => {
-    const browser = globalThis as unknown as BrowserGlobals;
-    const document = browser.document;
+  const applySelectedTheme = async () => {
+    await page.evaluate((selectedTheme) => {
+      const browser = globalThis as unknown as BrowserGlobals;
+      const document = browser.document;
 
-    browser.localStorage.setItem("pace-calculator-theme", selectedTheme);
-    document.documentElement.dataset.theme = selectedTheme;
+      browser.localStorage.setItem("pace-calculator-theme", selectedTheme);
+      document.documentElement.dataset.theme = selectedTheme;
+      document.documentElement.style.colorScheme = selectedTheme;
+      document.body.setAttribute("data-theme", selectedTheme);
 
-    const toggle = document.querySelector("[data-theme-toggle]");
-    if (toggle instanceof browser.HTMLInputElement) {
-      const isDark = selectedTheme === "dark";
-      toggle.checked = isDark;
-      toggle.setAttribute("aria-checked", String(isDark));
-    }
-  }, theme);
+      const toggle = document.querySelector("[data-theme-toggle]");
+      if (toggle instanceof browser.HTMLInputElement) {
+        const isDark = selectedTheme === "dark";
+        toggle.checked = isDark;
+        toggle.setAttribute("aria-checked", String(isDark));
+      }
+    }, theme);
+  };
+
+  await applySelectedTheme();
+  await delay(60);
+  await applySelectedTheme();
   await delay(560);
 }
 

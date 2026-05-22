@@ -51,7 +51,7 @@ async function assertUtilityControl(url: string) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 
   try {
-    await page.goto(`${url}/iframe.html?id=introduction-component-philosophy--atomic-design`, {
+    await page.goto(`${url}/iframe.html?id=introduction-component-contracts--atomic-design`, {
       waitUntil: "networkidle",
     });
 
