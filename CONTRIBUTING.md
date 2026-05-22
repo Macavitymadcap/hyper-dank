@@ -1,10 +1,26 @@
 # Contributing
 
-This project uses a protected epic-and-ticket branch flow. `main` is the stable branch and should not receive direct commits.
+This project uses protected pull requests and GitHub-tracked work items. `main` is the stable branch
+and should not receive direct commits.
 
 ## Git Flow
 
-Work starts with an epic branch, then implementation branches split off from that epic.
+New operational work should start in GitHub Issues and GitHub Projects. Use `hd-*` identifiers for
+new Hyper-Dank issues and branches, starting at `hd-0001`. Historical `pace-*` branches and
+Markdown docs remain valid for old epics and for the active `pace-0060` migration epic.
+
+For new `hd-*` work:
+
+1. Open a GitHub issue from the relevant template.
+2. Add it to the Hyper-Dank project with status, type, area, priority, verification, and release
+   impact fields.
+3. Create an epic branch such as `hd-0001` from `main`, or a ticket branch such as `hd-0002` from
+   its parent `hd-*` epic branch.
+4. Link the issue from the PR body with `Closes #123`, `Fixes #123`, or `Refs #123`.
+5. Keep durable architecture notes, accepted long-form briefs, or implementation records in
+   Markdown when they need to live with the code.
+
+Legacy `pace-*` work keeps the existing docs-first epic-and-ticket flow:
 
 1. Branch from the latest `main` with the next epic number, for example `pace-0003`.
 2. Make the first commit the detailed planning commit: add `docs/epics/pace-0003.md` and the planned ticket files, for example `docs/tickets/pace-0004.md`.
@@ -19,6 +35,11 @@ Epic branches are temporary integration branches. They collect a planned set of 
 
 This repository uses a solo-maintainer flow. GitHub does not allow a PR author to approve their own PR for branch protection, so main protection does not require approving reviews. The maintainer's approval is expressed by merging the PR after checks pass.
 
+When updating an open ticket, epic, or PR branch, prefer normal follow-up commits and a normal push.
+Do not amend and force-push just to tidy history unless the maintainer explicitly asks or the branch
+cannot otherwise be made correct. Extra commits are acceptable when the issue or epic milestones
+remain answered.
+
 Branch protection still keeps the important guardrails:
 
 - `main` changes go through pull requests.
@@ -30,20 +51,35 @@ Branch protection still keeps the important guardrails:
 
 ## Branch Naming
 
-Use the project prefix and four digits for epic and ticket branches:
+Use `hd-*` for new GitHub-managed work:
+
+```text
+hd-0001
+hd-0002
+```
+
+Use the historical `pace-*` prefix and four digits for legacy Markdown-managed epic and ticket branches:
 
 ```text
 pace-0003
 pace-0004
 ```
 
-The epic branch uses the first number in the sequence. Ticket branches use later numbers and branch from the epic branch. For example, `pace-0004` can target `pace-0003`, but it should not target `main`.
+The epic branch uses the first number in the sequence. Ticket branches use later numbers and branch from the epic branch. For example, `hd-0002` can target `hd-0001`, and `pace-0004` can target `pace-0003`, but a ticket branch should not target `main`.
 
 The branch-flow workflow enforces these relationships:
 
-- PRs into `main` must come from an epic branch with a matching `docs/epics/<branch>.md`, or from a release-please branch.
-- PRs into an epic branch must come from a later numbered ticket branch with a matching `docs/tickets/<branch>.md`.
-- Ticket docs must reference their parent epic branch.
+- Legacy `pace-*` PRs into `main` must include a matching `docs/epics/<branch>.md`, or come from a
+  release-please branch.
+- Legacy `pace-*` PRs into an epic branch must come from a later numbered ticket branch with a
+  matching `docs/tickets/<branch>.md`.
+- Legacy ticket docs must reference their parent epic branch.
+- GitHub-managed `hd-*` PRs can omit Markdown ticket files, but their PR body must link a GitHub
+  issue with `Closes`, `Fixes`, or `Refs`.
+
+See [docs/project-tracking.md](./docs/project-tracking.md) for issue templates, labels, project
+fields, migration rules, and the source-of-truth split. See
+[docs/ticket-history.md](./docs/ticket-history.md) for the reconciled historical `pace-*` map.
 
 ## Conventional Commits
 

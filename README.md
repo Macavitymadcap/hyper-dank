@@ -333,14 +333,11 @@ The native fallback is intentional:
 
 CI is configured in `.github/workflows/ci.yml` and runs `bun run verify` on branch pushes and pull requests to `main`. The verifier runs the same ordered gates used locally, uploads `.cache/verification-report.md`, and stops at the first failed component or test framework. The `check` gate includes Biome plus TypeScript deprecation diagnostics, so editor deprecation warnings fail before merge.
 
-The project currently uses an epic-and-ticket branch flow. Create an epic branch from `main`, such
-as `pace-0003`, and make its first commit the detailed epic plan plus ticket plans under
-`docs/epics/` and `docs/tickets/`. Open that epic branch as a draft PR into `main`. Then create
-ticket branches such as `pace-0004` from the epic branch and open those PRs back into the epic
-branch. The epic PR is merged to `main` only after its ticket PRs are complete.
-
-The `pace-0060` epic is also documenting the move towards GitHub Issues and Projects for future
-ticket state. Until that workflow lands, Markdown plans remain the durable source of truth.
+The project is moving from Markdown-first ticket tracking to GitHub Issues and GitHub Projects.
+Historical `pace-*` branches and docs remain valid, while future GitHub-managed work should use
+`hd-*` issue and branch identifiers. See [CONTRIBUTING.md](./CONTRIBUTING.md),
+[docs/project-tracking.md](./docs/project-tracking.md), and
+[docs/ticket-history.md](./docs/ticket-history.md) for the current source-of-truth rules.
 
 `main` should be protected as PR-only with passing CI, branch-flow validation, a Conventional Commit PR title, and resolved conversations. Approving reviews are disabled for the solo-maintainer workflow because GitHub does not allow a PR author to approve their own PR for branch protection. After pushing this branch, apply the repository protection with:
 

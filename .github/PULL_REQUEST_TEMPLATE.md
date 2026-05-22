@@ -2,6 +2,12 @@
 
 -
 
+## Tracking
+
+- Issue:
+- Project:
+- Branch:
+
 ## Images
 
 | State | Light | Dark |
@@ -18,10 +24,9 @@
 
 ## Review Notes
 
-- [ ] Epic PRs target `main` from an epic branch such as `pace-0003`.
-- [ ] Ticket PRs target their parent epic branch from a later ticket branch such as `pace-0004`.
-- [ ] Epic PRs include `docs/epics/<branch>.md`.
-- [ ] Ticket PRs include `docs/tickets/<branch>.md` and reference the parent epic.
+- [ ] Legacy `pace-*` epic PRs target `main` and include `docs/epics/<branch>.md`.
+- [ ] Legacy `pace-*` ticket PRs target their parent epic branch and include `docs/tickets/<branch>.md`.
+- [ ] GitHub-managed `hd-*` PRs link an issue with `Closes`, `Fixes`, or `Refs`.
 - [ ] The PR title follows Conventional Commits, for example `fix(table): align row radius`.
 - [ ] This is ready for solo-maintainer merge once checks pass.
 - [ ] This does not commit local SQLite database files.

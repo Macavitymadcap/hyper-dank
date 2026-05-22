@@ -1,0 +1,35 @@
+name: Audit
+description: Investigate a product, code, docs, or workflow surface.
+title: "hd-0000: "
+labels:
+  - "type: audit"
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Audit question
+      description: What decision should this audit support?
+    validations:
+      required: true
+  - type: textarea
+    id: surfaces
+    attributes:
+      label: Surfaces to inspect
+      placeholder: |
+        - 
+        - 
+        - 
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence to capture
+      description: Screenshots, commands, docs, git history, or user flows.
+  - type: textarea
+    id: output
+    attributes:
+      label: Expected output
+      placeholder: Findings, recommended tickets, and any durable Markdown artifact.
+    validations:
+      required: true

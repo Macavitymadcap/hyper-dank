@@ -1,0 +1,38 @@
+name: Hotfix
+description: Track an urgent or narrow corrective change.
+title: "hd-0000: "
+labels:
+  - "type: hotfix"
+body:
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Who or what is affected?
+    validations:
+      required: true
+  - type: textarea
+    id: cause
+    attributes:
+      label: Suspected cause
+      description: State what is known and what still needs checking.
+  - type: textarea
+    id: fix
+    attributes:
+      label: Proposed fix
+    validations:
+      required: true
+  - type: textarea
+    id: rollback
+    attributes:
+      label: Rollback or recovery
+      description: How can this be backed out or mitigated?
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      placeholder: |
+        - [ ] Focused regression test
+        - [ ] `bun run verify`
+    validations:
+      required: true

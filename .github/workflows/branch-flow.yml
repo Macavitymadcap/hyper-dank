@@ -34,8 +34,11 @@ jobs:
 
           const baseRef = process.env.BASE_REF ?? "";
           const headRef = process.env.HEAD_REF ?? "";
-          const branchPattern = /^pace-(\d{4})$/;
+          const prBody = ${{ toJSON(github.event.pull_request.body || '') }};
+          const legacyBranchPattern = /^pace-(\d{4})$/;
+          const githubBranchPattern = /^hd-(\d{4})(?:-.+)?$/;
           const releasePleasePattern = /^release-please(?:--|\/).+/;
+          const issueLinkPattern = /\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?|refs?)\s+#\d+\b/i;
 
           function fail(message) {
             console.error(message);
@@ -46,44 +49,72 @@ jobs:
             if (!fs.existsSync(path)) fail(message);
           }
 
+          function branchKind(ref) {
+            const legacyMatch = ref.match(legacyBranchPattern);
+            if (legacyMatch) return { number: Number(legacyMatch[1]), type: "legacy" };
+
+            const githubMatch = ref.match(githubBranchPattern);
+            if (githubMatch) return { number: Number(githubMatch[1]), type: "github" };
+
+            return null;
+          }
+
+          function requireIssueLink() {
+            if (!issueLinkPattern.test(prBody)) {
+              fail(`GitHub-managed branch ${headRef} must link an issue in the PR body with Closes #123, Fixes #123, or Refs #123.`);
+            }
+          }
+
           if (baseRef === "main") {
             if (releasePleasePattern.test(headRef)) {
               console.log(`Release automation branch ${headRef} may target main.`);
               process.exit(0);
             }
 
-            if (!branchPattern.test(headRef)) {
-              fail(`PRs into main must come from an epic branch like pace-0003, not ${headRef}.`);
+            const head = branchKind(headRef);
+            if (!head) {
+              fail(`PRs into main must come from an epic branch like pace-0003 or hd-0001, not ${headRef}.`);
             }
 
-            const epicPath = `docs/epics/${headRef}.md`;
-            requireFile(epicPath, `Epic branch ${headRef} must include ${epicPath}.`);
+            if (head.type === "legacy") {
+              const epicPath = `docs/epics/${headRef}.md`;
+              requireFile(epicPath, `Legacy epic branch ${headRef} must include ${epicPath}.`);
+            } else {
+              requireIssueLink();
+            }
+
             console.log(`Epic branch ${headRef} may target main.`);
             process.exit(0);
           }
 
-          const baseMatch = baseRef.match(branchPattern);
-          if (!baseMatch) {
-            fail(`PR base must be main or an epic branch like pace-0003, not ${baseRef}.`);
+          const base = branchKind(baseRef);
+          if (!base) {
+            fail(`PR base must be main or an epic branch like pace-0003 or hd-0001, not ${baseRef}.`);
           }
 
-          const headMatch = headRef.match(branchPattern);
-          if (!headMatch) {
-            fail(`Ticket PRs must come from a branch like pace-0004, not ${headRef}.`);
+          const head = branchKind(headRef);
+          if (!head) {
+            fail(`Ticket PRs must come from a branch like pace-0004 or hd-0002, not ${headRef}.`);
           }
 
-          const baseNumber = Number(baseMatch[1]);
-          const headNumber = Number(headMatch[1]);
-          if (headNumber <= baseNumber) {
+          if (head.type !== base.type) {
+            fail(`Ticket branch ${headRef} must use the same tracking mode as parent epic ${baseRef}.`);
+          }
+
+          if (head.number <= base.number) {
             fail(`Ticket branch ${headRef} must use a later number than parent epic ${baseRef}.`);
           }
 
-          const ticketPath = `docs/tickets/${headRef}.md`;
-          requireFile(ticketPath, `Ticket branch ${headRef} must include ${ticketPath}.`);
+          if (head.type === "legacy") {
+            const ticketPath = `docs/tickets/${headRef}.md`;
+            requireFile(ticketPath, `Legacy ticket branch ${headRef} must include ${ticketPath}.`);
 
-          const ticketDoc = fs.readFileSync(ticketPath, "utf8");
-          if (!ticketDoc.includes(baseRef)) {
-            fail(`Ticket doc ${ticketPath} must reference parent epic ${baseRef}.`);
+            const ticketDoc = fs.readFileSync(ticketPath, "utf8");
+            if (!ticketDoc.includes(baseRef)) {
+              fail(`Ticket doc ${ticketPath} must reference parent epic ${baseRef}.`);
+            }
+          } else {
+            requireIssueLink();
           }
 
           console.log(`Ticket branch ${headRef} may target epic branch ${baseRef}.`);

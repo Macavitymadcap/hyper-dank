@@ -1,12 +1,14 @@
 # Main Branch Protection
 
-This repo is set up for an epic-and-ticket branch workflow:
+This repo is set up for a protected epic-and-ticket branch workflow:
 
 - CI runs on every branch push.
 - CI runs again for pull requests targeting `main`.
 - `main` should only accept completed epic branches through pull requests.
 - Epic branches, such as `pace-0003`, are temporary integration branches for planned ticket work.
 - Ticket branches, such as `pace-0004`, branch from and merge back into their parent epic branch.
+- New GitHub-managed work may use `hd-*` branches linked to GitHub issues instead of new Markdown
+  ticket files.
 - Pull requests do not require approving reviews in solo-maintainer mode.
 - The required `test`, `branch-flow`, and `lint-pr-title` checks must pass before merging.
 - Direct pushes and force pushes to `main` should be blocked.
@@ -16,10 +18,17 @@ This repo is set up for an epic-and-ticket branch workflow:
 
 The `branch-flow` workflow validates PR relationships:
 
-- PRs targeting `main` must come from an epic branch matching `pace-\d{4}` and include a matching `docs/epics/<branch>.md`.
+- PRs targeting `main` must come from a legacy epic branch matching `pace-\d{4}` with a matching
+  `docs/epics/<branch>.md`, from a GitHub-managed epic branch matching `hd-\d{4}`, or from an
+  allowed release-please branch.
 - Release-please branches are allowed to target `main`.
-- PRs targeting an epic branch must come from a later numbered `pace-\d{4}` ticket branch.
-- Ticket branches must include `docs/tickets/<branch>.md`, and that ticket doc must reference the parent epic branch.
+- PRs targeting a legacy epic branch must come from a later numbered `pace-\d{4}` ticket branch.
+- Legacy ticket branches must include `docs/tickets/<branch>.md`, and that ticket doc must
+  reference the parent epic branch.
+- PRs targeting a GitHub-managed `hd-*` epic branch must come from a later numbered `hd-*` ticket
+  branch.
+- GitHub-managed `hd-*` PRs must link a GitHub issue in the PR body with `Closes #123`,
+  `Fixes #123`, or `Refs #123`.
 
 ## Solo-Maintainer Mode
 
