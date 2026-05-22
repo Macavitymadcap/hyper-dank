@@ -2,6 +2,24 @@
 
 Server-rendered Hono JSX components shared by Hyper-Dank apps.
 
+## Installation
+
+`@macavitymadcap/hyper-dank-ui` is not published to npm yet. Install it from the local package
+tarball produced by the Hyper-Dank workspace:
+
+```bash
+# from hyper-dank
+bun run pack:packages
+
+# from a downstream app
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.0.tgz
+bun add hono typescript
+```
+
+The package peers on `hono` for server-rendered JSX and `typescript` for declaration-aware tooling.
+The tarball route is verified by `bun run test:packages`, which installs the package into a clean
+temporary app outside this workspace and imports it by package name.
+
 ```ts
 import {
   BasicGraph,

@@ -59,6 +59,43 @@ The component structure is inspired by [Atomic Design](https://bradfrost.com/blo
 bun install
 ```
 
+## Package Installation
+
+The scoped Hyper-Dank packages are not published to npm yet. The supported near-term route is to
+pack this workspace locally, then install the generated tarballs into a downstream Bun app with the
+peer dependencies that app needs.
+
+From this repository:
+
+```bash
+bun run pack:packages
+```
+
+From a downstream app:
+
+```bash
+bun add \
+  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.0.tgz \
+  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-data-0.1.0.tgz \
+  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-transport-0.1.0.tgz \
+  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-automation-0.1.0.tgz
+bun add hono typescript
+```
+
+Server-rendered UI and transport consumers need `hono`. All packages expect TypeScript-aware
+tooling. The automation package keeps `@playwright/test` as an optional peer: install it only when
+using browser screenshot, E2E, or Playwright-backed helpers.
+
+Verify the route from a clean external fixture with:
+
+```bash
+bun run test:packages
+```
+
+That script packs the four packages, creates a temporary app outside this workspace, installs the
+tarballs through their public package names, typechecks the public imports, resolves
+`@macavitymadcap/hyper-dank-ui/styles.css`, and runs a small Bun smoke.
+
 ## Run Locally
 
 ```bash
@@ -155,6 +192,7 @@ bun run test:a11y
 bun run test:e2e
 bun run test:e2e:ui
 bun run test:healthcheck
+bun run test:packages
 bun run test:storybook
 bun run test:watch
 bun run typecheck
@@ -216,6 +254,12 @@ Smoke-test the production start command and health endpoint:
 bun run test:healthcheck
 ```
 
+Pack the shared packages and prove a downstream tarball install from outside this workspace:
+
+```bash
+bun run test:packages
+```
+
 Run Storybook locally, build it, or execute the Storybook test runner:
 
 ```bash
@@ -262,6 +306,7 @@ The test suite covers:
 - shared database provider and repository adapter contracts, with optional Postgres conformance via `TEST_DATABASE_URL`
 - consumer compatibility coverage for server-app, static blog, dashboard/admin, static demo, and
   scripts-package imports
+- external package-tarball installation and public import smoke coverage
 - validation and pace calculations
 
 ## Forms And Progressive Enhancement
