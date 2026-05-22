@@ -37,4 +37,6 @@ the package into a clean temporary app outside this workspace and imports it by 
 
 The public docs site includes route-level examples for these helpers.
 
+For the full public API reference, see `site/libraries-transport.md`.
+
 For app-shape guidance, see the public recipes in `site/recipes.md`.

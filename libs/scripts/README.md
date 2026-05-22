@@ -156,4 +156,6 @@ Shared helpers should own mechanics such as command execution, GitHub requests, 
 reporting, server readiness, screenshots, Pa11y invocation, PR image Markdown, and generic static
 content rendering.
 
+For the full public API reference, see `site/libraries-automation.md`.
+
 For app-shape guidance, see the public recipes in `site/recipes.md`.

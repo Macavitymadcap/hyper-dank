@@ -80,6 +80,9 @@ Compatibility coverage exercises these exports in server-app, static blog, dashb
 static-demo, and script-consumer compositions. Storybook is the canonical component reference for
 rendered states, accessibility notes, and interaction examples.
 
+For the public docs API page, see `site/libraries-ui.md`. For rendered component contracts, see the
+published Storybook route at `/storybook/`.
+
 ## Composition Patterns
 
 - Server apps should pair `HxForm`, `FormField`, `Button`, and `Panel` with app-owned routes,
