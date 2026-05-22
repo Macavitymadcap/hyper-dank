@@ -7,6 +7,14 @@ import { sharedIconStoryNames, sharedStoryCoverage } from "./storybook-coverage"
 
 const storyTitlePattern = /title:\s*["']([^"']+)["']/;
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..");
+const consumerGuideStoryTitles = new Map([
+  ["apps/walking-pace/src/stories/about.stories.tsx", "Guides/About"],
+  [
+    "apps/walking-pace/src/stories/component-system.stories.tsx",
+    "Introduction/Component Contracts",
+  ],
+  ["apps/walking-pace/src/stories/guides.stories.tsx", "Guides/Using Hyper-Dank"],
+]);
 
 describe("Storybook shared reference coverage", () => {
   test("documents every public shared runtime export", () => {
@@ -46,6 +54,29 @@ describe("Storybook shared reference coverage", () => {
       expect(readStoryTitle(storyFile), relative(repoRoot, storyFile)).toStartWith(
         "Components/Reference App/",
       );
+    }
+  });
+
+  test("keeps narrative Storybook pages in accepted consumer reference groups", () => {
+    for (const [storyPath, expectedTitle] of consumerGuideStoryTitles) {
+      const storyFile = join(repoRoot, storyPath);
+
+      expect(readStoryTitle(storyFile), storyPath).toBe(expectedTitle);
+    }
+  });
+
+  test("keeps maintainer-only guide labels out of consumer Storybook pages", () => {
+    const storyFiles = listStoryFiles(join(repoRoot, "apps/walking-pace/src/stories"));
+    const forbiddenPatterns = [/Guides\/Template/, /Template guide/, /App Builder Reuse/];
+
+    for (const storyFile of storyFiles) {
+      const source = readFileSync(storyFile, "utf8");
+
+      for (const pattern of forbiddenPatterns) {
+        expect(source, `${relative(repoRoot, storyFile)} should not match ${pattern}`).not.toMatch(
+          pattern,
+        );
+      }
     }
   });
 

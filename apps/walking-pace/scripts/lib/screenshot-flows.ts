@@ -176,6 +176,31 @@ export const screenshotFlows: ScreenshotFlow[] = [
       },
     ],
   },
+  {
+    id: "storybook-reference",
+    label: "Storybook Reference",
+    description: "Consumer-reference Storybook pages for shared icons, contracts, and guides.",
+    states: [
+      {
+        authUserId: null,
+        label: "Icon catalogue",
+        path: "/storybook/iframe.html?id=components-shared-core-primitives--icon-catalogue",
+        slug: "icon-catalogue",
+      },
+      {
+        authUserId: null,
+        label: "Component contracts",
+        path: "/storybook/iframe.html?id=introduction-component-contracts--reference-map",
+        slug: "component-contracts",
+      },
+      {
+        authUserId: null,
+        label: "Using Hyper-Dank",
+        path: "/storybook/iframe.html?id=guides-using-hyper-dank--usage",
+        slug: "using-hyper-dank",
+      },
+    ],
+  },
 ];
 
 export function selectScreenshotFlows(flowIds: string[]): ScreenshotFlow[] {
