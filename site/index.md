@@ -23,7 +23,7 @@ title: Hyper-Dank
 
 <section class="grid">
   <article class="card">
-    <h2>Libraries</h2>
+    <h2 class="route-card-heading"><span class="docs-side-nav__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 5.5c3 0 5 .7 8 2.2 3-1.5 5-2.2 8-2.2v12c-3 0-5 .7-8 2.2-3-1.5-5-2.2-8-2.2z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg></span>Libraries</h2>
     <p>
       Shared packages cover Hono JSX components, database lifecycle primitives, and HTTP/HTMX helper
       contracts.
@@ -39,7 +39,7 @@ title: Hyper-Dank
     <a href="{{ '/system/' | relative_url }}">Read the architecture</a>
   </article>
   <article class="card">
-    <h2>Recipes</h2>
+    <h2 class="route-card-heading"><span class="docs-side-nav__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 6l5-2 6 2 5-2v14l-5 2-6-2-5 2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg></span>Recipes</h2>
     <p>
       Compose the libraries into static demos, server-rendered apps, dashboards, and documentation
       sites without taking on a large client framework.
