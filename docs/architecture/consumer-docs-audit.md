@@ -13,9 +13,9 @@
 
 Hyper-Dank has the right public surfaces for an adopter-facing toolkit, but those surfaces still
 need clearer ownership. The highest-risk gap is package installation: the scoped package names exist
-locally and can be packed, but they are not published to npm today. `pace-0062` should prove an
-outside-workspace package-tarball installation route first, then document whether npm or GitHub
-Packages should become the longer-term distribution route.
+locally and can be packed, but they are not published to npm today. `pace-0062` proves an
+outside-workspace package-tarball installation route first, while npm or GitHub Packages remain
+longer-term distribution options.
 
 Storybook already has broad shared component coverage and a useful reference-app split. The next
 Storybook work should refine consumer signposting, improve the icon catalogue, and move or reframe
@@ -46,10 +46,10 @@ The packages are currently workspace packages with source imports and local pack
 
 | Package | Local version | Public subpaths | Peer dependencies | Current distribution finding | Recommendation |
 | --- | --- | --- | --- | --- | --- |
-| `@macavitymadcap/hyper-dank-ui` | `0.1.0` | `.`, `./styles.css` | `hono`, `typescript` | Not on npm; can build declarations and pack locally | `pace-0062` should prove tarball install plus CSS import from a clean outside workspace |
-| `@macavitymadcap/hyper-dank-data` | `0.1.0` | `.`, `./testing` | `typescript` | Not on npm; testing subpath is package-visible | `pace-0062` should include main and testing subpath imports in the smoke |
-| `@macavitymadcap/hyper-dank-transport` | `0.1.0` | `.` | `hono`, `typescript` | Not on npm; Hono peer is explicit | `pace-0062` should verify Hono peer expectations in install docs |
-| `@macavitymadcap/hyper-dank-automation` | `0.1.0` | `.`, `./content` | `@playwright/test` optional, `typescript` | Not on npm; content subpath is package-visible | `pace-0062` should include content subpath imports and explain optional browser tooling |
+| `@macavitymadcap/hyper-dank-ui` | `0.1.0` | `.`, `./styles.css` | `hono`, `typescript` | Not on npm; can build declarations and pack locally | Tarball smoke verifies UI imports plus CSS export from a clean outside workspace |
+| `@macavitymadcap/hyper-dank-data` | `0.1.0` | `.`, `./testing` | `typescript` | Not on npm; testing subpath is package-visible | Tarball smoke verifies main and testing subpath imports |
+| `@macavitymadcap/hyper-dank-transport` | `0.1.0` | `.` | `hono`, `typescript` | Not on npm; Hono peer is explicit | Install docs name the Hono peer and tarball smoke verifies public imports |
+| `@macavitymadcap/hyper-dank-automation` | `0.1.0` | `.`, `./content` | `@playwright/test` optional, `typescript` | Not on npm; content subpath is package-visible | Tarball smoke verifies content subpath imports and install docs explain optional browser tooling |
 
 ### Consumption Route Recommendation
 
@@ -61,11 +61,14 @@ Use package tarballs as the first proven downstream-app route:
 4. Verify TypeScript declarations, source imports, CSS export, and peer dependency expectations.
 5. Document the route as the supported near-term path.
 
-This route matches existing package scripts, avoids overpromising npm publication, and is easy to
-replace with npm or GitHub Packages later because it exercises the package manifests and export
-maps. GitHub Packages is a possible follow-up if private registry authentication is acceptable.
-Public npm publication remains the best long-term public adoption route, but it should not be
-claimed until release credentials, package visibility, and versioning policy are in place.
+`bun run test:packages` now executes this route with a temporary Bun app under `/private/tmp`.
+It installs the four packed packages, adds required peers, typechecks public imports, resolves the
+UI CSS export, and runs a Bun smoke through the public package names. This route matches existing
+package scripts, avoids overpromising npm publication, and is easy to replace with npm or GitHub
+Packages later because it exercises the package manifests and export maps. GitHub Packages is a
+possible follow-up if private registry authentication is acceptable. Public npm publication remains
+the best long-term public adoption route, but it should not be claimed until release credentials,
+package visibility, and versioning policy are in place.
 
 ## Public Surface Classification
 
