@@ -76,6 +76,50 @@ describe("public docs", () => {
 
     expect(brokenLinks).toEqual([]);
   });
+
+  test("document public package exports on library API pages", () => {
+    const coverage = [
+      {
+        docs: "site/libraries-ui.md",
+        sources: ["libs/components/src/index.ts"],
+      },
+      {
+        docs: "site/libraries-data.md",
+        sources: ["libs/database/src/index.ts", "libs/database/src/testing.ts"],
+      },
+      {
+        docs: "site/libraries-transport.md",
+        sources: ["libs/http/src/index.ts"],
+      },
+      {
+        docs: "site/libraries-automation.md",
+        sources: [
+          "libs/scripts/src/browser.ts",
+          "libs/scripts/src/github.ts",
+          "libs/scripts/src/local-server.ts",
+          "libs/scripts/src/pa11y.ts",
+          "libs/scripts/src/pr-images.ts",
+          "libs/scripts/src/process.ts",
+          "libs/scripts/src/static-site.ts",
+          "libs/scripts/src/verification.ts",
+          "libs/scripts/src/content/index.ts",
+        ],
+      },
+    ];
+
+    const missingExports = coverage.flatMap(({ docs, sources }) => {
+      const text = readFileSync(path.join(root, docs), "utf8");
+      const documentedNames = documentedCodeNames(text);
+
+      return sources.flatMap((source) =>
+        publicExportNames(source).flatMap((exportName) =>
+          documentedNames.has(exportName) ? [] : [`${docs}: missing ${exportName} from ${source}`],
+        ),
+      );
+    });
+
+    expect(missingExports).toEqual([]);
+  });
 });
 
 function markdownFiles(relativeDir: string): string[] {
@@ -122,4 +166,40 @@ function shouldIgnoreMarkdownLink(target: string) {
 function stripFragment(target: string) {
   const withoutFragment = target.split("#", 1)[0] ?? "";
   return withoutFragment.split("?", 1)[0] ?? "";
+}
+
+function documentedCodeNames(markdown: string) {
+  return new Set(
+    Array.from(markdown.matchAll(/`(?<name>[A-Za-z][A-Za-z0-9_]*)`/g)).flatMap((match) =>
+      match.groups?.name ? [match.groups.name] : [],
+    ),
+  );
+}
+
+function publicExportNames(relativePath: string) {
+  const text = readFileSync(path.join(root, relativePath), "utf8");
+  const names = new Set<string>();
+
+  for (const match of text.matchAll(
+    /export\s+(?:async\s+)?(?:function|class|interface|type|const)\s+(?<name>[A-Za-z0-9_]+)/g,
+  )) {
+    if (match.groups?.name) names.add(match.groups.name);
+  }
+
+  for (const match of text.matchAll(/export\s*\{(?<exports>[^}]+)\}/g)) {
+    const exportsGroup = match.groups?.exports;
+    if (!exportsGroup) continue;
+
+    for (const part of exportsGroup.split(",")) {
+      const name = part
+        .trim()
+        .replace(/^type\s+/, "")
+        .split(/\s+as\s+/)
+        .pop()
+        ?.trim();
+      if (name) names.add(name);
+    }
+  }
+
+  return [...names].sort();
 }

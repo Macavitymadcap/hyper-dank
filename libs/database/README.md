@@ -86,4 +86,6 @@ predictable after both successful and failing assertions.
 The public docs site includes examples for provider typing, migration stores, planning, and
 lifecycle contract tests.
 
+For the full public API reference, see `site/libraries-data.md`.
+
 For app-shape guidance, see the public recipes in `site/recipes.md`.
