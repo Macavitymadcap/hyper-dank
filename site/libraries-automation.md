@@ -15,6 +15,7 @@ choices remain in the app.
   <summary aria-label="Toggle library docs navigation"><span class="docs-side-nav__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 5.5c3 0 5 .7 8 2.2 3-1.5 5-2.2 8-2.2v12c-3 0-5 .7-8 2.2-3-1.5-5-2.2-8-2.2z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg></span><span class="docs-side-nav__label">Library docs</span><span class="docs-side-nav__mobile-label">Libraries</span></summary>
   <nav aria-label="Library docs">
     <a href="{{ '/libraries/' | relative_url }}">Overview</a>
+    <a href="{{ '/libraries/consumer-setup/' | relative_url }}">Consumer setup</a>
     <a href="{{ '/libraries/ui/' | relative_url }}">UI</a>
     <a href="{{ '/libraries/data/' | relative_url }}">Data</a>
     <a href="{{ '/libraries/transport/' | relative_url }}">Transport</a>

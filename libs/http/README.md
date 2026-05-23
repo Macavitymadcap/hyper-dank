@@ -17,6 +17,8 @@ Package page: <https://www.npmjs.com/package/@macavitymadcap/hyper-dank-transpor
 
 Static docs: <https://macavitymadcap.github.io/hyper-dank/libraries/transport/>
 
+Consumer setup: <https://macavitymadcap.github.io/hyper-dank/libraries/consumer-setup/>
+
 For local package development, pack the Hyper-Dank workspace and install the tarball into a
 downstream app:
 

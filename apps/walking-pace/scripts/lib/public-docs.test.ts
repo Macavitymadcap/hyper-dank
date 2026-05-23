@@ -217,6 +217,78 @@ describe("public docs", () => {
     expect(missingContent).toEqual([]);
   });
 
+  test("documents published package consumer setup", () => {
+    const setup = readFileSync(path.join(root, "site/libraries-consumer-setup.md"), "utf8");
+    const libraries = readFileSync(path.join(root, "site/libraries.md"), "utf8");
+    const siteCss = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
+    const packageReadmes = [
+      "libs/components/README.md",
+      "libs/database/README.md",
+      "libs/http/README.md",
+      "libs/scripts/README.md",
+    ].map((file) => readFileSync(path.join(root, file), "utf8"));
+
+    const packageNames = [
+      "@macavitymadcap/hyper-dank-ui",
+      "@macavitymadcap/hyper-dank-data",
+      "@macavitymadcap/hyper-dank-transport",
+      "@macavitymadcap/hyper-dank-automation",
+    ];
+
+    expect(setup).toContain("permalink: /libraries/consumer-setup/");
+    expect(setup).toContain('class="package-manager-tabs"');
+    expect(setup).toContain('id="install-npm"');
+    expect(setup).toContain('id="install-bun"');
+    expect(setup).toContain('id="install-yarn"');
+    expect(setup).toContain('id="install-pnpm"');
+    expect(setup).toContain("npm install @macavitymadcap/hyper-dank-ui");
+    expect(setup).toContain("bun add @macavitymadcap/hyper-dank-ui");
+    expect(setup).toContain("yarn add @macavitymadcap/hyper-dank-ui");
+    expect(setup).toContain("pnpm add @macavitymadcap/hyper-dank-ui");
+    expect(setup).toContain("npm install --save-dev typescript bun-types");
+    expect(setup).toContain("bun add --dev typescript bun-types");
+    expect(setup).toContain("yarn add --dev typescript bun-types");
+    expect(setup).toContain("pnpm add --save-dev typescript bun-types");
+    expect(setup).toContain("npm install --save-dev @playwright/test");
+    expect(setup).toContain('"jsxImportSource": "hono/jsx"');
+    expect(setup).toContain('"types": ["bun-types"]');
+    expect(setup).toContain("<a href=\"{{ '/libraries/ui/' | relative_url }}\">UI docs</a>");
+    expect(setup).toContain("<a href=\"{{ '/libraries/data/' | relative_url }}\">Data docs</a>");
+    expect(setup).toContain(
+      "<a href=\"{{ '/libraries/transport/' | relative_url }}\">Transport docs</a>",
+    );
+    expect(setup).toContain(
+      "<a href=\"{{ '/libraries/automation/' | relative_url }}\">Automation docs</a>",
+    );
+    expect(setup).toContain('import "@macavitymadcap/hyper-dank-ui/styles.css";');
+    expect(setup).toContain("import.meta.resolve");
+    expect(setup).toContain("Package smoke");
+    expect(setup).toContain("renderMarkdown");
+    expect(setup).toContain("createProviderRegistry");
+    expect(setup).toContain("runPendingMigrations");
+    expect(setup).toContain("FormValues");
+    expect(setup).toContain("HttpResponder");
+    expect(setup).toContain("isHtmxRequest");
+    expect(setup).toContain(
+      '<a aria-current="page" href="{{ \'/libraries/consumer-setup/\' | relative_url }}">Consumer setup</a>',
+    );
+    expect(libraries).toContain("{{ '/libraries/consumer-setup/' | relative_url }}");
+    expect(siteCss).toContain(".package-manager-tabs");
+    expect(siteCss).toContain(".package-manager-tabs input:checked + label");
+    expect(siteCss).toContain("#install-npm:checked ~ .package-manager-tabs__panel--npm");
+
+    for (const packageName of packageNames) {
+      expect(setup).toContain(packageName);
+      expect(setup).toContain(`https://www.npmjs.com/package/${packageName}`);
+    }
+
+    for (const readme of packageReadmes) {
+      expect(readme).toContain(
+        "https://macavitymadcap.github.io/hyper-dank/libraries/consumer-setup/",
+      );
+    }
+  });
+
   test("uses route icons for side-panelled homepage destinations", () => {
     const home = readFileSync(path.join(root, "site/index.md"), "utf8");
 
