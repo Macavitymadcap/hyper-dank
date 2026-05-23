@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.2](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.1...hyper-dank-v2.5.2) (2026-05-23)
+
+
+### Documentation
+
+* add storybook visual evidence ([#120](https://github.com/Macavitymadcap/hyper-dank/issues/120)) ([2fe75b1](https://github.com/Macavitymadcap/hyper-dank/commit/2fe75b1503d12060171557442cba823331f62812))
+
 ## [2.5.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.0...hyper-dank-v2.5.1) (2026-05-23)
 
 
