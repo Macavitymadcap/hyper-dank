@@ -26,7 +26,7 @@ describe("shared component styles", () => {
     expect(css).toContain(".page-header h1");
     expect(css).toContain("font-size: var(--font-size-4, 2rem)");
     expect(css).toContain("appearance: none");
-    expect(css).toContain("viewBox=%220%200%2024%2024%22");
+    expect(css).toContain("viewBox=%220%200%2020%2020%22");
     expect(css).toContain("width: 100%");
     expect(css).toContain("anchor-name: var(--popover-anchor-name)");
     expect(css).toContain("position-anchor: var(--popover-anchor-name)");

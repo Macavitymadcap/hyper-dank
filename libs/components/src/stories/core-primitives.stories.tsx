@@ -244,6 +244,7 @@ export function SelectionTools() {
           />
         </div>
       </article>,
+      { size: "full" },
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
