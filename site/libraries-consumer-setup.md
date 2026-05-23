@@ -26,17 +26,52 @@ app outside this repository.
 
 ## Install packages
 
-Install the packages you need from npm. Server-rendered UI and transport helpers need `hono`.
-Every package expects TypeScript-aware tooling.
+Install the packages you need from the npm registry. Server-rendered UI and transport helpers need
+`hono`. Every package expects TypeScript-aware tooling, and Bun apps should install Bun's public
+type package.
+
+<div class="package-manager-tabs">
+  <input checked id="install-npm" name="install-package-manager" type="radio">
+  <label for="install-npm">npm</label>
+  <input id="install-bun" name="install-package-manager" type="radio">
+  <label for="install-bun">Bun</label>
+  <input id="install-yarn" name="install-package-manager" type="radio">
+  <label for="install-yarn">Yarn</label>
+  <input id="install-pnpm" name="install-package-manager" type="radio">
+  <label for="install-pnpm">pnpm</label>
+  <div class="package-manager-tabs__panel package-manager-tabs__panel--npm">
 
 ```bash
-npm install \
-  @macavitymadcap/hyper-dank-ui \
-  @macavitymadcap/hyper-dank-data \
-  @macavitymadcap/hyper-dank-transport \
-  @macavitymadcap/hyper-dank-automation
-npm install hono typescript
+npm install @macavitymadcap/hyper-dank-ui @macavitymadcap/hyper-dank-data @macavitymadcap/hyper-dank-transport @macavitymadcap/hyper-dank-automation hono
+npm install --save-dev typescript bun-types
 ```
+
+  </div>
+  <div class="package-manager-tabs__panel package-manager-tabs__panel--bun">
+
+```bash
+bun add @macavitymadcap/hyper-dank-ui @macavitymadcap/hyper-dank-data @macavitymadcap/hyper-dank-transport @macavitymadcap/hyper-dank-automation hono
+bun add --dev typescript bun-types
+```
+
+  </div>
+  <div class="package-manager-tabs__panel package-manager-tabs__panel--yarn">
+
+```bash
+yarn add @macavitymadcap/hyper-dank-ui @macavitymadcap/hyper-dank-data @macavitymadcap/hyper-dank-transport @macavitymadcap/hyper-dank-automation hono
+yarn add --dev typescript bun-types
+```
+
+  </div>
+  <div class="package-manager-tabs__panel package-manager-tabs__panel--pnpm">
+
+```bash
+pnpm add @macavitymadcap/hyper-dank-ui @macavitymadcap/hyper-dank-data @macavitymadcap/hyper-dank-transport @macavitymadcap/hyper-dank-automation hono
+pnpm add --save-dev typescript bun-types
+```
+
+  </div>
+</div>
 
 Install the optional Playwright peer only when your app uses browser screenshots, E2E checks, or
 Playwright-backed automation helpers.
@@ -145,12 +180,39 @@ if (
 
 ## Package pages
 
-| Package | npm | Docs |
-| --- | --- | --- |
-| `@macavitymadcap/hyper-dank-ui` | [npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-ui) | [UI docs]({{ '/libraries/ui/' | relative_url }}) |
-| `@macavitymadcap/hyper-dank-data` | [npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-data) | [Data docs]({{ '/libraries/data/' | relative_url }}) |
-| `@macavitymadcap/hyper-dank-transport` | [npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-transport) | [Transport docs]({{ '/libraries/transport/' | relative_url }}) |
-| `@macavitymadcap/hyper-dank-automation` | [npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-automation) | [Automation docs]({{ '/libraries/automation/' | relative_url }}) |
+<div class="table-scroll" tabindex="0">
+<table>
+  <thead>
+    <tr>
+      <th>Package</th>
+      <th>npm</th>
+      <th>Docs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>@macavitymadcap/hyper-dank-ui</code></td>
+      <td><a href="https://www.npmjs.com/package/@macavitymadcap/hyper-dank-ui">npm</a></td>
+      <td><a href="{{ '/libraries/ui/' | relative_url }}">UI docs</a></td>
+    </tr>
+    <tr>
+      <td><code>@macavitymadcap/hyper-dank-data</code></td>
+      <td><a href="https://www.npmjs.com/package/@macavitymadcap/hyper-dank-data">npm</a></td>
+      <td><a href="{{ '/libraries/data/' | relative_url }}">Data docs</a></td>
+    </tr>
+    <tr>
+      <td><code>@macavitymadcap/hyper-dank-transport</code></td>
+      <td><a href="https://www.npmjs.com/package/@macavitymadcap/hyper-dank-transport">npm</a></td>
+      <td><a href="{{ '/libraries/transport/' | relative_url }}">Transport docs</a></td>
+    </tr>
+    <tr>
+      <td><code>@macavitymadcap/hyper-dank-automation</code></td>
+      <td><a href="https://www.npmjs.com/package/@macavitymadcap/hyper-dank-automation">npm</a></td>
+      <td><a href="{{ '/libraries/automation/' | relative_url }}">Automation docs</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 </div>
 </div>
