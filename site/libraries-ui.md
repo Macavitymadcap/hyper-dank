@@ -25,13 +25,13 @@ It is for generic structure and HTML contracts, not product-specific screens.
 
 ## Install
 
-After the first staged npm release is approved:
+Install from npm with the JSX and type tooling peers:
 
 ```bash
-bun add @macavitymadcap/hyper-dank-ui hono typescript
+npm install @macavitymadcap/hyper-dank-ui hono typescript
 ```
 
-Until then, use `bun run pack:packages` and install the local tarball from `.cache/packages/`.
+Package: [view on npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-ui).
 
 Import components from server JSX and import the CSS through the browser asset pipeline. Importing a
 component in server code does not automatically load browser styles.

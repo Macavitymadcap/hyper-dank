@@ -25,13 +25,13 @@ apps. Auth, permissions, services, validation, and product routes stay in the co
 
 ## Install
 
-After the first staged npm release is approved:
+Install from npm with the Hono and TypeScript peers:
 
 ```bash
-bun add @macavitymadcap/hyper-dank-transport hono typescript
+npm install @macavitymadcap/hyper-dank-transport hono typescript
 ```
 
-Until then, use `bun run pack:packages` and install the local tarball from `.cache/packages/`.
+Package: [view on npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-transport).
 
 ```ts
 import {

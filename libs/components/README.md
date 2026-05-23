@@ -6,30 +6,34 @@ copy in the consuming app.
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-ui` is prepared for public npm publication. Until the first staged npm
-release is approved, the supported route remains the local package tarball produced by the
-Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-ui` is public on npm:
+
+```bash
+npm install @macavitymadcap/hyper-dank-ui hono typescript
+```
+
+Package page: <https://www.npmjs.com/package/@macavitymadcap/hyper-dank-ui>
+
+Static docs: <https://macavitymadcap.github.io/hyper-dank/libraries/ui/>
+
+For local package development, pack the Hyper-Dank workspace and install the tarball into a
+downstream app:
 
 ```bash
 # from hyper-dank
 bun run pack:packages
 
 # from a downstream app
-bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.0.tgz
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.1.tgz
 bun add hono typescript
 ```
 
 The package peers on `hono` for server-rendered JSX and `typescript` for declaration-aware tooling.
 The tarball route is verified by `bun run test:packages`, which installs the package into a clean
-temporary app outside this workspace and imports it by package name. After the staged npm release is
-approved, downstream apps can install the public package with:
+temporary app outside this workspace and imports it by package name.
 
-```bash
-bun add @macavitymadcap/hyper-dank-ui hono typescript
-```
-
-The npm workflow uses trusted publishing with provenance and stages packages first so a maintainer
-can review the release before it becomes public.
+Future npm releases use trusted publishing with provenance and staged package approval so a
+maintainer can review the release before it becomes public.
 
 ```ts
 import {
@@ -91,8 +95,9 @@ Compatibility coverage exercises these exports in server-app, static blog, dashb
 static-demo, and script-consumer compositions. Storybook is the canonical component reference for
 rendered states, accessibility notes, and interaction examples.
 
-For the public docs API page, see `site/libraries-ui.md`. For rendered component contracts, see the
-published Storybook route at `/storybook/`.
+For the public docs API page, see <https://macavitymadcap.github.io/hyper-dank/libraries/ui/>.
+For rendered component contracts, see the published Storybook route at
+<https://macavitymadcap.github.io/hyper-dank/storybook/>.
 
 ## Composition Patterns
 

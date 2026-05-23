@@ -7,28 +7,32 @@ helpers. App-specific auth, permissions, routes, and services stay in the consum
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-transport` is prepared for public npm publication. Until the first
-staged npm release is approved, the supported route remains the local package tarball produced by
-the Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-transport` is public on npm:
+
+```bash
+npm install @macavitymadcap/hyper-dank-transport hono typescript
+```
+
+Package page: <https://www.npmjs.com/package/@macavitymadcap/hyper-dank-transport>
+
+Static docs: <https://macavitymadcap.github.io/hyper-dank/libraries/transport/>
+
+For local package development, pack the Hyper-Dank workspace and install the tarball into a
+downstream app:
 
 ```bash
 # from hyper-dank
 bun run pack:packages
 
 # from a downstream app
-bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-transport-0.1.0.tgz
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-transport-0.1.1.tgz
 bun add hono typescript
 ```
 
 The package peers on `hono` for response and request helper integration, and on `typescript` for
 declaration-aware tooling. The tarball route is verified by `bun run test:packages`, which installs
 the package into a clean temporary app outside this workspace and imports it by package name. npm
-publication is staged through GitHub Actions with trusted publishing and provenance. After the
-staged release is approved, downstream apps can install the public package with:
-
-```bash
-bun add @macavitymadcap/hyper-dank-transport hono typescript
-```
+publication is staged through GitHub Actions with trusted publishing and provenance.
 
 ## Public Exports
 
@@ -42,8 +46,5 @@ bun add @macavitymadcap/hyper-dank-transport hono typescript
 - `fragmentOrPage`: renders an app-owned fragment for HTMX requests and an app-owned page for
   native requests.
 
-The public docs site includes route-level examples for these helpers.
-
-For the full public API reference, see `site/libraries-transport.md`.
-
-For app-shape guidance, see the public recipes under `site/recipes.md` and `site/recipes-*.md`.
+The public docs site includes route-level examples for these helpers. For app-shape guidance, see
+the public recipes at <https://macavitymadcap.github.io/hyper-dank/recipes/>.

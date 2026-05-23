@@ -1,8 +1,9 @@
 {
   "name": "@macavitymadcap/hyper-dank-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Server-rendered Hono JSX components for hypermedia-first apps.",
+  "homepage": "https://macavitymadcap.github.io/hyper-dank/libraries/ui/",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,8 +11,7 @@
     "directory": "libs/components"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "files": [
     "dist",

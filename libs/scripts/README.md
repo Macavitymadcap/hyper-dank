@@ -6,16 +6,25 @@ Pa11y, screenshots, PR image tables, and static-content builds.
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-automation` is prepared for public npm publication. Until the first
-staged npm release is approved, the supported route remains the local package tarball produced by
-the Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-automation` is public on npm:
+
+```bash
+npm install @macavitymadcap/hyper-dank-automation typescript
+```
+
+Package page: <https://www.npmjs.com/package/@macavitymadcap/hyper-dank-automation>
+
+Static docs: <https://macavitymadcap.github.io/hyper-dank/libraries/automation/>
+
+For local package development, pack the Hyper-Dank workspace and install the tarball into a
+downstream app:
 
 ```bash
 # from hyper-dank
 bun run pack:packages
 
 # from a downstream app
-bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-automation-0.1.0.tgz
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-automation-0.1.1.tgz
 bun add typescript
 ```
 
@@ -24,15 +33,11 @@ peer for browser screenshot, E2E, and Playwright-backed helpers; install it only
 are part of the downstream app. The tarball route is verified by `bun run test:packages`, which
 installs the package into a clean temporary app outside this workspace and imports both
 `@macavitymadcap/hyper-dank-automation` and `@macavitymadcap/hyper-dank-automation/content` by
-package name. After the staged npm release is approved, downstream apps can install the public
-package with:
+package name.
 
-```bash
-bun add @macavitymadcap/hyper-dank-automation typescript
-```
-
-The npm workflow uses trusted publishing with provenance and stages packages first so a maintainer
-can review the release before it becomes public. GitHub package publication remains a future option.
+Future npm releases use trusted publishing with provenance and staged package approval so a
+maintainer can review the release before it becomes public. GitHub package publication remains a
+future option.
 
 ```ts
 import {

@@ -1,8 +1,9 @@
 {
   "name": "@macavitymadcap/hyper-dank-transport",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Small Hono and HTMX helpers for hypermedia-first apps.",
+  "homepage": "https://macavitymadcap.github.io/hyper-dank/libraries/transport/",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,8 +11,7 @@
     "directory": "libs/http"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "files": [
     "dist",

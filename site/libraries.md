@@ -27,6 +27,17 @@ The libraries deliberately stop at reusable boundaries: component primitives, da
 contracts, Hono/HTMX transport helpers, and script automation. App-owned language, routes,
 permissions, schemas, repositories, fixtures, and release choices stay local.
 
+Install all packages from npm:
+
+```bash
+npm install \
+  @macavitymadcap/hyper-dank-ui \
+  @macavitymadcap/hyper-dank-data \
+  @macavitymadcap/hyper-dank-transport \
+  @macavitymadcap/hyper-dank-automation
+npm install hono typescript
+```
+
 <div class="library-card-grid">
   <a class="library-card" href="{{ '/libraries/ui/' | relative_url }}">
     <span class="library-meta">Components and CSS</span>
@@ -53,6 +64,13 @@ permissions, schemas, repositories, fixtures, and release choices stay local.
     <span>Shared process, GitHub, verification, server, screenshot, PR-image, and a11y helpers.</span>
   </a>
 </div>
+
+| Package | npm |
+| --- | --- |
+| `@macavitymadcap/hyper-dank-ui` | [npm package](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-ui) |
+| `@macavitymadcap/hyper-dank-data` | [npm package](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-data) |
+| `@macavitymadcap/hyper-dank-transport` | [npm package](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-transport) |
+| `@macavitymadcap/hyper-dank-automation` | [npm package](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-automation) |
 
 ## Shared Boundaries
 
