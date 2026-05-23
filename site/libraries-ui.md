@@ -62,6 +62,8 @@ layer after the package CSS.
 
 | Export | Purpose | Demonstration |
 | --- | --- | --- |
+| `AspectRatio`, `AspectRatioProps` | Fixed-ratio media/content frame with `--aspect-ratio` styling hook. | `Components/Shared/Low State Primitives` |
+| `Avatar`, `AvatarProps` | Compact user identity image or initials fallback with size hooks. | `Components/Shared/Low State Primitives` |
 | `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | `Components/Shared` |
 | `Button`, `ButtonProps` | Native button with `primary`, `danger`, `outline`, `text`, and `ghost` variants plus optional HTMX attributes. | `Components/Shared/Button` |
 | `ButtonGroup`, `ButtonGroupProps` | Toolbar-style grouping for related buttons or links. | `Components/Shared` |
@@ -75,6 +77,7 @@ layer after the package CSS.
 | `Fieldset`, `FieldsetProps` | Grouped native controls with legend, hint, and error copy. | `Components/Shared` |
 | `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | `Components/Shared` |
 | `IconButton`, `IconButtonProps` | Icon-only native button with required accessible label. | `Components/Shared` |
+| `Kbd`, `KbdProps` | Inline keyboard input hint for shortcuts and command help. | `Components/Shared/Low State Primitives` |
 | `LinkButton`, `LinkButtonProps` | Link styled with button variants while preserving normal navigation. | `Components/Shared` |
 | `LoadingIndicator`, `LoadingIndicatorProps` | Polite loading status text for async regions. | `Components/Shared` |
 | `MetadataList`, `MetadataListItem`, `MetadataListProps` | Definition-list metadata rows for compact summaries. | `Components/Shared` |
@@ -110,6 +113,9 @@ layer after the package CSS.
 | `LabelledOutput`, `LabelledOutputProps` | Label/value output pair with placeholder behaviour for empty numbers. | `Components/Shared/LabelledOutput` |
 | `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | `Components/Shared/Reusable Patterns` |
 | `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Shared/ScrollableTable` |
+| `Separator`, `SeparatorProps` | Decorative or semantic separator for grouping dense controls and content. | `Components/Shared/Low State Primitives` |
+| `Skeleton`, `SkeletonProps` | Labelled loading placeholder with line, block, and circle shapes. | `Components/Shared/Low State Primitives` |
+| `Tooltip`, `TooltipProps` | Static contextual help with a focusable described trigger wrapper. | `Components/Shared/Low State Primitives` |
 
 Storybook is the canonical rendered reference. Shared package examples are grouped under
 `Components/Shared`, while Walking Pace examples are grouped under `Components/Reference App`.

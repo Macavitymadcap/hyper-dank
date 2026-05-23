@@ -179,6 +179,32 @@ body {
   gap: var(--size-3);
 }
 
+.storybook-low-state-demo,
+.storybook-low-state-stack {
+  display: grid;
+  gap: var(--size-3);
+}
+
+.storybook-low-state-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--size-3);
+  align-items: start;
+}
+
+.storybook-low-state-row p {
+  margin-block: 0.2rem 0;
+}
+
+.storybook-low-state-media {
+  display: grid;
+  place-items: center;
+  min-height: 100%;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-7);
+}
+
 .storybook-icon-catalogue {
   display: grid;
   gap: var(--size-4);

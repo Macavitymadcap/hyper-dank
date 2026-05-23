@@ -1,6 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import {
   AppShell,
+  AspectRatio,
+  Avatar,
   Badge,
   Breadcrumbs,
   Button,
@@ -12,6 +14,7 @@ import {
   EmptyState,
   FormField,
   IconButton,
+  Kbd,
   LabelledOutput,
   LinkButton,
   Notice,
@@ -21,10 +24,13 @@ import {
   PopoverMenu,
   Prose,
   ScrollableTable,
+  Separator,
   SideNav,
+  Skeleton,
   StatBlock,
   Tabs,
   Toolbar,
+  Tooltip,
 } from "./index";
 
 const render = (node: unknown): string => String(node);
@@ -61,6 +67,31 @@ describe("component library", () => {
     expect(html).toContain('class="panel"');
     expect(html).toContain('aria-labelledby="panel-heading"');
     expect(html).toContain('class="popover-menu"');
+  });
+
+  test("exports low-state utility primitives", () => {
+    const html = render(
+      <Panel labelledBy="low-state-heading">
+        <h2 id="low-state-heading">Low state</h2>
+        <Tooltip id="save-tip" content="Save this draft">
+          Save
+        </Tooltip>
+        <Skeleton width="8rem" />
+        <Separator />
+        <Kbd>Esc</Kbd>
+        <Avatar name="Ada Lovelace" />
+        <AspectRatio ratio="4 / 3">
+          <img src="/preview.png" alt="Preview" />
+        </AspectRatio>
+      </Panel>,
+    );
+
+    expect(html).toContain('class="tooltip"');
+    expect(html).toContain('class="skeleton"');
+    expect(html).toContain('class="separator"');
+    expect(html).toContain('class="kbd"');
+    expect(html).toContain('class="avatar"');
+    expect(html).toContain('class="aspect-ratio"');
   });
 
   test("keeps table primitives app-agnostic", () => {

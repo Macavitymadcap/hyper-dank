@@ -120,6 +120,7 @@ describe("Storybook shared reference coverage", () => {
       "libs/components/src/stories/shared-coverage.stories.tsx",
       "libs/components/src/stories/second-wave-primitives.stories.tsx",
       "libs/components/src/stories/generic-components.stories.tsx",
+      "libs/components/src/stories/low-state-primitives.stories.tsx",
     ];
 
     for (const storyPath of storyFiles) {
