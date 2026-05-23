@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.0...hyper-dank-v2.5.1) (2026-05-23)
+
+
+### Documentation
+
+* add npm publication evidence ([#118](https://github.com/Macavitymadcap/hyper-dank/issues/118)) ([ed22a36](https://github.com/Macavitymadcap/hyper-dank/commit/ed22a36c409e12b793b578efd26f25e8d79d586b))
+
 ## [2.5.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.4.2...hyper-dank-v2.5.0) (2026-05-23)
 
 
