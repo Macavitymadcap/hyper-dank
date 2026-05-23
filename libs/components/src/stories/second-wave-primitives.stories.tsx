@@ -30,12 +30,12 @@ const meta = {
     docs: {
       description: {
         component:
-          "Second-wave shared primitives for app shells, navigation, feedback, data display, and content surfaces.",
+          "Shared primitives for app shells, navigation, feedback, data display, and content surfaces.",
       },
     },
     layout: "fullscreen",
   },
-  title: "Components/Shared/Second Wave Primitives",
+  title: "Components/Shared/App Surfaces And Feedback",
 } satisfies Meta;
 
 export default meta;

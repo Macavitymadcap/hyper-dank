@@ -26,10 +26,10 @@ body {
   gap: var(--size-2);
   max-width: calc(100vw - (var(--size-3) * 2));
   padding: var(--size-2);
-  background: color-mix(in oklab, var(--surface) 88%, transparent);
+  background-image: var(--surface-depth-gradient);
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--surface-depth-shadow);
   color: var(--text);
   backdrop-filter: blur(10px);
 }
@@ -42,16 +42,19 @@ body {
   min-height: 1.75rem;
   padding: var(--size-1);
   color: var(--text);
-  background: var(--surface-raised);
+  background-image: var(--surface-depth-gradient);
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
+  box-shadow: var(--control-depth-shadow);
 }
 
 .storybook-utility-control__brand:hover,
 .storybook-utility-control__brand:focus-visible {
   color: var(--button-text);
+  box-shadow: var(--control-depth-shadow-hover);
   outline: var(--border-size-2) solid var(--primary);
   outline-offset: var(--size-1);
+  transform: translateY(-1px);
 }
 
 .storybook-utility-control__brand-mark {
@@ -80,16 +83,19 @@ body {
   font-weight: var(--font-weight-7);
   line-height: 1;
   text-decoration: none;
-  background: var(--surface-raised);
+  background-image: linear-gradient(145deg, var(--surface), var(--surface-raised));
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
+  box-shadow: var(--control-depth-shadow);
 }
 
 .storybook-utility-control__link:hover,
 .storybook-utility-control__link:focus-visible {
   color: var(--button-text);
+  box-shadow: var(--control-depth-shadow-hover);
   outline: var(--border-size-2) solid var(--primary);
   outline-offset: var(--size-1);
+  transform: translateY(-1px);
 }
 
 .storybook-utility-control__theme {
@@ -194,9 +200,10 @@ body {
   align-items: center;
   min-height: 3.25rem;
   padding: var(--size-3);
-  background: var(--surface-raised);
+  background-image: var(--surface-depth-gradient);
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
+  box-shadow: var(--surface-depth-shadow);
 }
 
 .storybook-icon-card .icon {
@@ -274,9 +281,10 @@ body {
   gap: var(--size-3);
   min-width: 0;
   padding: var(--size-4);
-  background: var(--surface);
+  background-image: var(--surface-depth-gradient);
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
+  box-shadow: var(--surface-depth-shadow);
 }
 
 .storybook-doc__section h2,
@@ -351,9 +359,10 @@ body {
 
 .storybook-doc__callout {
   padding: var(--size-4);
-  background: var(--surface-raised);
+  background-image: var(--surface-depth-gradient);
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
+  box-shadow: var(--surface-depth-shadow);
 }
 
 .storybook-doc__callout p {
@@ -367,6 +376,7 @@ body {
   overflow-x: auto;
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
+  box-shadow: var(--input-depth-shadow);
 }
 
 .storybook-doc__table-scroll:focus-visible {
@@ -406,10 +416,11 @@ body {
 .storybook-doc__code {
   display: inline-block;
   padding: var(--size-1) var(--size-2);
-  background: var(--surface-raised);
+  background-image: linear-gradient(180deg, var(--surface), var(--surface-raised));
   color: var(--text);
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
+  box-shadow: var(--input-depth-shadow);
   font-family: var(--font-mono);
   font-size: var(--font-size-0);
 }

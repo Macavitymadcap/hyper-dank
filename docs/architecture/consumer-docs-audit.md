@@ -104,7 +104,7 @@ package visibility, and versioning policy are in place.
 | `Guides/About` | Adopter-facing purpose page | Keep only if it explains toolkit purpose and reference-app role; otherwise merge into docs home/about copy |
 | `Components/Shared/Core Primitives` | Shared component reference | Keep; expand contracts and improve icon scanability |
 | `Components/Shared/Existing Primitives` | Shared component reference | Keep; rename or add signposting so "Surfaces and Metadata" and "Disclosure and Menu" explain use cases |
-| `Components/Shared/Second Wave Primitives` | Shared component reference | Keep; add consumer task signposting for app shell, navigation, feedback, and data views |
+| `Components/Shared/App Surfaces And Feedback` | Shared component reference | Keep; renamed from the internal "Second Wave Primitives" label and signposted around app shell, navigation, feedback, and data views |
 | `Components/Shared/Reusable Patterns` | Shared component reference | Keep; ensure BasicGraph, Accordion, CompactList, and PopoverMenu have clear boundaries |
 | `Components/Reference App/*` | Reference-app examples | Keep separated from shared package exports |
 
@@ -116,7 +116,7 @@ package visibility, and versioning policy are in place.
 | Is the reference map useful to consumers? | Yes, if it is presented as a way to find component contracts and not as internal project taxonomy. | `pace-0064` |
 | What is App Builder Reuse for? | It should become task language: app recipes, package composition, and downstream adoption paths. Avoid a vague branded term unless a page defines it. | `pace-0065`, `pace-0066` |
 | Should the icon catalogue change? | Yes. It is present and tested, but the current grid is basic. It should support scanning, comparison, copyable names, and light/dark review. | `pace-0064` |
-| What are Surfaces and Metadata, Disclosure and Menu, and Second Wave Primitives for? | They are useful shared component groups, but their story titles need consumer-facing signposting: when to use them, what contracts they own, and what remains app-owned. | `pace-0064` |
+| What are Surfaces and Metadata, Disclosure and Menu, and Second Wave Primitives for? | They are useful shared component groups. The app-shell, navigation, feedback, and data-display group now uses the consumer-facing `App Surfaces And Feedback` title; each group should keep explaining when to use it, what contracts it owns, and what remains app-owned. | `pace-0064` |
 | Is the About page needed? | It is useful only if it explains toolkit purpose and reference-app role. If it stays, keep it adopter-facing and avoid project-history drift. | `pace-0064`, `pace-0066` |
 | Should recipes behave like library docs? | Yes. Each recipe should name the required packages, imports, app-owned responsibilities, verification path, and links to API/Storybook references. | `pace-0065` |
 | Should the libraries sidebar expand/collapse? | Yes, if it remains accessible and improves scanability. The docs site should not add heavy client-side navigation for this. | `pace-0065` |

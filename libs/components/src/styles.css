@@ -1,3 +1,40 @@
+.button,
+.link-button,
+.card,
+.panel,
+.callout,
+.choice-field,
+.code-block,
+.empty-state,
+.fieldset,
+.form-field,
+.input-group,
+.labelled-output,
+.metadata-list,
+.notice,
+.popover-menu-panel,
+.progress,
+.status-summary,
+.timeline-list {
+  --hd-surface-bg: var(--surface, Canvas);
+  --hd-surface-raised-bg: var(--surface-raised, color-mix(in oklab, Canvas 94%, CanvasText 6%));
+  --hd-surface-border: var(--border-subtle, color-mix(in oklab, CanvasText 18%, transparent));
+  --hd-surface-shadow: var(
+    --surface-depth-shadow,
+    0 0.75rem 1.5rem rgb(15 23 42 / 10%),
+    inset 0 1px 0 rgb(255 255 255 / 55%)
+  );
+  --hd-surface-shadow-hover: var(
+    --surface-depth-shadow-hover,
+    0 1rem 2rem rgb(15 23 42 / 14%),
+    inset 0 1px 0 rgb(255 255 255 / 65%)
+  );
+  --hd-surface-gradient: var(
+    --surface-depth-gradient,
+    linear-gradient(145deg, var(--hd-surface-bg), var(--hd-surface-raised-bg))
+  );
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -28,6 +65,71 @@
 .popover-menu-trigger,
 .popover-menu-item {
   font: inherit;
+}
+
+.button,
+.link-button,
+.popover-menu-trigger {
+  border: 1px solid var(--hd-surface-border);
+  box-shadow: var(--hd-surface-shadow);
+}
+
+.button,
+.link-button,
+.popover-menu-trigger,
+.card,
+.panel,
+.callout,
+.code-block,
+.empty-state,
+.fieldset,
+.labelled-output,
+.metadata-list,
+.notice,
+.popover-menu-panel,
+.progress,
+.status-summary,
+.timeline-list {
+  background-image: var(--hd-surface-gradient);
+}
+
+.callout,
+.code-block,
+.empty-state,
+.fieldset,
+.labelled-output,
+.metadata-list,
+.notice,
+.popover-menu-panel,
+.progress,
+.status-summary,
+.timeline-list {
+  border: 1px solid var(--hd-surface-border);
+  border-radius: var(--radius-2, 0.5rem);
+  box-shadow: var(--hd-surface-shadow);
+  padding: var(--size-3, 0.75rem);
+}
+
+.button:hover,
+.link-button:hover,
+.popover-menu-trigger:hover,
+.card:hover,
+.panel:hover {
+  box-shadow: var(--hd-surface-shadow-hover);
+}
+
+.form-field :where(input, select, textarea),
+.input-group input,
+.textarea-field textarea {
+  background-image: var(
+    --input-depth-gradient,
+    linear-gradient(180deg, var(--hd-surface-bg), var(--hd-surface-raised-bg))
+  );
+  border: 1px solid var(--hd-surface-border);
+  border-radius: var(--radius-2, 0.5rem);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 45%),
+    0 0.35rem 0.9rem rgb(15 23 42 / 7%);
 }
 
 .basic-graph {
@@ -71,7 +173,8 @@
 }
 
 .button[data-variant="ghost"] {
-  background: transparent;
+  background-image: none;
+  box-shadow: none;
 }
 
 .button:disabled,
@@ -156,6 +259,7 @@ dialog.dialog[open] {
   max-width: min(100%, 36rem);
   border: 1px solid currentColor;
   border-radius: 0.5rem;
+  box-shadow: var(--hd-surface-shadow);
   padding: 1rem;
 }
 
@@ -178,6 +282,10 @@ dialog.dialog[open] {
 }
 
 .panel {
+  border: 1px solid var(--hd-surface-border);
+  border-radius: var(--radius-2, 0.5rem);
+  box-shadow: var(--hd-surface-shadow);
+  padding: var(--size-4, 1rem);
   width: min(100%, 42rem);
 }
 
