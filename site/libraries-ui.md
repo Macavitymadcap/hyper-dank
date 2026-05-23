@@ -115,7 +115,7 @@ layer after the package CSS.
 | `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Shared/ScrollableTable` |
 | `Separator`, `SeparatorProps` | Decorative or semantic separator for grouping dense controls and content. | `Components/Shared/Low State Primitives` |
 | `Skeleton`, `SkeletonProps` | Labelled loading placeholder with line, block, and circle shapes. | `Components/Shared/Low State Primitives` |
-| `Tooltip`, `TooltipProps` | Static contextual help with a focusable described trigger wrapper. | `Components/Shared/Low State Primitives` |
+| `Tooltip`, `TooltipProps` | Static contextual help with an explicit text label and focusable described trigger. | `Components/Shared/Low State Primitives` |
 
 Storybook is the canonical rendered reference. Shared package examples are grouped under
 `Components/Shared`, while Walking Pace examples are grouped under `Components/Reference App`.

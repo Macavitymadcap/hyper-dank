@@ -73,9 +73,7 @@ describe("component library", () => {
     const html = render(
       <Panel labelledBy="low-state-heading">
         <h2 id="low-state-heading">Low state</h2>
-        <Tooltip id="save-tip" content="Save this draft">
-          Save
-        </Tooltip>
+        <Tooltip id="save-tip" label="Save" content="Save this draft" />
         <Skeleton width="8rem" />
         <Separator />
         <Kbd>Esc</Kbd>

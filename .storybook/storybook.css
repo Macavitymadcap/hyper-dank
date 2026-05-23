@@ -196,6 +196,29 @@ body {
   margin-block: 0.2rem 0;
 }
 
+.storybook-low-state-contracts {
+  display: grid;
+  gap: var(--size-3);
+}
+
+.storybook-low-state-contracts section {
+  display: grid;
+  gap: var(--size-1);
+  padding-block-start: var(--size-3);
+  border-block-start: var(--border-size-1) solid var(--border-subtle);
+}
+
+.storybook-low-state-contracts section:first-child {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+.storybook-low-state-contracts h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--font-size-1);
+}
+
 .storybook-low-state-media {
   display: grid;
   place-items: center;
@@ -304,6 +327,7 @@ body {
 
 .storybook-doc__section {
   display: grid;
+  align-content: start;
   gap: var(--size-3);
   min-width: 0;
   padding: var(--size-4);
