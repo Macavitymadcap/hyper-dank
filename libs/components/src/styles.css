@@ -355,6 +355,14 @@
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 45%),
     0 0.35rem 0.9rem rgb(15 23 42 / 7%);
+  color: inherit;
+  font: inherit;
+  min-height: 2.35rem;
+  padding: 0.45rem 0.65rem;
+}
+
+.form-field select {
+  padding-inline-end: 2rem;
 }
 
 .basic-graph {
@@ -647,12 +655,15 @@ dialog.dialog[open] {
 }
 
 .popover-menu-panel {
-  display: grid;
   gap: 0.2rem;
   inset: anchor(bottom) auto auto anchor(left);
   margin-block-start: 0.35rem;
   min-width: 12rem;
   position-anchor: var(--popover-anchor-name);
+}
+
+.popover-menu-panel:popover-open {
+  display: grid;
 }
 
 .popover-menu-form {

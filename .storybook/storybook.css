@@ -337,6 +337,10 @@ body {
   box-shadow: var(--surface-depth-shadow);
 }
 
+.storybook-doc__section--span-all {
+  grid-column: 1 / -1;
+}
+
 .storybook-doc__section h2,
 .storybook-doc__section h4,
 .storybook-doc__section p,

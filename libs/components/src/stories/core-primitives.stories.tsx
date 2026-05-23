@@ -207,10 +207,10 @@ export const SelectionAndCommands: Story = {
               <li>Apps own loading, validation, permissions, selected values, and persistence.</li>
             </ul>
           </section>
-        </div>
-        <CodeBlock
-          language="tsx"
-          code={`import { Combobox, Command, PopoverMenu, SelectField } from "@macavitymadcap/hyper-dank-ui";
+          <CodeBlock
+            className="storybook-doc__section storybook-doc__section--span-all"
+            language="tsx"
+            code={`import { Combobox, Command, PopoverMenu, SelectField } from "@macavitymadcap/hyper-dank-ui";
 
 export function SelectionTools() {
   return (
@@ -241,7 +241,8 @@ export function SelectionTools() {
     </>
   );
 }`}
-        />
+          />
+        </div>
       </article>,
     ),
   play: async ({ canvasElement }) => {
