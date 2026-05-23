@@ -7,8 +7,9 @@ helpers. App-specific auth, permissions, routes, and services stay in the consum
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-transport` is not published to npm yet. The supported route today is the
-local package tarball produced by the Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-transport` is prepared for public npm publication. Until the first
+staged npm release is approved, the supported route remains the local package tarball produced by
+the Hyper-Dank workspace:
 
 ```bash
 # from hyper-dank
@@ -22,7 +23,12 @@ bun add hono typescript
 The package peers on `hono` for response and request helper integration, and on `typescript` for
 declaration-aware tooling. The tarball route is verified by `bun run test:packages`, which installs
 the package into a clean temporary app outside this workspace and imports it by package name. npm
-publication is follow-up work.
+publication is staged through GitHub Actions with trusted publishing and provenance. After the
+staged release is approved, downstream apps can install the public package with:
+
+```bash
+bun add @macavitymadcap/hyper-dank-transport hono typescript
+```
 
 ## Public Exports
 
@@ -40,4 +46,4 @@ The public docs site includes route-level examples for these helpers.
 
 For the full public API reference, see `site/libraries-transport.md`.
 
-For app-shape guidance, see the public recipes in `site/recipes.md`.
+For app-shape guidance, see the public recipes under `site/recipes.md` and `site/recipes-*.md`.

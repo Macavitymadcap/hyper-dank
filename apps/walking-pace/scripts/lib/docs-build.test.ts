@@ -25,7 +25,7 @@ describe("docs build", () => {
       "/hyper-dank",
     );
 
-    expect(html).toContain("<h1>Libraries</h1>");
+    expect(html).toContain('<h1 id="libraries">Libraries</h1>');
     expect(html).toContain('<a href="/hyper-dank/storybook/">Storybook</a>');
     expect(html).toContain('<div class="table-scroll" tabindex="0">');
     expect(html).toContain("<table>");
@@ -82,7 +82,7 @@ describe("docs build", () => {
       '<link rel="stylesheet" href="/hyper-dank/assets/site.css" />',
     );
     await expect(readFile(path.join(destinationDir, "demo/index.html"), "utf8")).resolves.toContain(
-      "<h1>Demo</h1>",
+      '<h1 id="demo">Demo</h1>',
     );
     await expect(readFile(path.join(destinationDir, "assets/site.css"), "utf8")).resolves.toContain(
       "body",
@@ -146,7 +146,7 @@ describe("docs build", () => {
     ).resolves.toContain('<details class="docs-side-nav library-side-nav" open>');
     await expect(
       readFile(path.join(destinationDir, "libraries/ui/index.html"), "utf8"),
-    ).resolves.toContain("<h1>UI Library</h1>");
+    ).resolves.toContain('<h1 id="ui-library">UI Library</h1>');
     await expect(
       readFile(path.join(destinationDir, "libraries/ui/index.html"), "utf8"),
     ).resolves.toContain('<div class="table-scroll" tabindex="0">');
@@ -177,5 +177,6 @@ describe("docs build", () => {
     expect(html).toContain('<span class="brand-mark" aria-hidden="true"></span>');
     expect(html).toContain('class="theme-toggle__input" type="checkbox" role="switch"');
     expect(html).toContain('href="/hyper-dank/verification/"');
+    expect(html).toContain('href="/hyper-dank/accessibility/"');
   });
 });

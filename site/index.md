@@ -46,4 +46,12 @@ title: Hyper-Dank
     </p>
     <a href="{{ '/recipes/' | relative_url }}">Read the app recipes</a>
   </article>
+  <article class="card">
+    <h2>Accessibility</h2>
+    <p>
+      Review what the docs, demo, Storybook, and package contracts test today, plus the limits that
+      consuming apps must verify in their own product flows.
+    </p>
+    <a href="{{ '/accessibility/' | relative_url }}">Read the statement</a>
+  </article>
 </section>

@@ -44,62 +44,107 @@ type Story = StoryObj;
 export const ShellNavigationAndFeedback: Story = {
   render: () =>
     renderStory(
-      <AppShell
-        header={
-          <PageHeader
-            title="Dashboard"
-            description="Operational summary built from shared primitives."
-            metadata={<Badge tone="accent">Live</Badge>}
-            actions={<Button>Refresh</Button>}
-          />
-        }
-        navigation={
-          <SideNav
-            ariaLabel="Sections"
-            items={[
-              { current: true, href: "/dashboard", label: "Dashboard" },
-              { href: "/content", label: "Content" },
-            ]}
-          />
-        }
-      >
-        <Breadcrumbs
-          items={[
-            { href: "/", label: "Home" },
-            { current: true, href: "/dashboard", label: "Dashboard" },
-          ]}
+      <div class="storybook-doc">
+        <div class="storybook-doc__header">
+          <p class="storybook-doc__eyebrow">Shell, navigation, and feedback contract</p>
+          <h1 id="shell-heading" class="storybook-doc__title">
+            Shell navigation and feedback
+          </h1>
+          <p class="storybook-doc__lede">
+            Use this set for dense app screens that need landmarks, local navigation, status
+            feedback, paging, and compact operational metrics.
+          </p>
+        </div>
+        <div class="storybook-doc__grid">
+          <div class="storybook-doc__section">
+            <h2 id="shell-preview-heading">Rendered output</h2>
+            <AppShell
+              header={
+                <PageHeader
+                  title="Dashboard"
+                  description="Operational summary built from shared primitives."
+                  metadata={<Badge tone="accent">Live</Badge>}
+                  actions={<Button>Refresh</Button>}
+                />
+              }
+              navigation={
+                <SideNav
+                  ariaLabel="Sections"
+                  items={[
+                    { current: true, href: "/dashboard", label: "Dashboard" },
+                    { href: "/content", label: "Content" },
+                  ]}
+                />
+              }
+            >
+              <Breadcrumbs
+                items={[
+                  { href: "/", label: "Home" },
+                  { current: true, href: "/dashboard", label: "Dashboard" },
+                ]}
+              />
+              <Tabs
+                ariaLabel="Dashboard views"
+                items={[
+                  { current: true, href: "/dashboard", label: "Overview" },
+                  { href: "/activity", label: "Activity" },
+                ]}
+              />
+              <Toolbar ariaLabel="Dashboard tools">
+                <Button variant="ghost">Filter</Button>
+                <Dialog id="confirm-sync" title="Sync data" triggerLabel="Open sync dialog">
+                  Sync latest records from the server.
+                </Dialog>
+              </Toolbar>
+              <Notice tone="success" heading="Saved">
+                Settings were updated.
+              </Notice>
+              <dl class="storybook-row">
+                <StatBlock label="Posts" value="24" meta="Published" />
+                <StatBlock label="Drafts" value="4" trend="+2 this week" />
+              </dl>
+              <StatusSummary
+                title="Verification"
+                items={[
+                  { label: "Build", tone: "success", value: "Passed" },
+                  { label: "A11y", tone: "success", value: "No issues" },
+                ]}
+              />
+              <Progress label="Import progress" value={60} />
+              <LoadingIndicator label="Refreshing" />
+              <Pagination currentPage={1} totalPages={4} nextHref="/dashboard?page=2" />
+            </AppShell>
+          </div>
+          <div class="storybook-doc__section">
+            <h2 id="shell-contract-heading">Contract</h2>
+            <ul>
+              <li>AppShell owns landmarks and layout slots, not product routing.</li>
+              <li>SideNav, Breadcrumbs, and Tabs render native links with current-state hints.</li>
+              <li>
+                Notice, Progress, LoadingIndicator, and StatusSummary expose state accessibly.
+              </li>
+              <li>
+                The app owns data freshness, permissions, destructive actions, and route names.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <CodeBlock
+          language="tsx"
+          code={`import { AppShell, PageHeader, SideNav, Notice } from "@macavitymadcap/hyper-dank-ui";
+
+export function DashboardShell() {
+  return (
+    <AppShell
+      header={<PageHeader title="Dashboard" description="Operational summary." />}
+      navigation={<SideNav ariaLabel="Sections" items={[{ current: true, href: "/dashboard", label: "Dashboard" }]} />}
+    >
+      <Notice tone="success" heading="Saved">Settings were updated.</Notice>
+    </AppShell>
+  );
+}`}
         />
-        <Tabs
-          ariaLabel="Dashboard views"
-          items={[
-            { current: true, href: "/dashboard", label: "Overview" },
-            { href: "/activity", label: "Activity" },
-          ]}
-        />
-        <Toolbar ariaLabel="Dashboard tools">
-          <Button variant="ghost">Filter</Button>
-          <Dialog id="confirm-sync" title="Sync data" triggerLabel="Open sync dialog">
-            Sync latest records from the server.
-          </Dialog>
-        </Toolbar>
-        <Notice tone="success" heading="Saved">
-          Settings were updated.
-        </Notice>
-        <dl class="storybook-row">
-          <StatBlock label="Posts" value="24" meta="Published" />
-          <StatBlock label="Drafts" value="4" trend="+2 this week" />
-        </dl>
-        <StatusSummary
-          title="Verification"
-          items={[
-            { label: "Build", tone: "success", value: "Passed" },
-            { label: "A11y", tone: "success", value: "No issues" },
-          ]}
-        />
-        <Progress label="Import progress" value={60} />
-        <LoadingIndicator label="Refreshing" />
-        <Pagination currentPage={1} totalPages={4} nextHref="/dashboard?page=2" />
-      </AppShell>,
+      </div>,
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -113,38 +158,79 @@ export const ShellNavigationAndFeedback: Story = {
 export const ContentAndEmptyStates: Story = {
   render: () =>
     renderStory(
-      <Prose>
-        <SectionHeader
-          title="Release notes"
-          description="Content primitives for docs and static blogs."
-        />
-        <MetadataList
-          items={[
-            { label: "Author", value: "Platform" },
-            { label: "Status", value: "Published" },
-          ]}
-        />
-        <Callout title="Heads up" tone="info">
-          Content layout stays app-owned; these components provide semantic wrappers.
-        </Callout>
+      <article class="storybook-doc" aria-labelledby="content-heading">
+        <header class="storybook-doc__header">
+          <p class="storybook-doc__eyebrow">Content and empty-state contract</p>
+          <h1 id="content-heading" class="storybook-doc__title">
+            Content and empty states
+          </h1>
+          <p class="storybook-doc__lede">
+            Use these primitives for static docs, release notes, timelines, callouts, and blank
+            states that need clear structure without taking over content modelling.
+          </p>
+        </header>
+        <div class="storybook-doc__grid">
+          <section class="storybook-doc__section" aria-labelledby="content-preview-heading">
+            <h2 id="content-preview-heading">Rendered output</h2>
+            <Prose>
+              <SectionHeader
+                title="Release notes"
+                description="Content primitives for docs and static blogs."
+              />
+              <MetadataList
+                items={[
+                  { label: "Author", value: "Platform" },
+                  { label: "Status", value: "Published" },
+                ]}
+              />
+              <Callout title="Heads up" tone="info">
+                Content layout stays app-owned; these components provide semantic wrappers.
+              </Callout>
+              <TimelineList
+                items={[
+                  { label: "Drafted", time: "2026-05-18" },
+                  { label: "Published", time: "2026-05-19", body: "Available to consuming apps." },
+                ]}
+              />
+              <EmptyState
+                title="No matching entries"
+                icon={<Icon name="search" />}
+                actions={<Button>Reset filters</Button>}
+              >
+                Try a broader search.
+              </EmptyState>
+            </Prose>
+          </section>
+          <section class="storybook-doc__section" aria-labelledby="content-contract-heading">
+            <h2 id="content-contract-heading">Contract</h2>
+            <ul>
+              <li>Prose and SectionHeader establish readable content hierarchy.</li>
+              <li>
+                MetadataList and TimelineList render structured records with labels and times.
+              </li>
+              <li>Callout and EmptyState expose tone, title, body, icon, and actions clearly.</li>
+              <li>
+                The app owns content collections, filtering, search state, and empty-state copy.
+              </li>
+            </ul>
+          </section>
+        </div>
         <CodeBlock
-          language="ts"
-          code={'import { Prose, Callout } from "@macavitymadcap/hyper-dank-ui";'}
+          language="tsx"
+          code={`import { Button, EmptyState, Icon, Prose, SectionHeader } from "@macavitymadcap/hyper-dank-ui";
+
+export function EmptySearchResults() {
+  return (
+    <Prose>
+      <SectionHeader title="Release notes" description="Content primitives for docs and static blogs." />
+      <EmptyState title="No matching entries" icon={<Icon name="search" />} actions={<Button>Reset filters</Button>}>
+        Try a broader search.
+      </EmptyState>
+    </Prose>
+  );
+}`}
         />
-        <TimelineList
-          items={[
-            { label: "Drafted", time: "2026-05-18" },
-            { label: "Published", time: "2026-05-19", body: "Available to consuming apps." },
-          ]}
-        />
-        <EmptyState
-          title="No matching entries"
-          icon={<Icon name="search" />}
-          actions={<Button>Reset filters</Button>}
-        >
-          Try a broader search.
-        </EmptyState>
-      </Prose>,
+      </article>,
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

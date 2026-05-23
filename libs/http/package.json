@@ -3,9 +3,20 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Small Hono and HTMX helpers for hypermedia-first apps.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Macavitymadcap/hyper-dank.git",
+    "directory": "libs/http"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "files": [
     "dist",
     "src",
+    "LICENSE",
     "README.md"
   ],
   "exports": {

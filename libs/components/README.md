@@ -6,8 +6,9 @@ copy in the consuming app.
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-ui` is not published to npm yet. The supported route today is the local
-package tarball produced by the Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-ui` is prepared for public npm publication. Until the first staged npm
+release is approved, the supported route remains the local package tarball produced by the
+Hyper-Dank workspace:
 
 ```bash
 # from hyper-dank
@@ -20,8 +21,15 @@ bun add hono typescript
 
 The package peers on `hono` for server-rendered JSX and `typescript` for declaration-aware tooling.
 The tarball route is verified by `bun run test:packages`, which installs the package into a clean
-temporary app outside this workspace and imports it by package name. npm publication and starter
-templates are follow-up work.
+temporary app outside this workspace and imports it by package name. After the staged npm release is
+approved, downstream apps can install the public package with:
+
+```bash
+bun add @macavitymadcap/hyper-dank-ui hono typescript
+```
+
+The npm workflow uses trusted publishing with provenance and stages packages first so a maintainer
+can review the release before it becomes public.
 
 ```ts
 import {
@@ -127,4 +135,4 @@ summary so sighted users get the same context. Colours inherit from `currentColo
 `--hd-accent` custom property, so apps can make it respond to light, dark, or product themes without
 changing component markup.
 
-For app-shape guidance, see the public recipes in `site/recipes.md`.
+For app-shape guidance, see the public recipes under `site/recipes.md` and `site/recipes-*.md`.

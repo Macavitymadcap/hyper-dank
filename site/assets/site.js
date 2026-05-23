@@ -55,10 +55,38 @@ themeToggle?.addEventListener("change", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  buildCurrentPageNavigation();
   closeMobileSideNavs();
   closeMobileSideNavsAfterNavigation();
   window.hljs?.highlightAll();
 });
+
+function buildCurrentPageNavigation() {
+  const page = document.querySelector(".docs-page, .library-page");
+  if (!page) return;
+
+  const activeLink = document.querySelector(".docs-side-nav a[aria-current='page']");
+  if (!activeLink) return;
+
+  const headings = Array.from(page.querySelectorAll("h2[id], h3[id]")).filter((heading) => {
+    return heading.textContent?.trim() && !heading.closest(".docs-page-toc");
+  });
+  if (headings.length === 0) return;
+
+  const toc = document.createElement("nav");
+  toc.className = "docs-page-toc";
+  toc.setAttribute("aria-label", "Current page sections");
+
+  for (const heading of headings) {
+    const link = document.createElement("a");
+    link.href = `#${heading.id}`;
+    link.textContent = heading.textContent?.trim() ?? heading.id;
+    if (heading.tagName.toLowerCase() === "h3") link.classList.add("docs-page-toc__child");
+    toc.append(link);
+  }
+
+  activeLink.insertAdjacentElement("afterend", toc);
+}
 
 function closeMobileSideNavs() {
   if (!window.matchMedia("(max-width: 640px)").matches) return;

@@ -3,9 +3,20 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Database lifecycle and adapter-test primitives for Hyper-Dank apps.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Macavitymadcap/hyper-dank.git",
+    "directory": "libs/database"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "files": [
     "dist",
     "src",
+    "LICENSE",
     "README.md"
   ],
   "exports": {

@@ -1,0 +1,61 @@
+name: Publish npm packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run package checks without staging packages"
+        default: "true"
+        required: true
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: stage-npm-packages
+    runs-on: ubuntu-latest
+    environment: npm-publishing
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup Node for npm trusted publishing
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify package metadata
+        run: bun run check:publishing
+
+      - name: Build packages
+        run: bun run build:packages
+
+      - name: Pack and smoke-test packages
+        run: bun run test:packages
+
+      - name: Stage packages on npm
+        if: ${{ inputs.dry_run == 'false' }}
+        run: |
+          for package_dir in libs/components libs/database libs/http libs/scripts; do
+            echo "Staging ${package_dir}"
+            (cd "${package_dir}" && npm stage publish --access public --provenance)
+          done
+
+      - name: Dry-run note
+        if: ${{ inputs.dry_run != 'false' }}
+        run: echo "Dry run complete. Re-run with dry_run=false after npm trusted publishers are configured for every package."

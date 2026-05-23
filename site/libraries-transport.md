@@ -23,6 +23,16 @@ apps. Auth, permissions, services, validation, and product routes stay in the co
 
 <div class="library-page">
 
+## Install
+
+After the first staged npm release is approved:
+
+```bash
+bun add @macavitymadcap/hyper-dank-transport hono typescript
+```
+
+Until then, use `bun run pack:packages` and install the local tarball from `.cache/packages/`.
+
 ```ts
 import {
   FormValues,

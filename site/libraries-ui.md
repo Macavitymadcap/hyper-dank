@@ -23,6 +23,16 @@ It is for generic structure and HTML contracts, not product-specific screens.
 
 <div class="library-page">
 
+## Install
+
+After the first staged npm release is approved:
+
+```bash
+bun add @macavitymadcap/hyper-dank-ui hono typescript
+```
+
+Until then, use `bun run pack:packages` and install the local tarball from `.cache/packages/`.
+
 Import components from server JSX and import the CSS through the browser asset pipeline. Importing a
 component in server code does not automatically load browser styles.
 

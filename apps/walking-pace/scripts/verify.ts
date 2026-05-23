@@ -21,6 +21,13 @@ const gates: VerificationGate[] = [
     "Biome and deprecated TypeScript API scanner",
   ),
   createCommandGate("typecheck", "Typecheck", "bun", ["run", "typecheck"], "TypeScript"),
+  createCommandGate(
+    "publishing",
+    "Package Publishing Readiness",
+    "bun",
+    ["run", "check:publishing"],
+    "npm package metadata and workflow checks",
+  ),
   createCommandGate("unit", "Unit And Contract Tests", "bun", ["test"], "Bun test"),
   createCommandGate(
     "diff-check",
