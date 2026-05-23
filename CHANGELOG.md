@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.3.1...hyper-dank-v2.4.0) (2026-05-23)
+
+
+### Features
+
+* publish packages and polish reference ([#99](https://github.com/Macavitymadcap/hyper-dank/issues/99)) ([e4893f9](https://github.com/Macavitymadcap/hyper-dank/commit/e4893f9a08203eeae5fb4195d5e56f59fb721005))
+
 ## [2.3.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.3.0...hyper-dank-v2.3.1) (2026-05-23)
 
 
