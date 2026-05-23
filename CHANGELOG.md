@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.4.2...hyper-dank-v2.5.0) (2026-05-23)
+
+
+### Features
+
+* add current docs TOC section state ([#117](https://github.com/Macavitymadcap/hyper-dank/issues/117)) ([b1de53d](https://github.com/Macavitymadcap/hyper-dank/commit/b1de53d15768498c1b938a7d89ef846f03294ed5))
+* add low-state UI primitives ([#113](https://github.com/Macavitymadcap/hyper-dank/issues/113)) ([0bd03b1](https://github.com/Macavitymadcap/hyper-dank/commit/0bd03b1296976882651a58ff1ca15177a950e390))
+
 ## [2.4.2](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.4.1...hyper-dank-v2.4.2) (2026-05-23)
 
 
