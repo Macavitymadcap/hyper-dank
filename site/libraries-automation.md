@@ -26,13 +26,11 @@ choices remain in the app.
 
 ## Install
 
-After the first staged npm release is approved:
+Install from npm with TypeScript-aware tooling:
 
 ```bash
 bun add @macavitymadcap/hyper-dank-automation typescript
 ```
-
-Until then, use `bun run pack:packages` and install the local tarball from `.cache/packages/`.
 
 ```ts
 import {

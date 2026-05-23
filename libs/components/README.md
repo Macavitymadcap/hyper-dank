@@ -6,9 +6,14 @@ copy in the consuming app.
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-ui` is prepared for public npm publication. Until the first staged npm
-release is approved, the supported route remains the local package tarball produced by the
-Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-ui` is public on npm:
+
+```bash
+bun add @macavitymadcap/hyper-dank-ui hono typescript
+```
+
+For local package development, pack the Hyper-Dank workspace and install the tarball into a
+downstream app:
 
 ```bash
 # from hyper-dank
@@ -21,15 +26,10 @@ bun add hono typescript
 
 The package peers on `hono` for server-rendered JSX and `typescript` for declaration-aware tooling.
 The tarball route is verified by `bun run test:packages`, which installs the package into a clean
-temporary app outside this workspace and imports it by package name. After the staged npm release is
-approved, downstream apps can install the public package with:
+temporary app outside this workspace and imports it by package name.
 
-```bash
-bun add @macavitymadcap/hyper-dank-ui hono typescript
-```
-
-The npm workflow uses trusted publishing with provenance and stages packages first so a maintainer
-can review the release before it becomes public.
+Future npm releases use trusted publishing with provenance and staged package approval so a
+maintainer can review the release before it becomes public.
 
 ```ts
 import {

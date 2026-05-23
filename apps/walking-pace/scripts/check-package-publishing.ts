@@ -49,8 +49,10 @@ for (const { dir, json } of packageJsons) {
   if (publishConfig?.access !== "public") {
     errors.push(`${dir}/package.json publishConfig.access must be public.`);
   }
-  if (publishConfig?.provenance !== true) {
-    errors.push(`${dir}/package.json publishConfig.provenance must be true.`);
+  if (Object.hasOwn(publishConfig ?? {}, "provenance")) {
+    errors.push(
+      `${dir}/package.json publishConfig.provenance is workflow-owned; omit it for manual publish safety.`,
+    );
   }
 
   const repository = json.repository as Record<string, unknown> | undefined;

@@ -7,9 +7,14 @@ shape, migration helpers, and conformance checks that future adapters can reuse.
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-data` is prepared for public npm publication. Until the first staged npm
-release is approved, the supported route remains the local package tarball produced by the
-Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-data` is public on npm:
+
+```bash
+bun add @macavitymadcap/hyper-dank-data typescript
+```
+
+For local package development, pack the Hyper-Dank workspace and install the tarball into a
+downstream app:
 
 ```bash
 # from hyper-dank
@@ -23,15 +28,11 @@ bun add typescript
 The package peers on `typescript` for declaration-aware tooling. The tarball route is verified by
 `bun run test:packages`, which installs the package into a clean temporary app outside this
 workspace and imports both `@macavitymadcap/hyper-dank-data` and
-`@macavitymadcap/hyper-dank-data/testing` by package name. After the staged npm release is approved,
-downstream apps can install the public package with:
+`@macavitymadcap/hyper-dank-data/testing` by package name.
 
-```bash
-bun add @macavitymadcap/hyper-dank-data typescript
-```
-
-The npm workflow uses trusted publishing with provenance and stages packages first so a maintainer
-can review the release before it becomes public. Managed adapter packages remain future work.
+Future npm releases use trusted publishing with provenance and staged package approval so a
+maintainer can review the release before it becomes public. Managed adapter packages remain future
+work.
 
 ## Public Exports
 
