@@ -84,6 +84,7 @@ Package pages:
 Static docs:
 
 - [Library overview](https://macavitymadcap.github.io/hyper-dank/libraries/)
+- [Consumer setup](https://macavitymadcap.github.io/hyper-dank/libraries/consumer-setup/)
 - [Recipes](https://macavitymadcap.github.io/hyper-dank/recipes/)
 - [Storybook](https://macavitymadcap.github.io/hyper-dank/storybook/)
 
