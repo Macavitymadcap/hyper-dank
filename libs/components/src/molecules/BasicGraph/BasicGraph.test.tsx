@@ -24,7 +24,11 @@ describe("BasicGraph", () => {
     expect(html).toContain(
       '<desc id="publishing-summary">Three published posts and one draft.</desc>',
     );
+    expect(html).toContain('class="basic-graph-axis"');
     expect(html).toContain('class="basic-graph-bar"');
+    expect(html).toContain('class="basic-graph-label"');
+    expect(html).toContain(">Published</text>");
+    expect(html).toContain(">3</text>");
     expect(html).toContain("<figcaption");
   });
 
@@ -43,6 +47,8 @@ describe("BasicGraph", () => {
     );
 
     expect(html).toContain('class="basic-graph-line"');
+    expect(html).toContain('class="basic-graph-value"');
+    expect(html).toContain(">8 visits</text>");
     expect(html).toContain("Mon: 8 visits; Tue: 12 visits");
   });
 });

@@ -208,6 +208,44 @@ export const screenshotFlows: ScreenshotFlow[] = [
       },
     ],
   },
+  {
+    id: "hd-0010-storybook-groups",
+    label: "HD 0010 Storybook Groups",
+    description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",
+    states: [
+      {
+        authUserId: null,
+        label: "Disclosure and menu",
+        path: "/storybook/iframe.html?id=components-shared-existing-primitives--disclosure-and-menu",
+        slug: "disclosure-and-menu",
+        afterLoad: openExampleMenu,
+      },
+      {
+        authUserId: null,
+        label: "Surfaces and metadata",
+        path: "/storybook/iframe.html?id=components-shared-existing-primitives--surfaces-and-metadata",
+        slug: "surfaces-and-metadata",
+      },
+      {
+        authUserId: null,
+        label: "Shell navigation and feedback",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--shell-navigation-and-feedback",
+        slug: "shell-navigation-and-feedback",
+      },
+      {
+        authUserId: null,
+        label: "Content and empty states",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--content-and-empty-states",
+        slug: "content-and-empty-states",
+      },
+      {
+        authUserId: null,
+        label: "Reuse set",
+        path: "/storybook/iframe.html?id=components-shared-reusable-patterns--reuse-set",
+        slug: "reuse-set",
+      },
+    ],
+  },
 ];
 
 export function selectScreenshotFlows(flowIds: string[]): ScreenshotFlow[] {
@@ -380,6 +418,11 @@ async function renderConfirmClearAll({ page }: ScreenshotFlowContext) {
     document.body.append(backdrop);
   });
   await page.waitForSelector("[data-pr-screenshot-confirm]");
+}
+
+async function openExampleMenu({ page }: ScreenshotFlowContext) {
+  await page.getByRole("button", { name: "Open example menu" }).click();
+  await page.waitForTimeout(120);
 }
 
 function getScreenshotFlow(flowId: string): ScreenshotFlow {
