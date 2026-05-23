@@ -409,13 +409,23 @@ export function parseFrontMatter(content: string): FrontMatterResult {
 }
 
 export function renderInlineMarkdown(value: string, options: ContentUrlOptions = {}) {
+  const codeSpans: string[] = [];
   let output = escapeHtml(value);
-  output = output.replace(/`([^`]+)`/g, "<code>$1</code>");
+  output = output.replace(/`([^`]+)`/g, (_match, code: string) => {
+    const placeholder = `\u0000CODE_SPAN_${codeSpans.length}\u0000`;
+    codeSpans.push(`<code>${code}</code>`);
+    return placeholder;
+  });
   output = output.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  output = output.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
   output = output.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
     (_match, text: string, href: string) =>
       `<a href="${escapeAttribute(rewriteContentUrl(href, options))}">${text}</a>`,
+  );
+  output = codeSpans.reduce(
+    (rendered, codeSpan, index) => rendered.replaceAll(`\u0000CODE_SPAN_${index}\u0000`, codeSpan),
+    output,
   );
   return rewriteLiquidUrls(output, options);
 }
