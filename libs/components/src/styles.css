@@ -236,10 +236,34 @@
   gap: 1rem;
 }
 
+.accordion {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.accordion-item summary span {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.accordion-body {
+  display: grid;
+  gap: 0.5rem;
+  padding-block-start: 0.5rem;
+}
+
 .app-shell-body {
   display: grid;
   grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
   gap: 1rem;
+}
+
+@media (max-width: 48rem) {
+  .app-shell-body {
+    grid-template-columns: 1fr;
+  }
 }
 
 .button,
@@ -387,6 +411,12 @@
   gap: 0.5rem;
 }
 
+.compact-list-row dd {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
 .breadcrumbs ol,
 .side-nav ul,
 .tabs ul {
@@ -487,17 +517,73 @@ dialog.dialog[open] {
   row-gap: 0.25rem;
 }
 
+.page-header-content,
+.section-header > div {
+  min-width: 0;
+}
+
 .page-header-description,
 .section-header-description {
   flex-basis: 100%;
+}
+
+.page-header h1,
+.section-header h2,
+.section-header h3,
+.section-header h4 {
+  max-width: 100%;
+  line-height: var(--font-lineheight-1, 1.15);
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+.page-header h1 {
+  font-size: var(--font-size-4, 2rem);
+}
+
+.section-header h2,
+.section-header h3,
+.section-header h4 {
+  font-size: var(--font-size-3, 1.5rem);
 }
 
 .popover-menu {
   position: relative;
 }
 
+.popover-menu-trigger {
+  anchor-name: var(--popover-anchor-name);
+}
+
 .popover-menu-panel {
+  display: grid;
+  gap: 0.2rem;
+  inset: anchor(bottom) auto auto anchor(left);
+  margin-block-start: 0.35rem;
   min-width: 12rem;
+  position-anchor: var(--popover-anchor-name);
+}
+
+.popover-menu-form {
+  display: contents;
+}
+
+.popover-menu-item {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: var(--radius-1, 0.25rem);
+  background: transparent;
+  color: inherit;
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.popover-menu-item:hover {
+  background: var(--hd-surface-muted-bg);
 }
 
 .scrollable-table {
