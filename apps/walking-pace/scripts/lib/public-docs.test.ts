@@ -312,6 +312,7 @@ describe("public docs", () => {
     expect(css).toContain("align-self: stretch;");
     expect(css).toContain("align-self: start;");
     expect(css).toContain("position: fixed;");
+    expect(css).toContain("max-height: calc(100dvh - 7rem);");
     expect(css).toContain("height: calc(100dvh - 7rem);");
     expect(css).toContain(".site-main:has(.docs-side-nav)");
     expect(css).toContain("padding-left: 4.75rem;");
@@ -328,7 +329,15 @@ describe("public docs", () => {
     expect(css).toContain(".docs-side-nav__icon");
     expect(css).toContain(".docs-side-nav__mobile-label");
     expect(css).toContain(".docs-page-toc");
+    expect(css).toContain('.docs-side-nav .docs-page-toc a[aria-current="location"],');
+    expect(css).toContain(".docs-side-nav .docs-page-toc a:focus-visible,");
     expect(script).toContain("buildCurrentPageNavigation()");
+    expect(script).toContain('currentLink.setAttribute("aria-current", "location")');
+    expect(script).toContain('currentLink.dataset.currentSection = "true"');
+    expect(script).toContain(
+      'window.addEventListener("scroll", scheduleCurrentLinkUpdate, { passive: true })',
+    );
+    expect(script).toContain("window.requestAnimationFrame");
     expect(script).toContain('window.matchMedia("(max-width: 640px)").matches');
     expect(script).toContain('document.querySelectorAll(".docs-side-nav[open]")');
     expect(script).toContain('document.querySelectorAll(".docs-side-nav a")');
