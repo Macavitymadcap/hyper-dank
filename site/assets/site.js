@@ -76,16 +76,63 @@ function buildCurrentPageNavigation() {
   const toc = document.createElement("nav");
   toc.className = "docs-page-toc";
   toc.setAttribute("aria-label", "Current page sections");
+  const linksByHeadingId = new Map();
+  let currentLink = null;
 
   for (const heading of headings) {
     const link = document.createElement("a");
     link.href = `#${heading.id}`;
     link.textContent = heading.textContent?.trim() ?? heading.id;
     if (heading.tagName.toLowerCase() === "h3") link.classList.add("docs-page-toc__child");
+    link.addEventListener("click", () => setCurrentPageTocLink(link));
+    linksByHeadingId.set(heading.id, link);
     toc.append(link);
   }
 
   activeLink.insertAdjacentElement("afterend", toc);
+  updateCurrentPageTocLink();
+
+  let scrollFrame = null;
+  const scheduleCurrentLinkUpdate = () => {
+    if (scrollFrame !== null) return;
+
+    scrollFrame = window.requestAnimationFrame(() => {
+      scrollFrame = null;
+      updateCurrentPageTocLink();
+    });
+  };
+
+  window.addEventListener("scroll", scheduleCurrentLinkUpdate, { passive: true });
+  window.addEventListener("resize", scheduleCurrentLinkUpdate);
+
+  function updateCurrentPageTocLink() {
+    const currentHeading = headingNearestTop(headings);
+    const link = linksByHeadingId.get(currentHeading.id);
+    if (link) setCurrentPageTocLink(link);
+  }
+
+  function setCurrentPageTocLink(link) {
+    if (currentLink === link) return;
+
+    currentLink?.removeAttribute("aria-current");
+    currentLink?.removeAttribute("data-current-section");
+    currentLink = link;
+    currentLink.setAttribute("aria-current", "location");
+    currentLink.dataset.currentSection = "true";
+  }
+}
+
+function headingNearestTop(headings) {
+  const pageOffset = 120;
+  let currentHeading = headings[0];
+
+  for (const heading of headings) {
+    const headingTop = heading.getBoundingClientRect().top;
+    if (headingTop > pageOffset) break;
+    currentHeading = heading;
+  }
+
+  return currentHeading;
 }
 
 function closeMobileSideNavs() {

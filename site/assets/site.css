@@ -681,6 +681,8 @@ pre code {
   border: 1px solid var(--border);
   border-radius: 8px;
   box-shadow: var(--surface-depth-shadow);
+  max-height: calc(100dvh - 7rem);
+  overflow: auto;
   padding: 0.4rem;
   position: sticky;
   top: 5.5rem;
@@ -784,10 +786,28 @@ pre code {
   padding-left: 0.45rem;
 }
 
-.docs-page-toc a {
+.docs-side-nav .docs-page-toc a,
+.library-side-nav .docs-page-toc a {
+  border-left: 2px solid transparent;
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
   font-size: 0.86rem;
   font-weight: 650;
-  padding-block: 0.35rem;
+  margin-left: -0.55rem;
+  padding: 0.35rem 0.55rem;
+}
+
+.docs-side-nav .docs-page-toc a[aria-current="location"],
+.library-side-nav .docs-page-toc a[aria-current="location"] {
+  background: var(--surface-muted);
+  border-left-color: var(--accent);
+  color: var(--text);
+}
+
+.docs-side-nav .docs-page-toc a:focus-visible,
+.library-side-nav .docs-page-toc a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .docs-page-toc__child {
