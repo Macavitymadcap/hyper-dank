@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.4.0...hyper-dank-v2.4.1) (2026-05-23)
+
+
+### Documentation
+
+* reflect public npm packages ([92f4208](https://github.com/Macavitymadcap/hyper-dank/commit/92f420800091f47bbe02d6b8fda2d74593347500))
+
 ## [2.4.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.3.1...hyper-dank-v2.4.0) (2026-05-23)
 
 
