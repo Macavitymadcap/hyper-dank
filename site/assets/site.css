@@ -25,6 +25,7 @@
   --control-depth-shadow-hover:
     0 9px 18px rgb(23 32 42 / 16%), inset 0 1px 0 rgb(255 255 255 / 82%);
   --input-depth-shadow: inset 0 1px 0 rgb(255 255 255 / 74%), 0 6px 14px rgb(23 32 42 / 7%);
+  --drawer-backdrop-shadow: 0 0 0 100vmax rgb(23 32 42 / 20%);
 }
 
 :root[data-theme="dark"] {
@@ -51,6 +52,7 @@
   --control-depth-shadow: 0 7px 16px rgb(0 0 0 / 26%), inset 0 1px 0 rgb(255 255 255 / 10%);
   --control-depth-shadow-hover: 0 10px 20px rgb(0 0 0 / 32%), inset 0 1px 0 rgb(255 255 255 / 14%);
   --input-depth-shadow: inset 0 1px 0 rgb(255 255 255 / 9%), 0 6px 14px rgb(0 0 0 / 18%);
+  --drawer-backdrop-shadow: 0 0 0 100vmax rgb(0 0 0 / 38%);
 }
 
 * {
@@ -835,6 +837,7 @@ pre code {
   .docs-side-nav[open],
   .library-side-nav[open] {
     align-self: start;
+    box-shadow: var(--surface-depth-shadow), var(--drawer-backdrop-shadow);
     max-width: calc(100vw - 1rem);
     width: min(20rem, calc(100vw - 1rem));
   }
@@ -860,7 +863,10 @@ pre code {
 
   .docs-side-nav[open] summary::after,
   .library-side-nav[open] summary::after {
-    content: "‹";
+    content: "Close";
+    font-size: 0.82rem;
+    font-weight: 800;
+    justify-self: end;
   }
 
   .docs-side-nav__icon {

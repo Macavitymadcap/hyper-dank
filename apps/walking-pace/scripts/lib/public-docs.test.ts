@@ -226,8 +226,12 @@ describe("public docs", () => {
     expect(css).toContain("padding-left: 4.75rem;");
     expect(css).toContain("width: 3.75rem;");
     expect(css).toContain("width: min(20rem, calc(100vw - 1rem));");
+    expect(css).toContain("--drawer-backdrop-shadow");
+    expect(css).toContain(
+      "box-shadow: var(--surface-depth-shadow), var(--drawer-backdrop-shadow);",
+    );
     expect(css).toContain('content: "›";');
-    expect(css).toContain('content: "‹";');
+    expect(css).toContain('content: "Close";');
     expect(css).toContain("grid-template-columns: 1fr;");
     expect(css).toContain("grid-template-columns: 2rem minmax(0, 1fr) 2rem;");
     expect(css).toContain(".docs-side-nav__icon");
