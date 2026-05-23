@@ -85,7 +85,6 @@ function buildCurrentPageNavigation() {
     link.textContent = heading.textContent?.trim() ?? heading.id;
     if (heading.tagName.toLowerCase() === "h3") link.classList.add("docs-page-toc__child");
     link.addEventListener("click", () => setCurrentPageTocLink(link));
-    link.addEventListener("focus", () => setCurrentPageTocLink(link));
     linksByHeadingId.set(heading.id, link);
     toc.append(link);
   }

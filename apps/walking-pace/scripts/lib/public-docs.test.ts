@@ -338,6 +338,7 @@ describe("public docs", () => {
       'window.addEventListener("scroll", scheduleCurrentLinkUpdate, { passive: true })',
     );
     expect(script).toContain("window.requestAnimationFrame");
+    expect(script).not.toContain('link.addEventListener("focus"');
     expect(script).toContain('window.matchMedia("(max-width: 640px)").matches');
     expect(script).toContain('document.querySelectorAll(".docs-side-nav[open]")');
     expect(script).toContain('document.querySelectorAll(".docs-side-nav a")');
