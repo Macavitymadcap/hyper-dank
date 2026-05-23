@@ -23,6 +23,8 @@ export { ButtonGroup, type ButtonGroupProps } from "./molecules/ButtonGroup";
 export { Callout, type CalloutProps } from "./molecules/Callout";
 export { CheckboxField, type CheckboxFieldProps } from "./molecules/CheckboxField";
 export { CodeBlock, type CodeBlockProps } from "./molecules/CodeBlock";
+export { Combobox, type ComboboxOption, type ComboboxProps } from "./molecules/Combobox";
+export { Command, type CommandItem, type CommandProps } from "./molecules/Command";
 export { CompactList, type CompactListItem, type CompactListProps } from "./molecules/CompactList";
 export { Dialog, type DialogProps } from "./molecules/Dialog";
 export { EmptyState, type EmptyStateProps } from "./molecules/EmptyState";

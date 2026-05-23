@@ -7,6 +7,8 @@
 .callout,
 .choice-field,
 .code-block,
+.command,
+.command-field,
 .empty-state,
 .fieldset,
 .form-field,
@@ -340,6 +342,7 @@
   box-shadow: var(--hd-surface-shadow-hover);
 }
 
+.command input,
 .form-field :where(input, select, textarea),
 .input-group input,
 .textarea-field textarea {
@@ -592,6 +595,51 @@ dialog.dialog[open] {
 
 .popover-menu {
   position: relative;
+}
+
+.command {
+  width: min(100%, 36rem);
+}
+
+.command form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.command input {
+  width: 100%;
+}
+
+.command-field label,
+.command-field small {
+  display: block;
+}
+
+.command-results {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.command-results a {
+  display: grid;
+  gap: 0.15rem;
+  border: 1px solid var(--hd-surface-border);
+  border-radius: var(--radius-2, 0.5rem);
+  padding: 0.5rem 0.65rem;
+  color: inherit;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.command-results [data-current="true"] {
+  background: var(--hd-surface-muted-bg);
+}
+
+.command-empty {
+  margin: 0;
 }
 
 .popover-menu-trigger {

@@ -73,6 +73,8 @@ layer after the package CSS.
 | `CheckboxField`, `CheckboxFieldProps` | Labelled native checkbox with description and error hooks. | `Components/Shared` |
 | `Chip`, `ChipProps` | Inline status text with optional class hook. | `Components/Shared/Chip` |
 | `CodeBlock`, `CodeBlockProps` | Escaped code sample wrapper with optional language class. | `Components/Shared` |
+| `Combobox`, `ComboboxOption`, `ComboboxProps` | Labelled native datalist input for app-owned suggestions and validation. | `Components/Shared/Core Primitives` |
+| `Command`, `CommandItem`, `CommandProps` | Search landmark and result options for app-owned command filtering and loading. | `Components/Shared/Core Primitives` |
 | `Dialog`, `DialogProps` | Native dialog with trigger, close form, fallback content, and HTMX-friendly hooks. | `Components/Shared` |
 | `EmptyState`, `EmptyStateProps` | Blank-state region with optional action slot. | `Components/Shared` |
 | `Fieldset`, `FieldsetProps` | Grouped native controls with legend, hint, and error copy. | `Components/Shared` |
@@ -128,7 +130,8 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | --- | --- | --- |
 | Server apps | `HxForm`, `FormField`, `Button`, `Panel` | Routes, validation, auth, and permissions stay local. |
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
-| Dashboards | `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, `PopoverMenu`, `BasicGraph` | Domain actions, live data, analytics rules, and role rules stay local. |
+| Dashboards | `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, command filtering, live data, analytics rules, and role rules stay local. |
+| Dense forms | `SelectField`, `Combobox`, `PopoverMenu`, `Command` | Use native selects for short fixed sets, datalist suggestions for open text, menu actions for compact choices, and command search only when the app owns filtering/loading. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
 
 Use `HxForm` when a control must work as normal HTML first and become fragment-driven when HTMX is

@@ -10,6 +10,8 @@ import {
   Callout,
   Card,
   CheckboxField,
+  Combobox,
+  Command,
   Dialog,
   EmptyState,
   FormField,
@@ -121,6 +123,12 @@ describe("component library", () => {
           </LinkButton>
         </ButtonGroup>
         <CheckboxField id="published" label="Published" />
+        <Combobox id="owner" label="Owner" options={[{ label: "Ada Lovelace", value: "Ada" }]} />
+        <Command
+          id="command"
+          label="Command"
+          items={[{ href: "/items?status=ready", label: "Ready items", value: "ready" }]}
+        />
       </Panel>,
     );
 
@@ -128,6 +136,8 @@ describe("component library", () => {
     expect(html).toContain('aria-label="Search"');
     expect(html).toContain('class="button link-button"');
     expect(html).toContain('type="checkbox"');
+    expect(html).toContain('class="form-field combobox"');
+    expect(html).toContain('class="command"');
   });
 
   test("exports second-wave layout and navigation primitives", () => {
