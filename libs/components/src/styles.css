@@ -35,6 +35,66 @@
   );
 }
 
+.aspect-ratio,
+.avatar,
+.kbd,
+.separator,
+.skeleton,
+.tooltip {
+  --hd-low-state-border: var(--border-subtle, color-mix(in oklab, CanvasText 18%, transparent));
+  --hd-low-state-muted: var(--text-muted, color-mix(in oklab, CanvasText 64%, Canvas 36%));
+  --hd-low-state-surface: var(--surface-raised, color-mix(in oklab, Canvas 92%, CanvasText 8%));
+}
+
+.aspect-ratio {
+  aspect-ratio: var(--aspect-ratio, 16 / 9);
+  background: var(--hd-low-state-surface);
+  border-radius: var(--radius-2, 0.5rem);
+  display: grid;
+  overflow: hidden;
+}
+
+.aspect-ratio > :where(img, picture, video, iframe) {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.avatar {
+  align-items: center;
+  aspect-ratio: 1;
+  background: var(--hd-low-state-surface);
+  border: 1px solid var(--hd-low-state-border);
+  border-radius: 999px;
+  display: inline-grid;
+  flex: 0 0 auto;
+  font-weight: 800;
+  justify-content: center;
+  overflow: hidden;
+  width: var(--avatar-size, 2.25rem);
+}
+
+.avatar[data-size="sm"] {
+  --avatar-size: 1.75rem;
+  font-size: 0.75rem;
+}
+
+.avatar[data-size="lg"] {
+  --avatar-size: 3rem;
+  font-size: 1.1rem;
+}
+
+.avatar-image {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.avatar-fallback {
+  color: var(--hd-low-state-muted);
+  line-height: 1;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -42,6 +102,128 @@
   border-radius: 999px;
   padding: 0.15rem 0.5rem;
   font-size: 0.85em;
+}
+
+.kbd {
+  background: var(--hd-low-state-surface);
+  border: 1px solid var(--hd-low-state-border);
+  border-radius: var(--radius-1, 0.35rem);
+  box-shadow: inset 0 -0.08rem 0 var(--hd-low-state-border);
+  display: inline-flex;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.2rem 0.35rem;
+}
+
+.separator {
+  border: 0;
+  border-block-start: 1px solid var(--hd-low-state-border);
+  margin: var(--size-3, 0.75rem) 0;
+}
+
+.separator[data-orientation="vertical"] {
+  align-self: stretch;
+  border-block-start: 0;
+  border-inline-start: 1px solid var(--hd-low-state-border);
+  display: inline-block;
+  margin: 0 var(--size-2, 0.5rem);
+  min-height: 1.5rem;
+}
+
+.skeleton {
+  background-image: linear-gradient(
+    90deg,
+    var(--hd-low-state-surface),
+    color-mix(in oklab, var(--hd-low-state-surface) 72%, CanvasText 12%),
+    var(--hd-low-state-surface)
+  );
+  background-size: 200% 100%;
+  border-radius: var(--radius-1, 0.35rem);
+  display: inline-block;
+  height: var(--skeleton-height, 1em);
+  max-width: 100%;
+  min-width: 2rem;
+  width: var(--skeleton-width, 100%);
+}
+
+.skeleton[data-shape="block"] {
+  height: var(--skeleton-height, 6rem);
+}
+
+.skeleton[data-shape="circle"] {
+  aspect-ratio: 1;
+  border-radius: 999px;
+  height: var(--skeleton-height, 2.5rem);
+  width: var(--skeleton-width, var(--skeleton-height, 2.5rem));
+}
+
+.skeleton-label {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.tooltip {
+  display: inline-grid;
+  position: relative;
+  width: max-content;
+}
+
+.tooltip-trigger {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: help;
+  display: inline-flex;
+  font: inherit;
+  padding: 0;
+  text-align: inherit;
+}
+
+.tooltip-content {
+  background: CanvasText;
+  border-radius: var(--radius-1, 0.35rem);
+  color: Canvas;
+  font-size: 0.85rem;
+  inset-block-end: calc(100% + 0.35rem);
+  inset-inline-start: 50%;
+  max-width: min(16rem, 80vw);
+  opacity: 0;
+  padding: 0.35rem 0.5rem;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-50%);
+  width: max-content;
+  z-index: 1;
+}
+
+.tooltip[data-side="bottom"] .tooltip-content {
+  inset-block: calc(100% + 0.35rem) auto;
+}
+
+.tooltip[data-side="left"] .tooltip-content {
+  inset-block: 50% auto;
+  inset-inline: auto calc(100% + 0.35rem);
+  transform: translateY(-50%);
+}
+
+.tooltip[data-side="right"] .tooltip-content {
+  inset-block: 50% auto;
+  inset-inline: calc(100% + 0.35rem) auto;
+  transform: translateY(-50%);
+}
+
+.tooltip:hover .tooltip-content,
+.tooltip:focus-within .tooltip-content {
+  opacity: 1;
 }
 
 .app-shell,

@@ -190,6 +190,12 @@ export const screenshotFlows: ScreenshotFlow[] = [
       },
       {
         authUserId: null,
+        label: "Low-state primitives",
+        path: "/storybook/iframe.html?id=components-shared-low-state-primitives--low-state-set",
+        slug: "low-state-primitives",
+      },
+      {
+        authUserId: null,
         label: "Component contracts",
         path: "/storybook/iframe.html?id=introduction-component-contracts--reference-map",
         slug: "component-contracts",
