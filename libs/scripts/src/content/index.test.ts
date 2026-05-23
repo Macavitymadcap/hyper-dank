@@ -69,7 +69,7 @@ describe("markdown rendering", () => {
       { basePath: "/hyper-dank" },
     );
 
-    expect(html).toContain("<h1>Libraries</h1>");
+    expect(html).toContain('<h1 id="libraries">Libraries</h1>');
     expect(html).toContain('<a href="/hyper-dank/storybook/">Storybook</a>');
     expect(html).toContain("<strong>strong copy</strong>");
     expect(html).toContain("<code>Button</code>");
@@ -247,7 +247,7 @@ describe("accessibility statements", () => {
 
     expect(result.outputPath).toBe("accessibility/index.html");
     await expect(readFile(path.join(tmp, "accessibility/index.html"), "utf8")).resolves.toContain(
-      "<h1>Accessibility statement for Docs</h1>",
+      '<h1 id="accessibility-statement-for-docs">Accessibility statement for Docs</h1>',
     );
   });
 });

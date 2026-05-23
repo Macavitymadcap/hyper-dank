@@ -328,7 +328,9 @@ export function renderMarkdown(markdown: string, options: RenderMarkdownOptions 
       const text = heading.at(2);
       if (!marker || !text) continue;
       const level = marker.length;
-      html.push(`<h${level}>${renderInlineMarkdown(text, options)}</h${level}>`);
+      html.push(
+        `<h${level} id="${escapeAttribute(slugifyHeading(text))}">${renderInlineMarkdown(text, options)}</h${level}>`,
+      );
       continue;
     }
 
@@ -375,6 +377,15 @@ export function renderMarkdown(markdown: string, options: RenderMarkdownOptions 
   flushTable();
 
   return html.join("\n");
+}
+
+function slugifyHeading(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/&[a-z]+;/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 export function parseFrontMatter(content: string): FrontMatterResult {

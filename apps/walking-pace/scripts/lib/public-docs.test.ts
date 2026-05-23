@@ -123,9 +123,18 @@ describe("public docs", () => {
 
   test("keep recipe guidance complete and navigable", () => {
     const recipes = readFileSync(path.join(root, "site/recipes.md"), "utf8");
+    const recipeFiles = [
+      "site/recipes-server-app.md",
+      "site/recipes-static-blog.md",
+      "site/recipes-dashboard-admin-tool.md",
+      "site/recipes-static-demo.md",
+      "site/recipes-script-consumer.md",
+      "site/recipes-static-content-generator.md",
+    ];
     const expectedSections = [
       {
-        id: "server-app",
+        file: "site/recipes-server-app.md",
+        route: "/recipes/server-app/",
         packages: [
           "@macavitymadcap/hyper-dank-ui",
           "@macavitymadcap/hyper-dank-transport",
@@ -134,7 +143,8 @@ describe("public docs", () => {
         ],
       },
       {
-        id: "static-blog",
+        file: "site/recipes-static-blog.md",
+        route: "/recipes/static-blog/",
         packages: [
           "@macavitymadcap/hyper-dank-ui",
           "@macavitymadcap/hyper-dank-automation/content",
@@ -142,7 +152,8 @@ describe("public docs", () => {
         ],
       },
       {
-        id: "dashboard-admin-tool",
+        file: "site/recipes-dashboard-admin-tool.md",
+        route: "/recipes/dashboard-admin-tool/",
         packages: [
           "@macavitymadcap/hyper-dank-ui",
           "@macavitymadcap/hyper-dank-transport",
@@ -151,15 +162,18 @@ describe("public docs", () => {
         ],
       },
       {
-        id: "static-demo",
+        file: "site/recipes-static-demo.md",
+        route: "/recipes/static-demo/",
         packages: ["@macavitymadcap/hyper-dank-ui", "@macavitymadcap/hyper-dank-automation"],
       },
       {
-        id: "script-consumer",
+        file: "site/recipes-script-consumer.md",
+        route: "/recipes/script-consumer/",
         packages: ["@macavitymadcap/hyper-dank-automation"],
       },
       {
-        id: "static-content-generator",
+        file: "site/recipes-static-content-generator.md",
+        route: "/recipes/static-content-generator/",
         packages: [
           "@macavitymadcap/hyper-dank-automation/content",
           "@macavitymadcap/hyper-dank-automation",
@@ -169,26 +183,31 @@ describe("public docs", () => {
 
     expect(recipes).toContain('<details class="docs-side-nav recipe-side-nav" open>');
     expect(recipes).toContain('<summary aria-label="Toggle recipe navigation">');
-    expect(recipes).toContain('<nav aria-label="Recipe sections">');
+    expect(recipes).toContain('<nav aria-label="Recipe docs">');
 
-    const wrappedPackageItems = Array.from(
-      recipes.matchAll(/\n- `@macavitymadcap\/hyper-dank-[^`]+`[^\n]*\n {2}\S/g),
-    ).map((match) => match[0].trim());
+    const wrappedPackageItems = recipeFiles.flatMap((file) => {
+      const text = readFileSync(path.join(root, file), "utf8");
+      return Array.from(
+        text.matchAll(/\n- `@macavitymadcap\/hyper-dank-[^`]+`[^\n]*\n {2}\S/g),
+      ).map((match) => `${file}: ${match[0].trim()}`);
+    });
 
-    const missingContent = expectedSections.flatMap(({ id, packages }) => {
-      const section = recipeSection(recipes, id);
+    const missingContent = expectedSections.flatMap(({ file, packages, route }) => {
+      const section = readFileSync(path.join(root, file), "utf8");
       const missingHeadings = [
-        "### Required packages",
-        "### App-owned responsibilities",
-        "### Verification",
-        "### References",
-      ].flatMap((heading) => (section.includes(heading) ? [] : [`${id}: missing ${heading}`]));
+        "## Required Packages",
+        "## App-Owned Responsibilities",
+        "## Verification",
+        "## References",
+      ].flatMap((heading) => (section.includes(heading) ? [] : [`${file}: missing ${heading}`]));
       const missingPackages = packages.flatMap((packageName) =>
-        section.includes(packageName) ? [] : [`${id}: missing ${packageName}`],
+        section.includes(packageName) ? [] : [`${file}: missing ${packageName}`],
       );
 
       return [
-        recipes.includes(`href="#${id}"`) ? "" : `${id}: missing recipe nav link`,
+        recipes.includes(`href="{{ '${route}' | relative_url }}"`)
+          ? ""
+          : `${file}: missing recipe index link`,
         ...missingHeadings,
         ...missingPackages,
       ].filter(Boolean);
@@ -236,6 +255,8 @@ describe("public docs", () => {
     expect(css).toContain("grid-template-columns: 2rem minmax(0, 1fr) 2rem;");
     expect(css).toContain(".docs-side-nav__icon");
     expect(css).toContain(".docs-side-nav__mobile-label");
+    expect(css).toContain(".docs-page-toc");
+    expect(script).toContain("buildCurrentPageNavigation()");
     expect(script).toContain('window.matchMedia("(max-width: 640px)").matches');
     expect(script).toContain('document.querySelectorAll(".docs-side-nav[open]")');
     expect(script).toContain('document.querySelectorAll(".docs-side-nav a")');
@@ -323,12 +344,4 @@ function publicExportNames(relativePath: string) {
   }
 
   return [...names].sort();
-}
-
-function recipeSection(markdown: string, id: string) {
-  const match = new RegExp(
-    `<section id="${id}" class="recipe-section">(?<section>[\\s\\S]*?)</section>`,
-  ).exec(markdown);
-
-  return match?.groups?.section ?? "";
 }

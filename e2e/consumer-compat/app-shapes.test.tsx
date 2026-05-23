@@ -463,7 +463,7 @@ describe("Hyper-Dank recipe compatibility", () => {
       sourceDir,
     });
 
-    expect(html).toContain("<h1>Notes</h1>");
+    expect(html).toContain('<h1 id="notes">Notes</h1>');
     expect(html).toContain('<a href="/hyper-dank/docs/">docs</a>');
     await expect(readFile(path.join(destinationDir, "index.html"), "utf8")).resolves.toContain(
       '<a href="/hyper-dank/docs/">docs</a>',

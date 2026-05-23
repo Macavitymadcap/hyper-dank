@@ -114,6 +114,38 @@ describe("Storybook shared reference coverage", () => {
       "warning",
     ]);
   });
+
+  test("keeps rewritten shared docs examples copyable and wrapper-free", () => {
+    const storyFiles = [
+      "libs/components/src/stories/shared-coverage.stories.tsx",
+      "libs/components/src/stories/second-wave-primitives.stories.tsx",
+      "libs/components/src/stories/generic-components.stories.tsx",
+    ];
+
+    for (const storyPath of storyFiles) {
+      const source = readFileSync(join(repoRoot, storyPath), "utf8");
+      const codeExamples = [...source.matchAll(/code={`(?<code>[\s\S]*?)`}/g)];
+
+      expect(
+        codeExamples.length,
+        `${storyPath} should include visible code examples`,
+      ).toBeGreaterThan(0);
+
+      for (const example of codeExamples) {
+        const code = example.groups?.code ?? "";
+        expect(code, `${storyPath} example should import public package`).toContain(
+          "@macavitymadcap/hyper-dank-ui",
+        );
+        expect(code, `${storyPath} example should not expose Storybook wrapper`).not.toContain(
+          "renderStory",
+        );
+        expect(
+          code,
+          `${storyPath} example should not expose Storybook-only wrapper classes`,
+        ).not.toContain("storybook-doc");
+      }
+    }
+  });
 });
 
 function listStoryFiles(root: string) {

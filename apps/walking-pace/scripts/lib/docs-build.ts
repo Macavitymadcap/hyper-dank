@@ -118,6 +118,7 @@ function renderDocument({
               <a href="${relativeContentUrl("/recipes/", basePath)}">Recipes</a>
               <a href="${relativeContentUrl("/system/", basePath)}">System</a>
               <a href="${relativeContentUrl("/verification/", basePath)}">Verification</a>
+              <a href="${relativeContentUrl("/accessibility/", basePath)}">Accessibility</a>
               <a href="${relativeContentUrl("/pace/", basePath)}">Pace demo</a>
               <a href="${relativeContentUrl("/storybook/", basePath)}">Storybook</a>
             </div>

@@ -3,9 +3,20 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Reusable Bun automation helpers for Hyper-Dank apps.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Macavitymadcap/hyper-dank.git",
+    "directory": "libs/scripts"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "files": [
     "dist",
     "src",
+    "LICENSE",
     "README.md"
   ],
   "exports": {

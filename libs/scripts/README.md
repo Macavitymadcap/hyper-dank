@@ -6,8 +6,9 @@ Pa11y, screenshots, PR image tables, and static-content builds.
 
 ## Installation
 
-`@macavitymadcap/hyper-dank-automation` is not published to npm yet. The supported route today is
-the local package tarball produced by the Hyper-Dank workspace:
+`@macavitymadcap/hyper-dank-automation` is prepared for public npm publication. Until the first
+staged npm release is approved, the supported route remains the local package tarball produced by
+the Hyper-Dank workspace:
 
 ```bash
 # from hyper-dank
@@ -23,8 +24,15 @@ peer for browser screenshot, E2E, and Playwright-backed helpers; install it only
 are part of the downstream app. The tarball route is verified by `bun run test:packages`, which
 installs the package into a clean temporary app outside this workspace and imports both
 `@macavitymadcap/hyper-dank-automation` and `@macavitymadcap/hyper-dank-automation/content` by
-package name. npm publication, GitHub package publication, and release automation are follow-up
-work.
+package name. After the staged npm release is approved, downstream apps can install the public
+package with:
+
+```bash
+bun add @macavitymadcap/hyper-dank-automation typescript
+```
+
+The npm workflow uses trusted publishing with provenance and stages packages first so a maintainer
+can review the release before it becomes public. GitHub package publication remains a future option.
 
 ```ts
 import {
@@ -161,4 +169,4 @@ content rendering.
 
 For the full public API reference, see `site/libraries-automation.md`.
 
-For app-shape guidance, see the public recipes in `site/recipes.md`.
+For app-shape guidance, see the public recipes under `site/recipes.md` and `site/recipes-*.md`.

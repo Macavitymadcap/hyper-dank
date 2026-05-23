@@ -62,9 +62,13 @@ bun install
 
 ## Package Installation
 
-The scoped Hyper-Dank packages are not published to npm yet. The supported route today is a local
-tarball install: pack this workspace, then install the generated tarballs into a downstream Bun app
-with the peer dependencies that app needs.
+The scoped Hyper-Dank packages are prepared for npm publication. The first public npm release is
+staged through GitHub Actions with npm trusted publishing and provenance, then approved by a
+maintainer before the packages become public.
+
+Until that staged npm release is approved, the supported route is a local tarball install: pack this
+workspace, then install the generated tarballs into a downstream Bun app with the peer dependencies
+that app needs.
 
 From this repository:
 
@@ -97,9 +101,19 @@ That script packs the four packages, creates a temporary app outside this worksp
 tarballs through their public package names, typechecks the public imports, resolves
 `@macavitymadcap/hyper-dank-ui/styles.css`, and runs a small Bun smoke test.
 
-This is a consumption contract, not a publishing workflow. npm or GitHub Packages publication,
-versioned release tarballs, and starter templates remain follow-up work until the package boundary
-has settled.
+Once the staged npm release is live, install the packages directly:
+
+```bash
+bun add \
+  @macavitymadcap/hyper-dank-ui \
+  @macavitymadcap/hyper-dank-data \
+  @macavitymadcap/hyper-dank-transport \
+  @macavitymadcap/hyper-dank-automation
+bun add hono typescript
+```
+
+The four packages are versioned in lockstep for now. GitHub Packages publication, versioned release
+tarballs, and starter templates remain follow-up options.
 
 ## Run Locally
 

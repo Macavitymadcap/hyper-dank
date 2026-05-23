@@ -24,6 +24,16 @@ honest.
 
 <div class="library-page">
 
+## Install
+
+After the first staged npm release is approved:
+
+```bash
+bun add @macavitymadcap/hyper-dank-data typescript
+```
+
+Until then, use `bun run pack:packages` and install the local tarball from `.cache/packages/`.
+
 ```ts
 import {
   createProviderRegistry,
