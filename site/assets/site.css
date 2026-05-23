@@ -588,6 +588,11 @@ th {
   background: var(--surface-muted);
 }
 
+td code {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
 tr:last-child td {
   border-bottom: 0;
 }
