@@ -48,4 +48,14 @@ describe("FormField", () => {
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('role="alert"');
   });
+
+  test("forwards datalist references to generated inputs", () => {
+    const html = renderToString(
+      <FormField id="blog-search" label="Search posts" list="blog-tag-suggestions" type="search" />,
+    );
+
+    expect(html).toContain('id="blog-search"');
+    expect(html).toContain('type="search"');
+    expect(html).toContain('list="blog-tag-suggestions"');
+  });
 });

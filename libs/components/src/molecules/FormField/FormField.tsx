@@ -8,6 +8,7 @@ export interface FormFieldProps {
   id?: string;
   inputMode?: "decimal" | "email" | "none" | "numeric" | "search" | "tel" | "text" | "url";
   label: string;
+  list?: string;
   max?: number | string;
   min?: number | string;
   name?: string;
@@ -29,6 +30,7 @@ export const FormField = ({
   id,
   inputMode,
   label,
+  list,
   max,
   min,
   name,
@@ -58,6 +60,7 @@ export const FormField = ({
           aria-invalid={error ? "true" : undefined}
           autocomplete={autocomplete}
           inputmode={inputMode}
+          list={list}
           min={min}
           max={max}
           pattern={pattern}
