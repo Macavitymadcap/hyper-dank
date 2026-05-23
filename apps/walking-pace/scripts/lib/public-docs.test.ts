@@ -334,6 +334,25 @@ describe("public docs", () => {
     expect(home).toContain("M4 6l5-2 6 2 5-2");
   });
 
+  test("provides a concrete accessibility report path", () => {
+    const statement = readFileSync(path.join(root, "site/accessibility.md"), "utf8");
+    const template = readFileSync(
+      path.join(root, ".github/ISSUE_TEMPLATE/accessibility_report.yml"),
+      "utf8",
+    );
+
+    expect(statement).toContain(
+      "https://github.com/Macavitymadcap/hyper-dank/issues/new?template=accessibility_report.yml",
+    );
+    expect(statement).toContain("We aim to triage accessibility reports within seven days.");
+    expect(statement).toMatch(/Do not include private\s+personal, account, or security details/);
+    expect(statement).toContain("browser, operating system, assistive technology");
+    expect(template).toContain("name: Accessibility report");
+    expect(template).toContain('labels:\n  - "type: follow-up"\n  - "area: docs"');
+    expect(template).toContain("Route, component, or package");
+    expect(template).toContain("Do not include private personal, account, or security details");
+  });
+
   test("keeps docs side navigation stretched while open and compact while closed", () => {
     const css = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
     const script = readFileSync(path.join(root, "site/assets/site.js"), "utf8");

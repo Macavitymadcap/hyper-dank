@@ -1,0 +1,42 @@
+name: Accessibility report
+description: Report an accessibility problem in the Hyper-Dank public reference, demo, or package docs.
+title: "hd-0000: Accessibility report"
+labels:
+  - "type: follow-up"
+  - "area: docs"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping make Hyper-Dank more usable. Do not include private personal, account, or security details in a public issue.
+  - type: input
+    id: affected_surface
+    attributes:
+      label: Route, component, or package
+      description: Link the public route or name the component/package affected.
+      placeholder: /accessibility/, Storybook FormField, @macavitymadcap/hyper-dank-ui
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What accessibility problem did you encounter?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What did you expect to happen instead?
+  - type: textarea
+    id: environment
+    attributes:
+      label: Browser, operating system, assistive technology
+      description: Include versions and settings when they matter.
+      placeholder: Firefox 126, macOS, VoiceOver
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
+      description: Add screenshots, reduced examples, or related links when useful and safe to share publicly.
