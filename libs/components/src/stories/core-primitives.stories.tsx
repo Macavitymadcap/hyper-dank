@@ -137,7 +137,7 @@ export const SelectionAndCommands: Story = {
             filtering, loading, and persistence.
           </p>
         </header>
-        <div class="storybook-doc__grid">
+        <div class="storybook-doc__grid storybook-doc__grid--two">
           <section class="storybook-doc__section" aria-labelledby="selection-preview-heading">
             <h2 id="selection-preview-heading">Rendered output</h2>
             <SelectField
