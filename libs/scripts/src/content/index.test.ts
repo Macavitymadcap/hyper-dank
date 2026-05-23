@@ -110,6 +110,25 @@ describe("inline markdown and URLs", () => {
       rewriteContentUrl("{{ '/libraries/' | relative_url }}", { basePath: "/hyper-dank" }),
     ).toBe("/hyper-dank/libraries/");
   });
+
+  test("renders single-asterisk emphasis", () => {
+    expect(renderInlineMarkdown("Read *Hypermedia Systems*.")).toBe(
+      "Read <em>Hypermedia Systems</em>.",
+    );
+  });
+
+  test("renders single-asterisk emphasis inside link labels", () => {
+    expect(renderInlineMarkdown("[*Hypermedia Systems*](https://example.com)")).toBe(
+      '<a href="https://example.com"><em>Hypermedia Systems</em></a>',
+    );
+  });
+
+  test("preserves code spans, strong text, and unmatched literal asterisks", () => {
+    expect(renderInlineMarkdown("Use `*literal*` and **strong** text.")).toBe(
+      "Use <code>*literal*</code> and <strong>strong</strong> text.",
+    );
+    expect(renderInlineMarkdown("A literal * stays literal.")).toBe("A literal * stays literal.");
+  });
 });
 
 describe("page discovery and route helpers", () => {
