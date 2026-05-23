@@ -1,3 +1,5 @@
+.accordion,
+.basic-graph,
 .button,
 .link-button,
 .card,
@@ -241,6 +243,20 @@
   gap: 0.5rem;
 }
 
+.accordion-item {
+  border: 1px solid var(--hd-surface-border);
+  border-radius: var(--radius-2, 0.5rem);
+  background: var(--hd-surface-bg);
+  color: inherit;
+  overflow: clip;
+}
+
+.accordion-item summary {
+  background-image: var(--hd-surface-gradient);
+  cursor: pointer;
+  padding: 0.65rem 0.75rem;
+}
+
 .accordion-item summary span {
   display: inline-flex;
   flex-wrap: wrap;
@@ -251,7 +267,7 @@
 .accordion-body {
   display: grid;
   gap: 0.5rem;
-  padding-block-start: 0.5rem;
+  padding: 0.65rem 0.75rem 0.75rem;
 }
 
 .app-shell-body {
@@ -349,6 +365,7 @@
   width: 100%;
   max-width: 32rem;
   height: auto;
+  overflow: visible;
 }
 
 .basic-graph-bar,
@@ -357,9 +374,34 @@
   color: var(--hd-accent, currentColor);
 }
 
+.basic-graph-axis,
+.basic-graph-grid {
+  stroke: var(--hd-surface-border);
+  stroke-width: 1;
+}
+
+.basic-graph-grid {
+  stroke-dasharray: 4 4;
+}
+
 .basic-graph-bar,
 .basic-graph-point {
   fill: currentColor;
+}
+
+.basic-graph-label,
+.basic-graph-value {
+  fill: var(--hd-graph-label, currentColor);
+  font-size: 0.72rem;
+  text-anchor: middle;
+}
+
+.basic-graph-label {
+  opacity: 0.78;
+}
+
+.basic-graph-value {
+  font-weight: 700;
 }
 
 .basic-graph-line {

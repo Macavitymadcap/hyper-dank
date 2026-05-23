@@ -6,6 +6,7 @@ describe("shared component styles", () => {
 
     expect(css).toContain(".app-shell");
     expect(css).toContain("@media (max-width: 48rem)");
+    expect(css).toContain(".accordion-item summary");
     expect(css).toContain(".accordion-item summary span");
     expect(css).toContain(".aspect-ratio");
     expect(css).toContain(".avatar");
@@ -28,6 +29,9 @@ describe("shared component styles", () => {
     expect(css).toContain("position-anchor: var(--popover-anchor-name)");
     expect(css).toContain(".popover-menu-form");
     expect(css).toContain(".popover-menu-item:hover");
+    expect(css).toContain(".basic-graph-axis");
+    expect(css).toContain(".basic-graph-label");
+    expect(css).toContain(".basic-graph-value");
     expect(css).toContain(".prose");
     expect(css).toContain(".separator");
     expect(css).toContain(".side-nav ul");
