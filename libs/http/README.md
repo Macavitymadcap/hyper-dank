@@ -5,6 +5,25 @@ Small Hono and HTMX helpers for hypermedia-first apps.
 The package contains generic form parsing, route parameter, error-message, and HTMX redirect
 helpers. App-specific auth, permissions, routes, and services stay in the consuming app.
 
+## Installation
+
+`@macavitymadcap/hyper-dank-transport` is not published to npm yet. The supported route today is the
+local package tarball produced by the Hyper-Dank workspace:
+
+```bash
+# from hyper-dank
+bun run pack:packages
+
+# from a downstream app
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-transport-0.1.0.tgz
+bun add hono typescript
+```
+
+The package peers on `hono` for response and request helper integration, and on `typescript` for
+declaration-aware tooling. The tarball route is verified by `bun run test:packages`, which installs
+the package into a clean temporary app outside this workspace and imports it by package name. npm
+publication is follow-up work.
+
 ## Public Exports
 
 - `FormValues`: parses Hono request bodies and exposes safe string, optional string, number, and
@@ -18,5 +37,7 @@ helpers. App-specific auth, permissions, routes, and services stay in the consum
   native requests.
 
 The public docs site includes route-level examples for these helpers.
+
+For the full public API reference, see `site/libraries-transport.md`.
 
 For app-shape guidance, see the public recipes in `site/recipes.md`.

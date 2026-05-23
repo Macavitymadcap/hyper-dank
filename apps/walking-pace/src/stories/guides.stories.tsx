@@ -8,12 +8,12 @@ const meta = {
     docs: {
       description: {
         component:
-          "General template documentation for usage, application flow, and the development pipeline.",
+          "Consumer-facing guidance for installing Hyper-Dank tarballs, composing app workflows, and reusing the verification model.",
       },
     },
     layout: "fullscreen",
   },
-  title: "Guides/Template",
+  title: "Guides/Using Hyper-Dank",
 } satisfies Meta;
 
 export default meta;
@@ -24,13 +24,14 @@ export const Usage: Story = {
     renderStory(
       <article class="storybook-doc" aria-labelledby="usage-heading">
         <header class="storybook-doc__header">
-          <p class="storybook-doc__eyebrow">Template guide</p>
+          <p class="storybook-doc__eyebrow">Consumer guide</p>
           <h1 id="usage-heading" class="storybook-doc__title">
-            Usage
+            Using Hyper-Dank
           </h1>
           <p class="storybook-doc__lede">
-            Hyper-Dank is a server-rendered Bun, Hono, HTMX, and JSX toolkit with Storybook
-            documentation for the reusable UI surface.
+            Hyper-Dank is a server-rendered Bun, Hono, HTMX, TypeScript, and JSX toolkit. Storybook
+            shows the reusable UI surface; the docs and READMEs explain installation, package
+            boundaries, and app-owned responsibilities.
           </p>
         </header>
 
@@ -40,6 +41,10 @@ export const Usage: Story = {
             <ol>
               <li>
                 Install dependencies with <code class="storybook-doc__code">bun install</code>.
+              </li>
+              <li>
+                Pack installable tarballs with{" "}
+                <code class="storybook-doc__code">bun run pack:packages</code>.
               </li>
               <li>
                 Run the app with <code class="storybook-doc__code">bun run dev</code>.
@@ -53,10 +58,10 @@ export const Usage: Story = {
           <section class="storybook-doc__section" aria-labelledby="usage-structure-heading">
             <h2 id="usage-structure-heading">Project structure</h2>
             <p>
-              Application entrypoints live in <code class="storybook-doc__code">src/app.tsx</code>,
-              component primitives live under{" "}
-              <code class="storybook-doc__code">src/components</code>, and reusable story data lives
-              in <code class="storybook-doc__code">src/stories</code>.
+              Application entrypoints build the route tree, shared primitives come from{" "}
+              <code class="storybook-doc__code">@macavitymadcap/hyper-dank-ui</code>, and local
+              stories document app-owned composition beside the workflows they support. The packages
+              do not own product routes, permissions, schemas, or copy.
             </p>
           </section>
 
@@ -71,16 +76,16 @@ export const Usage: Story = {
 
         <Callout title="Storybook structure">
           <p>
-            The Storybook catalog is intentionally component-first: each atom, molecule, organism,
-            template, and page owns its controls, docs, and interaction checks beside the
-            implementation.
+            The Storybook catalogue is intentionally component-first: shared primitives sit under
+            consumer reference groups, while complete application surfaces are labelled as
+            reference-app composition.
           </p>
         </Callout>
       </article>,
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("heading", { name: "Usage" })).toBeInTheDocument();
+    await expect(canvas.getByRole("heading", { name: "Using Hyper-Dank" })).toBeInTheDocument();
     await expect(canvas.getByText("bun run storybook")).toBeInTheDocument();
   },
 };
@@ -90,13 +95,14 @@ export const ApplicationFlow: Story = {
     renderStory(
       <article class="storybook-doc" aria-labelledby="flow-heading">
         <header class="storybook-doc__header">
-          <p class="storybook-doc__eyebrow">Template guide</p>
+          <p class="storybook-doc__eyebrow">Consumer guide</p>
           <h1 id="flow-heading" class="storybook-doc__title">
-            Application flow
+            Consumer application flow
           </h1>
           <p class="storybook-doc__lede">
-            The template keeps request handling, auth, persistence, service logic, and UI rendering
-            in clear layers so new vertical slices have an obvious path through the app.
+            Hyper-Dank apps keep request handling, auth, persistence, service logic, and UI
+            rendering in clear layers so new vertical slices have an obvious path through the app.
+            The reusable packages provide mechanics; the consuming app still owns the domain.
           </p>
         </header>
 
@@ -113,8 +119,8 @@ export const ApplicationFlow: Story = {
             <h2 id="flow-state-heading">Server state</h2>
             <p>
               Repositories own database access behind typed app contracts and adapters. Services
-              compose those adapters into user-facing behaviors such as walks, invitations, and
-              admin review.
+              compose those adapters into user-facing behaviours such as domain records,
+              invitations, and review queues.
             </p>
           </section>
 
@@ -122,7 +128,7 @@ export const ApplicationFlow: Story = {
             <h2 id="flow-ui-heading">UI composition</h2>
             <p>
               Atoms provide stable interaction primitives, molecules group local form and table
-              structure, and organisms compose full product workflows.
+              structure, and reference-app organisms show how full product workflows fit together.
             </p>
           </section>
         </div>
@@ -140,7 +146,9 @@ export const ApplicationFlow: Story = {
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("heading", { name: "Application flow" })).toBeInTheDocument();
+    await expect(
+      canvas.getByRole("heading", { name: "Consumer application flow" }),
+    ).toBeInTheDocument();
     await expect(canvas.getByText("Adding a new workflow")).toBeInTheDocument();
   },
 };
@@ -150,13 +158,13 @@ export const TestingPipeline: Story = {
     renderStory(
       <article class="storybook-doc" aria-labelledby="testing-heading">
         <header class="storybook-doc__header">
-          <p class="storybook-doc__eyebrow">Template guide</p>
+          <p class="storybook-doc__eyebrow">Consumer guide</p>
           <h1 id="testing-heading" class="storybook-doc__title">
-            Testing pipeline
+            Reusable verification
           </h1>
           <p class="storybook-doc__lede">
-            The template uses a layered pipeline so fast checks stay cheap while Storybook and
-            browser coverage protect the out-of-the-box experience.
+            Hyper-Dank uses layered checks so cheap feedback runs first while Storybook and browser
+            coverage protect the consumer-facing component reference.
           </p>
         </header>
 
@@ -173,8 +181,8 @@ export const TestingPipeline: Story = {
           <section class="storybook-doc__section" aria-labelledby="testing-unit-heading">
             <h2 id="testing-unit-heading">Unit and service tests</h2>
             <p>
-              <code class="storybook-doc__code">bun run test</code> exercises core calculations,
-              database adapters, auth paths, and service behavior without a browser.
+              <code class="storybook-doc__code">bun run test</code> exercises shared contracts,
+              database adapters, auth paths, and service behaviour without a browser.
             </p>
           </section>
 
@@ -198,7 +206,9 @@ export const TestingPipeline: Story = {
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("heading", { name: "Testing pipeline" })).toBeInTheDocument();
+    await expect(
+      canvas.getByRole("heading", { name: "Reusable verification" }),
+    ).toBeInTheDocument();
     await expect(canvas.getByText("bun run test:storybook")).toBeInTheDocument();
   },
 };

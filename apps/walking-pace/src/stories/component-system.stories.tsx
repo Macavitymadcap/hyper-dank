@@ -8,12 +8,12 @@ const meta = {
     docs: {
       description: {
         component:
-          "Start here for the Hyper-Dank component philosophy, composition rules, and reference map.",
+          "Start here for the Hyper-Dank component contracts, composition rules, and consumer reference map.",
       },
     },
     layout: "fullscreen",
   },
-  title: "Introduction/Component Philosophy",
+  title: "Introduction/Component Contracts",
 } satisfies Meta;
 
 export default meta;
@@ -24,13 +24,15 @@ export const AtomicDesign: Story = {
     renderStory(
       <article class="storybook-doc" aria-labelledby="component-system-heading">
         <header class="storybook-doc__header">
-          <p class="storybook-doc__eyebrow">Component system</p>
+          <p class="storybook-doc__eyebrow">Consumer reference</p>
           <h1 id="component-system-heading" class="storybook-doc__title">
-            Atomic design in this template
+            Component contracts
           </h1>
           <p class="storybook-doc__lede">
-            Hyper-Dank keeps components small, progressively composable, and close to the
-            server-rendered workflows they support.
+            Hyper-Dank keeps components small, progressively enhanced, and close to the
+            server-rendered workflows they support. Shared primitives document reusable guarantees;
+            reference-app stories show one complete composition without turning that product shape
+            into package logic.
           </p>
         </header>
 
@@ -47,15 +49,15 @@ export const AtomicDesign: Story = {
             <h2 id="molecules-heading">Molecules</h2>
             <p>
               Molecules group atoms into small interface patterns such as labelled form fields, HTMX
-              forms, output pairs, scrollable tables, and walk-history rows.
+              forms, output pairs, scrollable tables, and compact record rows.
             </p>
           </section>
 
           <section class="storybook-doc__section" aria-labelledby="organisms-heading">
             <h2 id="organisms-heading">Organisms</h2>
             <p>
-              Organisms compose real product sections: the walk form, stats block, admin lists,
-              invitation flows, and account review panels.
+              Organisms compose real product sections: entry forms, stats blocks, admin lists,
+              invitation flows, and account review panels in the reference app.
             </p>
           </section>
 
@@ -71,7 +73,7 @@ export const AtomicDesign: Story = {
             <h2 id="pages-heading">Pages</h2>
             <p>
               Pages are included in Storybook as complete examples of how primitives, sections, and
-              server-rendered state fit together in the app.
+              server-rendered state fit together in a Hono and HTMX app.
             </p>
           </section>
         </div>
@@ -86,9 +88,7 @@ export const AtomicDesign: Story = {
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(
-      canvas.getByRole("heading", { name: "Atomic design in this template" }),
-    ).toBeInTheDocument();
+    await expect(canvas.getByRole("heading", { name: "Component contracts" })).toBeInTheDocument();
   },
 };
 
@@ -103,7 +103,8 @@ export const ReferenceMap: Story = {
           </h1>
           <p class="storybook-doc__lede">
             Component pages should explain the contract a consuming app relies on: inputs, rendered
-            output, events, HTMX attributes, accessibility expectations, and ownership boundaries.
+            output, events, HTMX attributes, accessibility expectations, theme behaviour, and
+            ownership boundaries.
           </p>
         </header>
 
@@ -208,9 +209,9 @@ export const ReferenceMap: Story = {
                 <td>Column headers use scope; scrollable bodies receive keyboard focus.</td>
               </tr>
               <tr>
-                <td>WalkForm</td>
-                <td>Default distance/time values, submit label, app-owned validation messages.</td>
-                <td>HTMX-ready walk entry form targeting the walk-history fragment.</td>
+                <td>Reference app form</td>
+                <td>Default field values, submit label, app-owned validation messages.</td>
+                <td>HTMX-ready entry form targeting an app-owned history fragment.</td>
                 <td>Numeric inputs keep short labels and native form fallback.</td>
               </tr>
             </tbody>

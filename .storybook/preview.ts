@@ -43,6 +43,7 @@ const syncAppThemeSwitch = (
     .join("");
 
   control.innerHTML = [
+    '<a class="storybook-utility-control__brand" href="../" target="_top" aria-label="Hyper-Dank home" title="Hyper-Dank home"><span class="storybook-utility-control__brand-mark" aria-hidden="true"></span></a>',
     '<nav class="storybook-utility-control__links" aria-label="Storybook quick links">',
     quickLinkMarkup,
     "</nav>",
@@ -53,6 +54,7 @@ const syncAppThemeSwitch = (
         dataThemeToggle: true,
         id: appThemeSwitchId,
         label: "Storybook color mode",
+        variant: "compact",
       }),
     ),
     "</div>",

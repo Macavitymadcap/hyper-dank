@@ -1,0 +1,79 @@
+name: Ticket
+description: Track one independently reviewable slice of work.
+title: "hd-0000: "
+labels:
+  - "type: ticket"
+body:
+  - type: input
+    id: identifier
+    attributes:
+      label: Identifier
+      placeholder: hd-0002
+    validations:
+      required: true
+  - type: input
+    id: parent_epic
+    attributes:
+      label: Parent epic
+      description: Link the parent epic issue or enter its `hd-*` identifier.
+      placeholder: "#123 or hd-0001"
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What should this ticket change?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      placeholder: |
+        - 
+        - 
+        - 
+    validations:
+      required: true
+  - type: checkboxes
+    id: areas
+    attributes:
+      label: Areas
+      options:
+        - label: UI
+        - label: Data
+        - label: Transport
+        - label: Automation
+        - label: Docs
+        - label: Workflow
+  - type: input
+    id: branch
+    attributes:
+      label: Target branch
+      description: Planned branch name once work starts.
+      placeholder: hd-0002
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: |
+        - 
+        - 
+        - 
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      placeholder: |
+        - [ ] `bun run verify`
+        - [ ] Screenshots or a11y checks, if user-facing
+    validations:
+      required: true
+  - type: textarea
+    id: followups
+    attributes:
+      label: Follow-ups or exclusions
+      description: Record known work that should not expand this ticket.

@@ -111,8 +111,8 @@ describe("docs build", () => {
         "",
         "# Libraries",
         "",
-        '<details class="library-side-nav" open>',
-        "  <summary>Library docs</summary>",
+        '<details class="docs-side-nav library-side-nav" open>',
+        '  <summary aria-label="Toggle library docs navigation"><span class="docs-side-nav__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 5.5c3 0 5 .7 8 2.2 3-1.5 5-2.2 8-2.2v12c-3 0-5 .7-8 2.2-3-1.5-5-2.2-8-2.2z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg></span><span class="docs-side-nav__label">Library docs</span><span class="docs-side-nav__mobile-label">Libraries</span></summary>',
         '  <nav aria-label="Library docs">',
         "    <a href=\"{{ '/libraries/ui/' | relative_url }}\">UI</a>",
         "  </nav>",
@@ -141,6 +141,9 @@ describe("docs build", () => {
     await expect(
       readFile(path.join(destinationDir, "libraries/index.html"), "utf8"),
     ).resolves.toContain('href="/hyper-dank/libraries/ui/"');
+    await expect(
+      readFile(path.join(destinationDir, "libraries/index.html"), "utf8"),
+    ).resolves.toContain('<details class="docs-side-nav library-side-nav" open>');
     await expect(
       readFile(path.join(destinationDir, "libraries/ui/index.html"), "utf8"),
     ).resolves.toContain("<h1>UI Library</h1>");

@@ -9,6 +9,8 @@ export interface ScreenshotResult {
   relativePath: string;
   stateSlug: string;
   theme: Theme;
+  viewportLabel?: string;
+  viewportSlug?: string;
 }
 
 export interface ScreenshotStateSummary {
@@ -24,6 +26,7 @@ export interface ScreenshotFlowSummary {
 
 export interface BuildImagesSectionOptions {
   branch: string;
+  cacheKey?: string;
   flows: ScreenshotFlowSummary[];
   repo: GitHubRepo;
   screenshots: ScreenshotResult[];
@@ -31,6 +34,7 @@ export interface BuildImagesSectionOptions {
 
 export function buildImagesSection({
   branch,
+  cacheKey,
   flows,
   repo,
   screenshots,
@@ -42,12 +46,19 @@ export function buildImagesSection({
   }
 
   const rows = flows.flatMap((flow) =>
-    flow.states.map((state) => {
+    flow.states.flatMap((state) => {
       const stateScreenshots = byState.get(stateKey(flow.id, state.slug)) ?? [];
-      const light = stateScreenshots.find((screenshot) => screenshot.theme === "light");
-      const dark = stateScreenshots.find((screenshot) => screenshot.theme === "dark");
+      const viewportSlugs = uniqueViewportSlugs(stateScreenshots);
 
-      return `| ${flow.label} | ${state.label} | ${renderImage(light, repo, branch)} | ${renderImage(dark, repo, branch)} |`;
+      return viewportSlugs.map((viewportSlug) => {
+        const viewportScreenshots = stateScreenshots.filter(
+          (screenshot) => screenshotViewportSlug(screenshot) === viewportSlug,
+        );
+        const light = viewportScreenshots.find((screenshot) => screenshot.theme === "light");
+        const dark = viewportScreenshots.find((screenshot) => screenshot.theme === "dark");
+
+        return `| ${flow.label} | ${stateLabel(state.label, viewportScreenshots[0])} | ${renderImage(light, repo, branch, cacheKey)} | ${renderImage(dark, repo, branch, cacheKey)} |`;
+      });
     }),
   );
 
@@ -68,17 +79,41 @@ export function updateImagesSection(body: string, imagesSection: string) {
   return `${body.trim()}\n\n${imagesSection}\n`;
 }
 
-function renderImage(screenshot: ScreenshotResult | undefined, repo: GitHubRepo, branch: string) {
+function renderImage(
+  screenshot: ScreenshotResult | undefined,
+  repo: GitHubRepo,
+  branch: string,
+  cacheKey?: string,
+) {
   if (!screenshot) return "";
 
-  return `![${screenshot.flowLabel} ${screenshot.label} ${screenshot.theme}](${rawUrl(repo, branch, screenshot.relativePath)})`;
+  return `![${screenshot.flowLabel} ${screenshot.label} ${screenshot.theme}](${rawUrl(repo, branch, screenshot.relativePath, cacheKey)})`;
 }
 
-function rawUrl(repo: GitHubRepo, branch: string, relativePath: string) {
+function rawUrl(repo: GitHubRepo, branch: string, relativePath: string, cacheKey?: string) {
   const encodedPath = relativePath.split("/").map(encodeURIComponent).join("/");
-  return `https://raw.githubusercontent.com/${repo.owner}/${repo.name}/${encodeURIComponent(branch)}/${encodedPath}`;
+  const url = `https://raw.githubusercontent.com/${repo.owner}/${repo.name}/${encodeURIComponent(branch)}/${encodedPath}`;
+  return cacheKey ? `${url}?v=${encodeURIComponent(cacheKey)}` : url;
 }
 
 function stateKey(flowId: string, stateSlug: string) {
   return `${flowId}:${stateSlug}`;
+}
+
+function screenshotViewportSlug(screenshot: ScreenshotResult) {
+  return screenshot.viewportSlug ?? "default";
+}
+
+function stateLabel(label: string, screenshot: ScreenshotResult | undefined) {
+  return screenshot?.viewportLabel ? `${label} (${screenshot.viewportLabel})` : label;
+}
+
+function uniqueViewportSlugs(screenshots: ScreenshotResult[]) {
+  const slugs: string[] = [];
+  for (const screenshot of screenshots) {
+    const slug = screenshotViewportSlug(screenshot);
+    if (!slugs.includes(slug)) slugs.push(slug);
+  }
+
+  return slugs.length > 0 ? slugs : ["default"];
 }

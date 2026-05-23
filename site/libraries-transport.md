@@ -10,8 +10,8 @@ permalink: /libraries/transport/
 apps. Auth, permissions, services, validation, and product routes stay in the consuming app.
 
 <div class="library-layout">
-<details class="library-side-nav" open>
-  <summary>Library docs</summary>
+<details class="docs-side-nav library-side-nav" open>
+  <summary aria-label="Toggle library docs navigation"><span class="docs-side-nav__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 5.5c3 0 5 .7 8 2.2 3-1.5 5-2.2 8-2.2v12c-3 0-5 .7-8 2.2-3-1.5-5-2.2-8-2.2z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg></span><span class="docs-side-nav__label">Library docs</span><span class="docs-side-nav__mobile-label">Libraries</span></summary>
   <nav aria-label="Library docs">
     <a href="{{ '/libraries/' | relative_url }}">Overview</a>
     <a href="{{ '/libraries/ui/' | relative_url }}">UI</a>
@@ -60,9 +60,44 @@ app.post("/entries/:id", async (context) => {
 | `FormValues` | Wraps parsed Hono form bodies and normalises missing or repeated values through safe string, optional string, number, and checkbox-style boolean reads. |
 | `errorMessage` | Converts unknown thrown values into a safe message string. |
 | `routeParam` | Reads a route parameter from a Hono context and returns an empty string when it is absent. |
+| `HTMX_REQUEST_HEADER` | Constant for the default `HX-Request` header name. |
+| `HeaderSource` | Accepted header input for standalone HTMX checks: `Headers`, plain records, or objects with `get()`. |
 | `isHtmxRequest` | Detects HTMX headers from a `Headers` object or plain header record without requiring a Hono context. |
 | `HttpResponder` | Detects HTMX requests and centralises action redirects. |
+| `FragmentOrPageOptions` | Caller-provided `fragment`, `page`, and optional status for progressive rendering. |
 | `fragmentOrPage` | Chooses between app-rendered fragment and full-page HTML for progressive enhancement. |
+
+## Function Reference
+
+### `FormValues`
+
+| Member | Contract |
+| --- | --- |
+| `FormValues.from(context)` | Parses `context.req.parseBody()` and returns a wrapper. It should be called once per route handler. |
+| `new FormValues(body)` | Wraps an already parsed body for tests or non-Hono adapters. |
+| `raw` | Exposes the original body object for custom parsing. |
+| `string(key)` | Returns the submitted string value or `""` when missing or not a string. |
+| `optionalString(key)` | Returns the submitted string value or `undefined` when missing or not a string. |
+| `number(key)` | Returns a finite number or `undefined` for missing, blank, repeated, or non-numeric input. |
+| `boolean(key)` | Treats `1`, `true`, `yes`, and `on` as checked values. |
+
+### `HttpResponder`
+
+| Member | Contract |
+| --- | --- |
+| `new HttpResponder(headerName)` | Uses `HTMX_REQUEST_HEADER` by default; pass a custom header name only for specialised tests or adapters. |
+| `isHtmxRequest(context)` | Checks the configured request header on a Hono context. |
+| `redirectAfterAction(context, location)` | Returns a `204` response with `HX-Redirect` for HTMX, or a native `303` redirect otherwise. |
+| `redirectWithAuthCookies(context, location, authResponse)` | Preserves `set-cookie` from an auth response while using the same redirect rules. |
+
+### Standalone Helpers
+
+| Helper | Parameters | Returns | Errors And Limits |
+| --- | --- | --- | --- |
+| `errorMessage(error)` | `unknown` | A safe message string. | Only normal `Error` messages are exposed; unknown values become generic copy. |
+| `routeParam(context, key)` | Hono context and route key. | Route param string or `""`. | It does not validate existence or permissions. |
+| `isHtmxRequest(headers, headerName)` | `HeaderSource`, optional header name. | Boolean. | Header values must equal `"true"`. |
+| `fragmentOrPage(context, options, responder)` | Hono context, `FragmentOrPageOptions`, optional responder. | HTML `Response`. | The app owns fragment/page rendering and status choices. |
 
 `HttpResponder.redirectAfterAction()` returns `HX-Redirect` for HTMX requests and a normal redirect
 for native requests. `redirectWithAuthCookies()` preserves cookies from an auth response while using

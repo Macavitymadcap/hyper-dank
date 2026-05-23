@@ -11,8 +11,8 @@ apps. It keeps local script entrypoints small while app-specific routes, fixture
 choices remain in the app.
 
 <div class="library-layout">
-<details class="library-side-nav" open>
-  <summary>Library docs</summary>
+<details class="docs-side-nav library-side-nav" open>
+  <summary aria-label="Toggle library docs navigation"><span class="docs-side-nav__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 5.5c3 0 5 .7 8 2.2 3-1.5 5-2.2 8-2.2v12c-3 0-5 .7-8 2.2-3-1.5-5-2.2-8-2.2z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg></span><span class="docs-side-nav__label">Library docs</span><span class="docs-side-nav__mobile-label">Libraries</span></summary>
   <nav aria-label="Library docs">
     <a href="{{ '/libraries/' | relative_url }}">Overview</a>
     <a href="{{ '/libraries/ui/' | relative_url }}">UI</a>
@@ -62,6 +62,90 @@ import {
 | A11y helpers | Run Pa11y for one URL or named target lists with optional config paths and auth cookies while app routes stay local. |
 | Static-site helpers | Assert generated static artifacts and smoke-check expected file contents. |
 | Content helpers | Parse front matter, render Markdown, rewrite content URLs, discover Markdown pages, and build static content through an app-owned document renderer. |
+
+## Main Export Reference
+
+### Process
+
+| Export | Contract |
+| --- | --- |
+| `RunOptions` | Options shared by process helpers: `cwd`, `env`, `input`, `stdio`, and `allowFailure`. |
+| `RunResult` | Captured `stdout`, `stderr`, and `exitCode` from sync commands. |
+| `run` | Runs a command synchronously and returns trimmed stdout. Throws on non-zero exit unless `allowFailure` is true. |
+| `runResult` | Runs a command synchronously and returns `RunResult` without throwing. |
+| `runAsync` | Runs a command asynchronously with inherited stdio by default. Throws on non-zero exit unless `allowFailure` is true. |
+
+### Verification
+
+| Export | Contract |
+| --- | --- |
+| `VerificationStatus` | `"pass"`, `"fail"`, or `"not run"`. |
+| `VerificationGate` | Command gate identity, command, arguments, name, and tooling label. |
+| `VerificationGateInput` | Gate input accepted by `createVerificationGate`; `tooling` may be omitted. |
+| `VerificationResult` | Gate plus status, output, exit code, and optional duration. |
+| `RunVerificationOptions` | Optional cwd, environment, spawn implementation, stop-on-failure behaviour, and result callback. |
+| `createVerificationGate` | Fills default tooling for a custom gate object. |
+| `createCommandGate` | Builds a command-shaped `VerificationGate`. |
+| `runVerification` | Runs gates in order and marks later gates as not run when stop-on-failure is enabled. |
+| `renderVerificationReport` | Renders a Markdown report with a summary table and command output sections. |
+
+### Local Servers And Browser Evidence
+
+| Export | Contract |
+| --- | --- |
+| `StartedBunServer` | Bun server, port, and base URL returned by `startBunServer`. |
+| `HttpFetch` | Fetch-compatible function type for readiness polling. |
+| `StartBunServerOptions` | Host, port, attempt, and fetch-handler options for an in-process Bun server. |
+| `WaitForHttpOptions` | Retry, delay, fetch implementation, and success predicate for readiness checks. |
+| `AppServerHarness` | Started app server with URL and async `stop()` callback. |
+| `CreateAppServerHarnessOptions` | Start, setup, stop, URL, readiness path, and wait options for app-owned server harnesses. |
+| `startBunServer` | Starts an in-process Bun server on a requested or dynamic port. |
+| `waitForHttp` | Polls a URL until the response passes the success predicate or times out. |
+| `createAppServerHarness` | Starts an app-owned server, runs setup, waits for readiness, and returns a cleanup handle. |
+| `dynamicPortCandidate` | Generates deterministic local port candidates from process id and attempt. |
+| `Theme` | `"light"` or `"dark"` screenshot theme. |
+| `ScreenshotFlowContext` | Page, server, and theme passed to screenshot setup hooks. |
+| `ScreenshotStateBehavior` | State label, slug, path, auth user, and setup hooks for one screenshot state. |
+| `ScreenshotFlow` | App-owned screenshot flow with label, description, states, and optional setup. |
+| `ScreenshotTargetSummary` | Flattened screenshot target metadata for PR summaries. |
+| `CaptureScreenshotsOptions` | Base URL, flows, output directory, Playwright page, server, auth setter, and themes. |
+| `captureScreenshots` | Runs screenshot flows and writes themed images. |
+| `setTheme` | Sets the documented theme localStorage key and HTML data attribute in a Playwright page. |
+| `summariseScreenshotTargets` | Returns target summaries without needing a browser. |
+
+### GitHub And PR Images
+
+| Export | Contract |
+| --- | --- |
+| `GitHubRepo` | Repository owner and name. |
+| `GitHubPullRequest` | Minimal PR shape used by local automation. |
+| `GitHubFetch` | Fetch-compatible GitHub request function. |
+| `GitHubRequestOptions` | Optional fetch implementation for tests. |
+| `parseGitHubRepo` | Parses shorthand, SSH, and HTTPS GitHub remote strings. |
+| `getGitHubRepo` | Reads the current `origin` remote and parses it. |
+| `getGitHubToken` | Reads `GITHUB_TOKEN`, `GH_TOKEN`, or the local Git credential helper. |
+| `getPullRequest` | Finds the explicit or branch-matching open pull request. |
+| `githubRequest` | Sends a GitHub REST request with standard headers and error reporting. |
+| `ScreenshotResult` | Persisted screenshot metadata for a captured image. |
+| `ScreenshotStateSummary` | PR-body summary of one screenshot state. |
+| `ScreenshotFlowSummary` | PR-body summary of one screenshot flow. |
+| `BuildImagesSectionOptions` | Repository, branch, flows, and screenshot records for PR image Markdown. |
+| `buildImagesSection` | Builds the managed PR screenshots section. |
+| `updateImagesSection` | Inserts or replaces the managed PR screenshots section in a PR body. |
+
+### Pa11y And Static Artifacts
+
+| Export | Contract |
+| --- | --- |
+| `RunPa11yOptions` | Pa11y cwd, env, stdio, config path, cookie, and executable options. |
+| `A11yTarget` | Named target with either a path under a base URL or a full URL. |
+| `RunPa11yTargetsOptions` | Batch Pa11y options plus base URL and optional runner for tests. |
+| `runPa11y` | Runs Pa11y for one URL and passes cookies through `PA11Y_COOKIE`. |
+| `runPa11yTargets` | Runs named Pa11y targets and returns checked names and URLs. |
+| `StaticArtifactAssertion` | Relative artifact path plus optional required content. |
+| `SmokeStaticSiteOptions` | Static root and route assertions for static-site smoke checks. |
+| `assertStaticArtifact` | Checks one generated file exists, stays inside the root, and contains expected strings. |
+| `smokeStaticSite` | Checks a list of static artifact assertions. |
 
 ## Verification Example
 
@@ -173,10 +257,45 @@ renderChoiceListMarkdown([{ href: "/start/", label: "Begin" }]);
 
 The `/content` subpath includes `parseFrontMatter`, `renderMarkdown`, `renderInlineMarkdown`,
 `rewriteContentUrl`, `relativeContentUrl`, `discoverMarkdownPages`, `outputPathForContentPage`,
-`titleFromFilename`, `buildStaticContentSite`, `renderAccessibilityStatementMarkdown`,
-`buildAccessibilityStatementPage`, `createContentNavigation`, and `renderChoiceListMarkdown`.
+`titleFromFilename`, `safeDestinationPath`, `buildStaticContentSite`,
+`renderAccessibilityStatementMarkdown`, `buildAccessibilityStatementPage`,
+`createContentNavigation`, `renderChoiceListMarkdown`, `escapeHtml`, and `escapeAttribute`.
 These helpers return strings or typed page models and throw normal filesystem errors with the
 source paths supplied by the caller when files cannot be read or written.
+
+## Content Subpath Reference
+
+| Export | Contract |
+| --- | --- |
+| `ContentUrlOptions` | Base path option used by URL and Markdown render helpers. |
+| `RenderMarkdownOptions` | Markdown render options; currently extends `ContentUrlOptions`. |
+| `FrontMatterResult` | Parsed front matter metadata plus Markdown body. |
+| `ContentPage` | Discovered content page metadata, source path, output path, route, title, and rendered content. |
+| `AccessibilityStatementInput` | App-owned accessibility statement evidence and contact details. |
+| `BuildAccessibilityStatementPageOptions` | Output, route, and statement inputs for a static accessibility page. |
+| `OrderedContentItem` | Ordered item used for previous/next navigation. |
+| `ContentNavigation` | Previous and next item output from `createContentNavigation`. |
+| `ChoiceListItem` | Link and label used by `renderChoiceListMarkdown`. |
+| `DiscoverMarkdownPagesOptions` | Source directory for page discovery. |
+| `StaticContentAsset` | Source and destination asset copy instruction. |
+| `RenderStaticContentDocumentOptions` | Page, content, and base path passed to an app-owned document renderer. |
+| `BuildStaticContentSiteOptions` | Source, destination, base path, assets, and document renderer for static builds. |
+| `buildStaticContentSite` | Discovers Markdown pages, renders content, writes pretty routes, and copies assets. |
+| `buildAccessibilityStatementPage` | Renders and writes a static accessibility statement page. |
+| `renderAccessibilityStatementMarkdown` | Turns app-owned accessibility evidence into Markdown. |
+| `createContentNavigation` | Builds previous/next links from ordered content around the current URL. |
+| `renderChoiceListMarkdown` | Renders a Markdown list of choices for static docs or branching content. |
+| `discoverMarkdownPages` | Reads Markdown files from a directory and derives route metadata. |
+| `outputPathForContentPage` | Converts file names and permalinks into pretty output paths. |
+| `safeDestinationPath` | Resolves a destination path and rejects escapes outside the output directory. |
+| `renderMarkdown` | Renders headings, tables, lists, code, inline formatting, links, and allowed raw HTML blocks. |
+| `parseFrontMatter` | Parses simple YAML-style string front matter and returns body Markdown. |
+| `renderInlineMarkdown` | Renders inline links, code, and emphasis. |
+| `rewriteContentUrl` | Applies docs base paths to root-relative and Liquid `relative_url` links. |
+| `relativeContentUrl` | Joins a root-relative URL with a base path. |
+| `titleFromFilename` | Converts a Markdown filename into title text. |
+| `escapeHtml` | Escapes text for HTML content. |
+| `escapeAttribute` | Escapes text for HTML attributes. |
 
 `buildStaticContentSite()` accepts the source directory, destination directory, base path, assets,
 and an app-owned document renderer. The helper discovers Markdown pages, renders Markdown, rewrites

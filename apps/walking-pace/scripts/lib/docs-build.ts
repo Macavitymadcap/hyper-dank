@@ -105,6 +105,10 @@ function renderDocument({
           <span>Hyper-Dank</span>
         </a>
         <div class="site-actions">
+          <div class="site-quick-links" aria-label="Primary links">
+            <a href="${relativeContentUrl("/libraries/", basePath)}">Libraries</a>
+            <a href="${relativeContentUrl("/recipes/", basePath)}">Recipes</a>
+          </div>
           ${themeToggleHtml()}
           <details class="nav-menu">
             <summary class="nav-menu__summary">Menu</summary>

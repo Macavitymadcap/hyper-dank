@@ -1,6 +1,27 @@
 # Hyper-Dank Components
 
-Server-rendered Hono JSX components shared by Hyper-Dank apps.
+Server-rendered Hono JSX components for Hyper-Dank apps. Use this package for reusable controls,
+feedback, navigation, tables, panels, and small content patterns; keep product screens and domain
+copy in the consuming app.
+
+## Installation
+
+`@macavitymadcap/hyper-dank-ui` is not published to npm yet. The supported route today is the local
+package tarball produced by the Hyper-Dank workspace:
+
+```bash
+# from hyper-dank
+bun run pack:packages
+
+# from a downstream app
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.0.tgz
+bun add hono typescript
+```
+
+The package peers on `hono` for server-rendered JSX and `typescript` for declaration-aware tooling.
+The tarball route is verified by `bun run test:packages`, which installs the package into a clean
+temporary app outside this workspace and imports it by package name. npm publication and starter
+templates are follow-up work.
 
 ```ts
 import {
@@ -61,6 +82,9 @@ pipeline; importing the package in server code does not automatically load style
 Compatibility coverage exercises these exports in server-app, static blog, dashboard/admin,
 static-demo, and script-consumer compositions. Storybook is the canonical component reference for
 rendered states, accessibility notes, and interaction examples.
+
+For the public docs API page, see `site/libraries-ui.md`. For rendered component contracts, see the
+published Storybook route at `/storybook/`.
 
 ## Composition Patterns
 

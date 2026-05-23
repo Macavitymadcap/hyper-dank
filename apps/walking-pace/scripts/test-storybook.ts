@@ -51,17 +51,27 @@ async function assertUtilityControl(url: string) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 
   try {
-    await page.goto(`${url}/iframe.html?id=introduction-component-philosophy--atomic-design`, {
+    await page.goto(`${url}/iframe.html?id=introduction-component-contracts--atomic-design`, {
       waitUntil: "networkidle",
     });
 
     await expect(page.getByRole("navigation", { name: "Storybook quick links" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Docs" })).toHaveAttribute("href", "../");
-    await expect(page.getByRole("link", { name: "Libraries" })).toHaveAttribute(
+    await expect(page.getByRole("link", { name: "Hyper-Dank home" })).toHaveAttribute(
+      "href",
+      "../",
+    );
+    await expect(page.getByRole("link", { exact: true, name: "Docs" })).toHaveAttribute(
+      "href",
+      "../",
+    );
+    await expect(page.getByRole("link", { exact: true, name: "Libraries" })).toHaveAttribute(
       "href",
       "../libraries/",
     );
-    await expect(page.getByRole("link", { name: "Demo" })).toHaveAttribute("href", "../pace/");
+    await expect(page.getByRole("link", { exact: true, name: "Demo" })).toHaveAttribute(
+      "href",
+      "../pace/",
+    );
     await expect(page.getByRole("switch", { name: "Storybook color mode" })).toBeVisible();
   } finally {
     await browser.close();

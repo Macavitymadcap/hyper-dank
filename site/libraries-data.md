@@ -11,8 +11,8 @@ Apps keep their domain schemas and repositories local, then use conformance test
 honest.
 
 <div class="library-layout">
-<details class="library-side-nav" open>
-  <summary>Library docs</summary>
+<details class="docs-side-nav library-side-nav" open>
+  <summary aria-label="Toggle library docs navigation"><span class="docs-side-nav__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 5.5c3 0 5 .7 8 2.2 3-1.5 5-2.2 8-2.2v12c-3 0-5 .7-8 2.2-3-1.5-5-2.2-8-2.2z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg></span><span class="docs-side-nav__label">Library docs</span><span class="docs-side-nav__mobile-label">Libraries</span></summary>
   <nav aria-label="Library docs">
     <a href="{{ '/libraries/' | relative_url }}">Overview</a>
     <a href="{{ '/libraries/ui/' | relative_url }}">UI</a>
@@ -60,14 +60,20 @@ export const providers = createProviderRegistry({
 | --- | --- |
 | `DatabaseAdapterKind` | Built-in adapter names, currently `sqlite` and `postgres`, while allowing app-specific string kinds. |
 | `MaybePromise<T>` | Helper type for lifecycle methods that may be sync or async. |
+| `MaybePromise` | Ungeneric export name for the maybe-sync helper type. |
 | `ReadableRepository<TRecord, TId>` | Structural read contract for app repositories with `findById()` and `list()`. |
 | `WritableRepository<TRecord, TId>` | Structural write contract for app repositories with `save()` and `delete()`. |
 | `RepositoryContract<TRecord, TId>` | Combined readable and writable repository shape for conventional app-owned stores. |
 | `DatabaseLifecycle` | Provider contract for `kind`, `migrate()`, and `close()`. |
 | `RepositoryFactory<TRepositories>` | Contract for creating app-owned repositories from a provider. |
+| `RepositoryFactory` | Ungeneric export name for repository factory contracts. |
 | `DatabaseProviderBase<TRepositories, TKind>` | Combined lifecycle and repository factory shape for app providers. |
+| `DatabaseProviderBase` | Ungeneric export name for app provider lifecycle plus repository factory contracts. |
 | `DatabaseProviderFactory<TProvider, TEnvironment>` | Factory type for constructing an app provider from app-owned environment input. |
+| `DatabaseProviderFactory` | Ungeneric export name for provider factory contracts. |
+| `ProviderFactoryMap` | Internal registry constraint exposed for advanced typed registries. Most apps use inference through `createProviderRegistry()`. |
 | `ProviderRegistry<TFactories>` | Typed registry returned by `createProviderRegistry()`. |
+| `ProviderRegistry` | Ungeneric export name for typed provider registry results. |
 | `createProviderRegistry` | Selects an app-owned provider factory by adapter kind and reports missing kinds clearly. |
 | `Migration` | Immutable migration id plus SQL body. |
 | `MigrationStore` | Adapter contract for checking, running, and recording migrations. |
@@ -76,6 +82,52 @@ export const providers = createProviderRegistry({
 | `validateMigrations` | Validates migration ids and rejects blank or duplicate ids before execution. |
 | `planMigrations` | Builds a dry-run migration plan without executing SQL or recording migrations. |
 | `runPendingMigrations` | Validates, plans, and runs pending migrations in order, skipping ids already recorded by the store. |
+
+## Function Reference
+
+### `createProviderRegistry(factories)`
+
+Creates a typed provider registry from app-owned provider factories.
+
+| Contract | Detail |
+| --- | --- |
+| Parameters | `factories`: an object keyed by adapter kind, where each value accepts an app-owned environment object and returns a provider or promise. |
+| Returns | `ProviderRegistry<TFactories>` with `create(kind, environment)`, `has(kind)`, and `kinds()`. |
+| Throws | `create()` throws when the requested kind is not registered. |
+| Side effects | None; provider factories run only when `create()` is called. |
+
+### `validateMigrations(migrations)`
+
+Checks migration identity before a store runs SQL.
+
+| Contract | Detail |
+| --- | --- |
+| Parameters | `migrations`: ordered `Migration[]`. |
+| Returns | The same migration array for convenient composition. |
+| Throws | Blank ids and duplicate ids throw before any adapter work begins. |
+| Side effects | None. |
+
+### `planMigrations(store, migrations)`
+
+Builds a dry-run migration plan.
+
+| Contract | Detail |
+| --- | --- |
+| Parameters | `store`: any object with `hasMigration(id)`; `migrations`: ordered `Migration[]`. |
+| Returns | `MigrationPlan` with `pending`, `applied`, and `skipped` entries. |
+| Throws | Validation errors from `validateMigrations()` or errors raised by the store. |
+| Side effects | Calls `hasMigration()` only; it does not run SQL or record migrations. |
+
+### `runPendingMigrations(store, migrations)`
+
+Executes pending migrations in order.
+
+| Contract | Detail |
+| --- | --- |
+| Parameters | `store`: full `MigrationStore`; `migrations`: ordered `Migration[]`. |
+| Returns | `MigrationPlan` where `applied` contains the migrations run during this call. |
+| Throws | Validation errors or adapter errors from `hasMigration()`, `runMigration()`, or `recordMigration()`. |
+| Side effects | Runs each pending migration and records its id after successful execution. |
 
 `ReadableRepository`, `WritableRepository`, and `RepositoryContract` are type contracts only. Apps
 still own repository method names beyond these conventional operations, query implementation,
@@ -126,7 +178,7 @@ describeDatabaseLifecycleContract("SqliteDatabaseProvider", "sqlite", async () =
 });
 ```
 
-`DatabaseLifecycleHarness` describes the provider and optional cleanup callback.
+`DatabaseLifecycleHarness` and its alias `ProviderHarness` describe the provider and optional cleanup callback.
 `describeDatabaseLifecycleContract` asserts that the provider exposes the expected kind, can migrate
 idempotently, and closes after the contract run.
 
@@ -134,6 +186,18 @@ idempotently, and closes after the contract run.
 `runRepositoryHarness()` runs app assertions and then calls cleanup in a `finally` block, so adapter
 contract suites can share the same setup pattern without importing application internals into the
 shared package.
+
+`runWithProviderHarness()` is the provider-level equivalent. It runs the assertion, calls
+`provider.close()`, and then runs optional harness cleanup even when assertions fail.
+
+| Testing Export | Purpose |
+| --- | --- |
+| `DatabaseLifecycleHarness` | Provider plus optional cleanup callback for lifecycle contract tests. |
+| `ProviderHarness` | Alias for `DatabaseLifecycleHarness` where the provider naming reads better. |
+| `RepositoryHarness` | Repository plus optional cleanup callback for app-owned repository contract tests. |
+| `runRepositoryHarness` | Runs repository setup, assertions, and cleanup with a `finally` block. |
+| `runWithProviderHarness` | Runs provider setup, assertions, provider close, and cleanup. |
+| `describeDatabaseLifecycleContract` | Registers Bun tests for kind, idempotent migration, and close behaviour. |
 
 Use `describeDatabaseLifecycleContract()` for provider-level behaviour and keep domain assertions in
 your app test suite. The shared contract can prove that an adapter migrates, closes, and reports the

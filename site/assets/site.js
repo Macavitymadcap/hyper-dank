@@ -55,5 +55,25 @@ themeToggle?.addEventListener("change", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  closeMobileSideNavs();
+  closeMobileSideNavsAfterNavigation();
   window.hljs?.highlightAll();
 });
+
+function closeMobileSideNavs() {
+  if (!window.matchMedia("(max-width: 640px)").matches) return;
+
+  document.querySelectorAll(".docs-side-nav[open]").forEach((nav) => {
+    nav.removeAttribute("open");
+  });
+}
+
+function closeMobileSideNavsAfterNavigation() {
+  document.querySelectorAll(".docs-side-nav a").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (!window.matchMedia("(max-width: 640px)").matches) return;
+
+      link.closest(".docs-side-nav")?.removeAttribute("open");
+    });
+  });
+}
