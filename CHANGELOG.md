@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.3.0...hyper-dank-v2.3.1) (2026-05-23)
+
+
+### Documentation
+
+* make consumer docs and Storybook persuasive ([#77](https://github.com/Macavitymadcap/hyper-dank/issues/77)) ([fbe824d](https://github.com/Macavitymadcap/hyper-dank/commit/fbe824da52c47f1c502e05a41222784fdfc6679f))
+
 ## [2.3.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.2.0...hyper-dank-v2.3.0) (2026-05-21)
 
 
