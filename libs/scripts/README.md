@@ -9,8 +9,12 @@ Pa11y, screenshots, PR image tables, and static-content builds.
 `@macavitymadcap/hyper-dank-automation` is public on npm:
 
 ```bash
-bun add @macavitymadcap/hyper-dank-automation typescript
+npm install @macavitymadcap/hyper-dank-automation typescript
 ```
+
+Package page: <https://www.npmjs.com/package/@macavitymadcap/hyper-dank-automation>
+
+Static docs: <https://macavitymadcap.github.io/hyper-dank/libraries/automation/>
 
 For local package development, pack the Hyper-Dank workspace and install the tarball into a
 downstream app:
@@ -20,7 +24,7 @@ downstream app:
 bun run pack:packages
 
 # from a downstream app
-bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-automation-0.1.0.tgz
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-automation-0.1.1.tgz
 bun add typescript
 ```
 

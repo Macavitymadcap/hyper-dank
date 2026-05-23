@@ -62,17 +62,30 @@ bun install
 
 ## Package Installation
 
-The scoped Hyper-Dank packages are public on npm. Install the packages directly into downstream Bun
-apps with the peer dependencies that app needs:
+The scoped Hyper-Dank packages are public on npm. Install the packages directly with the peer
+dependencies that app needs:
 
 ```bash
-bun add \
+npm install \
   @macavitymadcap/hyper-dank-ui \
   @macavitymadcap/hyper-dank-data \
   @macavitymadcap/hyper-dank-transport \
   @macavitymadcap/hyper-dank-automation
-bun add hono typescript
+npm install hono typescript
 ```
+
+Package pages:
+
+- [`@macavitymadcap/hyper-dank-ui`](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-ui)
+- [`@macavitymadcap/hyper-dank-data`](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-data)
+- [`@macavitymadcap/hyper-dank-transport`](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-transport)
+- [`@macavitymadcap/hyper-dank-automation`](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-automation)
+
+Static docs:
+
+- [Library overview](https://macavitymadcap.github.io/hyper-dank/libraries/)
+- [Recipes](https://macavitymadcap.github.io/hyper-dank/recipes/)
+- [Storybook](https://macavitymadcap.github.io/hyper-dank/storybook/)
 
 Server-rendered UI and transport consumers need `hono`. All packages expect TypeScript-aware
 tooling. The automation package keeps `@playwright/test` as an optional peer: install it only when
@@ -91,10 +104,10 @@ From a downstream app:
 
 ```bash
 bun add \
-  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.0.tgz \
-  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-data-0.1.0.tgz \
-  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-transport-0.1.0.tgz \
-  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-automation-0.1.0.tgz
+  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.1.tgz \
+  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-data-0.1.1.tgz \
+  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-transport-0.1.1.tgz \
+  ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-automation-0.1.1.tgz
 ```
 
 Verify that route from a clean external fixture with:

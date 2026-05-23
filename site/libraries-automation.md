@@ -29,8 +29,10 @@ choices remain in the app.
 Install from npm with TypeScript-aware tooling:
 
 ```bash
-bun add @macavitymadcap/hyper-dank-automation typescript
+npm install @macavitymadcap/hyper-dank-automation typescript
 ```
+
+Package: [view on npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-automation).
 
 ```ts
 import {

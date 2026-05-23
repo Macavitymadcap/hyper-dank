@@ -9,6 +9,7 @@ const requiredKeys = [
   "name",
   "version",
   "description",
+  "homepage",
   "license",
   "repository",
   "publishConfig",
@@ -45,6 +46,11 @@ for (const { dir, json } of packageJsons) {
     errors.push(`${dir}/package.json must use the @macavitymadcap/hyper-dank-* scope.`);
   }
 
+  const homepage = String(json.homepage ?? "");
+  if (!homepage.startsWith("https://macavitymadcap.github.io/hyper-dank/libraries/")) {
+    errors.push(`${dir}/package.json homepage must point at the public static library docs.`);
+  }
+
   const publishConfig = json.publishConfig as Record<string, unknown> | undefined;
   if (publishConfig?.access !== "public") {
     errors.push(`${dir}/package.json publishConfig.access must be public.`);
@@ -70,6 +76,9 @@ for (const { dir, json } of packageJsons) {
 
   const readme = await readFile(path.join(root, dir, "README.md"), "utf8");
   if (!readme.includes("npm")) errors.push(`${dir}/README.md must document npm installation.`);
+  if (!readme.includes("https://macavitymadcap.github.io/hyper-dank/")) {
+    errors.push(`${dir}/README.md must link to the public static docs site.`);
+  }
   if (!readme.includes("staged")) {
     errors.push(`${dir}/README.md must mention staged publishing or staged release review.`);
   }

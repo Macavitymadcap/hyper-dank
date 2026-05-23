@@ -29,8 +29,10 @@ honest.
 Install from npm with TypeScript-aware tooling:
 
 ```bash
-bun add @macavitymadcap/hyper-dank-data typescript
+npm install @macavitymadcap/hyper-dank-data typescript
 ```
+
+Package: [view on npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-data).
 
 ```ts
 import {

@@ -28,8 +28,10 @@ apps. Auth, permissions, services, validation, and product routes stay in the co
 Install from npm with the Hono and TypeScript peers:
 
 ```bash
-bun add @macavitymadcap/hyper-dank-transport hono typescript
+npm install @macavitymadcap/hyper-dank-transport hono typescript
 ```
+
+Package: [view on npm](https://www.npmjs.com/package/@macavitymadcap/hyper-dank-transport).
 
 ```ts
 import {

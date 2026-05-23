@@ -10,8 +10,12 @@ shape, migration helpers, and conformance checks that future adapters can reuse.
 `@macavitymadcap/hyper-dank-data` is public on npm:
 
 ```bash
-bun add @macavitymadcap/hyper-dank-data typescript
+npm install @macavitymadcap/hyper-dank-data typescript
 ```
+
+Package page: <https://www.npmjs.com/package/@macavitymadcap/hyper-dank-data>
+
+Static docs: <https://macavitymadcap.github.io/hyper-dank/libraries/data/>
 
 For local package development, pack the Hyper-Dank workspace and install the tarball into a
 downstream app:
@@ -21,7 +25,7 @@ downstream app:
 bun run pack:packages
 
 # from a downstream app
-bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-data-0.1.0.tgz
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-data-0.1.1.tgz
 bun add typescript
 ```
 

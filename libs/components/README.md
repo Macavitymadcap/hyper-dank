@@ -9,8 +9,12 @@ copy in the consuming app.
 `@macavitymadcap/hyper-dank-ui` is public on npm:
 
 ```bash
-bun add @macavitymadcap/hyper-dank-ui hono typescript
+npm install @macavitymadcap/hyper-dank-ui hono typescript
 ```
+
+Package page: <https://www.npmjs.com/package/@macavitymadcap/hyper-dank-ui>
+
+Static docs: <https://macavitymadcap.github.io/hyper-dank/libraries/ui/>
 
 For local package development, pack the Hyper-Dank workspace and install the tarball into a
 downstream app:
@@ -20,7 +24,7 @@ downstream app:
 bun run pack:packages
 
 # from a downstream app
-bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.0.tgz
+bun add ../hyper-dank/.cache/packages/macavitymadcap-hyper-dank-ui-0.1.1.tgz
 bun add hono typescript
 ```
 
@@ -91,8 +95,9 @@ Compatibility coverage exercises these exports in server-app, static blog, dashb
 static-demo, and script-consumer compositions. Storybook is the canonical component reference for
 rendered states, accessibility notes, and interaction examples.
 
-For the public docs API page, see `site/libraries-ui.md`. For rendered component contracts, see the
-published Storybook route at `/storybook/`.
+For the public docs API page, see <https://macavitymadcap.github.io/hyper-dank/libraries/ui/>.
+For rendered component contracts, see the published Storybook route at
+<https://macavitymadcap.github.io/hyper-dank/storybook/>.
 
 ## Composition Patterns
 
