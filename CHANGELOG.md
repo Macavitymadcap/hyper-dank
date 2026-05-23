@@ -15,6 +15,9 @@
 
 * add package consumer setup ([#111](https://github.com/Macavitymadcap/hyper-dank/issues/111)) ([ab4bcc3](https://github.com/Macavitymadcap/hyper-dank/commit/ab4bcc3fb81ffbb51fb60a35fd648d6105d8a6a9))
 
+Package publication evidence for the first public npm package set is recorded at
+[`/libraries/publication-evidence/`](https://macavitymadcap.github.io/hyper-dank/libraries/publication-evidence/).
+
 ## [2.4.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.4.0...hyper-dank-v2.4.1) (2026-05-23)
 
 

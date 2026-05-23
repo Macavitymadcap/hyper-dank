@@ -16,6 +16,7 @@ choices remain in the app.
   <nav aria-label="Library docs">
     <a href="{{ '/libraries/' | relative_url }}">Overview</a>
     <a href="{{ '/libraries/consumer-setup/' | relative_url }}">Consumer setup</a>
+    <a href="{{ '/libraries/publication-evidence/' | relative_url }}">Publication evidence</a>
     <a href="{{ '/libraries/ui/' | relative_url }}">UI</a>
     <a href="{{ '/libraries/data/' | relative_url }}">Data</a>
     <a href="{{ '/libraries/transport/' | relative_url }}">Transport</a>

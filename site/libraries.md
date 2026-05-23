@@ -15,6 +15,7 @@ They keep mechanics reusable while product behaviour stays in the consuming appl
   <nav aria-label="Library docs">
     <a aria-current="page" href="{{ '/libraries/' | relative_url }}">Overview</a>
     <a href="{{ '/libraries/consumer-setup/' | relative_url }}">Consumer setup</a>
+    <a href="{{ '/libraries/publication-evidence/' | relative_url }}">Publication evidence</a>
     <a href="{{ '/libraries/ui/' | relative_url }}">UI</a>
     <a href="{{ '/libraries/data/' | relative_url }}">Data</a>
     <a href="{{ '/libraries/transport/' | relative_url }}">Transport</a>
@@ -40,7 +41,9 @@ npm install hono typescript
 ```
 
 For TypeScript, Hono JSX, CSS import, optional peers, and a minimal package smoke, see
-[Consumer setup]({{ '/libraries/consumer-setup/' | relative_url }}).
+[Consumer setup]({{ '/libraries/consumer-setup/' | relative_url }}). For the first public package
+set, registry integrity hashes, and trusted-publishing approval notes, see
+[Publication evidence]({{ '/libraries/publication-evidence/' | relative_url }}).
 
 <div class="library-card-grid">
   <a class="library-card" href="{{ '/libraries/ui/' | relative_url }}">

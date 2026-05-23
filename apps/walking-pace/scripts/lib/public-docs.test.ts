@@ -219,8 +219,22 @@ describe("public docs", () => {
 
   test("documents published package consumer setup", () => {
     const setup = readFileSync(path.join(root, "site/libraries-consumer-setup.md"), "utf8");
+    const evidence = readFileSync(
+      path.join(root, "site/libraries-publication-evidence.md"),
+      "utf8",
+    );
     const libraries = readFileSync(path.join(root, "site/libraries.md"), "utf8");
+    const changelog = readFileSync(path.join(root, "CHANGELOG.md"), "utf8");
     const siteCss = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
+    const libraryPages = [
+      "site/libraries.md",
+      "site/libraries-consumer-setup.md",
+      "site/libraries-publication-evidence.md",
+      "site/libraries-ui.md",
+      "site/libraries-data.md",
+      "site/libraries-transport.md",
+      "site/libraries-automation.md",
+    ].map((file) => readFileSync(path.join(root, file), "utf8"));
     const packageReadmes = [
       "libs/components/README.md",
       "libs/database/README.md",
@@ -236,6 +250,7 @@ describe("public docs", () => {
     ];
 
     expect(setup).toContain("permalink: /libraries/consumer-setup/");
+    expect(evidence).toContain("permalink: /libraries/publication-evidence/");
     expect(setup).toContain('class="package-manager-tabs"');
     expect(setup).toContain('id="install-npm"');
     expect(setup).toContain('id="install-bun"');
@@ -273,13 +288,21 @@ describe("public docs", () => {
       '<a aria-current="page" href="{{ \'/libraries/consumer-setup/\' | relative_url }}">Consumer setup</a>',
     );
     expect(libraries).toContain("{{ '/libraries/consumer-setup/' | relative_url }}");
+    expect(libraries).toContain("{{ '/libraries/publication-evidence/' | relative_url }}");
+    expect(changelog).toContain(
+      "https://macavitymadcap.github.io/hyper-dank/libraries/publication-evidence/",
+    );
     expect(siteCss).toContain(".package-manager-tabs");
     expect(siteCss).toContain(".package-manager-tabs input:checked + label");
     expect(siteCss).toContain("#install-npm:checked ~ .package-manager-tabs__panel--npm");
+    expect(siteCss).toContain("td code");
+    expect(siteCss).toContain("overflow-wrap: anywhere;");
 
     for (const packageName of packageNames) {
       expect(setup).toContain(packageName);
+      expect(evidence).toContain(packageName);
       expect(setup).toContain(`https://www.npmjs.com/package/${packageName}`);
+      expect(evidence).toContain(`https://www.npmjs.com/package/${packageName}`);
     }
 
     for (const readme of packageReadmes) {
@@ -287,6 +310,19 @@ describe("public docs", () => {
         "https://macavitymadcap.github.io/hyper-dank/libraries/consumer-setup/",
       );
     }
+
+    for (const page of libraryPages) {
+      expect(page).toContain("{{ '/libraries/publication-evidence/' | relative_url }}");
+    }
+
+    expect(evidence).toContain("0.1.0");
+    expect(evidence).toContain("0.1.1");
+    expect(evidence).toContain("dist.integrity");
+    expect(evidence).toContain("dist.signatures");
+    expect(evidence).toContain("npm-publishing");
+    expect(evidence).toContain("--provenance");
+    expect(evidence).toContain("do not have GitHub OIDC provenance");
+    expect(evidence).toContain("bun run test:packages");
   });
 
   test("uses route icons for side-panelled homepage destinations", () => {
