@@ -63,6 +63,11 @@ jobs:
       - name: Stage unpublished packages on npm
         if: ${{ github.event_name == 'release' || inputs.dry_run == 'false' }}
         run: |
+          if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "${NPM_CONFIG_USERCONFIG}" ]; then
+            sed -i "/:_authToken=/d" "${NPM_CONFIG_USERCONFIG}"
+          fi
+          unset NODE_AUTH_TOKEN
+
           published_count=0
           for package_dir in libs/components libs/database libs/http libs/scripts; do
             package_name="$(node -p "require('./${package_dir}/package.json').name")"

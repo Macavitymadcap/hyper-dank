@@ -187,6 +187,9 @@ if (!publishWorkflow.includes("npm install -g npm@11.15.0")) {
 if (!publishWorkflow.includes("npm help stage")) {
   errors.push("Publish npm workflow must verify the staged publishing command is available.");
 }
+if (!publishWorkflow.includes("unset NODE_AUTH_TOKEN")) {
+  errors.push("Publish npm workflow must clear token auth before OIDC trusted staging.");
+}
 if (!publishWorkflow.includes("npm stage publish . --access public --provenance")) {
   errors.push("Publish npm workflow must use trusted staged publishing with provenance.");
 }
