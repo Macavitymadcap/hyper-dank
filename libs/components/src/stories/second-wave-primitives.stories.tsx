@@ -5,10 +5,14 @@ import { Button } from "../atoms/Button";
 import { Icon } from "../atoms/Icon";
 import { AppShell } from "../molecules/AppShell";
 import { Breadcrumbs } from "../molecules/Breadcrumbs";
+import { ButtonGroup } from "../molecules/ButtonGroup";
 import { Callout } from "../molecules/Callout";
 import { CodeBlock } from "../molecules/CodeBlock";
 import { Dialog } from "../molecules/Dialog";
 import { EmptyState } from "../molecules/EmptyState";
+import { Fieldset } from "../molecules/Fieldset";
+import { FormField } from "../molecules/FormField";
+import { HxForm } from "../molecules/HxForm";
 import { LoadingIndicator } from "../molecules/LoadingIndicator";
 import { MetadataList } from "../molecules/MetadataList";
 import { Notice } from "../molecules/Notice";
@@ -19,12 +23,14 @@ import { Progress } from "../molecules/Progress";
 import { Prose } from "../molecules/Prose";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { SideNav } from "../molecules/SideNav";
+import { StagedForm } from "../molecules/StagedForm";
 import { StatBlock } from "../molecules/StatBlock";
 import { StatusSummary } from "../molecules/StatusSummary";
 import { StatusSymbol } from "../molecules/StatusSymbol";
 import { Tabs } from "../molecules/Tabs";
 import { TimelineList } from "../molecules/TimelineList";
 import { Toolbar } from "../molecules/Toolbar";
+import { ValidationSummary } from "../molecules/ValidationSummary";
 import { renderStory } from "./render";
 
 const meta = {
@@ -154,6 +160,138 @@ export function DashboardShell() {
     await expect(canvas.getByRole("navigation", { name: "Sections" })).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Open sync dialog" })).toBeInTheDocument();
     await expect(canvas.getByText("Refreshing")).toBeInTheDocument();
+  },
+};
+
+export const StagedFormWorkflow: Story = {
+  render: () =>
+    renderStory(
+      <article class="storybook-doc" aria-labelledby="staged-form-heading">
+        <header class="storybook-doc__header">
+          <p class="storybook-doc__eyebrow">Sequential form contract</p>
+          <h1 id="staged-form-heading" class="storybook-doc__title">
+            Staged form workflow
+          </h1>
+          <p class="storybook-doc__lede">
+            Split long server-rendered forms into ordered stages while routes keep validation,
+            dependency rules, persistence, redirects, and HTMX fragment responses.
+          </p>
+        </header>
+        <div class="storybook-doc__grid storybook-doc__grid--two">
+          <section class="storybook-doc__section" aria-labelledby="staged-form-preview-heading">
+            <h2 id="staged-form-preview-heading">Rendered output</h2>
+            <HxForm
+              action="/articles/new"
+              method="post"
+              hx-post="/articles/new/stage"
+              hx-target="#article-stages"
+              hx-swap="outerHTML"
+            >
+              <StagedForm
+                id="article-stages"
+                heading="Article setup"
+                progressLabel="Article setup stages"
+                currentStepId="content"
+                steps={[
+                  {
+                    id: "basics",
+                    label: "Basics",
+                    description: "Title and owner.",
+                    status: "complete",
+                    href: "/articles/new?stage=basics",
+                    "hx-get": "/articles/new?stage=basics",
+                    "hx-target": "#article-stages",
+                  },
+                  {
+                    id: "content",
+                    label: "Content",
+                    description: "Body copy unlocks review.",
+                    status: "error",
+                  },
+                  {
+                    id: "review",
+                    label: "Review",
+                    description: "Unavailable until content is valid.",
+                    status: "unavailable",
+                  },
+                ]}
+                validation={
+                  <ValidationSummary
+                    items={[{ href: "#article-body", message: "Add body copy before review." }]}
+                  />
+                }
+                actions={
+                  <ButtonGroup ariaLabel="Article stage actions">
+                    <Button type="submit" name="stage" value="basics" variant="outline">
+                      Back
+                    </Button>
+                    <Button type="submit" name="stage" value="review">
+                      Continue
+                    </Button>
+                  </ButtonGroup>
+                }
+              >
+                <Fieldset
+                  legend="Content"
+                  description="The route decides whether this stage can move to review."
+                >
+                  <FormField id="article-body" label="Body" name="body" error="Add body copy." />
+                </Fieldset>
+              </StagedForm>
+            </HxForm>
+          </section>
+          <section class="storybook-doc__section" aria-labelledby="staged-form-contract-heading">
+            <h2 id="staged-form-contract-heading">Contract</h2>
+            <ul>
+              <li>
+                Steps are app-provided state: complete, current, available, unavailable, or error.
+              </li>
+              <li>
+                Step links can use native URLs and optional HTMX attributes for fragment swaps.
+              </li>
+              <li>Panels compose Fieldset, FormField, ValidationSummary, HxForm, and buttons.</li>
+              <li>
+                The component does not own schemas, branching rules, saves, permissions, or
+                redirects.
+              </li>
+            </ul>
+          </section>
+          <CodeBlock
+            className="storybook-doc__section storybook-doc__section--span-all"
+            language="tsx"
+            code={`import { Button, ButtonGroup, FormField, HxForm, StagedForm } from "@macavitymadcap/hyper-dank-ui";
+
+export function ArticleStage({ stage }) {
+  return (
+    <HxForm action="/articles/new" method="post" hx-post="/articles/new/stage" hx-target="#article-stages">
+      <StagedForm
+        id="article-stages"
+        currentStepId={stage}
+        steps={[
+          { id: "basics", label: "Basics", status: "complete", href: "/articles/new?stage=basics" },
+          { id: "content", label: "Content", status: "current" },
+          { id: "review", label: "Review", status: "unavailable" },
+        ]}
+        actions={<ButtonGroup ariaLabel="Stage actions"><Button type="submit">Continue</Button></ButtonGroup>}
+      >
+        <FormField id="body" label="Body" name="body" />
+      </StagedForm>
+    </HxForm>
+  );
+}`}
+          />
+        </div>
+      </article>,
+      { size: "full" },
+    ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole("heading", { name: "Staged form workflow" })).toBeInTheDocument();
+    await expect(
+      canvas.getByRole("navigation", { name: "Article setup stages" }),
+    ).toBeInTheDocument();
+    await expect(canvas.getByRole("button", { name: "Continue" })).toBeInTheDocument();
+    await expect(canvas.getAllByRole("alert")).toHaveLength(2);
   },
 };
 

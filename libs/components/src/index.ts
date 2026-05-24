@@ -71,6 +71,12 @@ export {
   type SelectFieldProps,
 } from "./molecules/SelectField";
 export { SideNav, type SideNavItem, type SideNavProps } from "./molecules/SideNav";
+export {
+  StagedForm,
+  type StagedFormProps,
+  type StagedFormStep,
+  type StagedFormStepStatus,
+} from "./molecules/StagedForm";
 export { StatBlock, type StatBlockProps } from "./molecules/StatBlock";
 export {
   StatusSummary,
