@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.7.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.6.3...hyper-dank-v2.7.0) (2026-05-24)
+
+
+### Features
+
+* **ui:** add staged form primitive ([8cf374f](https://github.com/Macavitymadcap/hyper-dank/commit/8cf374fb08745115c2a11dc3a956b851e339108c))
+
+
+### Bug Fixes
+
+* **ui:** expose staged form error state ([5c1934c](https://github.com/Macavitymadcap/hyper-dank/commit/5c1934ca234365d59242d4e918a2ba08709df8f2))
+* **ui:** handle rich staged form headings ([c5d43a4](https://github.com/Macavitymadcap/hyper-dank/commit/c5d43a48d6d042eced1f26571830e35ac1a7f56c))
+
+
+### Documentation
+
+* **release:** capture npm stage runbook ([b8d7db1](https://github.com/Macavitymadcap/hyper-dank/commit/b8d7db1a5dcb0ce9d4b4f34b5cfa2bbaa4b2092f))
+
+
+### Tests
+
+* **ui:** expand staged form screenshot evidence ([597a768](https://github.com/Macavitymadcap/hyper-dank/commit/597a7681f89b91e85dfb7d4307255c232f6a70b5))
+
 ## [2.6.3](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.6.2...hyper-dank-v2.6.3) (2026-05-24)
 
 
