@@ -21,6 +21,8 @@ describe("shared component styles", () => {
     expect(css).toContain(".icon-button");
     expect(css).toContain(".kbd");
     expect(css).toContain(".metadata-list");
+    expect(css).toContain(".notification-banner");
+    expect(css).toContain('.notification-banner[data-severity="danger"]');
     expect(css).toContain(".pagination");
     expect(css).toContain(".page-header-content");
     expect(css).toContain(".page-header h1");
@@ -41,6 +43,7 @@ describe("shared component styles", () => {
     expect(css).toContain(".side-nav ul");
     expect(css).toContain(".skeleton");
     expect(css).toContain(".stat-block");
+    expect(css).toContain('.status-symbol[data-shape="triangle"]');
     expect(css).toContain(".timeline-list");
     expect(css).toContain(".tooltip");
     expect(css).toContain(".validation-summary");

@@ -84,6 +84,7 @@ layer after the package CSS.
 | `LinkButton`, `LinkButtonProps` | Link styled with button variants while preserving normal navigation. | `Components/Shared` |
 | `LoadingIndicator`, `LoadingIndicatorProps` | Polite loading status text for async regions. | `Components/Shared` |
 | `MetadataList`, `MetadataListItem`, `MetadataListProps` | Definition-list metadata rows for compact summaries. | `Components/Shared` |
+| `NotificationBanner`, `NotificationBannerProps`, `NotificationSeverity` | Page-level feedback banner with severity roles, shape hooks, and static live-region semantics. | `Components/Shared/App Surfaces And Feedback` |
 | `Notice`, `NoticeProps` | Tonal feedback block with appropriate status or alert semantics. | `Components/Shared` |
 | `PageHeader`, `PageHeaderProps` | Page title, description, metadata, and action slots. | `Components/Shared` |
 | `Pagination`, `PaginationProps` | Link-backed page navigation with current-state output. | `Components/Shared` |
@@ -96,6 +97,7 @@ layer after the package CSS.
 | `SelectField`, `SelectFieldOption`, `SelectFieldProps` | Labelled native select with options, hint, and error hooks. | `Components/Shared` |
 | `SideNav`, `SideNavItem`, `SideNavProps` | Labelled section navigation with current-state output. | `Components/Shared` |
 | `StatBlock`, `StatBlockProps` | Definition-list metric block for dashboard summaries. | `Components/Shared` |
+| `StatusSymbol`, `StatusSymbolProps`, `StatusTone` | Inline status marker that pairs label, shape, and severity without relying on colour alone. | `Components/Shared/App Surfaces And Feedback` |
 | `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps` | Definition-list status rows for review dashboards. | `Components/Shared` |
 | `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Shared/Switch` |
 | `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Shared/TableCell` |
@@ -132,6 +134,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
 | Dashboards | `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, command filtering, live data, analytics rules, and role rules stay local. |
 | Dense forms | `SelectField`, `Combobox`, `PopoverMenu`, `Command` | Use native selects for short fixed sets, datalist suggestions for open text, menu actions for compact choices, and command search only when the app owns filtering/loading. |
+| Feedback | `StatusSymbol`, `NotificationBanner`, `Notice`, `ValidationSummary`, `Progress`, `StatusSummary`, `Badge` | Status copy, notification timing, toast queues, dismissal, persistence, and escalation rules stay local. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
 
 Use `HxForm` when a control must work as normal HTML first and become fragment-driven when HTMX is
@@ -174,6 +177,20 @@ and any interactive exploration.
 The component accepts `kind`, `data`, `max`, `summary`, `valueFormatter`, `width`, `height`, and
 `className`. Its CSS uses `currentColor` and `--hd-accent`, so the graph can follow light, dark, or
 app-specific themes without changing the JSX contract.
+
+## Feedback Vocabulary
+
+Use `info`, `success`, `warning`, and `danger` for page-level notification severity.
+`StatusSymbol` also accepts `neutral` for compact inline metadata. Each marker exposes a shape hook,
+not only a colour: circle for information, check for success, triangle for warning, octagon for
+danger, and dot for neutral.
+
+`NotificationBanner` maps `warning` and `danger` to assertive alerts, while `info` and `success`
+remain polite status regions. Use it for page-level events. Use `Notice` for local panel or form
+feedback, `ValidationSummary` for linked form errors, `Progress` and `LoadingIndicator` for async
+work, and `StatusSummary` or `Badge` for compact dashboard metadata. Toast-style regions should stay
+static landmarks in shared markup; client queues, timers, dismissal, stores, and persistence belong
+in the consuming app.
 
 </div>
 </div>

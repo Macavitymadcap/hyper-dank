@@ -26,4 +26,13 @@ describe("screenshot flows", () => {
       "/storybook/iframe.html?id=components-shared-reusable-patterns--reuse-set",
     ]);
   });
+
+  test("captures hd-0024 status and notification evidence", () => {
+    const [flow] = selectScreenshotFlows(["hd-0024-status-notifications"]);
+
+    expect(flow?.states.map((state) => state.slug)).toEqual(["status-and-notifications"]);
+    expect(flow?.states.map((state) => state.path)).toEqual([
+      "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--status-and-notifications",
+    ]);
+  });
 });

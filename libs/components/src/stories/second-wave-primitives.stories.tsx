@@ -12,6 +12,7 @@ import { EmptyState } from "../molecules/EmptyState";
 import { LoadingIndicator } from "../molecules/LoadingIndicator";
 import { MetadataList } from "../molecules/MetadataList";
 import { Notice } from "../molecules/Notice";
+import { NotificationBanner } from "../molecules/NotificationBanner";
 import { PageHeader } from "../molecules/PageHeader";
 import { Pagination } from "../molecules/Pagination";
 import { Progress } from "../molecules/Progress";
@@ -20,6 +21,7 @@ import { SectionHeader } from "../molecules/SectionHeader";
 import { SideNav } from "../molecules/SideNav";
 import { StatBlock } from "../molecules/StatBlock";
 import { StatusSummary } from "../molecules/StatusSummary";
+import { StatusSymbol } from "../molecules/StatusSymbol";
 import { Tabs } from "../molecules/Tabs";
 import { TimelineList } from "../molecules/TimelineList";
 import { Toolbar } from "../molecules/Toolbar";
@@ -152,6 +154,100 @@ export function DashboardShell() {
     await expect(canvas.getByRole("navigation", { name: "Sections" })).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Open sync dialog" })).toBeInTheDocument();
     await expect(canvas.getByText("Refreshing")).toBeInTheDocument();
+  },
+};
+
+export const StatusAndNotifications: Story = {
+  render: () =>
+    renderStory(
+      <article class="storybook-doc" aria-labelledby="status-notifications-heading">
+        <header class="storybook-doc__header">
+          <p class="storybook-doc__eyebrow">Status and notification contract</p>
+          <h1 id="status-notifications-heading" class="storybook-doc__title">
+            Status and notifications
+          </h1>
+          <p class="storybook-doc__lede">
+            Use the shared severity vocabulary to combine text, role, colour, and shape. Apps own
+            notification timing, queueing, dismissal, persistence, and delivery rules.
+          </p>
+        </header>
+        <div class="storybook-doc__grid storybook-doc__grid--two">
+          <section class="storybook-doc__section" aria-labelledby="notification-preview-heading">
+            <h2 id="notification-preview-heading">Rendered output</h2>
+            <NotificationBanner severity="info" title="Sync scheduled">
+              The static export will refresh after the current deploy.
+            </NotificationBanner>
+            <NotificationBanner severity="success" title="Published">
+              The package reference is live and ready for consumers.
+            </NotificationBanner>
+            <NotificationBanner severity="warning" title="Review needed">
+              Check the accessibility contact copy before release.
+            </NotificationBanner>
+            <NotificationBanner severity="danger" title="Publication blocked">
+              Resolve the failing verification gate before approving.
+            </NotificationBanner>
+          </section>
+          <section class="storybook-doc__section" aria-labelledby="status-model-heading">
+            <h2 id="status-model-heading">Feedback hierarchy</h2>
+            <ul>
+              <li>
+                <StatusSymbol decorative status="info" /> Info: neutral guidance or background
+                process state.
+              </li>
+              <li>
+                <StatusSymbol decorative status="success" /> Success: complete, saved, published, or
+                verified.
+              </li>
+              <li>
+                <StatusSymbol decorative status="warning" /> Warning: user attention needed without
+                destructive urgency.
+              </li>
+              <li>
+                <StatusSymbol decorative status="danger" /> Danger: blocked, failed, destructive, or
+                security-sensitive.
+              </li>
+              <li>
+                Use Notice for local page feedback, and NotificationBanner for page-level events.
+              </li>
+              <li>StatusSummary and Badge remain compact dashboard metadata patterns.</li>
+              <li>
+                ValidationSummary owns form errors; Progress and LoadingIndicator own async work.
+              </li>
+              <li>
+                Toast regions should stay static landmarks unless an app owns queue behaviour.
+              </li>
+            </ul>
+          </section>
+          <CodeBlock
+            className="storybook-doc__section storybook-doc__section--span-all"
+            language="tsx"
+            code={`import { NotificationBanner, StatusSymbol } from "@macavitymadcap/hyper-dank-ui";
+
+export function PublicationFeedback() {
+  return (
+    <>
+      <NotificationBanner severity="warning" title="Review needed">
+        Check the accessibility contact copy before release.
+      </NotificationBanner>
+      <p>
+        <StatusSymbol label="Verification passed" status="success" /> Verification passed
+      </p>
+    </>
+  );
+}`}
+          />
+        </div>
+      </article>,
+      { size: "full" },
+    ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(
+      canvas.getByRole("heading", { name: "Status and notifications" }),
+    ).toBeInTheDocument();
+    await expect(canvas.getByRole("alert", { name: "Warning" })).toBeInTheDocument();
+    await expect(canvas.getByRole("alert", { name: "Danger" })).toBeInTheDocument();
+    await expect(canvas.getAllByRole("status")).toHaveLength(2);
   },
 };
 
