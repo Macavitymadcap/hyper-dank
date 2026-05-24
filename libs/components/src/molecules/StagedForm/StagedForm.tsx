@@ -61,9 +61,16 @@ export const StagedForm = ({
       <nav className="staged-form-progress" aria-label={resolvedProgressLabel}>
         <ol>
           {steps.map((step, index) => {
-            const status = resolveStepStatus(step, currentStepId);
+            const isCurrent = step.id === currentStepId;
+            const status = resolveStepStatus(step, isCurrent);
             const isDisabled = status === "unavailable";
-            const stepClasses = ["staged-form-step", `staged-form-step--${status}`].join(" ");
+            const stepClasses = [
+              "staged-form-step",
+              `staged-form-step--${status}`,
+              isCurrent ? "staged-form-step--current" : undefined,
+            ]
+              .filter(Boolean)
+              .join(" ");
             const content = (
               <>
                 <span className="staged-form-step-marker" aria-hidden="true">
@@ -71,6 +78,9 @@ export const StagedForm = ({
                 </span>
                 <span className="staged-form-step-copy">
                   <span className="staged-form-step-label">{step.label}</span>
+                  <span className="staged-form-step-status">
+                    {stepStatusLabel(status, isCurrent)}
+                  </span>
                   {step.description ? (
                     <span className="staged-form-step-description">{step.description}</span>
                   ) : undefined}
@@ -83,14 +93,14 @@ export const StagedForm = ({
                 {step.href && !isDisabled ? (
                   <a
                     href={step.href}
-                    aria-current={status === "current" ? "step" : undefined}
+                    aria-current={isCurrent ? "step" : undefined}
                     {...htmxAttributes(step)}
                   >
                     {content}
                   </a>
                 ) : (
                   <span
-                    aria-current={status === "current" ? "step" : undefined}
+                    aria-current={isCurrent ? "step" : undefined}
                     aria-disabled={isDisabled ? "true" : undefined}
                   >
                     {content}
@@ -124,7 +134,22 @@ export const StagedForm = ({
   );
 };
 
-function resolveStepStatus(step: StagedFormStep, currentStepId: string): StagedFormStepStatus {
-  if (step.id === currentStepId) return "current";
-  return step.status ?? "available";
+function resolveStepStatus(step: StagedFormStep, isCurrent: boolean): StagedFormStepStatus {
+  return step.status ?? (isCurrent ? "current" : "available");
+}
+
+function stepStatusLabel(status: StagedFormStepStatus, isCurrent: boolean) {
+  if (isCurrent && status === "error") return "Current step, needs attention";
+  if (isCurrent) return "Current step";
+
+  switch (status) {
+    case "complete":
+      return "Complete";
+    case "error":
+      return "Needs attention";
+    case "unavailable":
+      return "Unavailable";
+    default:
+      return "Available";
+  }
 }

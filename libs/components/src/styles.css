@@ -699,6 +699,15 @@
   font-size: 0.88rem;
 }
 
+.staged-form-step-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .staged-form-step--current > :where(a, span) {
   border-color: var(--hd-accent, currentColor);
   box-shadow: inset 0 0 0 0.12rem var(--hd-accent, currentColor);
@@ -711,6 +720,10 @@
 
 .staged-form-step--error > :where(a, span) {
   border-color: var(--hd-status-danger, #b91c1c);
+}
+
+.staged-form-step--current.staged-form-step--error > :where(a, span) {
+  box-shadow: inset 0 0 0 0.12rem var(--hd-status-danger, #b91c1c);
 }
 
 .staged-form-step [aria-disabled="true"] {
