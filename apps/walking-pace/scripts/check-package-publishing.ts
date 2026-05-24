@@ -154,6 +154,11 @@ const publishWorkflow = await readFile(
 if (!publishWorkflow.includes("release:")) {
   errors.push("Publish npm workflow must run from published GitHub release events.");
 }
+if (!publishWorkflow.includes("startsWith(github.event.release.tag_name, 'hyper-dank-ui-v')")) {
+  errors.push(
+    "Publish npm workflow must only auto-stage packages from one canonical library release.",
+  );
+}
 if (!publishWorkflow.includes("npm view")) {
   errors.push("Publish npm workflow must skip package versions that already exist on npm.");
 }

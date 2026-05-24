@@ -51,9 +51,11 @@ set.
 
 Merging normal work to `main` does not publish npm packages directly. Release Please first opens or
 updates a release PR. When that generated release PR is merged and GitHub releases are published,
-the `Publish npm packages` workflow runs automatically for release events. It verifies metadata,
-builds and smoke-tests the package tarballs, skips any package version that already exists on npm,
-then stages only unpublished package versions with npm trusted publishing and `--provenance`.
+the `Publish npm packages` workflow runs automatically from the `hyper-dank-ui-v*` component release
+event. That single canonical event represents the linked library package set, so the workflow does
+not race across every component release tag. It verifies metadata, builds and smoke-tests the package
+tarballs, skips any package version that already exists on npm, then stages only unpublished package
+versions with npm trusted publishing and `--provenance`.
 
 The same workflow can still be run manually. Use the default `dry_run=true` to check the package
 set without staging anything. Use `dry_run=false` only for recovery or a deliberate manual release
