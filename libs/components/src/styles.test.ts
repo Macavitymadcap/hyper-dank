@@ -44,6 +44,8 @@ describe("shared component styles", () => {
     expect(css).toContain(".separator");
     expect(css).toContain(".side-nav ul");
     expect(css).toContain(".skeleton");
+    expect(css).toContain(".staged-form");
+    expect(css).toContain('.staged-form-step [aria-disabled="true"]');
     expect(css).toContain(".stat-block");
     expect(css).toContain('.status-symbol[data-shape="triangle"]');
     expect(css).toContain(".table-filter-summary");

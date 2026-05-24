@@ -255,6 +255,19 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0065-staged-form",
+    label: "HD 0065 Staged Form",
+    description: "Staged form workflow, progress, validation, and route-owned action guidance.",
+    states: [
+      {
+        authUserId: null,
+        label: "Staged form workflow",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
+        slug: "staged-form-workflow",
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",

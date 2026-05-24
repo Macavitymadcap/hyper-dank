@@ -39,7 +39,7 @@ Import components from server JSX and import the CSS through the browser asset p
 component in server code does not automatically load browser styles.
 
 ```ts
-import { Button, Card, FormField, HxForm, Switch } from "@macavitymadcap/hyper-dank-ui";
+import { Button, Card, FormField, HxForm, StagedForm, Switch } from "@macavitymadcap/hyper-dank-ui";
 import "@macavitymadcap/hyper-dank-ui/styles.css";
 
 export function SettingsForm() {
@@ -97,6 +97,7 @@ layer after the package CSS.
 | `SelectField`, `SelectFieldOption`, `SelectFieldProps` | Labelled native select with options, hint, and error hooks. | `Components/Shared` |
 | `SideNav`, `SideNavItem`, `SideNavProps` | Labelled section navigation with current-state output. | `Components/Shared` |
 | `StatBlock`, `StatBlockProps` | Definition-list metric block for dashboard summaries. | `Components/Shared` |
+| `StagedForm`, `StagedFormProps`, `StagedFormStep`, `StagedFormStepStatus` | Ordered multi-stage form layout with current, complete, unavailable, and error step states. | `Components/Shared/App Surfaces And Feedback` |
 | `StatusSymbol`, `StatusSymbolProps`, `StatusTone` | Inline status marker that pairs label, shape, and severity without relying on colour alone. | `Components/Shared/App Surfaces And Feedback` |
 | `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps` | Definition-list status rows for review dashboards. | `Components/Shared` |
 | `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Shared/Switch` |
@@ -134,7 +135,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | Server apps | `HxForm`, `FormField`, `Button`, `Panel` | Routes, validation, auth, and permissions stay local. |
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
 | Dashboards | `HxForm`, `ScrollableTable`, `TableFilterSummary`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, query construction, sorting, filtering, column preferences, row mutations, live data, analytics rules, and role rules stay local. |
-| Dense forms | `SelectField`, `Combobox`, `PopoverMenu`, `Command` | Use native selects for short fixed sets, datalist suggestions for open text, menu actions for compact choices, and command search only when the app owns filtering/loading. |
+| Dense forms | `SelectField`, `Combobox`, `PopoverMenu`, `Command`, `StagedForm` | Use native selects for short fixed sets, datalist suggestions for open text, menu actions for compact choices, command search only when the app owns filtering/loading, and staged forms when app routes own sequential step state. |
 | Feedback | `StatusSymbol`, `NotificationBanner`, `Notice`, `ValidationSummary`, `Progress`, `StatusSummary`, `Badge` | Status copy, notification timing, toast queues, dismissal, persistence, and escalation rules stay local. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
 
@@ -153,6 +154,35 @@ available.
   <Button>Add item</Button>
 </HxForm>
 ```
+
+## Staged Forms
+
+Use `StagedForm` inside `HxForm` when a long form needs a shared progress list and current-step
+panel, but the app still owns which steps are available. Steps accept `complete`, `current`,
+`available`, `unavailable`, and `error` states plus optional native `href` and `hx-*` attributes.
+The current panel can compose `Fieldset`, `FormField`, `ValidationSummary`, `ButtonGroup`, and
+native submit buttons.
+
+```tsx
+<HxForm action="/articles/new" method="post" hx-post="/articles/new/stage" hx-target="#stages">
+  <StagedForm
+    id="stages"
+    currentStepId="content"
+    steps={[
+      { id: "basics", label: "Basics", status: "complete", href: "/articles/new?stage=basics" },
+      { id: "content", label: "Content", status: "current" },
+      { id: "review", label: "Review", status: "unavailable" },
+    ]}
+    actions={<Button type="submit">Continue</Button>}
+  >
+    <FormField id="body" label="Body" name="body" />
+  </StagedForm>
+</HxForm>
+```
+
+Validation rules, dependent-step eligibility, saved data, permissions, and redirects stay in the
+route or service layer. Branching workflows and client-side wizard engines are deliberately outside
+the shared UI contract.
 
 ## BasicGraph
 

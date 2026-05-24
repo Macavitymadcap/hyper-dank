@@ -45,6 +45,7 @@ import {
   HxForm,
   Panel,
   ScrollableTable,
+  StagedForm,
   Switch,
 } from "@macavitymadcap/hyper-dank-ui";
 ```
@@ -88,8 +89,9 @@ pipeline; importing the package in server code does not automatically load style
   `ScrollableTableProps`, `SectionHeader`, `SectionHeaderProps`, `SegmentedControl`,
   `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
   `SelectFieldProps`, `SideNav`, `SideNavItem`, `SideNavProps`, `StatBlock`, `StatBlockProps`,
-  `StatusSymbol`, `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`,
-  `StatusSummaryProps`, `TableFilterSummary`, `TableFilterSummaryItem`,
+  `StagedForm`, `StagedFormProps`, `StagedFormStep`, `StagedFormStepStatus`, `StatusSymbol`,
+  `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps`,
+  `TableFilterSummary`, `TableFilterSummaryItem`,
   `TableFilterSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
   `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
   `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,
@@ -124,6 +126,8 @@ For rendered component contracts, see the published Storybook route at
 - Dense forms should use `SelectField` for short fixed sets, `Combobox` when native datalist
   suggestions help but submitted values remain app-owned, `PopoverMenu` for compact actions, and
   `Command` for app-wide command search where filtering and loading stay in the consuming app.
+  Use `StagedForm` inside `HxForm` when route-owned sequential steps, validation, and redirects
+  need a shared progress and panel layout.
 - Static demos can use `InputGroup`, `LabelledOutput`, `Button`, and `Panel` without importing
   server-only app code.
 - Docs and static blogs can use `Prose`, `CodeBlock`, `Callout`, `MetadataList`, `TimelineList`,
