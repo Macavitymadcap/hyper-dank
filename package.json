@@ -1,7 +1,7 @@
 {
   "name": "hyper-dank",
   "private": true,
-  "version": "2.5.3",
+  "version": "2.5.4",
   "type": "module",
   "workspaces": [
     "apps/*",
