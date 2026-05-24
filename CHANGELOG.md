@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.2](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.6.1...hyper-dank-v2.6.2) (2026-05-24)
+
+
+### Bug Fixes
+
+* **docs:** polish docs chrome and navigation ([#182](https://github.com/Macavitymadcap/hyper-dank/issues/182)) ([d7a7620](https://github.com/Macavitymadcap/hyper-dank/commit/d7a76204853044f4bb8df4695b52c5ecfb133f95))
+
 ## [2.6.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.6.0...hyper-dank-v2.6.1) (2026-05-24)
 
 

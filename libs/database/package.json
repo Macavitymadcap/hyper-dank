@@ -1,6 +1,6 @@
 {
   "name": "@macavitymadcap/hyper-dank-data",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "description": "Database lifecycle and adapter-test primitives for Hyper-Dank apps.",
   "homepage": "https://macavitymadcap.github.io/hyper-dank/libraries/data/",
