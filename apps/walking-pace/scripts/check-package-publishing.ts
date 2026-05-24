@@ -181,7 +181,13 @@ if (!publishWorkflow.includes("startsWith(github.event.release.tag_name, 'hyper-
 if (!publishWorkflow.includes("npm view")) {
   errors.push("Publish npm workflow must skip package versions that already exist on npm.");
 }
-if (!publishWorkflow.includes("npm stage publish --access public --provenance")) {
+if (!publishWorkflow.includes("npm install -g npm@11.15.0")) {
+  errors.push("Publish npm workflow must install an npm CLI version with staged publishing.");
+}
+if (!publishWorkflow.includes("npm help stage")) {
+  errors.push("Publish npm workflow must verify the staged publishing command is available.");
+}
+if (!publishWorkflow.includes("npm stage publish . --access public --provenance")) {
   errors.push("Publish npm workflow must use trusted staged publishing with provenance.");
 }
 
