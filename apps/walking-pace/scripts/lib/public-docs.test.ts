@@ -39,6 +39,7 @@ describe("public docs", () => {
     const siteRoutes = new Set([
       ...markdownFiles("site").map((file) => pageRoute(file)),
       "/pace/",
+      "/search-index.json",
       "/storybook/",
     ]);
 
@@ -351,6 +352,43 @@ describe("public docs", () => {
     expect(template).toContain('labels:\n  - "type: follow-up"\n  - "area: docs"');
     expect(template).toContain("Route, component, or package");
     expect(template).toContain("Do not include private personal, account, or security details");
+  });
+
+  test("provides static docs search with no-JS fallback links", () => {
+    const search = readFileSync(path.join(root, "site/search.md"), "utf8");
+    const script = readFileSync(path.join(root, "site/assets/site.js"), "utf8");
+    const css = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
+
+    expect(search).toContain("permalink: /search/");
+    expect(search).toContain("data-docs-search");
+    expect(search).toContain("{{ '/search-index.json' | relative_url }}");
+    expect(search).toContain("href=\"{{ '/libraries/' | relative_url }}\"");
+    expect(search).toContain("href=\"{{ '/recipes/' | relative_url }}\"");
+    expect(search).toContain("href=\"{{ '/libraries/ui/' | relative_url }}\"");
+    expect(search).toContain("href=\"{{ '/storybook/' | relative_url }}\"");
+    expect(search).toContain("href=\"{{ '/accessibility/' | relative_url }}\"");
+    expect(script).toContain("initialiseDocsSearch()");
+    expect(script).toContain("fetch(searchIndexUrl)");
+    expect(script).toContain("renderDocsSearchResults");
+    expect(css).toContain(".docs-search");
+    expect(css).toContain(".docs-search__result");
+  });
+
+  test("keeps public docs search routes live", () => {
+    const siteRoutes = new Set([
+      ...markdownFiles("site").map((file) => pageRoute(file)),
+      "/pace/",
+      "/search-index.json",
+      "/storybook/",
+    ]);
+    const docsBuild = readFileSync(
+      path.join(root, "apps/walking-pace/scripts/lib/docs-build.ts"),
+      "utf8",
+    );
+
+    expect(siteRoutes.has("/search/")).toBe(true);
+    expect(docsBuild).toContain("search-index.json");
+    expect(docsBuild).toContain("buildSearchIndex");
   });
 
   test("keeps docs side navigation stretched while open and compact while closed", () => {

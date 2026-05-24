@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   buildStaticContentSite,
+  type ContentPage,
   escapeHtml,
   relativeContentUrl,
   renderMarkdown as renderContentMarkdown,
@@ -19,11 +20,24 @@ interface SiteConfig {
   title: string;
 }
 
+interface DocsSearchEntry {
+  headings: string[];
+  keywords: string[];
+  text: string;
+  title: string;
+  url: string;
+}
+
+interface DocsSearchIndex {
+  entries: DocsSearchEntry[];
+  version: 1;
+}
+
 export async function buildDocsSite({ basePath, destinationDir, sourceDir }: BuildDocsOptions) {
   const normalizedBasePath = normalizePagesBasePath(basePath);
   const siteConfig = await readSiteConfig(path.join(sourceDir, "_config.yml"));
 
-  await buildStaticContentSite({
+  const pages = await buildStaticContentSite({
     assets: [{ from: path.join(sourceDir, "assets"), to: "assets" }],
     basePath: normalizedBasePath,
     destinationDir,
@@ -37,6 +51,10 @@ export async function buildDocsSite({ basePath, destinationDir, sourceDir }: Bui
       }),
     sourceDir,
   });
+  await writeFile(
+    path.join(destinationDir, "search-index.json"),
+    `${JSON.stringify(buildSearchIndex(pages, normalizedBasePath), null, 2)}\n`,
+  );
 
   await writeFile(path.join(destinationDir, ".nojekyll"), "");
 }
@@ -108,12 +126,14 @@ function renderDocument({
           <div class="site-quick-links" aria-label="Primary links">
             <a href="${relativeContentUrl("/libraries/", basePath)}">Libraries</a>
             <a href="${relativeContentUrl("/recipes/", basePath)}">Recipes</a>
+            <a href="${relativeContentUrl("/search/", basePath)}">Search</a>
           </div>
           ${themeToggleHtml()}
           <details class="nav-menu">
             <summary class="nav-menu__summary">Menu</summary>
             <div class="nav-menu__panel">
               <a href="${relativeContentUrl("/", basePath)}">Docs home</a>
+              <a href="${relativeContentUrl("/search/", basePath)}">Search</a>
               <a href="${relativeContentUrl("/libraries/", basePath)}">Libraries</a>
               <a href="${relativeContentUrl("/recipes/", basePath)}">Recipes</a>
               <a href="${relativeContentUrl("/system/", basePath)}">System</a>
@@ -179,4 +199,65 @@ function themeToggleHtml() {
               <span class="theme-toggle__thumb"></span>
             </span>
           </label>`;
+}
+
+function buildSearchIndex(pages: ContentPage[], basePath: string): DocsSearchIndex {
+  return {
+    version: 1,
+    entries: pages.map((page) => ({
+      headings: markdownHeadings(page.body),
+      keywords: markdownKeywords(page.body),
+      text: plainSearchText(page.body),
+      title: page.title,
+      url: relativeContentUrl(routeFromOutputPath(page.outputPath), basePath),
+    })),
+  };
+}
+
+function routeFromOutputPath(outputPath: string) {
+  const normalized = outputPath.replaceAll(path.sep, "/");
+  if (normalized === "index.html") return "/";
+  return `/${normalized.replace(/\/?index\.html$/, "")}/`;
+}
+
+function markdownHeadings(markdown: string) {
+  return unique(
+    Array.from(markdown.matchAll(/^#{1,6}\s+(?<heading>.+)$/gm)).flatMap((match) =>
+      match.groups?.heading ? [cleanInlineMarkdown(match.groups.heading)] : [],
+    ),
+  );
+}
+
+function markdownKeywords(markdown: string) {
+  const codeKeywords = Array.from(markdown.matchAll(/`(?<keyword>[^`\n]+)`/g)).flatMap((match) =>
+    match.groups?.keyword ? [match.groups.keyword.trim()] : [],
+  );
+  const packageKeywords = Array.from(
+    markdown.matchAll(/@macavitymadcap\/hyper-dank-[A-Za-z0-9_/-]+/g),
+  ).map((match) => match[0]);
+
+  return unique([...codeKeywords, ...packageKeywords]);
+}
+
+function plainSearchText(markdown: string) {
+  return markdown
+    .replace(/```[A-Za-z0-9_-]*\n(?<code>[\s\S]*?)```/g, "$<code>")
+    .replace(/^\s*\|?\s*:?-{3,}:?(?:\s*\|\s*:?-{3,}:?)+\s*\|?\s*$/gm, " ")
+    .replace(/`([^`\n]+)`/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^\s*[-*]\s+/gm, "")
+    .replace(/^\s*\d+\.\s+/gm, "")
+    .replace(/<\/?[^>]+>/g, " ")
+    .replace(/[|*_>]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function cleanInlineMarkdown(markdown: string) {
+  return plainSearchText(markdown);
+}
+
+function unique(values: string[]) {
+  return [...new Set(values.filter(Boolean))];
 }
