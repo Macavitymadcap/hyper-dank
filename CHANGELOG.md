@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.4...hyper-dank-v2.6.0) (2026-05-24)
+
+
+### Features
+
+* land public reference components ([#177](https://github.com/Macavitymadcap/hyper-dank/issues/177)) ([6f61004](https://github.com/Macavitymadcap/hyper-dank/commit/6f61004e9964bc8cb4aa6ce5f36703937a5d0942))
+
 ## [2.5.4](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.3...hyper-dank-v2.5.4) (2026-05-24)
 
 
