@@ -1134,13 +1134,6 @@ pre code {
   .library-side-nav:not([open]) summary {
     min-height: 2.75rem;
     padding: 0;
-    position: static;
-  }
-
-  .docs-side-nav:not([open]),
-  .library-side-nav:not([open]) {
-    align-content: center;
-    display: grid;
   }
 
   .docs-side-nav[open] summary,
