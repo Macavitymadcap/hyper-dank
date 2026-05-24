@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.4](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.3...hyper-dank-v2.5.4) (2026-05-24)
+
+
+### CI
+
+* install npm stage-capable cli ([#174](https://github.com/Macavitymadcap/hyper-dank/issues/174)) ([42f0ae7](https://github.com/Macavitymadcap/hyper-dank/commit/42f0ae798e76687be217249fe8689645c3cb1ca1))
+* prefer oidc for npm staging ([#176](https://github.com/Macavitymadcap/hyper-dank/issues/176)) ([dd9c6e7](https://github.com/Macavitymadcap/hyper-dank/commit/dd9c6e7f8d8fa950f8dc6a914e2290f475967e8b))
+
 ## [2.5.3](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.2...hyper-dank-v2.5.3) (2026-05-24)
 
 
