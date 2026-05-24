@@ -454,9 +454,7 @@ describe("public docs", () => {
   test("keeps docs header controls aligned and mobile brand rows stable", () => {
     const css = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
 
-    expect(css).toContain(".site-quick-links a {\n  align-items: center;");
-    expect(css).toContain("justify-content: center;");
-    expect(css).toContain("line-height: 1;");
+    expect(css).not.toContain(".site-quick-links");
     expect(css).toContain(".theme-toggle__icon--dark {\n  color: #1e3a8a;");
     expect(css).toContain(
       ".theme-toggle__input:checked + .theme-toggle__track .theme-toggle__icon--dark,",
