@@ -19,6 +19,19 @@ Historical `docs/epics/pace-*.md` and `docs/tickets/pace-*.md` files remain inta
 the project got here and are still valid implementation records. New work should start in GitHub
 unless the maintainer explicitly asks for a Markdown planning brief.
 
+## Wiki Memory
+
+Use the repository wiki as Hyper-Dank's project memory:
+
+- historical `pace-*` epics and tickets;
+- architecture, UX, and adoption-review archives;
+- maintainer-facing project flow and release notes;
+- cross-repo consumer adoption notes.
+
+Do not use the wiki for active ticket status, package contracts, public documentation, or source
+controlled implementation guidance. Active work belongs in GitHub Issues and the Hyper-Dank
+Project; code-adjacent contracts belong in the repository.
+
 ## Identifier Convention
 
 Legacy `pace-*` identifiers remain valid for historical branches, PRs, docs, release notes, and the
@@ -41,8 +54,8 @@ project-owned.
 
 Create issues from the templates in `.github/ISSUE_TEMPLATE/`:
 
-- **Epic**: a coherent outcome that may contain multiple tickets. It owns goals, non-goals,
-  dependencies, target branch, release impact, and acceptance criteria.
+- **Epic**: a coherent outcome that owns multiple tickets as native GitHub sub-issues. It owns
+  goals, non-goals, dependencies, target branch, release impact, and acceptance criteria.
 - **Ticket**: one independently reviewable slice of implementation, documentation, or workflow.
   It owns affected areas, verification, screenshots when relevant, and its PR link.
 - **Hotfix**: urgent or narrow corrective work. It can be lightweight, but it still needs impact,
@@ -76,10 +89,23 @@ Use these labels consistently:
 Use one project table or board for active Hyper-Dank work. The project item should be the issue,
 not the PR.
 
+Use native GitHub relationships where possible:
+
+- Add every epic child ticket as a native sub-issue of its parent epic. Keep the Markdown ticket map
+  in the epic body as readable context, but treat GitHub's parent/sub-issue hierarchy as the
+  operational relationship.
+- Use native blocked-by relationships for sequencing constraints that matter to planning or review.
+- Keep the built-in `Parent issue` and `Sub-issues progress` fields visible in project views so epic
+  progress is queryable without parsing issue bodies.
+- Enable the Project auto-add workflow for Hyper-Dank issues or sub-issues so new tracked work lands
+  on the board without a manual backfill step.
+
 | Field | Type | Values / Notes |
 | --- | --- | --- |
 | Status | Single select | Triage, Planned, Ready, In progress, Blocked, In review, Merged, Released, Closed |
-| Parent epic | Text or linked issue | `hd-0001` or issue URL |
+| Parent issue | Built-in issue relationship | Populated by native sub-issues |
+| Sub-issues progress | Built-in progress | Populated by native sub-issues |
+| Parent epic | Text | Optional human-readable `hd-*` mirror for filters and old views |
 | Branch | Text | Branch name once work starts |
 | PR | Text or linked PR | PR URL once opened |
 | Type | Single select | Epic, Ticket, Hotfix, Audit, Follow-up, Release chore |
@@ -91,7 +117,7 @@ not the PR.
 
 Recommended views:
 
-- **Roadmap**: epics and planned tickets grouped by parent epic.
+- **Roadmap**: epics and planned tickets grouped by native parent issue or parent epic mirror.
 - **Active work**: Ready, In progress, Blocked, and In review tickets.
 - **Review queue**: open PRs grouped by verification state.
 - **Release impact**: merged but unreleased work grouped by release impact.
@@ -125,11 +151,13 @@ rewriting. Extra commits are acceptable when the ticket or epic milestones remai
 3. Create the GitHub Project with the fields above.
 4. For the next new epic after `pace-0060`, open a GitHub epic issue and assign the first `hd-*`
    identifier.
-5. Create ticket issues from the GitHub templates and add them to the project.
-6. Open `hd-*` branches from the correct base and link the issue in every PR body.
-7. Use Markdown only for durable architecture notes, accepted epic briefs, or implementation
+5. Create ticket issues from the GitHub templates, add them as native sub-issues of the parent epic,
+   and add them to the project.
+6. Add blocked-by relationships for real sequencing constraints.
+7. Open `hd-*` branches from the correct base and link the issue in every PR body.
+8. Use Markdown only for durable architecture notes, accepted epic briefs, or implementation
    records that need to live with the code.
-8. After one full `hd-*` epic lands cleanly, decide whether to stop creating Markdown ticket files
+9. After one full `hd-*` epic lands cleanly, decide whether to stop creating Markdown ticket files
    by default.
 
 Do not bulk-create issues for all historical `pace-*` docs. Link the history map when context is
