@@ -636,6 +636,7 @@ a.card {
   }
 
   .hero-logo-shell {
+    align-self: center;
     justify-self: start;
   }
 
@@ -645,6 +646,7 @@ a.card {
   }
 
   .hero h1 {
+    align-self: center;
     font-size: 3rem;
   }
 
@@ -1172,14 +1174,24 @@ pre code {
   .docs-side-nav summary,
   .library-side-nav summary {
     grid-template-columns: 1fr;
-    min-height: auto;
-    padding: 0.65rem 0.35rem;
+    justify-items: center;
+    min-block-size: 2.75rem;
+    padding: 0;
+  }
+
+  .docs-side-nav:not([open]) summary,
+  .library-side-nav:not([open]) summary {
+    min-height: 2.75rem;
+    padding: 0;
   }
 
   .docs-side-nav[open] summary,
   .library-side-nav[open] summary {
     font-size: 1rem;
     grid-template-columns: 2rem minmax(0, 1fr) 2rem;
+    justify-items: stretch;
+    min-block-size: auto;
+    min-height: auto;
     padding: 0.55rem 0.65rem;
   }
 
@@ -1198,7 +1210,9 @@ pre code {
 
   .docs-side-nav__icon {
     align-self: center;
+    display: grid;
     justify-self: center;
+    place-items: center;
   }
 
   .docs-side-nav[open] .docs-side-nav__icon,
