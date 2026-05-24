@@ -11,6 +11,7 @@ describe("client styles", () => {
     expect(css).toContain("--button-text: var(--blue-9)");
     expect(css).toContain('.button[data-variant="ghost"]');
     expect(css).toContain("--scrollable-table-header-height: 3.5rem");
+    expect(css).toContain("max-width: none");
     expect(css).toContain(".scrollable-table tbody .scrollable-table-row:last-child > td");
     expect(css).toContain('.switch[data-variant="compact"] .switch-track');
     expect(css).toContain(".switch-input:checked + .switch-track .switch-thumb");

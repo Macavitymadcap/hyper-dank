@@ -682,6 +682,7 @@ input[type="number"]:focus {
   height: var(--scrollable-table-header-height);
   letter-spacing: var(--font-letterspacing-2);
   line-height: var(--font-lineheight-0);
+  max-width: none;
   min-width: 0;
   overflow: hidden;
   padding: var(--size-2);
@@ -697,6 +698,7 @@ input[type="number"]:focus {
   box-sizing: border-box;
   display: grid;
   height: var(--scrollable-table-row-height);
+  max-width: none;
   min-height: 0;
   min-width: 0;
   place-items: center;

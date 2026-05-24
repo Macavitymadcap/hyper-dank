@@ -89,7 +89,8 @@ pipeline; importing the package in server code does not automatically load style
   `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
   `SelectFieldProps`, `SideNav`, `SideNavItem`, `SideNavProps`, `StatBlock`, `StatBlockProps`,
   `StatusSymbol`, `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`,
-  `StatusSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
+  `StatusSummaryProps`, `TableFilterSummary`, `TableFilterSummaryItem`,
+  `TableFilterSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
   `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
   `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,
   `ValidationSummaryProps`.
@@ -113,7 +114,9 @@ For rendered component contracts, see the published Storybook route at
 - Dashboards and admin tools should combine `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, and
   `PopoverMenu` with `AppShell`, `PageHeader`, `Toolbar`, `Tabs`, `Pagination`, `StatBlock`,
   `StatusSummary`, and `BasicGraph` for dense, progressively enhanced screens with small static
-  data visualisations.
+  data visualisations. `ScrollableTable` exposes caption, summary, pagination, responsive column,
+  action-column, and semantic sort-state hooks; apps still own query construction, sort execution,
+  filter state, column preference storage, row-action mutations, and persistence.
 - Feedback surfaces should use `StatusSymbol` for inline labelled markers, `NotificationBanner` for
   page-level events, `Notice` for local feedback, `ValidationSummary` for form errors, `Progress`
   and `LoadingIndicator` for async work, and `StatusSummary` or `Badge` for compact dashboard

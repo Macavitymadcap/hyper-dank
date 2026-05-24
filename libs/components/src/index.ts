@@ -78,6 +78,11 @@ export {
   type StatusSummaryProps,
 } from "./molecules/StatusSummary";
 export { StatusSymbol, type StatusSymbolProps, type StatusTone } from "./molecules/StatusSymbol";
+export {
+  TableFilterSummary,
+  type TableFilterSummaryItem,
+  type TableFilterSummaryProps,
+} from "./molecules/TableFilterSummary";
 export { type TabItem, Tabs, type TabsProps } from "./molecules/Tabs";
 export { TextareaField, type TextareaFieldProps } from "./molecules/TextareaField";
 export {

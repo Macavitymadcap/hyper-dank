@@ -242,6 +242,19 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0025-data-tables",
+    label: "HD 0025 Data Tables",
+    description: "Dense table, filter summary, sort state, and row-action guidance for hd-0025.",
+    states: [
+      {
+        authUserId: null,
+        label: "Dense dashboard table",
+        path: "/storybook/iframe.html?id=components-shared-molecules-scrollabletable--dense-dashboard-table",
+        slug: "dense-dashboard-table",
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",

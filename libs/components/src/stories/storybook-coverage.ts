@@ -49,6 +49,7 @@ export const sharedStoryCoverage = {
   StatusSymbol: "Components/Shared/App Surfaces And Feedback",
   StatusSummary: "Components/Shared/App Surfaces And Feedback",
   Switch: "Components/Shared/Atoms/Switch",
+  TableFilterSummary: "Components/Shared/Molecules/ScrollableTable",
   TableCell: "Components/Shared/Atoms/TableCell",
   Tabs: "Components/Shared/App Surfaces And Feedback",
   TextareaField: "Components/Shared/Core Primitives",
