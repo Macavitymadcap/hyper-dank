@@ -37,7 +37,10 @@ export const StagedForm = ({
   const classes = ["staged-form", className].filter(Boolean).join(" ");
   const currentStep = steps.find((step) => step.id === currentStepId);
   const resolvedProgressLabel =
-    progressLabel ?? (heading ? `${String(heading)} progress` : "Form progress");
+    progressLabel ??
+    (typeof heading === "string" || typeof heading === "number"
+      ? `${heading} progress`
+      : "Form progress");
   const panelId = id ? `${id}-panel` : undefined;
   const panelHeadingId = id ? `${id}-panel-heading` : undefined;
   const panelDescriptionId =

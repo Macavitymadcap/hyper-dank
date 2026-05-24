@@ -98,4 +98,19 @@ describe("StagedForm", () => {
     expect(html).toContain('href="/setup/details" aria-current="step" hx-get="/setup/details"');
     expect(html).toContain('data-status="error"');
   });
+
+  test("falls back to a generic progress label for non-text headings", () => {
+    const html = render(
+      <StagedForm
+        heading={<span>Setup</span>}
+        currentStepId="details"
+        steps={[{ id: "details", label: "Details" }]}
+      >
+        Details
+      </StagedForm>,
+    );
+
+    expect(html).toContain('aria-label="Form progress"');
+    expect(html).not.toContain("[object Object]");
+  });
 });
