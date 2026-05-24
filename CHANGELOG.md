@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.6.0...hyper-dank-v2.6.1) (2026-05-24)
+
+
+### Documentation
+
+* **workflow:** clarify project tracking memory ([#180](https://github.com/Macavitymadcap/hyper-dank/issues/180)) ([5f0e995](https://github.com/Macavitymadcap/hyper-dank/commit/5f0e99574f8f120c72c7d2f35881135d3b9b8ae2))
+
 ## [2.6.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.4...hyper-dank-v2.6.0) (2026-05-24)
 
 
