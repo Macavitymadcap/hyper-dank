@@ -44,4 +44,17 @@ describe("screenshot flows", () => {
       "/storybook/iframe.html?id=components-shared-molecules-scrollabletable--dense-dashboard-table",
     ]);
   });
+
+  test("captures hd-0065 staged form evidence", () => {
+    const [flow] = selectScreenshotFlows(["hd-0065-staged-form"]);
+
+    expect(flow?.states.map((state) => state.slug)).toEqual([
+      "staged-form-workflow",
+      "staged-form-actions",
+    ]);
+    expect(flow?.states.map((state) => state.path)).toEqual([
+      "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
+      "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
+    ]);
+  });
 });

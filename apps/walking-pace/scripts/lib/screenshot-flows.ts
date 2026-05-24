@@ -255,6 +255,26 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0065-staged-form",
+    label: "HD 0065 Staged Form",
+    description: "Staged form workflow, progress, validation, and route-owned action guidance.",
+    states: [
+      {
+        authUserId: null,
+        label: "Staged form workflow",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
+        slug: "staged-form-workflow",
+      },
+      {
+        authUserId: null,
+        label: "Staged form actions",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
+        slug: "staged-form-actions",
+        afterLoad: scrollStagedFormActionsIntoView,
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",
@@ -386,6 +406,10 @@ async function scrollCommandResultsIntoView({ page }: ScreenshotFlowContext) {
     const { document } = globalThis as unknown as BrowserGlobals;
     document.querySelector("#selection-command-input")?.scrollIntoView({ block: "start" });
   });
+}
+
+async function scrollStagedFormActionsIntoView({ page }: ScreenshotFlowContext) {
+  await page.locator(".staged-form-actions").scrollIntoViewIfNeeded();
 }
 
 async function renderDemoInviteNotice({ page, theme }: ScreenshotFlowContext) {

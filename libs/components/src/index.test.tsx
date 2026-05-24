@@ -30,6 +30,7 @@ import {
   Separator,
   SideNav,
   Skeleton,
+  StagedForm,
   StatBlock,
   StatusSymbol,
   TableFilterSummary,
@@ -200,6 +201,15 @@ describe("component library", () => {
           resultCount={12}
         />
         <Callout>Remember this</Callout>
+        <StagedForm
+          currentStepId="details"
+          steps={[
+            { id: "basics", label: "Basics", status: "complete" },
+            { id: "details", label: "Details" },
+          ]}
+        >
+          Step fields
+        </StagedForm>
       </Prose>,
     );
 
@@ -212,5 +222,6 @@ describe("component library", () => {
     expect(html).toContain('class="stat-block"');
     expect(html).toContain('class="table-filter-summary"');
     expect(html).toContain('class="callout"');
+    expect(html).toContain('class="staged-form"');
   });
 });
