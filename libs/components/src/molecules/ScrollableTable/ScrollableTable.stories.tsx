@@ -87,27 +87,27 @@ export const DenseDashboardTable: Story = {
               header: <a href="/content?sort=title">Title</a>,
               sortDirection: "ascending",
               width: "minmax(12rem, 2fr)",
-              mobileWidth: "minmax(6.5rem, 1.35fr)",
+              mobileWidth: "minmax(4.75rem, 0.9fr)",
             },
             {
               key: "status",
               header: <a href="/content?sort=status">Status</a>,
               width: "minmax(7rem, 1fr)",
-              mobileWidth: "minmax(4.25rem, 0.8fr)",
+              mobileWidth: "minmax(5rem, 1fr)",
             },
             {
               key: "updated",
               header: <a href="/content?sort=updated">Updated</a>,
               sortDirection: "descending",
               width: "minmax(7rem, 1fr)",
-              mobileWidth: "minmax(3.75rem, 0.7fr)",
+              mobileWidth: "minmax(4.25rem, 0.85fr)",
             },
             {
               key: "actions",
-              header: <abbr title="Actions">Act</abbr>,
+              header: <span class="visually-hidden">Actions</span>,
               isAction: true,
               width: "5.5rem",
-              mobileWidth: "3.25rem",
+              mobileWidth: "3.5rem",
             },
           ]}
           isScrollable

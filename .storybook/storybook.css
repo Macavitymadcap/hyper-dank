@@ -296,6 +296,12 @@ body {
   min-width: 0;
 }
 
+.storybook-dashboard-table th {
+  font-size: var(--font-size-0);
+  letter-spacing: 0;
+  padding-inline: var(--size-1);
+}
+
 .storybook-dashboard-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -310,12 +316,27 @@ body {
   font-size: var(--font-size-00);
 }
 
-.storybook-dashboard-table th[data-action-column="true"] abbr {
-  text-decoration: none;
+.storybook-dashboard-table .visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 .storybook-dashboard-row .popover-menu {
   justify-self: center;
+}
+
+@media (max-width: 640px) {
+  .storybook-dashboard-table th {
+    font-size: var(--font-size-00);
+    padding-inline: 0.35rem;
+  }
 }
 
 .storybook-doc {
