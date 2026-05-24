@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-data-v0.3.0...hyper-dank-data-v0.3.1) (2026-05-24)
+
+
+### Miscellaneous Chores
+
+* **hyper-dank-data:** Synchronize hyper-dank-libraries versions
+
 ## [0.3.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-data-v0.2.0...hyper-dank-data-v0.3.0) (2026-05-24)
 
 
