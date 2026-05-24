@@ -44,11 +44,22 @@ The first live `0.1.0` packages were published manually after the local npm CLI 
 staged publish command. Those tarballs have npm registry integrity and signature metadata, but they
 do not have GitHub OIDC provenance from the trusted-publishing workflow.
 
-Future package releases should use the `Publish npm packages` GitHub Actions workflow with
-`dry_run=false`. That workflow runs in the `npm-publishing` environment, uses npm trusted publishing
-with `id-token: write`, and passes `--provenance` to the package staging command. Treat the GitHub
-environment approval, npm staged package review, and npm provenance badge as the approval evidence
-for those later package sets.
+The root `hyper-dank` release and the public library package releases are separate Release Please
+manifest entries. The root package keeps its `2.x` application history. The public libraries stay on
+their own shared `0.x` line because their npm history started with the first public monorepo package
+set.
+
+Merging normal work to `main` does not publish npm packages directly. Release Please first opens or
+updates a release PR. When that generated release PR is merged and GitHub releases are published,
+the `Publish npm packages` workflow runs automatically for release events. It verifies metadata,
+builds and smoke-tests the package tarballs, skips any package version that already exists on npm,
+then stages only unpublished package versions with npm trusted publishing and `--provenance`.
+
+The same workflow can still be run manually. Use the default `dry_run=true` to check the package
+set without staging anything. Use `dry_run=false` only for recovery or a deliberate manual release
+after checking that npm trusted publishers are configured for every package. Treat the
+`npm-publishing` environment approval, npm staged package review, and npm provenance badge as the
+approval evidence for automated package sets.
 
 ## Integrity checks
 

@@ -61,10 +61,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
-    "@macavitymadcap/hyper-dank-ui": "workspace:*",
+    "@macavitymadcap/hyper-dank-automation": "workspace:*",
     "@macavitymadcap/hyper-dank-data": "workspace:*",
     "@macavitymadcap/hyper-dank-transport": "workspace:*",
-    "@macavitymadcap/hyper-dank-automation": "workspace:*",
+    "@macavitymadcap/hyper-dank-ui": "workspace:*",
     "@playwright/test": "^1.60.0",
     "@storybook/addon-a11y": "^10.4.0",
     "@storybook/addon-docs": "^10.4.0",
@@ -73,6 +73,7 @@
     "@types/bun": "latest",
     "@types/pg": "^8.20.0",
     "pa11y": "^9.1.1",
+    "rimraf": "3.0.2",
     "storybook": "^10.4.0",
     "vite": "^8.0.13"
   },
