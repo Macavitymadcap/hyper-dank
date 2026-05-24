@@ -265,6 +265,13 @@ export const screenshotFlows: ScreenshotFlow[] = [
         path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
         slug: "staged-form-workflow",
       },
+      {
+        authUserId: null,
+        label: "Staged form actions",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
+        slug: "staged-form-actions",
+        afterLoad: scrollStagedFormActionsIntoView,
+      },
     ],
   },
   {
@@ -399,6 +406,10 @@ async function scrollCommandResultsIntoView({ page }: ScreenshotFlowContext) {
     const { document } = globalThis as unknown as BrowserGlobals;
     document.querySelector("#selection-command-input")?.scrollIntoView({ block: "start" });
   });
+}
+
+async function scrollStagedFormActionsIntoView({ page }: ScreenshotFlowContext) {
+  await page.locator(".staged-form-actions").scrollIntoViewIfNeeded();
 }
 
 async function renderDemoInviteNotice({ page, theme }: ScreenshotFlowContext) {
