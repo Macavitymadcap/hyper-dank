@@ -630,7 +630,9 @@ a.card {
 
   .hero {
     align-items: start;
+    column-gap: 0.75rem;
     grid-template-columns: auto minmax(0, 1fr);
+    row-gap: 0.9rem;
   }
 
   .hero-logo-shell {
@@ -644,6 +646,11 @@ a.card {
 
   .hero h1 {
     font-size: 3rem;
+  }
+
+  .hero .lede,
+  .hero .button-row {
+    grid-column: 1 / -1;
   }
 
   .docs-search__controls {
@@ -690,6 +697,11 @@ a.card {
 
   .hero h1 {
     font-size: 2.25rem;
+  }
+
+  .hero .lede,
+  .hero .button-row {
+    padding-inline-start: 0;
   }
 }
 
@@ -921,6 +933,7 @@ pre code {
   display: inline-flex;
   justify-content: center;
   justify-self: start;
+  width: 100%;
 }
 
 .docs-side-nav:not([open]) .docs-side-nav__icon,
@@ -936,6 +949,7 @@ pre code {
 
 .route-card-heading .docs-side-nav__icon {
   justify-self: auto;
+  width: auto;
 }
 
 .docs-side-nav nav,
@@ -1179,6 +1193,7 @@ pre code {
   }
 
   .docs-side-nav__icon {
+    align-self: center;
     justify-self: center;
   }
 
