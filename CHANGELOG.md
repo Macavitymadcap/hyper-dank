@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.3](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.6.2...hyper-dank-v2.6.3) (2026-05-24)
+
+
+### Build
+
+* **release:** add npm release-state check ([#187](https://github.com/Macavitymadcap/hyper-dank/issues/187)) ([3b0e4d1](https://github.com/Macavitymadcap/hyper-dank/commit/3b0e4d1b20479ddb06f6459714d38cfdae105e89))
+
 ## [2.6.2](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.6.1...hyper-dank-v2.6.2) (2026-05-24)
 
 
