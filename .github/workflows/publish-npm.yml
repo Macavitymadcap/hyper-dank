@@ -1,6 +1,9 @@
 name: Publish npm packages
 
 on:
+  release:
+    types:
+      - published
   workflow_dispatch:
     inputs:
       dry_run:
@@ -19,6 +22,7 @@ permissions:
 jobs:
   publish:
     name: stage-npm-packages
+    if: ${{ github.event_name == 'workflow_dispatch' || startsWith(github.event.release.tag_name, 'hyper-dank-ui-v') }}
     runs-on: ubuntu-latest
     environment: npm-publishing
 
@@ -38,6 +42,12 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           package-manager-cache: false
 
+      - name: Upgrade npm for staged publishing
+        run: |
+          npm install -g npm@11.15.0
+          npm --version
+          npm help stage >/dev/null
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
@@ -50,14 +60,33 @@ jobs:
       - name: Pack and smoke-test packages
         run: bun run test:packages
 
-      - name: Stage packages on npm
-        if: ${{ inputs.dry_run == 'false' }}
+      - name: Stage unpublished packages on npm
+        if: ${{ github.event_name == 'release' || inputs.dry_run == 'false' }}
         run: |
+          if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "${NPM_CONFIG_USERCONFIG}" ]; then
+            sed -i "/:_authToken=/d" "${NPM_CONFIG_USERCONFIG}"
+          fi
+          unset NODE_AUTH_TOKEN
+
+          published_count=0
           for package_dir in libs/components libs/database libs/http libs/scripts; do
-            echo "Staging ${package_dir}"
-            (cd "${package_dir}" && npm stage publish --access public --provenance)
+            package_name="$(node -p "require('./${package_dir}/package.json').name")"
+            package_version="$(node -p "require('./${package_dir}/package.json').version")"
+
+            if npm view "${package_name}@${package_version}" version >/dev/null 2>&1; then
+              echo "Skipping ${package_name}@${package_version}: version already exists on npm."
+              continue
+            fi
+
+            echo "Staging ${package_name}@${package_version} from ${package_dir}"
+            (cd "${package_dir}" && npm stage publish . --access public --provenance)
+            published_count=$((published_count + 1))
           done
 
+          if [ "${published_count}" -eq 0 ]; then
+            echo "No unpublished package versions found for this release."
+          fi
+
       - name: Dry-run note
-        if: ${{ inputs.dry_run != 'false' }}
-        run: echo "Dry run complete. Re-run with dry_run=false after npm trusted publishers are configured for every package."
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run != 'false' }}
+        run: echo "Dry run complete. Re-run manually with dry_run=false, or publish a Release Please GitHub release, after npm trusted publishers are configured for every package."

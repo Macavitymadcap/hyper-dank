@@ -1,3 +1,7 @@
 {
-  ".": "2.5.2"
+  ".": "2.5.4",
+  "libs/components": "0.2.0",
+  "libs/database": "0.2.0",
+  "libs/http": "0.2.0",
+  "libs/scripts": "0.2.0"
 }

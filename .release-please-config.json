@@ -1,4 +1,16 @@
 {
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "groupName": "hyper-dank-libraries",
+      "components": [
+        "hyper-dank-ui",
+        "hyper-dank-data",
+        "hyper-dank-transport",
+        "hyper-dank-automation"
+      ]
+    }
+  ],
   "packages": {
     ".": {
       "package-name": "hyper-dank",
@@ -14,6 +26,30 @@
         { "type": "ci", "section": "CI" },
         { "type": "chore", "section": "Chores" }
       ]
+    },
+    "libs/components": {
+      "component": "hyper-dank-ui",
+      "package-name": "@macavitymadcap/hyper-dank-ui",
+      "release-type": "node",
+      "include-component-in-tag": true
+    },
+    "libs/database": {
+      "component": "hyper-dank-data",
+      "package-name": "@macavitymadcap/hyper-dank-data",
+      "release-type": "node",
+      "include-component-in-tag": true
+    },
+    "libs/http": {
+      "component": "hyper-dank-transport",
+      "package-name": "@macavitymadcap/hyper-dank-transport",
+      "release-type": "node",
+      "include-component-in-tag": true
+    },
+    "libs/scripts": {
+      "component": "hyper-dank-automation",
+      "package-name": "@macavitymadcap/hyper-dank-automation",
+      "release-type": "node",
+      "include-component-in-tag": true
     }
   }
 }
