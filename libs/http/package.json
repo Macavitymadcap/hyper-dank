@@ -1,6 +1,6 @@
 {
   "name": "@macavitymadcap/hyper-dank-transport",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "description": "Small Hono and HTMX helpers for hypermedia-first apps.",
   "homepage": "https://macavitymadcap.github.io/hyper-dank/libraries/transport/",

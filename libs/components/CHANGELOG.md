@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-ui-v0.3.0...hyper-dank-ui-v0.3.1) (2026-05-24)
+
+
+### Bug Fixes
+
+* **docs:** polish docs chrome and navigation ([#182](https://github.com/Macavitymadcap/hyper-dank/issues/182)) ([d7a7620](https://github.com/Macavitymadcap/hyper-dank/commit/d7a76204853044f4bb8df4695b52c5ecfb133f95))
+
 ## [0.3.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-ui-v0.2.0...hyper-dank-ui-v0.3.0) (2026-05-24)
 
 
