@@ -23,7 +23,7 @@ describe("StagedForm", () => {
               id: "content",
               label: "Content",
               description: "Add the body and excerpt.",
-              status: "current",
+              status: "error",
             },
             { id: "review", label: "Review", status: "unavailable" },
           ]}
@@ -59,10 +59,15 @@ describe("StagedForm", () => {
     );
     expect(html).toContain('class="staged-form-step staged-form-step--complete"');
     expect(html).toContain('<a href="/publish/basics"');
-    expect(html).toContain('class="staged-form-step staged-form-step--current"');
+    expect(html).toContain(
+      'class="staged-form-step staged-form-step--error staged-form-step--current"',
+    );
     expect(html).toContain('aria-current="step"');
+    expect(html).toContain("Current step, needs attention");
     expect(html).toContain('class="staged-form-step staged-form-step--unavailable"');
     expect(html).toContain('aria-disabled="true"');
+    expect(html).toContain("Complete");
+    expect(html).toContain("Unavailable");
     expect(html).toContain('id="publish-stages-panel" class="staged-form-panel"');
     expect(html).toContain('aria-describedby="publish-stages-content-description"');
     expect(html).toContain('class="validation-summary" role="alert"');
