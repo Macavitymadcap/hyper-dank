@@ -1,0 +1,8 @@
+# Changelog
+
+## [0.2.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-ui-v0.1.0...hyper-dank-ui-v0.2.0) (2026-05-24)
+
+
+### Features
+
+* add low-state UI primitives ([#113](https://github.com/Macavitymadcap/hyper-dank/issues/113)) ([0bd03b1](https://github.com/Macavitymadcap/hyper-dank/commit/0bd03b1296976882651a58ff1ca15177a950e390))
