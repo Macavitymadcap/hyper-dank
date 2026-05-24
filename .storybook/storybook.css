@@ -281,6 +281,43 @@ body {
   min-width: 32rem;
 }
 
+.storybook-dashboard-tools {
+  display: grid;
+  gap: var(--size-3);
+}
+
+.storybook-doc__section .scrollable-table-container {
+  display: grid;
+  gap: var(--size-3);
+  overflow-x: auto;
+}
+
+.storybook-dashboard-table {
+  min-width: 0;
+}
+
+.storybook-dashboard-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-2);
+}
+
+.storybook-dashboard-row td {
+  padding: var(--size-1);
+}
+
+.storybook-dashboard-table th[data-action-column="true"] {
+  font-size: var(--font-size-00);
+}
+
+.storybook-dashboard-table th[data-action-column="true"] abbr {
+  text-decoration: none;
+}
+
+.storybook-dashboard-row .popover-menu {
+  justify-self: center;
+}
+
 .storybook-doc {
   display: grid;
   gap: var(--size-6);

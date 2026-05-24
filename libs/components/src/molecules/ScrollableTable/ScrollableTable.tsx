@@ -9,6 +9,8 @@ export interface ScrollableTableColumn {
   key: string;
   /** Optional mobile grid track, falling back to width and then minmax(0, 1fr). */
   mobileWidth?: string;
+  /** Optional semantic sort state for the column header; execution stays app-owned. */
+  sortDirection?: "ascending" | "descending" | "none" | "other";
   /** Optional desktop grid track, falling back to minmax(0, 1fr). */
   width?: string;
 }
@@ -18,6 +20,7 @@ export interface ScrollableTableProps {
   /** Table row elements owned by the consuming app. */
   children?: unknown;
   className?: string;
+  caption?: unknown;
   /** Ordered column metadata used for headers and CSS grid tracks. */
   columns: ScrollableTableColumn[];
   columnsTemplate?: string;
@@ -31,6 +34,7 @@ export interface ScrollableTableProps {
   mobileRowHeight?: string;
   mobileScrollBodyRows?: number;
   pagination?: unknown;
+  summary?: unknown;
   rowClassName?: string;
   rowHeight?: string;
   scrollBodyRows?: number;
@@ -39,6 +43,7 @@ export interface ScrollableTableProps {
 export const ScrollableTable = ({
   children,
   className,
+  caption,
   columns,
   columnsTemplate,
   emptyState,
@@ -50,6 +55,7 @@ export const ScrollableTable = ({
   mobileRowHeight,
   mobileScrollBodyRows,
   pagination,
+  summary,
   rowClassName,
   rowHeight,
   scrollBodyRows,
@@ -79,13 +85,16 @@ export const ScrollableTable = ({
       data-scrollable={isScrollable ? "true" : undefined}
       style={customProperties || undefined}
     >
+      {summary ? <div className="scrollable-table-summary">{summary}</div> : undefined}
       {loading ? <div className="scrollable-table-loading">{loading}</div> : undefined}
       {children ? (
         <table className={tableClasses}>
+          {caption ? <caption>{caption}</caption> : undefined}
           <thead>
             <tr className={headerRowClasses}>
               {columns.map((column) => (
                 <th
+                  aria-sort={column.sortDirection}
                   key={column.key}
                   className={column.className}
                   data-action-column={column.isAction ? "true" : undefined}

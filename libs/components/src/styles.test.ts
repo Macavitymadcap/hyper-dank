@@ -44,6 +44,10 @@ describe("shared component styles", () => {
     expect(css).toContain(".skeleton");
     expect(css).toContain(".stat-block");
     expect(css).toContain('.status-symbol[data-shape="triangle"]');
+    expect(css).toContain(".table-filter-summary");
+    expect(css).toContain(".scrollable-table-container");
+    expect(css).toContain(".scrollable-table th[aria-sort]");
+    expect(css).toContain(".scrollable-table th a");
     expect(css).toContain(".timeline-list");
     expect(css).toContain(".tooltip");
     expect(css).toContain(".validation-summary");

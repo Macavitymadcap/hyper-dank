@@ -32,6 +32,7 @@ import {
   Skeleton,
   StatBlock,
   StatusSymbol,
+  TableFilterSummary,
   Tabs,
   Toolbar,
   Tooltip,
@@ -194,6 +195,10 @@ describe("component library", () => {
         <dl>
           <StatBlock label="Posts" value="12" />
         </dl>
+        <TableFilterSummary
+          activeFilters={[{ label: "Status", value: "Published" }]}
+          resultCount={12}
+        />
         <Callout>Remember this</Callout>
       </Prose>,
     );
@@ -205,6 +210,7 @@ describe("component library", () => {
     expect(html).toContain("<dialog");
     expect(html).toContain('class="empty-state"');
     expect(html).toContain('class="stat-block"');
+    expect(html).toContain('class="table-filter-summary"');
     expect(html).toContain('class="callout"');
   });
 });

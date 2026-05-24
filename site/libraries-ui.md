@@ -100,6 +100,7 @@ layer after the package CSS.
 | `StatusSymbol`, `StatusSymbolProps`, `StatusTone` | Inline status marker that pairs label, shape, and severity without relying on colour alone. | `Components/Shared/App Surfaces And Feedback` |
 | `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps` | Definition-list status rows for review dashboards. | `Components/Shared` |
 | `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Shared/Switch` |
+| `TableFilterSummary`, `TableFilterSummaryItem`, `TableFilterSummaryProps` | Polite table status region for result counts, active filters, and reset links. | `Components/Shared/Molecules/ScrollableTable` |
 | `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Shared/TableCell` |
 | `Tabs`, `TabItem`, `TabsProps` | Link-backed tabs with current-state semantics. | `Components/Shared` |
 | `TextareaField`, `TextareaFieldProps` | Labelled native textarea with hint and error hooks. | `Components/Shared` |
@@ -132,7 +133,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | --- | --- | --- |
 | Server apps | `HxForm`, `FormField`, `Button`, `Panel` | Routes, validation, auth, and permissions stay local. |
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
-| Dashboards | `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, command filtering, live data, analytics rules, and role rules stay local. |
+| Dashboards | `HxForm`, `ScrollableTable`, `TableFilterSummary`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, query construction, sorting, filtering, column preferences, row mutations, live data, analytics rules, and role rules stay local. |
 | Dense forms | `SelectField`, `Combobox`, `PopoverMenu`, `Command` | Use native selects for short fixed sets, datalist suggestions for open text, menu actions for compact choices, and command search only when the app owns filtering/loading. |
 | Feedback | `StatusSymbol`, `NotificationBanner`, `Notice`, `ValidationSummary`, `Progress`, `StatusSummary`, `Badge` | Status copy, notification timing, toast queues, dismissal, persistence, and escalation rules stay local. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
@@ -177,6 +178,18 @@ and any interactive exploration.
 The component accepts `kind`, `data`, `max`, `summary`, `valueFormatter`, `width`, `height`, and
 `className`. Its CSS uses `currentColor` and `--hd-accent`, so the graph can follow light, dark, or
 app-specific themes without changing the JSX contract.
+
+## Data Tables
+
+Use `ScrollableTable` for semantic table markup that needs responsive column tracks, sticky headers,
+scrollable bodies, loading and empty composition, pagination, and row-action columns. Column metadata
+can expose `sortDirection` as `aria-sort`, while header content can be a normal link to an
+app-owned sorted route. `TableFilterSummary` provides a polite summary of result counts, active
+filters, and reset links.
+
+Hyper-Dank does not sort, filter, persist column preferences, store selected rows, or run mutations.
+Build those behaviours in the consuming app, then pass the resulting rows, links, labels, and
+preferences into the shared markup primitives.
 
 ## Feedback Vocabulary
 
