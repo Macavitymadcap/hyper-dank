@@ -826,6 +826,15 @@ dialog.dialog[open] {
   display: grid;
 }
 
+@supports not (position-anchor: --popover-anchor-name) {
+  .popover-menu-panel {
+    inset: auto;
+    inset-block-start: calc(100% + 0.35rem);
+    inset-inline-start: 0;
+    position: absolute;
+  }
+}
+
 .popover-menu-form {
   display: contents;
 }

@@ -33,6 +33,8 @@ describe("shared component styles", () => {
     expect(css).toContain("anchor-name: var(--popover-anchor-name)");
     expect(css).toContain("position-anchor: var(--popover-anchor-name)");
     expect(css).toContain(".popover-menu-panel:popover-open");
+    expect(css).toContain("@supports not (position-anchor: --popover-anchor-name)");
+    expect(css).toContain("inset-block-start: calc(100% + 0.35rem)");
     expect(css).toContain(".popover-menu-form");
     expect(css).toContain(".popover-menu-item:hover");
     expect(css).toContain(".basic-graph-axis");
