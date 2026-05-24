@@ -439,6 +439,11 @@ a {
   margin-top: 0;
 }
 
+a.card {
+  color: var(--text);
+  text-decoration: none;
+}
+
 .route-card-heading {
   align-items: center;
   display: flex;
@@ -482,6 +487,97 @@ a {
   transform: translateY(-1px);
 }
 
+.docs-search {
+  background-image: var(--surface-gradient);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--surface-depth-shadow);
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.35rem);
+}
+
+.docs-search__header {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.docs-search__header h1 {
+  margin: 0;
+}
+
+.docs-search__form {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.docs-search__eyebrow {
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.docs-search__form label {
+  font-weight: 800;
+}
+
+.docs-search__controls {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.docs-search__controls input {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.docs-search__status {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.docs-search__results {
+  display: grid;
+  gap: 0.55rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.docs-search__result {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.8rem 0.9rem;
+  text-decoration: none;
+}
+
+.docs-search__result:hover,
+.docs-search__result:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid transparent;
+}
+
+.docs-search__result span {
+  color: var(--text-muted);
+}
+
+.docs-search__fallback {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.docs-search__fallback h2 {
+  margin-bottom: 0;
+}
+
 @media (max-width: 680px) {
   .site-nav {
     padding: 0.75rem 0.8rem;
@@ -523,6 +619,20 @@ a {
 
   .hero-logo-shell {
     justify-self: start;
+  }
+
+  .docs-search__controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .docs-search__controls input,
+  .docs-search__controls button {
+    width: 100%;
+  }
+
+  .docs-search__controls input {
+    flex: 0 0 auto;
   }
 }
 

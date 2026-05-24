@@ -74,19 +74,23 @@ pipeline; importing the package in server code does not automatically load style
 - Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `AppShell`, `AppShellProps`,
   `BasicGraph`, `BasicGraphDatum`, `BasicGraphProps`, `Breadcrumbs`, `BreadcrumbItem`,
   `BreadcrumbsProps`, `ButtonGroup`, `ButtonGroupProps`, `Callout`, `CalloutProps`,
-  `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`, `CodeBlockProps`, `CompactList`,
+  `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`, `CodeBlockProps`, `Combobox`,
+  `ComboboxOption`, `ComboboxProps`, `Command`, `CommandItem`, `CommandProps`, `CompactList`,
   `CompactListItem`, `CompactListProps`, `Dialog`, `DialogProps`, `EmptyState`,
   `EmptyStateProps`, `Fieldset`, `FieldsetProps`, `FormField`, `FormFieldProps`, `HxForm`,
   `HxFormProps`, `InputGroup`, `InputGroupProps`, `LabelledOutput`,
   `LabelledOutputProps`, `LoadingIndicator`, `LoadingIndicatorProps`, `MetadataList`,
-  `MetadataListItem`, `MetadataListProps`, `Notice`, `NoticeProps`, `PageHeader`,
-  `PageHeaderProps`, `Pagination`, `PaginationProps`, `PopoverMenu`, `PopoverMenuItem`,
-  `PopoverMenuProps`, `Progress`, `ProgressProps`, `Prose`, `ProseProps`, `RadioGroup`,
+  `MetadataListItem`, `MetadataListProps`, `NotificationBanner`, `NotificationBannerProps`,
+  `NotificationSeverity`, `Notice`, `NoticeProps`, `PageHeader`, `PageHeaderProps`, `Pagination`,
+  `PaginationProps`, `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps`, `Progress`,
+  `ProgressProps`, `Prose`, `ProseProps`, `RadioGroup`,
   `RadioGroupOption`, `RadioGroupProps`, `ScrollableTable`, `ScrollableTableColumn`,
   `ScrollableTableProps`, `SectionHeader`, `SectionHeaderProps`, `SegmentedControl`,
   `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
   `SelectFieldProps`, `SideNav`, `SideNavItem`, `SideNavProps`, `StatBlock`, `StatBlockProps`,
-  `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
+  `StatusSymbol`, `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`,
+  `StatusSummaryProps`, `TableFilterSummary`, `TableFilterSummaryItem`,
+  `TableFilterSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
   `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
   `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,
   `ValidationSummaryProps`.
@@ -110,7 +114,16 @@ For rendered component contracts, see the published Storybook route at
 - Dashboards and admin tools should combine `HxForm`, `ScrollableTable`, `TableCell`, `Badge`, and
   `PopoverMenu` with `AppShell`, `PageHeader`, `Toolbar`, `Tabs`, `Pagination`, `StatBlock`,
   `StatusSummary`, and `BasicGraph` for dense, progressively enhanced screens with small static
-  data visualisations.
+  data visualisations. `ScrollableTable` exposes caption, summary, pagination, responsive column,
+  action-column, and semantic sort-state hooks; apps still own query construction, sort execution,
+  filter state, column preference storage, row-action mutations, and persistence.
+- Feedback surfaces should use `StatusSymbol` for inline labelled markers, `NotificationBanner` for
+  page-level events, `Notice` for local feedback, `ValidationSummary` for form errors, `Progress`
+  and `LoadingIndicator` for async work, and `StatusSummary` or `Badge` for compact dashboard
+  metadata. Toast queue timing, dismissal, persistence, and event wiring stay in the consuming app.
+- Dense forms should use `SelectField` for short fixed sets, `Combobox` when native datalist
+  suggestions help but submitted values remain app-owned, `PopoverMenu` for compact actions, and
+  `Command` for app-wide command search where filtering and loading stay in the consuming app.
 - Static demos can use `InputGroup`, `LabelledOutput`, `Button`, and `Panel` without importing
   server-only app code.
 - Docs and static blogs can use `Prose`, `CodeBlock`, `Callout`, `MetadataList`, `TimelineList`,

@@ -39,8 +39,18 @@ Pa11y runners, and static-content helpers repeatable.
 
 ## Contact
 
-Open an issue in the Hyper-Dank GitHub repository with the route, component, browser, assistive
-technology, and expected behaviour.
+Use the
+[accessibility report template](https://github.com/Macavitymadcap/hyper-dank/issues/new?template=accessibility_report.yml)
+to report an accessibility problem in the public documentation, static demo, Storybook reference, or
+package guidance.
+
+Include the affected route, component, or package; what happened; what you expected; and your
+browser, operating system, assistive technology, and relevant settings. Do not include private
+personal, account, or security details in a public issue.
+
+We aim to triage accessibility reports within seven days. Confirmed issues are prioritised by user
+impact and may be fixed directly or split into follow-up tickets when the work is broader than the
+report.
 
 ## Review Cadence
 

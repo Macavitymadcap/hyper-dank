@@ -23,6 +23,8 @@ export { ButtonGroup, type ButtonGroupProps } from "./molecules/ButtonGroup";
 export { Callout, type CalloutProps } from "./molecules/Callout";
 export { CheckboxField, type CheckboxFieldProps } from "./molecules/CheckboxField";
 export { CodeBlock, type CodeBlockProps } from "./molecules/CodeBlock";
+export { Combobox, type ComboboxOption, type ComboboxProps } from "./molecules/Combobox";
+export { Command, type CommandItem, type CommandProps } from "./molecules/Command";
 export { CompactList, type CompactListItem, type CompactListProps } from "./molecules/CompactList";
 export { Dialog, type DialogProps } from "./molecules/Dialog";
 export { EmptyState, type EmptyStateProps } from "./molecules/EmptyState";
@@ -41,6 +43,11 @@ export {
   type MetadataListProps,
 } from "./molecules/MetadataList";
 export { Notice, type NoticeProps } from "./molecules/Notice";
+export {
+  NotificationBanner,
+  type NotificationBannerProps,
+  type NotificationSeverity,
+} from "./molecules/NotificationBanner";
 export { PageHeader, type PageHeaderProps } from "./molecules/PageHeader";
 export { Pagination, type PaginationProps } from "./molecules/Pagination";
 export { PopoverMenu, type PopoverMenuItem, type PopoverMenuProps } from "./molecules/PopoverMenu";
@@ -70,6 +77,12 @@ export {
   type StatusSummaryItem,
   type StatusSummaryProps,
 } from "./molecules/StatusSummary";
+export { StatusSymbol, type StatusSymbolProps, type StatusTone } from "./molecules/StatusSymbol";
+export {
+  TableFilterSummary,
+  type TableFilterSummaryItem,
+  type TableFilterSummaryProps,
+} from "./molecules/TableFilterSummary";
 export { type TabItem, Tabs, type TabsProps } from "./molecules/Tabs";
 export { TextareaField, type TextareaFieldProps } from "./molecules/TextareaField";
 export {

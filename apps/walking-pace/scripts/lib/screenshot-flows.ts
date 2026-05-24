@@ -209,6 +209,52 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0023-selection-commands",
+    label: "HD 0023 Selection Commands",
+    description: "Command, combobox, select, and menu action guidance for hd-0023.",
+    states: [
+      {
+        authUserId: null,
+        label: "Selection and commands",
+        path: "/storybook/iframe.html?id=components-shared-core-primitives--selection-and-commands",
+        slug: "selection-and-commands",
+      },
+      {
+        authUserId: null,
+        label: "Command results",
+        path: "/storybook/iframe.html?id=components-shared-core-primitives--selection-and-commands",
+        slug: "command-results",
+        afterLoad: scrollCommandResultsIntoView,
+      },
+    ],
+  },
+  {
+    id: "hd-0024-status-notifications",
+    label: "HD 0024 Status Notifications",
+    description: "Status symbols, notification banners, and feedback hierarchy for hd-0024.",
+    states: [
+      {
+        authUserId: null,
+        label: "Status and notifications",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--status-and-notifications",
+        slug: "status-and-notifications",
+      },
+    ],
+  },
+  {
+    id: "hd-0025-data-tables",
+    label: "HD 0025 Data Tables",
+    description: "Dense table, filter summary, sort state, and row-action guidance for hd-0025.",
+    states: [
+      {
+        authUserId: null,
+        label: "Dense dashboard table",
+        path: "/storybook/iframe.html?id=components-shared-molecules-scrollabletable--dense-dashboard-table",
+        slug: "dense-dashboard-table",
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",
@@ -332,6 +378,13 @@ async function scrollScoresIntoView({ page }: ScreenshotFlowContext) {
   await page.evaluate(() => {
     const { document } = globalThis as unknown as BrowserGlobals;
     document.querySelector("#scores-heading")?.scrollIntoView({ block: "start" });
+  });
+}
+
+async function scrollCommandResultsIntoView({ page }: ScreenshotFlowContext) {
+  await page.evaluate(() => {
+    const { document } = globalThis as unknown as BrowserGlobals;
+    document.querySelector("#selection-command-input")?.scrollIntoView({ block: "start" });
   });
 }
 

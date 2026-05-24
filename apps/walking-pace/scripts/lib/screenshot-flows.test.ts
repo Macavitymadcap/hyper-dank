@@ -26,4 +26,22 @@ describe("screenshot flows", () => {
       "/storybook/iframe.html?id=components-shared-reusable-patterns--reuse-set",
     ]);
   });
+
+  test("captures hd-0024 status and notification evidence", () => {
+    const [flow] = selectScreenshotFlows(["hd-0024-status-notifications"]);
+
+    expect(flow?.states.map((state) => state.slug)).toEqual(["status-and-notifications"]);
+    expect(flow?.states.map((state) => state.path)).toEqual([
+      "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--status-and-notifications",
+    ]);
+  });
+
+  test("captures hd-0025 dense table evidence", () => {
+    const [flow] = selectScreenshotFlows(["hd-0025-data-tables"]);
+
+    expect(flow?.states.map((state) => state.slug)).toEqual(["dense-dashboard-table"]);
+    expect(flow?.states.map((state) => state.path)).toEqual([
+      "/storybook/iframe.html?id=components-shared-molecules-scrollabletable--dense-dashboard-table",
+    ]);
+  });
 });

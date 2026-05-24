@@ -39,6 +39,7 @@ describe("public docs", () => {
     const siteRoutes = new Set([
       ...markdownFiles("site").map((file) => pageRoute(file)),
       "/pace/",
+      "/search-index.json",
       "/storybook/",
     ]);
 
@@ -332,6 +333,67 @@ describe("public docs", () => {
     expect(home).toContain('<span class="docs-side-nav__icon" aria-hidden="true">');
     expect(home).toContain("M4 5.5c3 0 5 .7 8 2.2");
     expect(home).toContain("M4 6l5-2 6 2 5-2");
+  });
+
+  test("provides a concrete accessibility report path", () => {
+    const statement = readFileSync(path.join(root, "site/accessibility.md"), "utf8");
+    const template = readFileSync(
+      path.join(root, ".github/ISSUE_TEMPLATE/accessibility_report.yml"),
+      "utf8",
+    );
+
+    expect(statement).toContain(
+      "https://github.com/Macavitymadcap/hyper-dank/issues/new?template=accessibility_report.yml",
+    );
+    expect(statement).toContain("We aim to triage accessibility reports within seven days.");
+    expect(statement).toMatch(/Do not include private\s+personal, account, or security details/);
+    expect(statement).toContain("browser, operating system, assistive technology");
+    expect(template).toContain("name: Accessibility report");
+    expect(template).toContain('labels:\n  - "type: follow-up"\n  - "area: docs"');
+    expect(template).toContain("Route, component, or package");
+    expect(template).toContain("Do not include private personal, account, or security details");
+  });
+
+  test("provides static docs search with no-JS fallback links", () => {
+    const search = readFileSync(path.join(root, "site/search.md"), "utf8");
+    const script = readFileSync(path.join(root, "site/assets/site.js"), "utf8");
+    const css = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
+
+    expect(search).toContain("permalink: /search/");
+    expect(search).toContain("data-docs-search");
+    expect(search).toContain("{{ '/search-index.json' | relative_url }}");
+    expect(search).toContain("href=\"{{ '/libraries/' | relative_url }}\"");
+    expect(search).toContain("href=\"{{ '/recipes/' | relative_url }}\"");
+    expect(search).toContain("href=\"{{ '/libraries/ui/' | relative_url }}\"");
+    expect(search).toContain("href=\"{{ '/storybook/' | relative_url }}\"");
+    expect(search).toContain("href=\"{{ '/accessibility/' | relative_url }}\"");
+    expect(search).toContain("Type a search term or browse the reference paths below.");
+    expect(search).not.toContain("Loading search index.");
+    expect(script).toContain("initialiseDocsSearch()");
+    expect(script).toContain("fetch(searchIndexUrl)");
+    expect(script).toContain("renderDocsSearchResults");
+    expect(script).toContain("canonicalPackageRouteForQuery");
+    expect(script).toContain('"@macavitymadcap/hyper-dank-ui", "/libraries/ui/"');
+    expect(script).toContain('score += url.includes("/libraries/") ? 60 : 35');
+    expect(css).toContain(".docs-search");
+    expect(css).toContain(".docs-search__result");
+  });
+
+  test("keeps public docs search routes live", () => {
+    const siteRoutes = new Set([
+      ...markdownFiles("site").map((file) => pageRoute(file)),
+      "/pace/",
+      "/search-index.json",
+      "/storybook/",
+    ]);
+    const docsBuild = readFileSync(
+      path.join(root, "apps/walking-pace/scripts/lib/docs-build.ts"),
+      "utf8",
+    );
+
+    expect(siteRoutes.has("/search/")).toBe(true);
+    expect(docsBuild).toContain("search-index.json");
+    expect(docsBuild).toContain("buildSearchIndex");
   });
 
   test("keeps docs side navigation stretched while open and compact while closed", () => {
