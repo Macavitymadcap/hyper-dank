@@ -399,27 +399,33 @@ describe("public docs", () => {
   test("keeps docs side navigation stretched while open and compact while closed", () => {
     const css = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
     const script = readFileSync(path.join(root, "site/assets/site.js"), "utf8");
+    const logo = readFileSync(path.join(root, "site/assets/hyper-dank-stacked-logo.svg"), "utf8");
 
     expect(css).toContain("align-items: stretch;");
     expect(css).toContain(".docs-side-nav[open],\n.library-side-nav[open]");
     expect(css).toContain(".docs-side-nav:not([open]),\n.library-side-nav:not([open])");
     expect(css).toContain(".docs-layout:has(.docs-side-nav:not([open])),");
-    expect(css).toContain("grid-template-columns: 4.75rem minmax(0, 1fr);");
+    expect(css).toContain("grid-template-columns: minmax(11rem, 13.5rem) minmax(0, 1fr);");
+    expect(css).toContain("grid-template-columns: 3.5rem minmax(0, 1fr);");
+    expect(css).toContain("transition: grid-template-columns 180ms ease;");
     expect(css).toContain(".docs-page,\n  .library-page");
     expect(css).toContain("grid-column: 1;");
     expect(css).toContain("align-self: stretch;");
     expect(css).toContain("align-self: start;");
     expect(css).toContain("position: fixed;");
+    expect(css).toContain("position: sticky;");
+    expect(css).toContain("z-index: 1;");
     expect(css).toContain("max-height: calc(100dvh - 7rem);");
     expect(css).toContain("height: calc(100dvh - 7rem);");
     expect(css).toContain(".site-main:has(.docs-side-nav)");
-    expect(css).toContain("padding-left: 4.75rem;");
-    expect(css).toContain("width: 3.75rem;");
-    expect(css).toContain("width: min(20rem, calc(100vw - 1rem));");
+    expect(css).toContain("padding-left: 3.875rem;");
+    expect(css).toContain("width: 3.25rem;");
+    expect(css).toContain("width: min(18rem, calc(100vw - 1rem));");
     expect(css).toContain("--drawer-backdrop-shadow");
     expect(css).toContain(
       "box-shadow: var(--surface-depth-shadow), var(--drawer-backdrop-shadow);",
     );
+    expect(css).toContain("@media (prefers-reduced-motion: reduce)");
     expect(css).toContain('content: "›";');
     expect(css).toContain('content: "Close";');
     expect(css).toContain("grid-template-columns: 1fr;");
@@ -441,6 +447,22 @@ describe("public docs", () => {
     expect(script).toContain('document.querySelectorAll(".docs-side-nav[open]")');
     expect(script).toContain('document.querySelectorAll(".docs-side-nav a")');
     expect(script).toContain('link.closest(".docs-side-nav")?.removeAttribute("open")');
+    expect(logo).toContain('transform="translate(93 0) scale(0.74 1)"');
+    expect(logo).toContain('transform="translate(179 0) scale(0.74 1)"');
+  });
+
+  test("keeps docs header controls aligned and mobile brand rows stable", () => {
+    const css = readFileSync(path.join(root, "site/assets/site.css"), "utf8");
+
+    expect(css).not.toContain(".site-quick-links");
+    expect(css).toContain(".theme-toggle__icon--dark {\n  color: #1e3a8a;");
+    expect(css).toContain(
+      ".theme-toggle__input:checked + .theme-toggle__track .theme-toggle__icon--dark,",
+    );
+    expect(css).toContain("white-space: nowrap;");
+    expect(css).toContain("grid-template-columns: auto minmax(0, 1fr);");
+    expect(css).toContain(".hero-copy {\n    display: contents;");
+    expect(css).toContain("overflow-wrap: anywhere;");
   });
 });
 
