@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.3](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.2...hyper-dank-v2.5.3) (2026-05-24)
+
+
+### CI
+
+* automate library package releases ([#170](https://github.com/Macavitymadcap/hyper-dank/issues/170)) ([23e04c7](https://github.com/Macavitymadcap/hyper-dank/commit/23e04c72891d3422428395f9b8b5895bc490ca5e))
+* baseline library release versions ([ce1b821](https://github.com/Macavitymadcap/hyper-dank/commit/ce1b821b60e5f5b28e02fb9240fd111b719bf3df))
+
 ## [2.5.2](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.5.1...hyper-dank-v2.5.2) (2026-05-23)
 
 
