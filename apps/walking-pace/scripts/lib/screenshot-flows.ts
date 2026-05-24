@@ -229,6 +229,19 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0024-status-notifications",
+    label: "HD 0024 Status Notifications",
+    description: "Status symbols, notification banners, and feedback hierarchy for hd-0024.",
+    states: [
+      {
+        authUserId: null,
+        label: "Status and notifications",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--status-and-notifications",
+        slug: "status-and-notifications",
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",

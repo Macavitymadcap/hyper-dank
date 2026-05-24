@@ -43,6 +43,11 @@ export {
   type MetadataListProps,
 } from "./molecules/MetadataList";
 export { Notice, type NoticeProps } from "./molecules/Notice";
+export {
+  NotificationBanner,
+  type NotificationBannerProps,
+  type NotificationSeverity,
+} from "./molecules/NotificationBanner";
 export { PageHeader, type PageHeaderProps } from "./molecules/PageHeader";
 export { Pagination, type PaginationProps } from "./molecules/Pagination";
 export { PopoverMenu, type PopoverMenuItem, type PopoverMenuProps } from "./molecules/PopoverMenu";
@@ -72,6 +77,7 @@ export {
   type StatusSummaryItem,
   type StatusSummaryProps,
 } from "./molecules/StatusSummary";
+export { StatusSymbol, type StatusSymbolProps, type StatusTone } from "./molecules/StatusSymbol";
 export { type TabItem, Tabs, type TabsProps } from "./molecules/Tabs";
 export { TextareaField, type TextareaFieldProps } from "./molecules/TextareaField";
 export {

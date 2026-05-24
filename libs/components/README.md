@@ -80,14 +80,16 @@ pipeline; importing the package in server code does not automatically load style
   `EmptyStateProps`, `Fieldset`, `FieldsetProps`, `FormField`, `FormFieldProps`, `HxForm`,
   `HxFormProps`, `InputGroup`, `InputGroupProps`, `LabelledOutput`,
   `LabelledOutputProps`, `LoadingIndicator`, `LoadingIndicatorProps`, `MetadataList`,
-  `MetadataListItem`, `MetadataListProps`, `Notice`, `NoticeProps`, `PageHeader`,
-  `PageHeaderProps`, `Pagination`, `PaginationProps`, `PopoverMenu`, `PopoverMenuItem`,
-  `PopoverMenuProps`, `Progress`, `ProgressProps`, `Prose`, `ProseProps`, `RadioGroup`,
+  `MetadataListItem`, `MetadataListProps`, `NotificationBanner`, `NotificationBannerProps`,
+  `NotificationSeverity`, `Notice`, `NoticeProps`, `PageHeader`, `PageHeaderProps`, `Pagination`,
+  `PaginationProps`, `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps`, `Progress`,
+  `ProgressProps`, `Prose`, `ProseProps`, `RadioGroup`,
   `RadioGroupOption`, `RadioGroupProps`, `ScrollableTable`, `ScrollableTableColumn`,
   `ScrollableTableProps`, `SectionHeader`, `SectionHeaderProps`, `SegmentedControl`,
   `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
   `SelectFieldProps`, `SideNav`, `SideNavItem`, `SideNavProps`, `StatBlock`, `StatBlockProps`,
-  `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
+  `StatusSymbol`, `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`,
+  `StatusSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
   `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
   `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,
   `ValidationSummaryProps`.
@@ -112,6 +114,10 @@ For rendered component contracts, see the published Storybook route at
   `PopoverMenu` with `AppShell`, `PageHeader`, `Toolbar`, `Tabs`, `Pagination`, `StatBlock`,
   `StatusSummary`, and `BasicGraph` for dense, progressively enhanced screens with small static
   data visualisations.
+- Feedback surfaces should use `StatusSymbol` for inline labelled markers, `NotificationBanner` for
+  page-level events, `Notice` for local feedback, `ValidationSummary` for form errors, `Progress`
+  and `LoadingIndicator` for async work, and `StatusSummary` or `Badge` for compact dashboard
+  metadata. Toast queue timing, dismissal, persistence, and event wiring stay in the consuming app.
 - Dense forms should use `SelectField` for short fixed sets, `Combobox` when native datalist
   suggestions help but submitted values remain app-owned, `PopoverMenu` for compact actions, and
   `Command` for app-wide command search where filtering and loading stay in the consuming app.

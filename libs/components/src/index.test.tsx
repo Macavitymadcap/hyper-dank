@@ -20,6 +20,7 @@ import {
   LabelledOutput,
   LinkButton,
   Notice,
+  NotificationBanner,
   PageHeader,
   Pagination,
   Panel,
@@ -30,6 +31,7 @@ import {
   SideNav,
   Skeleton,
   StatBlock,
+  StatusSymbol,
   Tabs,
   Toolbar,
   Tooltip,
@@ -179,6 +181,12 @@ describe("component library", () => {
     const html = render(
       <Prose>
         <Notice tone="success">Saved</Notice>
+        <NotificationBanner severity="info" title="Sync queued">
+          The import will run shortly.
+        </NotificationBanner>
+        <p>
+          <StatusSymbol label="Ready" status="success" /> Ready
+        </p>
         <Dialog id="details" title="Details" triggerLabel="Open details">
           More
         </Dialog>
@@ -192,6 +200,8 @@ describe("component library", () => {
 
     expect(html).toContain('class="prose"');
     expect(html).toContain('class="notice"');
+    expect(html).toContain('class="notification-banner"');
+    expect(html).toContain('class="status-symbol"');
     expect(html).toContain("<dialog");
     expect(html).toContain('class="empty-state"');
     expect(html).toContain('class="stat-block"');
