@@ -89,6 +89,83 @@ if (!workflowFiles.includes("publish-npm.yml")) {
   errors.push("Missing .github/workflows/publish-npm.yml.");
 }
 
+const releaseConfig = JSON.parse(
+  await readFile(path.join(root, ".release-please-config.json"), "utf8"),
+) as {
+  packages?: Record<string, Record<string, unknown>>;
+  plugins?: Array<Record<string, unknown>>;
+};
+const releaseManifest = JSON.parse(
+  await readFile(path.join(root, ".release-please-manifest.json"), "utf8"),
+) as Record<string, string>;
+
+const linkedLibraryPlugin = releaseConfig.plugins?.find(
+  (plugin) => plugin.type === "linked-versions" && plugin.groupName === "hyper-dank-libraries",
+);
+const linkedComponents = new Set(
+  Array.isArray(linkedLibraryPlugin?.components) ? linkedLibraryPlugin.components : [],
+);
+
+for (const { dir, json } of packageJsons) {
+  const releasePackage = releaseConfig.packages?.[dir];
+  if (!releasePackage) {
+    errors.push(`Release Please config must include ${dir} as a publishable package.`);
+    continue;
+  }
+
+  const name = String(json.name ?? "");
+  if (releasePackage["package-name"] !== name) {
+    errors.push(`Release Please package-name for ${dir} must be ${name}.`);
+  }
+  if (releasePackage["release-type"] !== "node") {
+    errors.push(`Release Please release-type for ${dir} must be node.`);
+  }
+  if (releasePackage["include-component-in-tag"] !== true) {
+    errors.push(`Release Please tags for ${dir} must include the package component.`);
+  }
+
+  const component = String(releasePackage.component ?? "");
+  if (!linkedComponents.has(component)) {
+    errors.push(`${dir} must be part of the hyper-dank-libraries linked release group.`);
+  }
+
+  const manifestVersion = releaseManifest[dir];
+  if (manifestVersion !== json.version) {
+    errors.push(
+      `Release Please manifest for ${dir} must match package.json version ${json.version}.`,
+    );
+  }
+  if (!String(json.version ?? "").startsWith("0.")) {
+    errors.push(`${dir}/package.json must stay on the public library 0.x release line for now.`);
+  }
+}
+
+if (releaseConfig.packages?.["."]?.["package-name"] !== "hyper-dank") {
+  errors.push("Release Please config must keep the root hyper-dank package.");
+}
+if (!releaseManifest["."]) {
+  errors.push("Release Please manifest must track the root hyper-dank version separately.");
+}
+
+const publishWorkflow = await readFile(
+  path.join(root, ".github", "workflows", "publish-npm.yml"),
+  "utf8",
+);
+if (!publishWorkflow.includes("release:")) {
+  errors.push("Publish npm workflow must run from published GitHub release events.");
+}
+if (!publishWorkflow.includes("startsWith(github.event.release.tag_name, 'hyper-dank-ui-v')")) {
+  errors.push(
+    "Publish npm workflow must only auto-stage packages from one canonical library release.",
+  );
+}
+if (!publishWorkflow.includes("npm view")) {
+  errors.push("Publish npm workflow must skip package versions that already exist on npm.");
+}
+if (!publishWorkflow.includes("npm stage publish --access public --provenance")) {
+  errors.push("Publish npm workflow must use trusted staged publishing with provenance.");
+}
+
 if (errors.length > 0) {
   console.error(errors.map((error) => `- ${error}`).join("\n"));
   process.exit(1);
