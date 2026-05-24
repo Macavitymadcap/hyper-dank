@@ -90,6 +90,83 @@ describe("docs build", () => {
     await expect(readFile(path.join(destinationDir, ".nojekyll"), "utf8")).resolves.toBe("");
   });
 
+  test("generates a deterministic static search index", async () => {
+    const tmp = await mkdtemp(path.join(os.tmpdir(), "hyper-dank-docs-"));
+    const sourceDir = path.join(tmp, "site");
+    const destinationDir = path.join(tmp, "public");
+
+    await mkdir(path.join(sourceDir, "assets"), { recursive: true });
+    await writeFile(
+      path.join(sourceDir, "_config.yml"),
+      "title: Hyper-Dank\ndescription: Docs for tests\n",
+    );
+    await writeFile(
+      path.join(sourceDir, "index.md"),
+      [
+        "---",
+        "layout: default",
+        "title: Docs Home",
+        "---",
+        "",
+        "# Hyper-Dank",
+        "",
+        "Find `Button` and @macavitymadcap/hyper-dank-ui.",
+      ].join("\n"),
+    );
+    await writeFile(
+      path.join(sourceDir, "libraries-ui.md"),
+      [
+        "---",
+        "layout: default",
+        "title: UI Library",
+        "permalink: /libraries/ui/",
+        "---",
+        "",
+        "# UI Library",
+        "",
+        "## Component exports",
+        "",
+        "| Export | Purpose |",
+        "| --- | --- |",
+        "| `Combobox` | Searchable selection |",
+        "| `ScrollableTable` | Data table |",
+        "",
+        "## Recipe names",
+        "",
+        "- Dashboard admin tool",
+      ].join("\n"),
+    );
+
+    await buildDocsSite({ basePath: "/hyper-dank", destinationDir, sourceDir });
+
+    const index = JSON.parse(
+      await readFile(path.join(destinationDir, "search-index.json"), "utf8"),
+    );
+
+    expect(index).toEqual({
+      version: 1,
+      entries: [
+        {
+          headings: ["Hyper-Dank"],
+          keywords: ["Button", "@macavitymadcap/hyper-dank-ui"],
+          text: "Hyper-Dank Find Button and @macavitymadcap/hyper-dank-ui.",
+          title: "Docs Home",
+          url: "/hyper-dank/",
+        },
+        {
+          headings: ["UI Library", "Component exports", "Recipe names"],
+          keywords: ["Combobox", "ScrollableTable"],
+          text: [
+            "UI Library Component exports Export Purpose Combobox Searchable selection",
+            "ScrollableTable Data table Recipe names Dashboard admin tool",
+          ].join(" "),
+          title: "UI Library",
+          url: "/hyper-dank/libraries/ui/",
+        },
+      ],
+    });
+  });
+
   test("builds library package pages from permalink routes", async () => {
     const tmp = await mkdtemp(path.join(os.tmpdir(), "hyper-dank-docs-"));
     const sourceDir = path.join(tmp, "site");
@@ -176,6 +253,7 @@ describe("docs build", () => {
     expect(html).toContain('href="/hyper-dank/assets/favicon.svg"');
     expect(html).toContain('<span class="brand-mark" aria-hidden="true"></span>');
     expect(html).toContain('class="theme-toggle__input" type="checkbox" role="switch"');
+    expect(html).toContain('href="/hyper-dank/search/"');
     expect(html).toContain('href="/hyper-dank/verification/"');
     expect(html).toContain('href="/hyper-dank/accessibility/"');
   });

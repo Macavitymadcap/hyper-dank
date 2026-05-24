@@ -56,10 +56,168 @@ themeToggle?.addEventListener("change", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   buildCurrentPageNavigation();
+  initialiseDocsSearch();
   closeMobileSideNavs();
   closeMobileSideNavsAfterNavigation();
   window.hljs?.highlightAll();
 });
+
+function initialiseDocsSearch() {
+  const searchRoot = document.querySelector("[data-docs-search]");
+  if (!searchRoot) return;
+
+  const form = searchRoot.querySelector("[data-docs-search-form]");
+  const input = searchRoot.querySelector("[data-docs-search-input]");
+  const results = searchRoot.querySelector("[data-docs-search-results]");
+  const status = searchRoot.querySelector("[data-docs-search-status]");
+  const searchIndexUrl = searchRoot.getAttribute("data-search-index");
+  if (!(input instanceof HTMLInputElement) || !results || !status || !searchIndexUrl) return;
+
+  const initialQuery = new URLSearchParams(window.location.search).get("q");
+  if (initialQuery) input.value = initialQuery;
+
+  let entries = [];
+  const setStatus = (message) => {
+    status.textContent = message;
+  };
+
+  setStatus("Loading search index.");
+
+  fetch(searchIndexUrl)
+    .then((response) => {
+      if (!response.ok) throw new Error(`Search index failed with ${response.status}`);
+      return response.json();
+    })
+    .then((index) => {
+      entries = Array.isArray(index.entries) ? index.entries : [];
+      renderDocsSearchResults(input.value, entries, results, setStatus);
+    })
+    .catch(() => {
+      setStatus("Search is unavailable. Use the reference paths below.");
+    });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updateSearchQuery(input.value);
+    renderDocsSearchResults(input.value, entries, results, setStatus);
+  });
+
+  input.addEventListener("input", () => {
+    renderDocsSearchResults(input.value, entries, results, setStatus);
+  });
+}
+
+function renderDocsSearchResults(query, entries, results, setStatus) {
+  const normalisedQuery = normaliseSearchValue(query).trim();
+  const terms = normaliseSearchValue(query)
+    .split(/\s+/)
+    .map((term) => term.trim())
+    .filter(Boolean);
+
+  results.replaceChildren();
+
+  if (terms.length === 0) {
+    setStatus("Search index ready.");
+    return;
+  }
+
+  const matches = entries
+    .map((entry) => ({ entry, score: docsSearchScore(entry, terms, normalisedQuery) }))
+    .filter((match) => match.score > 0)
+    .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title))
+    .slice(0, 12);
+
+  if (matches.length === 0) {
+    setStatus(`No results for "${query.trim()}".`);
+    return;
+  }
+
+  setStatus(`${matches.length} result${matches.length === 1 ? "" : "s"} for "${query.trim()}".`);
+
+  for (const { entry } of matches) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    const title = document.createElement("strong");
+    const meta = document.createElement("span");
+
+    link.className = "docs-search__result";
+    link.href = entry.url;
+    title.textContent = entry.title;
+    meta.textContent = searchResultSummary(entry);
+    link.append(title, meta);
+    item.append(link);
+    results.append(item);
+  }
+}
+
+function docsSearchScore(entry, terms, normalisedQuery) {
+  const title = normaliseSearchValue(entry.title);
+  const headings = normaliseSearchValue((entry.headings ?? []).join(" "));
+  const keywordValues = Array.isArray(entry.keywords) ? entry.keywords : [];
+  const keywords = normaliseSearchValue(keywordValues.join(" "));
+  const text = normaliseSearchValue(entry.text);
+  const canonicalRoute = canonicalPackageRouteForQuery(normalisedQuery);
+  const url = String(entry.url ?? "");
+  let score = 0;
+
+  if (canonicalRoute && url.endsWith(canonicalRoute)) score += 120;
+  if (normalisedQuery && title.includes(normalisedQuery)) score += 80;
+  if (normalisedQuery && headings.includes(normalisedQuery)) score += 45;
+  if (
+    normalisedQuery &&
+    keywordValues.some((keyword) => normaliseSearchValue(keyword).trim() === normalisedQuery)
+  ) {
+    score += url.includes("/libraries/") ? 60 : 35;
+  }
+
+  return terms.reduce((total, term) => {
+    if (keywords.includes(term)) return total + 8;
+    if (title.includes(term)) return total + 6;
+    if (headings.includes(term)) return total + 4;
+    if (text.includes(term)) return total + 1;
+    return total;
+  }, score);
+}
+
+function canonicalPackageRouteForQuery(normalisedQuery) {
+  const packageRoutes = new Map([
+    ["@macavitymadcap/hyper-dank-ui", "/libraries/ui/"],
+    ["@macavitymadcap/hyper-dank-data", "/libraries/data/"],
+    ["@macavitymadcap/hyper-dank-transport", "/libraries/transport/"],
+    ["@macavitymadcap/hyper-dank-automation", "/libraries/automation/"],
+    ["@macavitymadcap/hyper-dank-automation/content", "/libraries/automation/"],
+  ]);
+
+  for (const [packageName, route] of packageRoutes) {
+    if (normalisedQuery.includes(packageName)) return route;
+  }
+
+  return null;
+}
+
+function normaliseSearchValue(value) {
+  const cleaned = String(value ?? "")
+    .toLowerCase()
+    .replace(/[^a-z0-9@/-]+/g, " ");
+  return `${cleaned} ${cleaned.replace(/-/g, " ")}`;
+}
+
+function searchResultSummary(entry) {
+  const headings = Array.isArray(entry.headings) ? entry.headings.slice(0, 2).join(" / ") : "";
+  if (headings) return headings;
+  return String(entry.url ?? "");
+}
+
+function updateSearchQuery(query) {
+  const url = new URL(window.location.href);
+  const trimmed = query.trim();
+  if (trimmed) {
+    url.searchParams.set("q", trimmed);
+  } else {
+    url.searchParams.delete("q");
+  }
+  history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+}
 
 function buildCurrentPageNavigation() {
   const page = document.querySelector(".docs-page, .library-page");
