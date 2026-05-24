@@ -1,7 +1,7 @@
 {
   ".": "2.5.2",
-  "libs/components": "0.1.1",
-  "libs/database": "0.1.1",
-  "libs/http": "0.1.1",
-  "libs/scripts": "0.1.1"
+  "libs/components": "0.1.0",
+  "libs/database": "0.1.0",
+  "libs/http": "0.1.0",
+  "libs/scripts": "0.1.0"
 }

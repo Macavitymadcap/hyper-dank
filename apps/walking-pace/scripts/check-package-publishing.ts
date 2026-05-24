@@ -105,6 +105,19 @@ const linkedLibraryPlugin = releaseConfig.plugins?.find(
 const linkedComponents = new Set(
   Array.isArray(linkedLibraryPlugin?.components) ? linkedLibraryPlugin.components : [],
 );
+const parseLibraryVersion = (version: unknown) =>
+  String(version ?? "")
+    .split(".")
+    .map((part) => Number(part));
+const compareLibraryVersions = (left: unknown, right: unknown) => {
+  const leftParts = parseLibraryVersion(left);
+  const rightParts = parseLibraryVersion(right);
+  for (let index = 0; index < 3; index += 1) {
+    const difference = (leftParts[index] ?? 0) - (rightParts[index] ?? 0);
+    if (difference !== 0) return difference;
+  }
+  return 0;
+};
 
 for (const { dir, json } of packageJsons) {
   const releasePackage = releaseConfig.packages?.[dir];
@@ -130,9 +143,15 @@ for (const { dir, json } of packageJsons) {
   }
 
   const manifestVersion = releaseManifest[dir];
-  if (manifestVersion !== json.version) {
+  if (!manifestVersion) {
+    errors.push(`Release Please manifest must track the latest released version for ${dir}.`);
+  }
+  if (manifestVersion && !manifestVersion.startsWith("0.")) {
+    errors.push(`${dir} Release Please manifest must stay on the public library 0.x release line.`);
+  }
+  if (manifestVersion && compareLibraryVersions(manifestVersion, json.version) > 0) {
     errors.push(
-      `Release Please manifest for ${dir} must match package.json version ${json.version}.`,
+      `Release Please manifest for ${dir} must not be ahead of package.json version ${json.version}.`,
     );
   }
   if (!String(json.version ?? "").startsWith("0.")) {
