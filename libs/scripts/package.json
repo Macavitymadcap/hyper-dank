@@ -1,6 +1,6 @@
 {
   "name": "@macavitymadcap/hyper-dank-automation",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "type": "module",
   "description": "Reusable Bun automation helpers for Hyper-Dank apps.",
   "homepage": "https://macavitymadcap.github.io/hyper-dank/libraries/automation/",

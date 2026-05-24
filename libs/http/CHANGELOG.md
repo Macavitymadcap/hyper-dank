@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-transport-v0.3.1...hyper-dank-transport-v0.4.0) (2026-05-24)
+
+
+### Miscellaneous Chores
+
+* **hyper-dank-transport:** Synchronize hyper-dank-libraries versions
+
 ## [0.3.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-transport-v0.3.0...hyper-dank-transport-v0.3.1) (2026-05-24)
 
 
