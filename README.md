@@ -124,7 +124,8 @@ tarballs through their public package names, typechecks the public imports, reso
 Future npm releases are staged through GitHub Actions with npm trusted publishing and provenance,
 then approved by a maintainer before the packages become public. The four packages are versioned in
 lockstep for now. GitHub Packages publication, versioned release tarballs, and starter templates
-remain follow-up options.
+remain follow-up options. See the [npm release runbook](docs/project-management/npm-release-runbook.md)
+for staging, approval, verification, and stale-stage cleanup.
 
 ## Run Locally
 
