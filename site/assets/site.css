@@ -1183,6 +1183,13 @@ pre code {
   .library-side-nav:not([open]) summary {
     min-height: 2.75rem;
     padding: 0;
+    position: static;
+  }
+
+  .docs-side-nav:not([open]),
+  .library-side-nav:not([open]) {
+    align-content: center;
+    display: grid;
   }
 
   .docs-side-nav[open] summary,
@@ -1198,11 +1205,13 @@ pre code {
   .docs-side-nav summary::after,
   .library-side-nav summary::after {
     content: "";
+    display: none;
   }
 
   .docs-side-nav[open] summary::after,
   .library-side-nav[open] summary::after {
     content: "Close";
+    display: block;
     font-size: 0.82rem;
     font-weight: 800;
     justify-self: end;
