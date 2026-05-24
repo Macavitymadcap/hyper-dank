@@ -463,6 +463,7 @@ describe("public docs", () => {
     );
     expect(css).toContain("white-space: nowrap;");
     expect(css).toContain("grid-template-columns: auto minmax(0, 1fr);");
+    expect(css).toContain(".hero-copy {\n    display: contents;");
     expect(css).toContain("overflow-wrap: anywhere;");
   });
 });

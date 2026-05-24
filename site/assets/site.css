@@ -648,6 +648,10 @@ a.card {
     font-size: 3rem;
   }
 
+  .hero-copy {
+    display: contents;
+  }
+
   .hero .lede,
   .hero .button-row {
     grid-column: 1 / -1;
