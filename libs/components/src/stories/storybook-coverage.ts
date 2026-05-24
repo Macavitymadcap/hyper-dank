@@ -13,6 +13,8 @@ export const sharedStoryCoverage = {
   CheckboxField: "Components/Shared/Core Primitives",
   Chip: "Components/Shared/Atoms/Chip",
   CodeBlock: "Components/Shared/App Surfaces And Feedback",
+  Combobox: "Components/Shared/Core Primitives",
+  Command: "Components/Shared/Core Primitives",
   CompactList: "Components/Shared/Reusable Patterns",
   Dialog: "Components/Shared/App Surfaces And Feedback",
   EmptyState: "Components/Shared/App Surfaces And Feedback",

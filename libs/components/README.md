@@ -74,7 +74,8 @@ pipeline; importing the package in server code does not automatically load style
 - Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `AppShell`, `AppShellProps`,
   `BasicGraph`, `BasicGraphDatum`, `BasicGraphProps`, `Breadcrumbs`, `BreadcrumbItem`,
   `BreadcrumbsProps`, `ButtonGroup`, `ButtonGroupProps`, `Callout`, `CalloutProps`,
-  `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`, `CodeBlockProps`, `CompactList`,
+  `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`, `CodeBlockProps`, `Combobox`,
+  `ComboboxOption`, `ComboboxProps`, `Command`, `CommandItem`, `CommandProps`, `CompactList`,
   `CompactListItem`, `CompactListProps`, `Dialog`, `DialogProps`, `EmptyState`,
   `EmptyStateProps`, `Fieldset`, `FieldsetProps`, `FormField`, `FormFieldProps`, `HxForm`,
   `HxFormProps`, `InputGroup`, `InputGroupProps`, `LabelledOutput`,
@@ -111,6 +112,9 @@ For rendered component contracts, see the published Storybook route at
   `PopoverMenu` with `AppShell`, `PageHeader`, `Toolbar`, `Tabs`, `Pagination`, `StatBlock`,
   `StatusSummary`, and `BasicGraph` for dense, progressively enhanced screens with small static
   data visualisations.
+- Dense forms should use `SelectField` for short fixed sets, `Combobox` when native datalist
+  suggestions help but submitted values remain app-owned, `PopoverMenu` for compact actions, and
+  `Command` for app-wide command search where filtering and loading stay in the consuming app.
 - Static demos can use `InputGroup`, `LabelledOutput`, `Button`, and `Panel` without importing
   server-only app code.
 - Docs and static blogs can use `Prose`, `CodeBlock`, `Callout`, `MetadataList`, `TimelineList`,
