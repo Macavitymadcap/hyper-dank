@@ -19,7 +19,7 @@ permalink: /search/
   </form>
 
   <p class="docs-search__status" aria-live="polite" data-docs-search-status>
-    Loading search index.
+    Type a search term or browse the reference paths below.
   </p>
   <ol class="docs-search__results" data-docs-search-results></ol>
 </section>

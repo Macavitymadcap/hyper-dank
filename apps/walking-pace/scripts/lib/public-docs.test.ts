@@ -367,9 +367,14 @@ describe("public docs", () => {
     expect(search).toContain("href=\"{{ '/libraries/ui/' | relative_url }}\"");
     expect(search).toContain("href=\"{{ '/storybook/' | relative_url }}\"");
     expect(search).toContain("href=\"{{ '/accessibility/' | relative_url }}\"");
+    expect(search).toContain("Type a search term or browse the reference paths below.");
+    expect(search).not.toContain("Loading search index.");
     expect(script).toContain("initialiseDocsSearch()");
     expect(script).toContain("fetch(searchIndexUrl)");
     expect(script).toContain("renderDocsSearchResults");
+    expect(script).toContain("canonicalPackageRouteForQuery");
+    expect(script).toContain('"@macavitymadcap/hyper-dank-ui", "/libraries/ui/"');
+    expect(script).toContain('score += url.includes("/libraries/") ? 60 : 35');
     expect(css).toContain(".docs-search");
     expect(css).toContain(".docs-search__result");
   });

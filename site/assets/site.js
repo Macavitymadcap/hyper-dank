@@ -81,6 +81,8 @@ function initialiseDocsSearch() {
     status.textContent = message;
   };
 
+  setStatus("Loading search index.");
+
   fetch(searchIndexUrl)
     .then((response) => {
       if (!response.ok) throw new Error(`Search index failed with ${response.status}`);
@@ -106,6 +108,7 @@ function initialiseDocsSearch() {
 }
 
 function renderDocsSearchResults(query, entries, results, setStatus) {
+  const normalisedQuery = normaliseSearchValue(query).trim();
   const terms = normaliseSearchValue(query)
     .split(/\s+/)
     .map((term) => term.trim())
@@ -119,7 +122,7 @@ function renderDocsSearchResults(query, entries, results, setStatus) {
   }
 
   const matches = entries
-    .map((entry) => ({ entry, score: docsSearchScore(entry, terms) }))
+    .map((entry) => ({ entry, score: docsSearchScore(entry, terms, normalisedQuery) }))
     .filter((match) => match.score > 0)
     .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title))
     .slice(0, 12);
@@ -147,19 +150,49 @@ function renderDocsSearchResults(query, entries, results, setStatus) {
   }
 }
 
-function docsSearchScore(entry, terms) {
+function docsSearchScore(entry, terms, normalisedQuery) {
   const title = normaliseSearchValue(entry.title);
   const headings = normaliseSearchValue((entry.headings ?? []).join(" "));
-  const keywords = normaliseSearchValue((entry.keywords ?? []).join(" "));
+  const keywordValues = Array.isArray(entry.keywords) ? entry.keywords : [];
+  const keywords = normaliseSearchValue(keywordValues.join(" "));
   const text = normaliseSearchValue(entry.text);
+  const canonicalRoute = canonicalPackageRouteForQuery(normalisedQuery);
+  const url = String(entry.url ?? "");
+  let score = 0;
 
-  return terms.reduce((score, term) => {
-    if (keywords.includes(term)) return score + 8;
-    if (title.includes(term)) return score + 6;
-    if (headings.includes(term)) return score + 4;
-    if (text.includes(term)) return score + 1;
-    return score;
-  }, 0);
+  if (canonicalRoute && url.endsWith(canonicalRoute)) score += 120;
+  if (normalisedQuery && title.includes(normalisedQuery)) score += 80;
+  if (normalisedQuery && headings.includes(normalisedQuery)) score += 45;
+  if (
+    normalisedQuery &&
+    keywordValues.some((keyword) => normaliseSearchValue(keyword).trim() === normalisedQuery)
+  ) {
+    score += url.includes("/libraries/") ? 60 : 35;
+  }
+
+  return terms.reduce((total, term) => {
+    if (keywords.includes(term)) return total + 8;
+    if (title.includes(term)) return total + 6;
+    if (headings.includes(term)) return total + 4;
+    if (text.includes(term)) return total + 1;
+    return total;
+  }, score);
+}
+
+function canonicalPackageRouteForQuery(normalisedQuery) {
+  const packageRoutes = new Map([
+    ["@macavitymadcap/hyper-dank-ui", "/libraries/ui/"],
+    ["@macavitymadcap/hyper-dank-data", "/libraries/data/"],
+    ["@macavitymadcap/hyper-dank-transport", "/libraries/transport/"],
+    ["@macavitymadcap/hyper-dank-automation", "/libraries/automation/"],
+    ["@macavitymadcap/hyper-dank-automation/content", "/libraries/automation/"],
+  ]);
+
+  for (const [packageName, route] of packageRoutes) {
+    if (normalisedQuery.includes(packageName)) return route;
+  }
+
+  return null;
 }
 
 function normaliseSearchValue(value) {
