@@ -104,7 +104,7 @@ export const DenseDashboardTable: Story = {
             },
             {
               key: "actions",
-              header: <span class="visually-hidden">Actions</span>,
+              header: <span class="storybook-dashboard-action-heading">Actions</span>,
               isAction: true,
               width: "5.5rem",
               mobileWidth: "3.5rem",

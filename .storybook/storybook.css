@@ -316,18 +316,6 @@ body {
   font-size: var(--font-size-00);
 }
 
-.storybook-dashboard-table .visually-hidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
-
 .storybook-dashboard-row .popover-menu {
   justify-self: center;
 }
@@ -336,6 +324,18 @@ body {
   .storybook-dashboard-table th {
     font-size: var(--font-size-00);
     padding-inline: 0.35rem;
+  }
+
+  .storybook-dashboard-action-heading {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
   }
 }
 
