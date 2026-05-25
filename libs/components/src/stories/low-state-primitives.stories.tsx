@@ -40,7 +40,7 @@ export const LowStateSet: Story = {
             contextual help.
           </p>
         </header>
-        <div class="storybook-doc__grid">
+        <div class="storybook-doc__grid storybook-doc__grid--contract-stack">
           <section class="storybook-doc__section" aria-labelledby="low-state-preview-heading">
             <h2 id="low-state-preview-heading">Rendered output</h2>
             <div class="storybook-low-state-demo">
@@ -70,91 +70,92 @@ export const LowStateSet: Story = {
               </AspectRatio>
             </div>
           </section>
-          <section class="storybook-doc__section" aria-labelledby="low-state-contract-heading">
-            <h2 id="low-state-contract-heading">Contract</h2>
-            <div class="storybook-low-state-contracts">
-              <section aria-labelledby="tooltip-contract">
-                <h3 id="tooltip-contract">Tooltip</h3>
-                <p>
-                  Inputs: <code>id</code>, <code>label</code>, <code>content</code>, and optional
-                  side.
-                </p>
-                <p>
-                  Output: a native help button described by static tooltip content. The trigger
-                  label is plain text so consumers do not nest buttons.
-                </p>
-                <p>
-                  Theme and ownership: uses system colours for contrast. Apps own placement checks,
-                  disclosure copy, and richer popover behaviour.
-                </p>
-              </section>
-              <section aria-labelledby="skeleton-contract">
-                <h3 id="skeleton-contract">Skeleton</h3>
-                <p>
-                  Inputs: optional <code>label</code>, <code>width</code>, <code>height</code>, and
-                  line, block, or circle shape.
-                </p>
-                <p>
-                  Output: labelled skeletons expose a polite status; unlabelled decorative
-                  placeholders are hidden from assistive technology.
-                </p>
-                <p>
-                  Theme and ownership: uses low-state surface tokens. Apps own loading timing, final
-                  content, and avoiding long-lived skeleton screens.
-                </p>
-              </section>
-              <section aria-labelledby="separator-contract">
-                <h3 id="separator-contract">Separator</h3>
-                <p>
-                  Inputs: optional orientation and <code>decorative</code> flag.
-                </p>
-                <p>
-                  Output: decorative divider by default; semantic separators opt into
-                  <code>role="separator"</code>.
-                </p>
-                <p>
-                  Theme and ownership: inherits subtle border tokens. Apps own whether a divider
-                  genuinely improves grouping.
-                </p>
-              </section>
-              <section aria-labelledby="kbd-contract">
-                <h3 id="kbd-contract">Kbd</h3>
-                <p>Inputs: inline children for the key or key chord.</p>
-                <p>Output: native keyboard text for command hints and shortcut labels.</p>
-                <p>
-                  Theme and ownership: inherits monospace and low-state tokens. Apps own matching
-                  real keyboard support.
-                </p>
-              </section>
-              <section aria-labelledby="avatar-contract">
-                <h3 id="avatar-contract">Avatar</h3>
-                <p>
-                  Inputs: required <code>name</code>, optional <code>src</code>, initials, and size.
-                </p>
-                <p>
-                  Output: image avatars use image alt text; fallback avatars expose the name while
-                  hiding decorative initials.
-                </p>
-                <p>
-                  Theme and ownership: uses circular surface tokens. Apps own real image URLs,
-                  privacy choices, and collision handling for initials.
-                </p>
-              </section>
-              <section aria-labelledby="aspect-ratio-contract">
-                <h3 id="aspect-ratio-contract">AspectRatio</h3>
-                <p>Inputs: children, optional class, and ratio string such as 16 / 9.</p>
-                <p>Output: a stable frame so media and previews do not shift surrounding UI.</p>
-                <p>
-                  Theme and ownership: uses a neutral background hook. Apps own alt text, captions,
-                  loading, and object-fit overrides.
-                </p>
-              </section>
-            </div>
-          </section>
-        </div>
-        <CodeBlock
-          language="tsx"
-          code={`import { Avatar, Kbd, Skeleton, Tooltip } from "@macavitymadcap/hyper-dank-ui";
+          <div class="storybook-doc__aside-stack">
+            <section class="storybook-doc__section" aria-labelledby="low-state-contract-heading">
+              <h2 id="low-state-contract-heading">Contract</h2>
+              <div class="storybook-low-state-contracts">
+                <section aria-labelledby="tooltip-contract">
+                  <h3 id="tooltip-contract">Tooltip</h3>
+                  <p>
+                    Inputs: <code>id</code>, <code>label</code>, <code>content</code>, and optional
+                    side.
+                  </p>
+                  <p>
+                    Output: a native help button described by static tooltip content. The trigger
+                    label is plain text so consumers do not nest buttons.
+                  </p>
+                  <p>
+                    Theme and ownership: uses system colours for contrast. Apps own placement
+                    checks, disclosure copy, and richer popover behaviour.
+                  </p>
+                </section>
+                <section aria-labelledby="skeleton-contract">
+                  <h3 id="skeleton-contract">Skeleton</h3>
+                  <p>
+                    Inputs: optional <code>label</code>, <code>width</code>, <code>height</code>,
+                    and line, block, or circle shape.
+                  </p>
+                  <p>
+                    Output: labelled skeletons expose a polite status; unlabelled decorative
+                    placeholders are hidden from assistive technology.
+                  </p>
+                  <p>
+                    Theme and ownership: uses low-state surface tokens. Apps own loading timing,
+                    final content, and avoiding long-lived skeleton screens.
+                  </p>
+                </section>
+                <section aria-labelledby="separator-contract">
+                  <h3 id="separator-contract">Separator</h3>
+                  <p>
+                    Inputs: optional orientation and <code>decorative</code> flag.
+                  </p>
+                  <p>
+                    Output: decorative divider by default; semantic separators opt into
+                    <code>role="separator"</code>.
+                  </p>
+                  <p>
+                    Theme and ownership: inherits subtle border tokens. Apps own whether a divider
+                    genuinely improves grouping.
+                  </p>
+                </section>
+                <section aria-labelledby="kbd-contract">
+                  <h3 id="kbd-contract">Kbd</h3>
+                  <p>Inputs: inline children for the key or key chord.</p>
+                  <p>Output: native keyboard text for command hints and shortcut labels.</p>
+                  <p>
+                    Theme and ownership: inherits monospace and low-state tokens. Apps own matching
+                    real keyboard support.
+                  </p>
+                </section>
+                <section aria-labelledby="avatar-contract">
+                  <h3 id="avatar-contract">Avatar</h3>
+                  <p>
+                    Inputs: required <code>name</code>, optional <code>src</code>, initials, and
+                    size.
+                  </p>
+                  <p>
+                    Output: image avatars use image alt text; fallback avatars expose the name while
+                    hiding decorative initials.
+                  </p>
+                  <p>
+                    Theme and ownership: uses circular surface tokens. Apps own real image URLs,
+                    privacy choices, and collision handling for initials.
+                  </p>
+                </section>
+                <section aria-labelledby="aspect-ratio-contract">
+                  <h3 id="aspect-ratio-contract">AspectRatio</h3>
+                  <p>Inputs: children, optional class, and ratio string such as 16 / 9.</p>
+                  <p>Output: a stable frame so media and previews do not shift surrounding UI.</p>
+                  <p>
+                    Theme and ownership: uses a neutral background hook. Apps own alt text,
+                    captions, loading, and object-fit overrides.
+                  </p>
+                </section>
+              </div>
+            </section>
+            <CodeBlock
+              language="tsx"
+              code={`import { Avatar, Kbd, Skeleton, Tooltip } from "@macavitymadcap/hyper-dank-ui";
 
 export function DraftToolbar({ isLoading }: { isLoading: boolean }) {
   return (
@@ -170,10 +171,10 @@ export function DraftToolbar({ isLoading }: { isLoading: boolean }) {
     </div>
   );
 }`}
-        />
-        <CodeBlock
-          language="tsx"
-          code={`import { AspectRatio, Separator, Skeleton } from "@macavitymadcap/hyper-dank-ui";
+            />
+            <CodeBlock
+              language="tsx"
+              code={`import { AspectRatio, Separator, Skeleton } from "@macavitymadcap/hyper-dank-ui";
 
 export function MediaPreview({ isLoading }: { isLoading: boolean }) {
   return (
@@ -190,7 +191,9 @@ export function MediaPreview({ isLoading }: { isLoading: boolean }) {
     </section>
   );
 }`}
-        />
+            />
+          </div>
+        </div>
       </article>,
     ),
   play: async ({ canvasElement }) => {
