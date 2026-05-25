@@ -469,6 +469,10 @@ body {
   width: 100%;
 }
 
+.storybook-disclosure-menu-preview {
+  padding-block-end: max(var(--size-5), 10.5rem);
+}
+
 .storybook-doc__section--span-all {
   grid-column: 1 / -1;
   justify-self: stretch;
