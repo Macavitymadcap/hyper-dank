@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, within } from "storybook/test";
 import { Badge } from "../atoms/Badge";
 import { Icon } from "../atoms/Icon";
 import { Panel } from "../atoms/Panel";
@@ -9,7 +9,7 @@ import { Callout } from "../molecules/Callout";
 import { CodeBlock } from "../molecules/CodeBlock";
 import { CompactList } from "../molecules/CompactList";
 import { PopoverMenu } from "../molecules/PopoverMenu";
-import { renderStory } from "./render";
+import { renderStoryWithActions } from "./render";
 
 const meta = {
   parameters: {
@@ -29,7 +29,7 @@ type Story = StoryObj;
 
 export const ReuseSet: Story = {
   render: () =>
-    renderStory(
+    renderStoryWithActions(
       <article class="storybook-doc" aria-labelledby="reuse-heading">
         <header class="storybook-doc__header">
           <p class="storybook-doc__eyebrow">Reusable pattern contract</p>
@@ -142,11 +142,15 @@ export function ReleaseDesk() {
 }`}
         />
       </article>,
+      {},
+      [{ event: "submit", handler: () => undefined, preventDefault: true, selector: "form" }],
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("heading", { name: "Reuse set" })).toBeInTheDocument();
     await expect(canvas.getByRole("heading", { name: "Release desk" })).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Open release actions" })).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole("button", { name: "Open release actions" }));
+    await userEvent.click(canvas.getByRole("menuitem", { name: "Request sign-off" }));
   },
 };

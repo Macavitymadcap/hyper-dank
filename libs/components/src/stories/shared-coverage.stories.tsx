@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, within } from "storybook/test";
 import { Badge } from "../atoms/Badge";
 import { Button } from "../atoms/Button";
 import { Panel } from "../atoms/Panel";
@@ -7,7 +7,7 @@ import { Accordion } from "../molecules/Accordion";
 import { CodeBlock } from "../molecules/CodeBlock";
 import { CompactList } from "../molecules/CompactList";
 import { PopoverMenu } from "../molecules/PopoverMenu";
-import { renderStory } from "./render";
+import { renderStory, renderStoryWithActions } from "./render";
 
 const meta = {
   parameters: {
@@ -101,7 +101,7 @@ export function MetadataPanel() {
 
 export const DisclosureAndMenu: Story = {
   render: () =>
-    renderStory(
+    renderStoryWithActions(
       <article class="storybook-doc" aria-labelledby="disclosure-heading">
         <header class="storybook-doc__header">
           <p class="storybook-doc__eyebrow">Disclosure and menu contract</p>
@@ -173,11 +173,16 @@ export function ActionsMenu() {
 }`}
         />
       </article>,
+      {},
+      [{ event: "submit", handler: () => undefined, preventDefault: true, selector: "form" }],
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("heading", { name: "Disclosure and menu" })).toBeInTheDocument();
     await expect(canvas.getByText("Component notes")).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Open example menu" })).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole("button", { name: "Review" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Open example menu" }));
+    await userEvent.click(canvas.getByRole("menuitem", { name: "Archive" }));
   },
 };
