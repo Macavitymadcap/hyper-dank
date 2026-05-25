@@ -31,6 +31,7 @@ import { Tabs } from "../molecules/Tabs";
 import { TimelineList } from "../molecules/TimelineList";
 import { Toolbar } from "../molecules/Toolbar";
 import { ValidationSummary } from "../molecules/ValidationSummary";
+import { ComponentReference } from "./component-reference";
 import { renderStory } from "./render";
 
 const meta = {
@@ -154,6 +155,35 @@ export function DashboardShell() {
     </AppShell>
   );
 }`}
+            />
+            <ComponentReference
+              id="shell-reference"
+              sections={{
+                Purpose: [
+                  "Compose dense app screens with shared landmarks, local navigation, feedback, pagination, and operational status.",
+                  "Keep the app shell generic enough for dashboards, admin tools, and docs-like app surfaces.",
+                ],
+                "Inputs and slots": [
+                  "AppShell accepts header, navigation, children, and optional footer slots.",
+                  "PageHeader, SideNav, Breadcrumbs, Tabs, Toolbar, Notice, StatusSummary, Progress, LoadingIndicator, and Pagination each receive app-provided labels, routes, and state.",
+                ],
+                "Rendered output": [
+                  "The shell renders a header landmark, optional navigation aside, and main content region.",
+                  "Navigation and paging remain link-backed, while local feedback and progress use semantic sections and native progress output.",
+                ],
+                Accessibility: [
+                  "SideNav, Breadcrumbs, Tabs, Toolbar, and Pagination expose labels or current-state hints.",
+                  "Notice, StatusSummary, Progress, and LoadingIndicator expose status text without depending on colour alone.",
+                ],
+                "App-owned behaviour": [
+                  "Apps own routing, permissions, data freshness, destructive actions, pagination data, sync timing, and mutations.",
+                  "HTMX enhancement, polling, and refresh behaviour should be wired by the consuming route.",
+                ],
+                "CSS hooks": [
+                  ".app-shell, .app-shell-body, .app-shell-navigation, .app-shell-main, .page-header, .side-nav, .tabs, .toolbar, .notice, .status-summary, .progress, .loading-indicator, and .pagination.",
+                  "The Storybook preview adds demo-only layout helpers; consuming apps should layer product layout after the package CSS.",
+                ],
+              }}
             />
           </div>
         </div>
@@ -471,6 +501,35 @@ export function EmptySearchResults() {
     </Prose>
   );
 }`}
+            />
+            <ComponentReference
+              id="content-reference"
+              sections={{
+                Purpose: [
+                  "Give docs, release notes, timelines, callouts, metadata, and empty states a shared semantic base.",
+                  "Support static content surfaces without taking over editorial layout or content modelling.",
+                ],
+                "Inputs and slots": [
+                  "Prose receives children, while SectionHeader accepts title, description, and action slots.",
+                  "MetadataList, TimelineList, Callout, and EmptyState receive app-authored labels, body copy, tone, icons, and actions.",
+                ],
+                "Rendered output": [
+                  "Prose wraps article content, SectionHeader renders a readable heading cluster, and metadata/timeline primitives use structured list markup.",
+                  "Callout and EmptyState render bounded content regions with optional icon and action slots.",
+                ],
+                Accessibility: [
+                  "Headings establish a navigable content hierarchy.",
+                  "EmptyState actions remain normal controls, while metadata and timeline records retain explicit labels and times.",
+                ],
+                "App-owned behaviour": [
+                  "Apps own content collections, routes, search/filter state, empty-state copy, action outcomes, and publication workflow.",
+                  "The components do not fetch content, infer editorial status, or manage filters.",
+                ],
+                "CSS hooks": [
+                  ".prose, .section-header, .metadata-list, .callout, .timeline-list, and .empty-state.",
+                  "Use app CSS for article rhythm, collection layout, and brand-specific content styling.",
+                ],
+              }}
             />
           </div>
         </div>

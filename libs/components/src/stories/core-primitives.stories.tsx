@@ -16,6 +16,7 @@ import { SegmentedControl } from "../molecules/SegmentedControl";
 import { SelectField } from "../molecules/SelectField";
 import { TextareaField } from "../molecules/TextareaField";
 import { ValidationSummary } from "../molecules/ValidationSummary";
+import { ComponentReference } from "./component-reference";
 import { renderStory } from "./render";
 import { sharedIconStoryNames } from "./storybook-coverage";
 
@@ -241,6 +242,36 @@ export function SelectionTools() {
     </>
   );
 }`}
+          />
+          <ComponentReference
+            className="storybook-doc__section--span-all"
+            id="selection-reference"
+            sections={{
+              Purpose: [
+                "Document the decision line between short fixed choices, native suggestions, compact actions, and app-owned command search.",
+                "Show how selection controls compose while leaving state and filtering outside the shared package.",
+              ],
+              "Inputs and slots": [
+                "SelectField and Radio-style controls receive labelled option arrays and native form names.",
+                "Combobox receives datalist options; Command receives query, result items, and empty/loading copy; PopoverMenu receives link or POST action items.",
+              ],
+              "Rendered output": [
+                "SelectField renders a labelled select, Combobox renders a labelled input plus datalist, and Command renders a search landmark with result links.",
+                "PopoverMenu renders a trigger and a popover menu whose items remain native links or forms.",
+              ],
+              Accessibility: [
+                "Every control is labelled, and help/error text stays connected to the relevant field.",
+                "Command empty state uses a status region; PopoverMenu keeps controls keyboard reachable.",
+              ],
+              "App-owned behaviour": [
+                "Apps own selected values, suggestion sources, filtering, remote loading, permissions, persistence, and destructive action handling.",
+                "The shared primitives do not debounce, fetch, search, or infer menu permissions.",
+              ],
+              "CSS hooks": [
+                ".select-field, .combobox, .command, .command-results, .command-empty, .popover-menu, .popover-menu-trigger, .popover-menu-panel, and .popover-menu-item.",
+                "Apps can layer density, menu placement, and product search styling after the package CSS.",
+              ],
+            }}
           />
         </div>
       </article>,

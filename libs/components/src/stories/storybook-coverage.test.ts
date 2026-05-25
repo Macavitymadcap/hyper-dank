@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as ui from "../index";
+import { componentReferenceSections } from "./component-reference";
 import { sharedIconStoryNames, sharedStoryCoverage } from "./storybook-coverage";
 
 const storyTitlePattern = /title:\s*["']([^"']+)["']/;
@@ -15,6 +16,10 @@ const consumerGuideStoryTitles = new Map([
   ],
   ["apps/walking-pace/src/stories/guides.stories.tsx", "Guides/Using Hyper-Dank"],
 ]);
+const representativeReferenceStories = [
+  "libs/components/src/stories/core-primitives.stories.tsx",
+  "libs/components/src/stories/second-wave-primitives.stories.tsx",
+];
 
 describe("Storybook shared reference coverage", () => {
   test("documents every public shared runtime export", () => {
@@ -144,6 +149,29 @@ describe("Storybook shared reference coverage", () => {
           code,
           `${storyPath} example should not expose Storybook-only wrapper classes`,
         ).not.toContain("storybook-doc");
+      }
+    }
+  });
+
+  test("keeps representative component docs on the reusable reference shape", () => {
+    expect(componentReferenceSections).toEqual([
+      "Purpose",
+      "Inputs and slots",
+      "Rendered output",
+      "Accessibility",
+      "App-owned behaviour",
+      "CSS hooks",
+    ]);
+
+    for (const storyPath of representativeReferenceStories) {
+      const source = readFileSync(join(repoRoot, storyPath), "utf8");
+
+      expect(source, `${storyPath} should use the shared component reference block`).toContain(
+        "ComponentReference",
+      );
+
+      for (const section of componentReferenceSections) {
+        expect(source, `${storyPath} should document ${section}`).toContain(section);
       }
     }
   });

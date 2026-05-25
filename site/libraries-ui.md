@@ -127,6 +127,10 @@ layer after the package CSS.
 Storybook is the canonical rendered reference. Shared package examples are grouped under
 `Components/Shared`, while Walking Pace examples are grouped under `Components/Reference App`.
 Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' | relative_url }}).
+Representative shared component pages use a repeatable reference shape covering purpose, inputs and
+slots, rendered output, accessibility, app-owned behaviour, CSS hooks, and copyable examples. Keep
+the table above as a package export map; use Storybook when a component needs the deeper rendered
+contract.
 
 ## Composition Patterns
 
