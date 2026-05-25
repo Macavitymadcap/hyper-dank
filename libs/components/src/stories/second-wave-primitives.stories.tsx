@@ -63,10 +63,11 @@ export const ShellNavigationAndFeedback: Story = {
             feedback, paging, and compact operational metrics.
           </p>
         </div>
-        <div class="storybook-doc__grid">
-          <div class="storybook-doc__section">
+        <div class="storybook-doc__grid storybook-doc__grid--contract-stack">
+          <div class="storybook-doc__section storybook-doc__section--roomy">
             <h2 id="shell-preview-heading">Rendered output</h2>
             <AppShell
+              className="storybook-demo-shell"
               header={
                 <PageHeader
                   title="Dashboard"
@@ -107,7 +108,7 @@ export const ShellNavigationAndFeedback: Story = {
               <Notice tone="success" heading="Saved">
                 Settings were updated.
               </Notice>
-              <dl class="storybook-row">
+              <dl class="storybook-row storybook-row--roomy">
                 <StatBlock label="Posts" value="24" meta="Published" />
                 <StatBlock label="Drafts" value="4" trend="+2 this week" />
               </dl>
@@ -123,23 +124,25 @@ export const ShellNavigationAndFeedback: Story = {
               <Pagination currentPage={1} totalPages={4} nextHref="/dashboard?page=2" />
             </AppShell>
           </div>
-          <div class="storybook-doc__section">
-            <h2 id="shell-contract-heading">Contract</h2>
-            <ul>
-              <li>AppShell owns landmarks and layout slots, not product routing.</li>
-              <li>SideNav, Breadcrumbs, and Tabs render native links with current-state hints.</li>
-              <li>
-                Notice, Progress, LoadingIndicator, and StatusSummary expose state accessibly.
-              </li>
-              <li>
-                The app owns data freshness, permissions, destructive actions, and route names.
-              </li>
-            </ul>
-          </div>
-        </div>
-        <CodeBlock
-          language="tsx"
-          code={`import { AppShell, PageHeader, SideNav, Notice } from "@macavitymadcap/hyper-dank-ui";
+          <div class="storybook-doc__aside-stack">
+            <div class="storybook-doc__section">
+              <h2 id="shell-contract-heading">Contract</h2>
+              <ul>
+                <li>AppShell owns landmarks and layout slots, not product routing.</li>
+                <li>
+                  SideNav, Breadcrumbs, and Tabs render native links with current-state hints.
+                </li>
+                <li>
+                  Notice, Progress, LoadingIndicator, and StatusSummary expose state accessibly.
+                </li>
+                <li>
+                  The app owns data freshness, permissions, destructive actions, and route names.
+                </li>
+              </ul>
+            </div>
+            <CodeBlock
+              language="tsx"
+              code={`import { AppShell, PageHeader, SideNav, Notice } from "@macavitymadcap/hyper-dank-ui";
 
 export function DashboardShell() {
   return (
@@ -151,7 +154,9 @@ export function DashboardShell() {
     </AppShell>
   );
 }`}
-        />
+            />
+          </div>
+        </div>
       </div>,
     ),
   play: async ({ canvasElement }) => {
@@ -403,10 +408,13 @@ export const ContentAndEmptyStates: Story = {
             states that need clear structure without taking over content modelling.
           </p>
         </header>
-        <div class="storybook-doc__grid">
-          <section class="storybook-doc__section" aria-labelledby="content-preview-heading">
+        <div class="storybook-doc__grid storybook-doc__grid--contract-stack">
+          <section
+            class="storybook-doc__section storybook-doc__section--roomy"
+            aria-labelledby="content-preview-heading"
+          >
             <h2 id="content-preview-heading">Rendered output</h2>
-            <Prose>
+            <Prose className="storybook-demo-content">
               <SectionHeader
                 title="Release notes"
                 description="Content primitives for docs and static blogs."
@@ -435,23 +443,23 @@ export const ContentAndEmptyStates: Story = {
               </EmptyState>
             </Prose>
           </section>
-          <section class="storybook-doc__section" aria-labelledby="content-contract-heading">
-            <h2 id="content-contract-heading">Contract</h2>
-            <ul>
-              <li>Prose and SectionHeader establish readable content hierarchy.</li>
-              <li>
-                MetadataList and TimelineList render structured records with labels and times.
-              </li>
-              <li>Callout and EmptyState expose tone, title, body, icon, and actions clearly.</li>
-              <li>
-                The app owns content collections, filtering, search state, and empty-state copy.
-              </li>
-            </ul>
-          </section>
-        </div>
-        <CodeBlock
-          language="tsx"
-          code={`import { Button, EmptyState, Icon, Prose, SectionHeader } from "@macavitymadcap/hyper-dank-ui";
+          <div class="storybook-doc__aside-stack">
+            <section class="storybook-doc__section" aria-labelledby="content-contract-heading">
+              <h2 id="content-contract-heading">Contract</h2>
+              <ul>
+                <li>Prose and SectionHeader establish readable content hierarchy.</li>
+                <li>
+                  MetadataList and TimelineList render structured records with labels and times.
+                </li>
+                <li>Callout and EmptyState expose tone, title, body, icon, and actions clearly.</li>
+                <li>
+                  The app owns content collections, filtering, search state, and empty-state copy.
+                </li>
+              </ul>
+            </section>
+            <CodeBlock
+              language="tsx"
+              code={`import { Button, EmptyState, Icon, Prose, SectionHeader } from "@macavitymadcap/hyper-dank-ui";
 
 export function EmptySearchResults() {
   return (
@@ -463,7 +471,9 @@ export function EmptySearchResults() {
     </Prose>
   );
 }`}
-        />
+            />
+          </div>
+        </div>
       </article>,
     ),
   play: async ({ canvasElement }) => {
