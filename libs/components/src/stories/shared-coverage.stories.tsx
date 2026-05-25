@@ -40,7 +40,7 @@ export const SurfacesAndMetadata: Story = {
             layout.
           </p>
         </header>
-        <div class="storybook-doc__grid">
+        <div class="storybook-doc__grid storybook-doc__grid--contract-stack">
           <section class="storybook-doc__section" aria-labelledby="metadata-preview-heading">
             <h2 id="metadata-preview-heading">Rendered output</h2>
             <Panel labelledBy="metadata-preview-title">
@@ -58,19 +58,19 @@ export const SurfacesAndMetadata: Story = {
               />
             </Panel>
           </section>
-          <section class="storybook-doc__section" aria-labelledby="metadata-contract-heading">
-            <h2 id="metadata-contract-heading">Contract</h2>
-            <ul>
-              <li>Panel receives a labelled heading id and renders a bounded section.</li>
-              <li>Badge tone communicates neutral, accent, warning, or success state.</li>
-              <li>CompactList renders label/value metadata as a definition list.</li>
-              <li>The app owns the words, ordering, and meaning of each metadata row.</li>
-            </ul>
-          </section>
-        </div>
-        <CodeBlock
-          language="tsx"
-          code={`import { Badge, CompactList, Panel } from "@macavitymadcap/hyper-dank-ui";
+          <div class="storybook-doc__aside-stack">
+            <section class="storybook-doc__section" aria-labelledby="metadata-contract-heading">
+              <h2 id="metadata-contract-heading">Contract</h2>
+              <ul>
+                <li>Panel receives a labelled heading id and renders a bounded section.</li>
+                <li>Badge tone communicates neutral, accent, warning, or success state.</li>
+                <li>CompactList renders label/value metadata as a definition list.</li>
+                <li>The app owns the words, ordering, and meaning of each metadata row.</li>
+              </ul>
+            </section>
+            <CodeBlock
+              language="tsx"
+              code={`import { Badge, CompactList, Panel } from "@macavitymadcap/hyper-dank-ui";
 
 export function MetadataPanel() {
   return (
@@ -86,7 +86,9 @@ export function MetadataPanel() {
     </Panel>
   );
 }`}
-        />
+            />
+          </div>
+        </div>
       </article>,
     ),
   play: async ({ canvasElement }) => {
@@ -114,8 +116,11 @@ export const DisclosureAndMenu: Story = {
             app.
           </p>
         </header>
-        <div class="storybook-doc__grid">
-          <section class="storybook-doc__section" aria-labelledby="disclosure-preview-heading">
+        <div class="storybook-doc__grid storybook-doc__grid--contract-stack">
+          <section
+            class="storybook-doc__section storybook-doc__section--roomy"
+            aria-labelledby="disclosure-preview-heading"
+          >
             <h2 id="disclosure-preview-heading">Rendered output</h2>
             <Accordion
               name="examples"
@@ -139,19 +144,19 @@ export const DisclosureAndMenu: Story = {
               ]}
             />
           </section>
-          <section class="storybook-doc__section" aria-labelledby="disclosure-contract-heading">
-            <h2 id="disclosure-contract-heading">Contract</h2>
-            <ul>
-              <li>Accordion items render native disclosure controls with stable ids.</li>
-              <li>PopoverMenu items are links or POST fallback forms, depending on method.</li>
-              <li>Visible labels name each control; consuming apps own destinations and auth.</li>
-              <li>Theme colours inherit from the shared CSS token layer.</li>
-            </ul>
-          </section>
-        </div>
-        <CodeBlock
-          language="tsx"
-          code={`import { Accordion, PopoverMenu } from "@macavitymadcap/hyper-dank-ui";
+          <div class="storybook-doc__aside-stack">
+            <section class="storybook-doc__section" aria-labelledby="disclosure-contract-heading">
+              <h2 id="disclosure-contract-heading">Contract</h2>
+              <ul>
+                <li>Accordion items render native disclosure controls with stable ids.</li>
+                <li>PopoverMenu items are links or POST fallback forms, depending on method.</li>
+                <li>Visible labels name each control; consuming apps own destinations and auth.</li>
+                <li>Theme colours inherit from the shared CSS token layer.</li>
+              </ul>
+            </section>
+            <CodeBlock
+              language="tsx"
+              code={`import { Accordion, PopoverMenu } from "@macavitymadcap/hyper-dank-ui";
 
 export function ActionsMenu() {
   return (
@@ -171,7 +176,9 @@ export function ActionsMenu() {
     </>
   );
 }`}
-        />
+            />
+          </div>
+        </div>
       </article>,
       {},
       [{ event: "submit", handler: () => undefined, preventDefault: true, selector: "form" }],
