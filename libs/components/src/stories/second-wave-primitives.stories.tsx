@@ -64,9 +64,10 @@ export const ShellNavigationAndFeedback: Story = {
           </p>
         </div>
         <div class="storybook-doc__grid">
-          <div class="storybook-doc__section">
+          <div class="storybook-doc__section storybook-doc__section--roomy">
             <h2 id="shell-preview-heading">Rendered output</h2>
             <AppShell
+              className="storybook-demo-shell"
               header={
                 <PageHeader
                   title="Dashboard"
@@ -107,7 +108,7 @@ export const ShellNavigationAndFeedback: Story = {
               <Notice tone="success" heading="Saved">
                 Settings were updated.
               </Notice>
-              <dl class="storybook-row">
+              <dl class="storybook-row storybook-row--roomy">
                 <StatBlock label="Posts" value="24" meta="Published" />
                 <StatBlock label="Drafts" value="4" trend="+2 this week" />
               </dl>
@@ -404,9 +405,12 @@ export const ContentAndEmptyStates: Story = {
           </p>
         </header>
         <div class="storybook-doc__grid">
-          <section class="storybook-doc__section" aria-labelledby="content-preview-heading">
+          <section
+            class="storybook-doc__section storybook-doc__section--roomy"
+            aria-labelledby="content-preview-heading"
+          >
             <h2 id="content-preview-heading">Rendered output</h2>
-            <Prose>
+            <Prose className="storybook-demo-content">
               <SectionHeader
                 title="Release notes"
                 description="Content primitives for docs and static blogs."
