@@ -118,7 +118,7 @@ export const DisclosureAndMenu: Story = {
         </header>
         <div class="storybook-doc__grid storybook-doc__grid--contract-stack">
           <section
-            class="storybook-doc__section storybook-doc__section--roomy"
+            class="storybook-doc__section storybook-doc__section--roomy storybook-disclosure-menu-preview"
             aria-labelledby="disclosure-preview-heading"
           >
             <h2 id="disclosure-preview-heading">Rendered output</h2>
