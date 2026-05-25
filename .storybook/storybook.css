@@ -476,6 +476,26 @@ body {
   width: auto;
 }
 
+.storybook-doc__reference dl {
+  display: grid;
+  gap: var(--size-3);
+  margin: 0;
+}
+
+.storybook-doc__reference-row {
+  display: grid;
+  gap: var(--size-1);
+}
+
+.storybook-doc__reference-row dt {
+  color: var(--text);
+  font-weight: var(--font-weight-7);
+}
+
+.storybook-doc__reference-row dd {
+  margin: 0;
+}
+
 .storybook-doc__section h2,
 .storybook-doc__section h4,
 .storybook-doc__section p,
