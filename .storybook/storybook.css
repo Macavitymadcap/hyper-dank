@@ -437,8 +437,36 @@ body {
   display: grid;
 }
 
+.storybook-demo-shell .app-shell-body {
+  align-items: start;
+  grid-template-columns: minmax(7.5rem, 0.65fr) minmax(0, 2fr);
+}
+
+@media (max-width: 48rem) {
+  .storybook-demo-shell .app-shell-body {
+    grid-template-columns: 1fr;
+  }
+}
+
 .storybook-demo-shell .app-shell-main {
   gap: var(--size-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+}
+
+.storybook-demo-shell .breadcrumbs,
+.storybook-demo-shell .pagination,
+.storybook-demo-shell .tabs,
+.storybook-demo-shell .toolbar {
+  grid-column: 1 / -1;
+}
+
+.storybook-demo-shell .storybook-row--roomy {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+}
+
+.storybook-demo-shell progress {
+  max-width: 100%;
+  width: 100%;
 }
 
 .storybook-doc__section--span-all {
@@ -467,6 +495,12 @@ body {
 
 .storybook-doc__section h2 {
   font-size: clamp(var(--font-size-2), 8cqi, var(--font-size-5));
+}
+
+.storybook-demo-shell .notice h2,
+.storybook-demo-shell .status-summary h2 {
+  font-size: var(--font-size-3);
+  overflow-wrap: anywhere;
 }
 
 .storybook-doc__section p,
