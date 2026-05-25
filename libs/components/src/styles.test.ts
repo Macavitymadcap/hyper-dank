@@ -17,6 +17,8 @@ describe("shared component styles", () => {
     expect(css).toContain(".choice-field");
     expect(css).toContain(".dialog");
     expect(css).toContain("dialog.dialog:not([open])");
+    expect(css).toContain("background: var(--hd-surface-bg)");
+    expect(css).toContain("color: var(--text, CanvasText)");
     expect(css).toContain(".empty-state");
     expect(css).toContain(".icon-button");
     expect(css).toContain(".kbd");
@@ -27,6 +29,11 @@ describe("shared component styles", () => {
     expect(css).toContain(".page-header-content");
     expect(css).toContain(".page-header h1");
     expect(css).toContain("font-size: var(--font-size-4, 2rem)");
+    expect(css).toContain(".radio-group");
+    expect(css).toContain("gap: 0.45rem");
+    expect(css).toContain(".radio-group label");
+    expect(css).toContain("grid-template-columns: auto minmax(0, 1fr)");
+    expect(css).toContain('.radio-group input[type="radio"]');
     expect(css).toContain("appearance: none");
     expect(css).toContain("viewBox=%220%200%2020%2020%22");
     expect(css).toContain("width: 100%");

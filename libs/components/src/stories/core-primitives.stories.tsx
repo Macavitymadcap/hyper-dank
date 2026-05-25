@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, within } from "storybook/test";
 import { Button } from "../atoms/Button";
 import { Icon } from "../atoms/Icon";
 import { IconButton } from "../atoms/IconButton";
@@ -17,7 +17,7 @@ import { SelectField } from "../molecules/SelectField";
 import { TextareaField } from "../molecules/TextareaField";
 import { ValidationSummary } from "../molecules/ValidationSummary";
 import { ComponentReference } from "./component-reference";
-import { renderStory } from "./render";
+import { renderStory, renderStoryWithActions } from "./render";
 import { sharedIconStoryNames } from "./storybook-coverage";
 
 const iconGroups = [
@@ -72,7 +72,7 @@ type Story = StoryObj;
 
 export const ActionsAndForms: Story = {
   render: () =>
-    renderStory(
+    renderStoryWithActions(
       <form class="storybook-doc__section" action="/examples" method="post">
         <ValidationSummary items={[{ href: "#title", message: "Enter a title" }]} />
         <Fieldset legend="Publishing options" description="Native form controls with shared hooks.">
@@ -113,6 +113,8 @@ export const ActionsAndForms: Story = {
           </LinkButton>
         </ButtonGroup>
       </form>,
+      {},
+      [{ event: "submit", handler: () => undefined, preventDefault: true, selector: "form" }],
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -120,12 +122,14 @@ export const ActionsAndForms: Story = {
     await expect(canvas.getByRole("button", { name: "Search" })).toBeInTheDocument();
     await expect(canvas.getByRole("link", { name: "View examples" })).toBeInTheDocument();
     await expect(canvas.getAllByRole("alert")).toHaveLength(2);
+    await userEvent.click(canvas.getByRole("button", { name: "Save" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Search" }));
   },
 };
 
 export const SelectionAndCommands: Story = {
   render: () =>
-    renderStory(
+    renderStoryWithActions(
       <article class="storybook-doc" aria-labelledby="selection-heading">
         <header class="storybook-doc__header">
           <p class="storybook-doc__eyebrow">Selection and command contract</p>
@@ -276,6 +280,7 @@ export function SelectionTools() {
         </div>
       </article>,
       { size: "full" },
+      [{ event: "submit", handler: () => undefined, preventDefault: true, selector: "form" }],
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -293,6 +298,8 @@ export function SelectionTools() {
     await expect(
       canvas.getByRole("button", { name: "Open selection actions" }),
     ).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole("button", { name: "Open selection actions" }));
+    await userEvent.click(canvas.getByRole("menuitem", { name: "Archive selected" }));
   },
 };
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, within } from "storybook/test";
 import { Badge } from "../atoms/Badge";
 import { Button } from "../atoms/Button";
 import { Icon } from "../atoms/Icon";
@@ -32,7 +32,7 @@ import { TimelineList } from "../molecules/TimelineList";
 import { Toolbar } from "../molecules/Toolbar";
 import { ValidationSummary } from "../molecules/ValidationSummary";
 import { ComponentReference } from "./component-reference";
-import { renderStory } from "./render";
+import { renderStory, renderStoryWithActions } from "./render";
 
 const meta = {
   parameters: {
@@ -195,12 +195,17 @@ export function DashboardShell() {
     await expect(canvas.getByRole("navigation", { name: "Sections" })).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Open sync dialog" })).toBeInTheDocument();
     await expect(canvas.getByText("Refreshing")).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole("button", { name: "Refresh" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Filter" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Open sync dialog" }));
+    await expect(canvas.getByText("Sync latest records from the server.")).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole("button", { name: "Close" }));
   },
 };
 
 export const StagedFormWorkflow: Story = {
   render: () =>
-    renderStory(
+    renderStoryWithActions(
       <article class="storybook-doc" aria-labelledby="staged-form-heading">
         <header class="storybook-doc__header">
           <p class="storybook-doc__eyebrow">Sequential form contract</p>
@@ -318,6 +323,7 @@ export function ArticleStage({ stage }) {
         </div>
       </article>,
       { size: "full" },
+      [{ event: "submit", handler: () => undefined, preventDefault: true, selector: "form" }],
     ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -327,6 +333,8 @@ export function ArticleStage({ stage }) {
     ).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Continue" })).toBeInTheDocument();
     await expect(canvas.getAllByRole("alert")).toHaveLength(2);
+    await userEvent.click(canvas.getByRole("button", { name: "Back" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Continue" }));
   },
 };
 
@@ -539,5 +547,6 @@ export function EmptySearchResults() {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("heading", { name: "Release notes" })).toBeInTheDocument();
     await expect(canvas.getByText("No matching entries")).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole("button", { name: "Reset filters" }));
   },
 };
