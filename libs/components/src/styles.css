@@ -9,6 +9,7 @@
 .code-block,
 .command,
 .command-field,
+.dialog,
 .empty-state,
 .fieldset,
 .form-field,
@@ -805,7 +806,9 @@ dialog.dialog[open] {
   max-width: min(100%, 36rem);
   border: 1px solid currentColor;
   border-radius: 0.5rem;
+  background: var(--hd-surface-bg);
   box-shadow: var(--hd-surface-shadow);
+  color: var(--text, CanvasText);
   padding: 1rem;
 }
 
