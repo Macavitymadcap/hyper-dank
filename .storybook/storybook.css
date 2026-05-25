@@ -224,6 +224,18 @@ body {
   font-size: var(--font-size-1);
 }
 
+.storybook-low-state-contracts code {
+  padding: 0.05rem 0.3rem;
+  background: var(--surface-raised);
+  color: var(--text);
+  border: var(--border-size-1) solid var(--border-subtle);
+  border-radius: var(--radius-1);
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
 .storybook-low-state-media {
   display: grid;
   place-items: center;
