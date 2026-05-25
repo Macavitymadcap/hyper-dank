@@ -783,8 +783,16 @@
 
 .code-block {
   box-sizing: border-box;
-  width: 100%;
+  max-width: 100%;
   margin: 0;
+  width: 100%;
+}
+
+.code-block code {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 dialog.dialog:not([open]) {
