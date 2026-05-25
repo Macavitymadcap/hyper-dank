@@ -396,6 +396,18 @@ body {
   align-items: start;
 }
 
+.storybook-doc__grid--contract-stack {
+  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+}
+
+.storybook-doc__aside-stack {
+  display: grid;
+  align-content: start;
+  gap: var(--size-4);
+  min-width: 0;
+}
+
 .storybook-doc__section {
   display: grid;
   align-content: start;
