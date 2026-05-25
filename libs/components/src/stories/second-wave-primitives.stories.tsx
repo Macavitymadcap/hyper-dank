@@ -63,7 +63,7 @@ export const ShellNavigationAndFeedback: Story = {
             feedback, paging, and compact operational metrics.
           </p>
         </div>
-        <div class="storybook-doc__grid">
+        <div class="storybook-doc__grid storybook-doc__grid--start">
           <div class="storybook-doc__section storybook-doc__section--roomy">
             <h2 id="shell-preview-heading">Rendered output</h2>
             <AppShell
@@ -404,7 +404,7 @@ export const ContentAndEmptyStates: Story = {
             states that need clear structure without taking over content modelling.
           </p>
         </header>
-        <div class="storybook-doc__grid">
+        <div class="storybook-doc__grid storybook-doc__grid--start">
           <section
             class="storybook-doc__section storybook-doc__section--roomy"
             aria-labelledby="content-preview-heading"
