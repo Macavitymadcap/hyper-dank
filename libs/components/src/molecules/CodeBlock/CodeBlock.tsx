@@ -5,10 +5,12 @@ export interface CodeBlockProps {
 }
 
 const tokenPattern =
-  /(\/\*[\s\S]*?\*\/|\/\/[^\n]*|`(?:\\[\s\S]|[^`\\])*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|<\/?[A-Za-z][\w.:-]*|\/?>|\b(?:as|async|await|const|else|export|false|from|function|if|import|interface|let|return|true|type|undefined|var)\b|\b\d+(?:\.\d+)?\b|[A-Za-z_$][\w$-]*(?==))/g;
+  /(\/\*[\s\S]*?\*\/|<!--[\s\S]*?-->|\/\/[^\n]*|`(?:\\[\s\S]|[^`\\])*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|#[0-9a-fA-F]{3,8}\b|<\/?[A-Za-z][\w.:-]*|\/?>|[{}()[\]:;,]|\b(?:as|async|await|const|else|export|false|from|function|if|import|interface|let|return|true|type|undefined|var)\b|@[A-Za-z-]+|\b\d+(?:\.\d+)?(?:[a-z%]+)?\b|[A-Za-z_$][\w$-]*(?=\s*[=:]))/g;
+
+const supportedHighlightLanguages = /^(css|html?|jsx?|tsx?)$/;
 
 const classifyToken = (token: string): string => {
-  if (token.startsWith("//") || token.startsWith("/*")) {
+  if (token.startsWith("//") || token.startsWith("/*") || token.startsWith("<!--")) {
     return "comment";
   }
 
@@ -20,7 +22,11 @@ const classifyToken = (token: string): string => {
     return "tag";
   }
 
-  if (token === ">" || token === "/>") {
+  if (/^[@#]/.test(token)) {
+    return token.startsWith("@") ? "keyword" : "number";
+  }
+
+  if (/^[{}()[\]:;,]$/.test(token) || token === ">" || token === "/>") {
     return "punctuation";
   }
 
@@ -44,7 +50,7 @@ const classifyToken = (token: string): string => {
 };
 
 const highlightedCode = (code: string, language?: string): unknown[] | string => {
-  if (!language || !/^(j|t)sx?$/.test(language)) {
+  if (!language || !supportedHighlightLanguages.test(language)) {
     return code;
   }
 

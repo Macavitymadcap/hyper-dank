@@ -21,4 +21,26 @@ describe("CodeBlock", () => {
     expect(html).toContain("echo &quot;&lt;safe&gt;&quot;");
     expect(html).not.toContain("code-token");
   });
+
+  test("highlights HTML examples", () => {
+    const html = render(
+      <CodeBlock language="html" code={'<section class="hero">Safe</section>'} />,
+    );
+
+    expect(html).toContain('class="language-html"');
+    expect(html).toContain('data-token="tag"');
+    expect(html).toContain('data-token="attribute"');
+    expect(html).toContain('data-token="string"');
+  });
+
+  test("highlights CSS examples", () => {
+    const html = render(
+      <CodeBlock language="css" code={".hero { color: #15803d; margin-block: 1rem; }"} />,
+    );
+
+    expect(html).toContain('class="language-css"');
+    expect(html).toContain('data-token="attribute"');
+    expect(html).toContain('data-token="number"');
+    expect(html).toContain('data-token="punctuation"');
+  });
 });
