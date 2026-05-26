@@ -275,6 +275,19 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0068-breadcrumbs",
+    label: "HD 0068 Breadcrumbs",
+    description: "Breadcrumb separator evidence for the dedicated shared Breadcrumbs story.",
+    states: [
+      {
+        authUserId: null,
+        label: "Breadcrumb separators",
+        path: "/storybook/iframe.html?id=components-shared-molecules-breadcrumbs--linked-current",
+        slug: "breadcrumb-separators",
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",

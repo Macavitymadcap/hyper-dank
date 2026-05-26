@@ -11,6 +11,8 @@ describe("shared component styles", () => {
     expect(css).toContain(".aspect-ratio");
     expect(css).toContain(".avatar");
     expect(css).toContain(".breadcrumbs ol");
+    expect(css).toContain(".breadcrumbs li + li::before");
+    expect(css).toContain('.breadcrumbs [aria-current="page"]');
     expect(css).toContain('.button[data-variant="ghost"]');
     expect(css).toContain(".button-group");
     expect(css).toContain(".callout");

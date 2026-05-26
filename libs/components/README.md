@@ -132,6 +132,8 @@ For rendered component contracts, see the published Storybook route at
   server-only app code.
 - Docs and static blogs can use `Prose`, `CodeBlock`, `Callout`, `MetadataList`, `TimelineList`,
   `Breadcrumbs`, and `SideNav` while keeping routing and content collections app-owned.
+  `Breadcrumbs` separates sibling items with decorative CSS so visual delimiters stay out of the
+  accessible breadcrumb labels.
 
 The shared components deliberately stop at generic structure and CSS contracts. Product language,
 feature organisms, route paths, permissions, and persistence stay in the consuming application.
