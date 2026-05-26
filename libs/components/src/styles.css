@@ -558,6 +558,28 @@
   gap: 0.5rem;
 }
 
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumbs li + li::before {
+  content: "/";
+  color: var(--color-text-muted, #64748b);
+}
+
+.breadcrumbs [aria-current="page"] {
+  font-weight: 700;
+}
+
+@media (max-width: 30rem) {
+  .breadcrumbs ol,
+  .breadcrumbs li {
+    gap: 0.35rem;
+  }
+}
+
 .breadcrumbs a,
 .pagination a,
 .side-nav a,
