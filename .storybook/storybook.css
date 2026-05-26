@@ -485,6 +485,28 @@ body {
   padding-block-end: max(var(--size-5), 10.5rem);
 }
 
+.storybook-reuse-preview {
+  padding-block-end: max(var(--size-5), 10.5rem);
+}
+
+.storybook-reuse-preview .panel {
+  display: grid;
+  gap: var(--size-4);
+}
+
+.storybook-reuse-preview .panel > p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-2);
+  margin: 0;
+}
+
+.storybook-reuse-preview .compact-list {
+  display: grid;
+  gap: var(--size-1);
+}
+
 .storybook-doc__section--span-all {
   grid-column: 1 / -1;
   justify-self: stretch;

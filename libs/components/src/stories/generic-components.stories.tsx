@@ -41,8 +41,11 @@ export const ReuseSet: Story = {
             template. Use it as a copyable starting point for compact status and activity panels.
           </p>
         </header>
-        <div class="storybook-doc__grid">
-          <section class="storybook-doc__section" aria-labelledby="reuse-preview-heading">
+        <div class="storybook-doc__grid storybook-doc__grid--contract-stack">
+          <section
+            class="storybook-doc__section storybook-reuse-preview"
+            aria-labelledby="reuse-preview-heading"
+          >
             <h2 id="reuse-preview-heading">Rendered output</h2>
             <Panel labelledBy="reuse-preview-title">
               <h3 id="reuse-preview-title">Release desk</h3>
@@ -94,22 +97,22 @@ export const ReuseSet: Story = {
               />
             </Panel>
           </section>
-          <section class="storybook-doc__section" aria-labelledby="reuse-contract-heading">
-            <h2 id="reuse-contract-heading">Contract</h2>
-            <ul>
-              <li>Each primitive keeps its own semantic HTML and class hooks.</li>
-              <li>
-                BasicGraph renders visible labels and a labelled figure; the app owns real data and
-                units.
-              </li>
-              <li>Accordion and PopoverMenu stay native and keyboard-reachable.</li>
-              <li>Extract a new component only when this composition repeats in product code.</li>
-            </ul>
-          </section>
-        </div>
-        <CodeBlock
-          language="tsx"
-          code={`import { Badge, BasicGraph, Callout, CompactList, Panel } from "@macavitymadcap/hyper-dank-ui";
+          <div class="storybook-doc__aside-stack">
+            <section class="storybook-doc__section" aria-labelledby="reuse-contract-heading">
+              <h2 id="reuse-contract-heading">Contract</h2>
+              <ul>
+                <li>Each primitive keeps its own semantic HTML and class hooks.</li>
+                <li>
+                  BasicGraph renders visible labels and a labelled figure; the app owns real data
+                  and units.
+                </li>
+                <li>Accordion and PopoverMenu stay native and keyboard-reachable.</li>
+                <li>Extract a new component only when this composition repeats in product code.</li>
+              </ul>
+            </section>
+            <CodeBlock
+              language="tsx"
+              code={`import { Badge, BasicGraph, Callout, CompactList, Panel } from "@macavitymadcap/hyper-dank-ui";
 
 export function ReleaseDesk() {
   return (
@@ -140,7 +143,9 @@ export function ReleaseDesk() {
     </Panel>
   );
 }`}
-        />
+            />
+          </div>
+        </div>
       </article>,
       {},
       [{ event: "submit", handler: () => undefined, preventDefault: true, selector: "form" }],
