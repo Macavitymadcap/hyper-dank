@@ -558,6 +558,36 @@
   gap: 0.5rem;
 }
 
+.breadcrumbs ol {
+  gap: 0;
+}
+
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.breadcrumbs li + li::before {
+  content: "/";
+  color: var(--color-text-muted, #64748b);
+  display: inline-grid;
+  align-items: center;
+  justify-items: start;
+  width: 0.45rem;
+  margin-inline: 0 0.55rem;
+}
+
+.breadcrumbs [aria-current="page"] {
+  font-weight: 700;
+}
+
+@media (max-width: 30rem) {
+  .breadcrumbs li + li::before {
+    width: 0.4rem;
+    margin-inline: 0 0.46rem;
+  }
+}
+
 .breadcrumbs a,
 .pagination a,
 .side-nav a,

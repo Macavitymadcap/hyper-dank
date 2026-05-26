@@ -5,7 +5,7 @@ export const sharedStoryCoverage = {
   Avatar: "Components/Shared/Low State Primitives",
   Badge: "Components/Shared/Existing Primitives",
   BasicGraph: "Components/Shared/Reusable Patterns",
-  Breadcrumbs: "Components/Shared/App Surfaces And Feedback",
+  Breadcrumbs: "Components/Shared/Molecules/Breadcrumbs",
   Button: "Components/Shared/Core Primitives",
   ButtonGroup: "Components/Shared/Core Primitives",
   Callout: "Components/Shared/App Surfaces And Feedback",

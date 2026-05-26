@@ -158,7 +158,7 @@ describe("component library", () => {
         <Breadcrumbs
           items={[
             { href: "/", label: "Home" },
-            { current: true, href: "/dashboard", label: "Dashboard" },
+            { current: true, label: "Dashboard" },
           ]}
         />
         <Toolbar ariaLabel="Tools">
@@ -175,6 +175,7 @@ describe("component library", () => {
     expect(html).toContain('class="app-shell"');
     expect(html).toContain('class="page-header"');
     expect(html).toContain('class="side-nav"');
+    expect(html).toContain('<span aria-current="page">Dashboard</span>');
     expect(html).toContain('role="toolbar"');
     expect(html).toContain('class="pagination"');
   });

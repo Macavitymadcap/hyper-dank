@@ -1,8 +1,18 @@
-export interface BreadcrumbItem {
-  current?: boolean;
-  href: string;
+interface BreadcrumbBaseItem {
   label: unknown;
 }
+
+interface BreadcrumbLinkedItem extends BreadcrumbBaseItem {
+  current?: boolean;
+  href: string;
+}
+
+interface BreadcrumbCurrentItem extends BreadcrumbBaseItem {
+  current: true;
+  href?: string;
+}
+
+export type BreadcrumbItem = BreadcrumbLinkedItem | BreadcrumbCurrentItem;
 
 export interface BreadcrumbsProps {
   ariaLabel?: string;
@@ -18,9 +28,13 @@ export const Breadcrumbs = ({ ariaLabel = "Breadcrumb", className, items }: Brea
       <ol>
         {items.map((item) => (
           <li>
-            <a href={item.href} aria-current={item.current ? "page" : undefined}>
-              {item.label}
-            </a>
+            {item.href ? (
+              <a href={item.href} aria-current={item.current ? "page" : undefined}>
+                {item.label}
+              </a>
+            ) : (
+              <span aria-current={item.current ? "page" : undefined}>{item.label}</span>
+            )}
           </li>
         ))}
       </ol>
