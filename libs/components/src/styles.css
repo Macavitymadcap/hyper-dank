@@ -571,9 +571,10 @@
   content: "/";
   color: var(--color-text-muted, #64748b);
   display: inline-grid;
-  place-items: center;
-  width: 0.8rem;
-  margin-inline: 0.06rem 0.38rem;
+  align-items: center;
+  justify-items: start;
+  width: 0.45rem;
+  margin-inline: 0 0.55rem;
 }
 
 .breadcrumbs [aria-current="page"] {
@@ -582,8 +583,8 @@
 
 @media (max-width: 30rem) {
   .breadcrumbs li + li::before {
-    width: 0.7rem;
-    margin-inline: 0.04rem 0.31rem;
+    width: 0.4rem;
+    margin-inline: 0 0.46rem;
   }
 }
 
