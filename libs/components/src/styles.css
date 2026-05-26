@@ -817,9 +817,38 @@
 
 .code-block {
   box-sizing: border-box;
+  --hd-code-token-attribute: var(--code-token-attribute, #7c3aed);
+  --hd-code-token-comment: var(--code-token-comment, var(--text-muted, #6c757d));
+  --hd-code-token-keyword: var(--code-token-keyword, var(--button-text, #0b5fff));
+  --hd-code-token-number: var(--code-token-number, #b45309);
+  --hd-code-token-punctuation: var(--code-token-punctuation, var(--text-muted, #6c757d));
+  --hd-code-token-string: var(--code-token-string, #15803d);
+  --hd-code-token-tag: var(--code-token-tag, #b42318);
   max-width: 100%;
   margin: 0;
   width: 100%;
+}
+
+:where(html[data-theme="dark"], [data-theme="dark"]) .code-block {
+  --hd-code-token-attribute: var(--code-token-attribute, #d8b4fe);
+  --hd-code-token-comment: var(--code-token-comment, var(--text-muted, #adb5bd));
+  --hd-code-token-keyword: var(--code-token-keyword, #91caff);
+  --hd-code-token-number: var(--code-token-number, #fbbf24);
+  --hd-code-token-punctuation: var(--code-token-punctuation, var(--text-muted, #ced4da));
+  --hd-code-token-string: var(--code-token-string, #7ee787);
+  --hd-code-token-tag: var(--code-token-tag, #ffb4ab);
+}
+
+@media (prefers-color-scheme: dark) {
+  .code-block {
+    --hd-code-token-attribute: var(--code-token-attribute, #d8b4fe);
+    --hd-code-token-comment: var(--code-token-comment, var(--text-muted, #adb5bd));
+    --hd-code-token-keyword: var(--code-token-keyword, #91caff);
+    --hd-code-token-number: var(--code-token-number, #fbbf24);
+    --hd-code-token-punctuation: var(--code-token-punctuation, var(--text-muted, #ced4da));
+    --hd-code-token-string: var(--code-token-string, #7ee787);
+    --hd-code-token-tag: var(--code-token-tag, #ffb4ab);
+  }
 }
 
 .code-block code {
@@ -827,6 +856,36 @@
   min-width: 0;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
+}
+
+.code-token--attribute {
+  color: var(--hd-code-token-attribute);
+}
+
+.code-token--comment {
+  color: var(--hd-code-token-comment);
+  font-style: italic;
+}
+
+.code-token--keyword {
+  color: var(--hd-code-token-keyword);
+  font-weight: var(--font-weight-7, 700);
+}
+
+.code-token--number {
+  color: var(--hd-code-token-number);
+}
+
+.code-token--punctuation {
+  color: var(--hd-code-token-punctuation);
+}
+
+.code-token--string {
+  color: var(--hd-code-token-string);
+}
+
+.code-token--tag {
+  color: var(--hd-code-token-tag);
 }
 
 dialog.dialog:not([open]) {

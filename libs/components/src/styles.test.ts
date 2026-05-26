@@ -19,6 +19,8 @@ describe("shared component styles", () => {
     expect(css).toContain("dialog.dialog:not([open])");
     expect(css).toContain("background: var(--hd-surface-bg)");
     expect(css).toContain("color: var(--text, CanvasText)");
+    expect(css).toContain(".code-token--keyword");
+    expect(css).toContain(':where(html[data-theme="dark"], [data-theme="dark"]) .code-block');
     expect(css).toContain(".empty-state");
     expect(css).toContain(".icon-button");
     expect(css).toContain(".kbd");
