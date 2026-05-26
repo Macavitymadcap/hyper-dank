@@ -88,7 +88,7 @@ export const ShellNavigationAndFeedback: Story = {
               <Breadcrumbs
                 items={[
                   { href: "/", label: "Home" },
-                  { current: true, href: "/dashboard", label: "Dashboard" },
+                  { current: true, label: "Dashboard" },
                 ]}
               />
               <Tabs
@@ -127,7 +127,10 @@ export const ShellNavigationAndFeedback: Story = {
             <h2 id="shell-contract-heading">Contract</h2>
             <ul>
               <li>AppShell owns landmarks and layout slots, not product routing.</li>
-              <li>SideNav, Breadcrumbs, and Tabs render native links with current-state hints.</li>
+              <li>
+                SideNav, Breadcrumbs, and Tabs render navigation with current-state hints.
+                Breadcrumbs can render the current page as non-link text.
+              </li>
               <li>
                 Notice, Progress, LoadingIndicator, and StatusSummary expose state accessibly.
               </li>
