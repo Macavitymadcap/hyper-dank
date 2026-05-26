@@ -573,7 +573,7 @@
   display: inline-grid;
   place-items: center;
   width: 0.8rem;
-  margin-inline: 0.25rem;
+  margin-inline: 0.18rem 0.32rem;
 }
 
 .breadcrumbs [aria-current="page"] {
@@ -583,7 +583,7 @@
 @media (max-width: 30rem) {
   .breadcrumbs li + li::before {
     width: 0.7rem;
-    margin-inline: 0.2rem;
+    margin-inline: 0.15rem 0.25rem;
   }
 }
 
