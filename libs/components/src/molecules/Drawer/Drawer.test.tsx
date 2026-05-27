@@ -23,6 +23,7 @@ describe("Drawer", () => {
 
     expect(html).toContain('class="drawer-wrapper"');
     expect(html).toContain('aria-haspopup="dialog"');
+    expect(html).toContain('aria-label="Open navigation"');
     expect(html).toContain('aria-controls="mobile-nav"');
     expect(html).toContain("<dialog");
     expect(html).toContain('data-placement="start"');
@@ -51,6 +52,17 @@ describe("Drawer", () => {
     expect(html).toContain('hx-get="/filters"');
     expect(html).toContain('hx-target="#filters"');
     expect(html).toContain('hx-swap="innerHTML"');
+  });
+
+  test("keeps a custom trigger accessible through the trigger label", () => {
+    const html = render(
+      <Drawer id="actions" title="Actions" triggerLabel="Open actions" trigger={<span>...</span>}>
+        Actions.
+      </Drawer>,
+    );
+
+    expect(html).toContain('aria-label="Open actions"');
+    expect(html).toContain("<span>...</span>");
   });
 
   test("serializes the trigger target id as a JavaScript string literal", () => {

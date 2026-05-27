@@ -40,6 +40,7 @@ export const Drawer = ({
       <button
         type="button"
         className="drawer-trigger"
+        aria-label={triggerLabel}
         aria-haspopup="dialog"
         aria-controls={id}
         onclick={triggerScript}
