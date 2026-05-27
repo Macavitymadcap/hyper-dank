@@ -22,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Ordered breadcrumb navigation for linked ancestor pages and a current page that can render as non-link text.",
+          "Ordered breadcrumb navigation for linked ancestor pages, optional current-page text, and CSS-generated visual separators between sibling items.",
       },
     },
     layout: "fullscreen",
@@ -46,8 +46,16 @@ export const Playground: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const breadcrumb = within(canvas.getByRole("navigation", { name: "Breadcrumb" }));
+    const links = breadcrumb.getAllByRole("link");
+    const secondItem = links[1]?.parentElement;
+
+    if (!secondItem) throw new Error("Breadcrumb story must render at least two items.");
+
+    const separator = getComputedStyle(secondItem, "::before").content;
+
     await expect(canvas.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/");
     await expect(breadcrumb.getByText("Breadcrumbs")).toHaveAttribute("aria-current", "page");
+    await expect(separator).toBe('"/"');
   },
 };
 

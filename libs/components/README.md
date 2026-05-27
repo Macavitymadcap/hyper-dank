@@ -133,7 +133,8 @@ For rendered component contracts, see the published Storybook route at
 - Docs and static blogs can use `Prose`, `CodeBlock`, `Callout`, `MetadataList`, `TimelineList`,
   `Breadcrumbs`, and `SideNav` while keeping routing and content collections app-owned.
   `Breadcrumbs` accepts linked ancestor items and can render the current item as non-link text with
-  `aria-current="page"` when the current page should not self-link.
+  `aria-current="page"` when the current page should not self-link. It separates sibling items with
+  decorative CSS so visual delimiters stay out of the accessible breadcrumb labels.
 
 The shared components deliberately stop at generic structure and CSS contracts. Product language,
 feature organisms, route paths, permissions, and persistence stay in the consuming application.

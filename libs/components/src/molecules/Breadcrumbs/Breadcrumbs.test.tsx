@@ -47,5 +47,6 @@ describe("Breadcrumbs", () => {
 
     expect(html).toContain('<nav class="breadcrumbs" aria-label="Section path">');
     expect(html).toContain('aria-current="page"');
+    expect(html).not.toContain("<li>/");
   });
 });
