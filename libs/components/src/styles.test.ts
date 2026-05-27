@@ -18,6 +18,7 @@ describe("shared component styles", () => {
     expect(css).toContain(".callout");
     expect(css).toContain(".choice-field");
     expect(css).toContain(".container");
+    expect(css).not.toContain(".code-block,\n.container,\n.empty-state");
     expect(css).toContain(".dialog");
     expect(css).toContain("dialog.dialog:not([open])");
     expect(css).toContain(".empty-state");
