@@ -35,6 +35,7 @@ export { Tooltip, type TooltipProps } from "./atoms/Tooltip";
 export { VisuallyHidden, type VisuallyHiddenProps } from "./atoms/VisuallyHidden";
 export type { HtmxProps } from "./model";
 export { Accordion, type AccordionItem, type AccordionProps } from "./molecules/Accordion";
+export { AlertDialog, type AlertDialogProps, type AlertDialogTone } from "./molecules/AlertDialog";
 export { AppShell, type AppShellProps } from "./molecules/AppShell";
 export { BasicGraph, type BasicGraphDatum, type BasicGraphProps } from "./molecules/BasicGraph";
 export { type BreadcrumbItem, Breadcrumbs, type BreadcrumbsProps } from "./molecules/Breadcrumbs";
@@ -47,6 +48,7 @@ export { Command, type CommandItem, type CommandProps } from "./molecules/Comman
 export { CompactList, type CompactListItem, type CompactListProps } from "./molecules/CompactList";
 export { DateField, type DateFieldDensity, type DateFieldProps } from "./molecules/DateField";
 export { Dialog, type DialogProps } from "./molecules/Dialog";
+export { Drawer, type DrawerPlacement, type DrawerProps } from "./molecules/Drawer";
 export { EmptyState, type EmptyStateProps } from "./molecules/EmptyState";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
 export { FileField, type FileFieldDensity, type FileFieldProps } from "./molecules/FileField";

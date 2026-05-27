@@ -76,14 +76,16 @@ pipeline; importing the package in server code does not automatically load style
   `Switch`, `SwitchProps`, `TableCell`, `TableCellProps`, `Text`, `TextElement`, `TextProps`,
   `TextSize`, `TextTone`, `TextWeight`, `VisuallyHidden`, `VisuallyHiddenProps`.
 - Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `AppShell`, `AppShellProps`,
-  `BasicGraph`, `BasicGraphDatum`, `BasicGraphProps`, `Breadcrumbs`, `BreadcrumbItem`,
-  `BreadcrumbsProps`, `ButtonGroup`, `ButtonGroupProps`, `Callout`, `CalloutProps`,
+  `AlertDialog`, `AlertDialogProps`, `AlertDialogTone`, `BasicGraph`, `BasicGraphDatum`,
+  `BasicGraphProps`, `Breadcrumbs`, `BreadcrumbItem`, `BreadcrumbsProps`, `ButtonGroup`,
+  `ButtonGroupProps`, `Callout`, `CalloutProps`,
   `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`, `CodeBlockProps`, `Combobox`,
   `ComboboxOption`, `ComboboxProps`, `Command`, `CommandItem`, `CommandProps`, `CompactList`,
   `CompactListItem`, `CompactListProps`, `DateField`, `DateFieldDensity`, `DateFieldProps`,
-  `Dialog`, `DialogProps`, `EmptyState`, `EmptyStateProps`, `Fieldset`, `FieldsetProps`,
-  `FileField`, `FileFieldDensity`, `FileFieldProps`, `FormField`, `FormFieldProps`, `HxForm`,
-  `HxFormProps`, `InputGroup`, `InputGroupProps`, `LabelledOutput`,
+  `Dialog`, `DialogProps`, `Drawer`, `DrawerPlacement`, `DrawerProps`, `EmptyState`,
+  `EmptyStateProps`, `Fieldset`, `FieldsetProps`, `FileField`, `FileFieldDensity`,
+  `FileFieldProps`, `FormField`, `FormFieldProps`, `HxForm`, `HxFormProps`, `InputGroup`,
+  `InputGroupProps`, `LabelledOutput`,
   `LabelledOutputProps`, `LoadingIndicator`, `LoadingIndicatorProps`, `MetadataList`,
   `MetadataListItem`, `MetadataListProps`, `NotificationBanner`, `NotificationBannerProps`,
   `NotificationSeverity`, `Notice`, `NoticeProps`, `NumberField`, `NumberFieldDensity`,
@@ -125,6 +127,11 @@ For rendered component contracts, see the published Storybook route at
   data visualisations. `ScrollableTable` exposes caption, summary, pagination, responsive column,
   action-column, and semantic sort-state hooks; apps still own query construction, sort execution,
   filter state, column preference storage, row-action mutations, and persistence.
+- Overlay and compact-panel flows should use `Dialog` for general modal content, `AlertDialog` for
+  destructive or irreversible confirmations, and `Drawer` for mobile side panels or compact
+  navigation/filter panels. Focus handling, triggers, close buttons, and fallback links are
+  native-first; routes still own permission checks, mutation outcomes, redirects, and panel content
+  loading.
 - Feedback surfaces should use `StatusSymbol` for inline labelled markers, `NotificationBanner` for
   page-level events, `Notice` for local feedback, `ValidationSummary` for form errors, `Progress`
   and `LoadingIndicator` for async work, and `StatusSummary` or `Badge` for compact dashboard

@@ -1,5 +1,6 @@
 export const sharedStoryCoverage = {
   Accordion: "Components/Shared/Reusable Patterns",
+  AlertDialog: "Components/Shared/App Surfaces And Feedback",
   AppShell: "Components/Shared/App Surfaces And Feedback",
   AspectRatio: "Components/Shared/Low State Primitives",
   Avatar: "Components/Shared/Low State Primitives",
@@ -19,6 +20,7 @@ export const sharedStoryCoverage = {
   Container: "Components/Shared/Layout And Typography Utilities",
   DateField: "Components/Shared/Core Primitives",
   Dialog: "Components/Shared/App Surfaces And Feedback",
+  Drawer: "Components/Shared/App Surfaces And Feedback",
   EmptyState: "Components/Shared/App Surfaces And Feedback",
   Fieldset: "Components/Shared/Core Primitives",
   FileField: "Components/Shared/Core Primitives",

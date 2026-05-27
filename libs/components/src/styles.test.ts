@@ -22,8 +22,12 @@ describe("shared component styles", () => {
     expect(css).toContain('.form-field[data-density="compact"]');
     expect(css).toContain(".form-field {\n  min-inline-size: 0;");
     expect(css).toContain(".range-field-value");
+    expect(css).toContain(".alert-dialog");
+    expect(css).toContain(".alert-dialog-confirm");
     expect(css).toContain(".dialog");
     expect(css).toContain("dialog.dialog:not([open])");
+    expect(css).toContain(".drawer");
+    expect(css).toContain('.drawer[data-placement="end"]');
     expect(css).toContain(".empty-state");
     expect(css).toContain(".grid");
     expect(css).toContain(".heading");

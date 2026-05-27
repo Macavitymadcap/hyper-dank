@@ -63,6 +63,7 @@ layer after the package CSS.
 
 | Export | Purpose | Demonstration |
 | --- | --- | --- |
+| `AlertDialog`, `AlertDialogProps`, `AlertDialogTone` | Native alert dialog wrapper for destructive confirmation with fallback, cancel, confirm, and HTMX form hooks. | `Components/Shared/App Surfaces And Feedback` |
 | `AspectRatio`, `AspectRatioProps` | Fixed-ratio media/content frame with `--aspect-ratio` styling hook. | `Components/Shared/Low State Primitives` |
 | `Avatar`, `AvatarProps` | Compact user identity image or initials fallback with size hooks. | `Components/Shared/Low State Primitives` |
 | `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | `Components/Shared` |
@@ -78,6 +79,7 @@ layer after the package CSS.
 | `Container`, `ContainerElement`, `ContainerProps`, `ContainerWidth` | Width-constrained semantic wrapper for small reusable composition regions. | `Components/Shared/Layout And Typography Utilities` |
 | `DateField`, `DateFieldDensity`, `DateFieldProps` | Labelled native date input with hint, error, disabled, and compact-density hooks. | `Components/Shared/Core Primitives` |
 | `Dialog`, `DialogProps` | Native dialog with trigger, close form, fallback content, and HTMX-friendly hooks. | `Components/Shared` |
+| `Drawer`, `DrawerPlacement`, `DrawerProps` | Native dialog side panel for compact navigation, filters, and mobile panel composition. | `Components/Shared/App Surfaces And Feedback` |
 | `EmptyState`, `EmptyStateProps` | Blank-state region with optional action slot. | `Components/Shared` |
 | `Fieldset`, `FieldsetProps` | Grouped native controls with legend, hint, and error copy. | `Components/Shared` |
 | `FileField`, `FileFieldDensity`, `FileFieldProps` | Labelled native file input with accept, multiple, capture, hint, error, and disabled hooks. | `Components/Shared/Core Primitives` |
@@ -147,6 +149,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
 | Dashboards | `HxForm`, `ScrollableTable`, `TableFilterSummary`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, query construction, sorting, filtering, column preferences, row mutations, live data, analytics rules, and role rules stay local. |
 | Dense forms | `NumberField`, `DateField`, `FileField`, `RangeField`, `SelectField`, `Combobox`, `PopoverMenu`, `Command`, `StagedForm` | Use native controls for common entry types, datalist suggestions for open text, menu actions for compact choices, command search only when the app owns filtering/loading, and staged forms when app routes own sequential step state. Upload handling, date-range logic, formatting/parsing, unit conversion, and async validation stay local. |
+| Overlays and panels | `Dialog`, `AlertDialog`, `Drawer`, `SideNav`, `AppShell` | Use native dialogs for modal content and confirmations, and drawer panels for compact navigation or filters. Routes still own permissions, mutations, redirects, loaded content, and product navigation structure. |
 | Feedback | `StatusSymbol`, `NotificationBanner`, `Notice`, `ValidationSummary`, `Progress`, `StatusSummary`, `Badge` | Status copy, notification timing, toast queues, dismissal, persistence, and escalation rules stay local. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
 | Utility composition | `Container`, `Stack`, `Grid`, `Heading`, `Text`, `Link`, `VisuallyHidden` | Use for small repeated spacing, width, readable text, and accessible-label glue. Product page layout, responsive breakpoints, route models, and brand typography stay local. |
