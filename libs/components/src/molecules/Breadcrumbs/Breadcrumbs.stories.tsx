@@ -15,14 +15,14 @@ const meta = {
     items: [
       { href: "/", label: "Home" },
       { href: "/docs", label: "Docs" },
-      { current: true, href: "/docs/breadcrumbs", label: "Breadcrumbs" },
+      { current: true, label: "Breadcrumbs" },
     ],
   },
   parameters: {
     docs: {
       description: {
         component:
-          "Ordered breadcrumb navigation with CSS-generated visual separators between sibling items.",
+          "Ordered breadcrumb navigation for linked ancestor pages, optional current-page text, and CSS-generated visual separators between sibling items.",
       },
     },
     layout: "fullscreen",
@@ -54,11 +54,18 @@ export const Playground: Story = {
     const separator = getComputedStyle(secondItem, "::before").content;
 
     await expect(canvas.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/");
-    await expect(canvas.getByRole("link", { name: "Breadcrumbs" })).toHaveAttribute(
-      "aria-current",
-      "page",
-    );
+    await expect(breadcrumb.getByText("Breadcrumbs")).toHaveAttribute("aria-current", "page");
     await expect(separator).toBe('"/"');
+  },
+};
+
+export const CurrentText: Story = {
+  args: {
+    items: [
+      { href: "/", label: "Home" },
+      { href: "/docs", label: "Docs" },
+      { current: true, label: "Breadcrumbs" },
+    ],
   },
 };
 
