@@ -17,11 +17,15 @@ describe("shared component styles", () => {
     expect(css).toContain(".button-group");
     expect(css).toContain(".callout");
     expect(css).toContain(".choice-field");
+    expect(css).toContain(".container");
     expect(css).toContain(".dialog");
     expect(css).toContain("dialog.dialog:not([open])");
     expect(css).toContain(".empty-state");
+    expect(css).toContain(".grid");
+    expect(css).toContain(".heading");
     expect(css).toContain(".icon-button");
     expect(css).toContain(".kbd");
+    expect(css).toContain(".link");
     expect(css).toContain(".metadata-list");
     expect(css).toContain(".notification-banner");
     expect(css).toContain('.notification-banner[data-severity="danger"]');
@@ -46,6 +50,7 @@ describe("shared component styles", () => {
     expect(css).toContain(".separator");
     expect(css).toContain(".side-nav ul");
     expect(css).toContain(".skeleton");
+    expect(css).toContain(".stack");
     expect(css).toContain(".staged-form");
     expect(css).toContain('.staged-form-step [aria-disabled="true"]');
     expect(css).toContain(".stat-block");
@@ -56,7 +61,9 @@ describe("shared component styles", () => {
     expect(css).toContain(".scrollable-table th a");
     expect(css).toContain(".timeline-list");
     expect(css).toContain(".tooltip");
+    expect(css).toContain(".text");
     expect(css).toContain(".validation-summary");
+    expect(css).toContain(".visually-hidden");
     expect(css).toContain(".button:disabled");
     expect(css).toContain(".compact-list-row dd");
     expect(css).toContain('.switch[data-variant="compact"] .switch-track');

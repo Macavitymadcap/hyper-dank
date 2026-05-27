@@ -600,9 +600,11 @@
 .callout,
 .choice-field,
 .code-block,
+.container,
 .empty-state,
 .fieldset,
 .form-field,
+.grid,
 .input-group,
 .labelled-output,
 .loading-indicator,
@@ -614,11 +616,137 @@
 .staged-form-body,
 .staged-form-panel,
 .staged-form-panel-header,
+.stack,
 .status-summary,
 .table-filter-summary,
 .timeline-list {
   display: grid;
   gap: 0.35rem;
+}
+
+.container {
+  inline-size: min(100%, var(--container-max-width, 64rem));
+  margin-inline: auto;
+}
+
+.container[data-width="narrow"] {
+  --container-max-width: 42rem;
+}
+
+.container[data-width="wide"] {
+  --container-max-width: 80rem;
+}
+
+.container[data-width="full"] {
+  --container-max-width: 100%;
+}
+
+.stack {
+  align-items: stretch;
+  gap: var(--stack-gap, 0.75rem);
+}
+
+.stack[data-align="start"] {
+  align-items: start;
+}
+
+.stack[data-align="center"] {
+  align-items: center;
+}
+
+.stack[data-align="end"] {
+  align-items: end;
+}
+
+.grid {
+  display: grid;
+  gap: var(--grid-gap, 1rem);
+  grid-template-columns: var(
+      --grid-columns,
+      repeat(auto-fit, minmax(min(100%, var(--grid-min-column-width, 16rem)), 1fr))
+    );
+}
+
+.heading {
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.heading[data-level="1"] {
+  font-size: var(--font-size-5, 2.5rem);
+}
+
+.heading[data-level="2"] {
+  font-size: var(--font-size-4, 2rem);
+}
+
+.heading[data-level="3"] {
+  font-size: var(--font-size-3, 1.5rem);
+}
+
+.heading[data-level="4"],
+.heading[data-level="5"],
+.heading[data-level="6"] {
+  font-size: var(--font-size-2, 1.25rem);
+}
+
+.text {
+  color: inherit;
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.text[data-size="sm"] {
+  font-size: 0.875rem;
+}
+
+.text[data-size="lg"] {
+  font-size: 1.125rem;
+}
+
+.text[data-tone="muted"] {
+  color: var(--text-muted, color-mix(in oklab, CanvasText 62%, Canvas 38%));
+}
+
+.text[data-tone="danger"] {
+  color: var(--hd-status-danger, #b91c1c);
+}
+
+.text[data-tone="success"] {
+  color: var(--hd-status-success, #15803d);
+}
+
+.text[data-weight="medium"] {
+  font-weight: 600;
+}
+
+.text[data-weight="strong"] {
+  font-weight: 800;
+}
+
+.link {
+  color: var(--link-text, #2563eb);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.link[aria-current="page"] {
+  color: inherit;
+  font-weight: 700;
+}
+
+.visually-hidden {
+  block-size: 1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  inline-size: 1px;
+  margin: -1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
 }
 
 .notification-banner {
