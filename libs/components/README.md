@@ -80,14 +80,17 @@ pipeline; importing the package in server code does not automatically load style
   `BreadcrumbsProps`, `ButtonGroup`, `ButtonGroupProps`, `Callout`, `CalloutProps`,
   `CheckboxField`, `CheckboxFieldProps`, `CodeBlock`, `CodeBlockProps`, `Combobox`,
   `ComboboxOption`, `ComboboxProps`, `Command`, `CommandItem`, `CommandProps`, `CompactList`,
-  `CompactListItem`, `CompactListProps`, `Dialog`, `DialogProps`, `EmptyState`,
-  `EmptyStateProps`, `Fieldset`, `FieldsetProps`, `FormField`, `FormFieldProps`, `HxForm`,
+  `CompactListItem`, `CompactListProps`, `DateField`, `DateFieldDensity`, `DateFieldProps`,
+  `Dialog`, `DialogProps`, `EmptyState`, `EmptyStateProps`, `Fieldset`, `FieldsetProps`,
+  `FileField`, `FileFieldDensity`, `FileFieldProps`, `FormField`, `FormFieldProps`, `HxForm`,
   `HxFormProps`, `InputGroup`, `InputGroupProps`, `LabelledOutput`,
   `LabelledOutputProps`, `LoadingIndicator`, `LoadingIndicatorProps`, `MetadataList`,
   `MetadataListItem`, `MetadataListProps`, `NotificationBanner`, `NotificationBannerProps`,
-  `NotificationSeverity`, `Notice`, `NoticeProps`, `PageHeader`, `PageHeaderProps`, `Pagination`,
+  `NotificationSeverity`, `Notice`, `NoticeProps`, `NumberField`, `NumberFieldDensity`,
+  `NumberFieldProps`, `PageHeader`, `PageHeaderProps`, `Pagination`,
   `PaginationProps`, `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps`, `Progress`,
-  `ProgressProps`, `Prose`, `ProseProps`, `RadioGroup`,
+  `ProgressProps`, `Prose`, `ProseProps`, `RadioGroup`, `RangeField`, `RangeFieldDensity`,
+  `RangeFieldProps`,
   `RadioGroupOption`, `RadioGroupProps`, `ScrollableTable`, `ScrollableTableColumn`,
   `ScrollableTableProps`, `SectionHeader`, `SectionHeaderProps`, `SegmentedControl`,
   `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
@@ -126,9 +129,11 @@ For rendered component contracts, see the published Storybook route at
   page-level events, `Notice` for local feedback, `ValidationSummary` for form errors, `Progress`
   and `LoadingIndicator` for async work, and `StatusSummary` or `Badge` for compact dashboard
   metadata. Toast queue timing, dismissal, persistence, and event wiring stay in the consuming app.
-- Dense forms should use `SelectField` for short fixed sets, `Combobox` when native datalist
-  suggestions help but submitted values remain app-owned, `PopoverMenu` for compact actions, and
-  `Command` for app-wide command search where filtering and loading stay in the consuming app.
+- Dense forms should use `NumberField`, `DateField`, `FileField`, `RangeField`, and `SelectField`
+  for labelled native controls, `Combobox` when native datalist suggestions help but submitted
+  values remain app-owned, `PopoverMenu` for compact actions, and `Command` for app-wide command
+  search where filtering and loading stay in the consuming app. Upload handling, date-range logic,
+  formatting/parsing, unit conversion, and async validation stay in the consuming app.
   Use `StagedForm` inside `HxForm` when route-owned sequential steps, validation, and redirects
   need a shared progress and panel layout.
 - Static demos can use `InputGroup`, `LabelledOutput`, `Button`, and `Panel` without importing

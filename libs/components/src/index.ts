@@ -45,9 +45,11 @@ export { CodeBlock, type CodeBlockProps } from "./molecules/CodeBlock";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./molecules/Combobox";
 export { Command, type CommandItem, type CommandProps } from "./molecules/Command";
 export { CompactList, type CompactListItem, type CompactListProps } from "./molecules/CompactList";
+export { DateField, type DateFieldDensity, type DateFieldProps } from "./molecules/DateField";
 export { Dialog, type DialogProps } from "./molecules/Dialog";
 export { EmptyState, type EmptyStateProps } from "./molecules/EmptyState";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export { FileField, type FileFieldDensity, type FileFieldProps } from "./molecules/FileField";
 export { FormField, type FormFieldProps } from "./molecules/FormField";
 export { HxForm, type HxFormProps } from "./molecules/HxForm";
 export { InputGroup, type InputGroupProps } from "./molecules/InputGroup";
@@ -67,12 +69,18 @@ export {
   type NotificationBannerProps,
   type NotificationSeverity,
 } from "./molecules/NotificationBanner";
+export {
+  NumberField,
+  type NumberFieldDensity,
+  type NumberFieldProps,
+} from "./molecules/NumberField";
 export { PageHeader, type PageHeaderProps } from "./molecules/PageHeader";
 export { Pagination, type PaginationProps } from "./molecules/Pagination";
 export { PopoverMenu, type PopoverMenuItem, type PopoverMenuProps } from "./molecules/PopoverMenu";
 export { Progress, type ProgressProps } from "./molecules/Progress";
 export { Prose, type ProseProps } from "./molecules/Prose";
 export { RadioGroup, type RadioGroupOption, type RadioGroupProps } from "./molecules/RadioGroup";
+export { RangeField, type RangeFieldDensity, type RangeFieldProps } from "./molecules/RangeField";
 export {
   ScrollableTable,
   type ScrollableTableColumn,

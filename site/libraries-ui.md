@@ -76,9 +76,11 @@ layer after the package CSS.
 | `Combobox`, `ComboboxOption`, `ComboboxProps` | Labelled native datalist input for app-owned suggestions and validation. | `Components/Shared/Core Primitives` |
 | `Command`, `CommandItem`, `CommandProps` | Search landmark and result options for app-owned command filtering and loading. | `Components/Shared/Core Primitives` |
 | `Container`, `ContainerElement`, `ContainerProps`, `ContainerWidth` | Width-constrained semantic wrapper for small reusable composition regions. | `Components/Shared/Layout And Typography Utilities` |
+| `DateField`, `DateFieldDensity`, `DateFieldProps` | Labelled native date input with hint, error, disabled, and compact-density hooks. | `Components/Shared/Core Primitives` |
 | `Dialog`, `DialogProps` | Native dialog with trigger, close form, fallback content, and HTMX-friendly hooks. | `Components/Shared` |
 | `EmptyState`, `EmptyStateProps` | Blank-state region with optional action slot. | `Components/Shared` |
 | `Fieldset`, `FieldsetProps` | Grouped native controls with legend, hint, and error copy. | `Components/Shared` |
+| `FileField`, `FileFieldDensity`, `FileFieldProps` | Labelled native file input with accept, multiple, capture, hint, error, and disabled hooks. | `Components/Shared/Core Primitives` |
 | `Grid`, `GridElement`, `GridProps` | Simple responsive grid helper with column, gap, and minimum-width custom-property hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `Heading`, `HeadingLevel`, `HeadingProps` | Semantic heading helper with separate visual-level hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | `Components/Shared` |
@@ -90,12 +92,14 @@ layer after the package CSS.
 | `MetadataList`, `MetadataListItem`, `MetadataListProps` | Definition-list metadata rows for compact summaries. | `Components/Shared` |
 | `NotificationBanner`, `NotificationBannerProps`, `NotificationSeverity` | Page-level feedback banner with severity roles, shape hooks, and static live-region semantics. | `Components/Shared/App Surfaces And Feedback` |
 | `Notice`, `NoticeProps` | Tonal feedback block with appropriate status or alert semantics. | `Components/Shared` |
+| `NumberField`, `NumberFieldDensity`, `NumberFieldProps` | Labelled native number input with min, max, step, input mode, hint, error, disabled, and compact-density hooks. | `Components/Shared/Core Primitives` |
 | `PageHeader`, `PageHeaderProps` | Page title, description, metadata, and action slots. | `Components/Shared` |
 | `Pagination`, `PaginationProps` | Link-backed page navigation with current-state output. | `Components/Shared` |
 | `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | `Components/Shared` |
 | `Progress`, `ProgressProps` | Native progress output with accessible label. | `Components/Shared` |
 | `Prose`, `ProseProps` | Article wrapper for readable documentation or editorial content. | `Components/Shared` |
 | `RadioGroup`, `RadioGroupOption`, `RadioGroupProps` | Fieldset-backed radio options with help and error hooks. | `Components/Shared` |
+| `RangeField`, `RangeFieldDensity`, `RangeFieldProps` | Labelled native range input with optional app-formatted visible value text. | `Components/Shared/Core Primitives` |
 | `SectionHeader`, `SectionHeaderProps` | Section title, optional copy, and action slot. | `Components/Shared` |
 | `SegmentedControl`, `SegmentedControlOption`, `SegmentedControlProps` | Radio-backed mode switcher for mutually exclusive choices. | `Components/Shared` |
 | `SelectField`, `SelectFieldOption`, `SelectFieldProps` | Labelled native select with options, hint, and error hooks. | `Components/Shared` |
@@ -142,7 +146,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | Server apps | `HxForm`, `FormField`, `Button`, `Panel` | Routes, validation, auth, and permissions stay local. |
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
 | Dashboards | `HxForm`, `ScrollableTable`, `TableFilterSummary`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, query construction, sorting, filtering, column preferences, row mutations, live data, analytics rules, and role rules stay local. |
-| Dense forms | `SelectField`, `Combobox`, `PopoverMenu`, `Command`, `StagedForm` | Use native selects for short fixed sets, datalist suggestions for open text, menu actions for compact choices, command search only when the app owns filtering/loading, and staged forms when app routes own sequential step state. |
+| Dense forms | `NumberField`, `DateField`, `FileField`, `RangeField`, `SelectField`, `Combobox`, `PopoverMenu`, `Command`, `StagedForm` | Use native controls for common entry types, datalist suggestions for open text, menu actions for compact choices, command search only when the app owns filtering/loading, and staged forms when app routes own sequential step state. Upload handling, date-range logic, formatting/parsing, unit conversion, and async validation stay local. |
 | Feedback | `StatusSymbol`, `NotificationBanner`, `Notice`, `ValidationSummary`, `Progress`, `StatusSummary`, `Badge` | Status copy, notification timing, toast queues, dismissal, persistence, and escalation rules stay local. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
 | Utility composition | `Container`, `Stack`, `Grid`, `Heading`, `Text`, `Link`, `VisuallyHidden` | Use for small repeated spacing, width, readable text, and accessible-label glue. Product page layout, responsive breakpoints, route models, and brand typography stay local. |
