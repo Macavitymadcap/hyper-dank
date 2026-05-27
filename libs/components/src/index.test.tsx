@@ -12,12 +12,16 @@ import {
   CheckboxField,
   Combobox,
   Command,
+  Container,
   Dialog,
   EmptyState,
   FormField,
+  Grid,
+  Heading,
   IconButton,
   Kbd,
   LabelledOutput,
+  Link,
   LinkButton,
   Notice,
   NotificationBanner,
@@ -30,13 +34,16 @@ import {
   Separator,
   SideNav,
   Skeleton,
+  Stack,
   StagedForm,
   StatBlock,
   StatusSymbol,
   TableFilterSummary,
   Tabs,
+  Text,
   Toolbar,
   Tooltip,
+  VisuallyHidden,
 } from "./index";
 
 const render = (node: unknown): string => String(node);
@@ -96,6 +103,34 @@ describe("component library", () => {
     expect(html).toContain('class="kbd"');
     expect(html).toContain('class="avatar"');
     expect(html).toContain('class="aspect-ratio"');
+  });
+
+  test("exports layout and typography utility primitives", () => {
+    const html = render(
+      <Container as="main" labelledBy="utilities-heading" width="narrow">
+        <Stack gap="1rem">
+          <Heading id="utilities-heading" level={1} visualLevel={2}>
+            Utilities
+          </Heading>
+          <Text tone="muted">Small composition helpers.</Text>
+          <Grid minColumnWidth="12rem">
+            <Link href="/docs" current>
+              Docs
+            </Link>
+            <VisuallyHidden>Visible to assistive technology</VisuallyHidden>
+          </Grid>
+        </Stack>
+      </Container>,
+    );
+
+    expect(html).toContain('class="container"');
+    expect(html).toContain('data-width="narrow"');
+    expect(html).toContain('class="stack"');
+    expect(html).toContain('class="heading"');
+    expect(html).toContain('class="text"');
+    expect(html).toContain('class="grid"');
+    expect(html).toContain('class="link"');
+    expect(html).toContain('class="visually-hidden"');
   });
 
   test("keeps table primitives app-agnostic", () => {

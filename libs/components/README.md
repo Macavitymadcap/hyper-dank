@@ -69,9 +69,12 @@ pipeline; importing the package in server code does not automatically load style
 ## Public Exports
 
 - Atoms: `Badge`, `BadgeProps`, `Button`, `ButtonProps`, `Card`, `CardElement`, `CardProps`, `Chip`,
-  `ChipProps`, `Icon`, `IconProps`, `IconButton`, `IconButtonProps`, `LinkButton`,
-  `LinkButtonProps`, `Panel`, `PanelProps`, `Switch`, `SwitchProps`, `TableCell`,
-  `TableCellProps`.
+  `ChipProps`, `Container`, `ContainerElement`, `ContainerProps`, `ContainerWidth`, `Grid`,
+  `GridElement`, `GridProps`, `Heading`, `HeadingLevel`, `HeadingProps`, `Icon`, `IconProps`,
+  `IconButton`, `IconButtonProps`, `Kbd`, `KbdProps`, `Link`, `LinkProps`, `LinkButton`,
+  `LinkButtonProps`, `Panel`, `PanelProps`, `Stack`, `StackAlign`, `StackElement`, `StackProps`,
+  `Switch`, `SwitchProps`, `TableCell`, `TableCellProps`, `Text`, `TextElement`, `TextProps`,
+  `TextSize`, `TextTone`, `TextWeight`, `VisuallyHidden`, `VisuallyHiddenProps`.
 - Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `AppShell`, `AppShellProps`,
   `BasicGraph`, `BasicGraphDatum`, `BasicGraphProps`, `Breadcrumbs`, `BreadcrumbItem`,
   `BreadcrumbsProps`, `ButtonGroup`, `ButtonGroupProps`, `Callout`, `CalloutProps`,
@@ -135,6 +138,10 @@ For rendered component contracts, see the published Storybook route at
   `Breadcrumbs` accepts linked ancestor items and can render the current item as non-link text with
   `aria-current="page"` when the current page should not self-link. It separates sibling items with
   decorative CSS so visual delimiters stay out of the accessible breadcrumb labels.
+- Layout and typography utilities such as `Container`, `Stack`, `Grid`, `Heading`, `Text`, `Link`,
+  and `VisuallyHidden` cover small spacing, width, readable text, and accessible-label glue. Keep
+  product page layout, responsive breakpoints, route models, and brand typography in the consuming
+  app.
 
 The shared components deliberately stop at generic structure and CSS contracts. Product language,
 feature organisms, route paths, permissions, and persistence stay in the consuming application.

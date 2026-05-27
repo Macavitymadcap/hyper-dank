@@ -288,6 +288,19 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0069-utilities",
+    label: "HD 0069 Utilities",
+    description: "Layout and typography utility primitive evidence for hd-0069.",
+    states: [
+      {
+        authUserId: null,
+        label: "Utility composition",
+        path: "/storybook/iframe.html?id=components-shared-layout-and-typography-utilities--utility-composition",
+        slug: "utility-composition",
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",

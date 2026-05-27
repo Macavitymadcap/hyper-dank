@@ -75,12 +75,16 @@ layer after the package CSS.
 | `CodeBlock`, `CodeBlockProps` | Escaped code sample wrapper with optional language class. | `Components/Shared` |
 | `Combobox`, `ComboboxOption`, `ComboboxProps` | Labelled native datalist input for app-owned suggestions and validation. | `Components/Shared/Core Primitives` |
 | `Command`, `CommandItem`, `CommandProps` | Search landmark and result options for app-owned command filtering and loading. | `Components/Shared/Core Primitives` |
+| `Container`, `ContainerElement`, `ContainerProps`, `ContainerWidth` | Width-constrained semantic wrapper for small reusable composition regions. | `Components/Shared/Layout And Typography Utilities` |
 | `Dialog`, `DialogProps` | Native dialog with trigger, close form, fallback content, and HTMX-friendly hooks. | `Components/Shared` |
 | `EmptyState`, `EmptyStateProps` | Blank-state region with optional action slot. | `Components/Shared` |
 | `Fieldset`, `FieldsetProps` | Grouped native controls with legend, hint, and error copy. | `Components/Shared` |
+| `Grid`, `GridElement`, `GridProps` | Simple responsive grid helper with column, gap, and minimum-width custom-property hooks. | `Components/Shared/Layout And Typography Utilities` |
+| `Heading`, `HeadingLevel`, `HeadingProps` | Semantic heading helper with separate visual-level hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | `Components/Shared` |
 | `IconButton`, `IconButtonProps` | Icon-only native button with required accessible label. | `Components/Shared` |
 | `Kbd`, `KbdProps` | Inline keyboard input hint for shortcuts and command help. | `Components/Shared/Low State Primitives` |
+| `Link`, `LinkProps` | Native link helper with current-page and external-link affordances. | `Components/Shared/Layout And Typography Utilities` |
 | `LinkButton`, `LinkButtonProps` | Link styled with button variants while preserving normal navigation. | `Components/Shared` |
 | `LoadingIndicator`, `LoadingIndicatorProps` | Polite loading status text for async regions. | `Components/Shared` |
 | `MetadataList`, `MetadataListItem`, `MetadataListProps` | Definition-list metadata rows for compact summaries. | `Components/Shared` |
@@ -122,7 +126,10 @@ layer after the package CSS.
 | `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Shared/ScrollableTable` |
 | `Separator`, `SeparatorProps` | Decorative or semantic separator for grouping dense controls and content. | `Components/Shared/Low State Primitives` |
 | `Skeleton`, `SkeletonProps` | Labelled loading placeholder with line, block, and circle shapes. | `Components/Shared/Low State Primitives` |
+| `Stack`, `StackAlign`, `StackElement`, `StackProps` | Vertical spacing helper for compact local composition. | `Components/Shared/Layout And Typography Utilities` |
+| `Text`, `TextElement`, `TextProps`, `TextSize`, `TextTone`, `TextWeight` | Readable text helper with size, tone, and weight hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `Tooltip`, `TooltipProps` | Static contextual help with an explicit text label and focusable described trigger. | `Components/Shared/Low State Primitives` |
+| `VisuallyHidden`, `VisuallyHiddenProps` | Accessible hidden text helper for labels and summaries that should not be visible. | `Components/Shared/Layout And Typography Utilities` |
 
 Storybook is the canonical rendered reference. Shared package examples are grouped under
 `Components/Shared`, while Walking Pace examples are grouped under `Components/Reference App`.
@@ -138,6 +145,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | Dense forms | `SelectField`, `Combobox`, `PopoverMenu`, `Command`, `StagedForm` | Use native selects for short fixed sets, datalist suggestions for open text, menu actions for compact choices, command search only when the app owns filtering/loading, and staged forms when app routes own sequential step state. |
 | Feedback | `StatusSymbol`, `NotificationBanner`, `Notice`, `ValidationSummary`, `Progress`, `StatusSummary`, `Badge` | Status copy, notification timing, toast queues, dismissal, persistence, and escalation rules stay local. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
+| Utility composition | `Container`, `Stack`, `Grid`, `Heading`, `Text`, `Link`, `VisuallyHidden` | Use for small repeated spacing, width, readable text, and accessible-label glue. Product page layout, responsive breakpoints, route models, and brand typography stay local. |
 
 Use `HxForm` when a control must work as normal HTML first and become fragment-driven when HTMX is
 available.
