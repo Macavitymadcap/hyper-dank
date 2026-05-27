@@ -9,9 +9,13 @@ import { CheckboxField } from "../molecules/CheckboxField";
 import { CodeBlock } from "../molecules/CodeBlock";
 import { Combobox } from "../molecules/Combobox";
 import { Command } from "../molecules/Command";
+import { DateField } from "../molecules/DateField";
 import { Fieldset } from "../molecules/Fieldset";
+import { FileField } from "../molecules/FileField";
+import { NumberField } from "../molecules/NumberField";
 import { PopoverMenu } from "../molecules/PopoverMenu";
 import { RadioGroup } from "../molecules/RadioGroup";
+import { RangeField } from "../molecules/RangeField";
 import { SegmentedControl } from "../molecules/SegmentedControl";
 import { SelectField } from "../molecules/SelectField";
 import { TextareaField } from "../molecules/TextareaField";
@@ -76,6 +80,36 @@ export const ActionsAndForms: Story = {
         <ValidationSummary items={[{ href: "#title", message: "Enter a title" }]} />
         <Fieldset legend="Publishing options" description="Native form controls with shared hooks.">
           <TextareaField id="title" label="Title" error="Enter a title" />
+          <NumberField
+            id="estimate"
+            label="Estimate"
+            helpText="Native number input; unit conversion stays in the app."
+            min={1}
+            step={1}
+            value={3}
+          />
+          <DateField
+            id="publish-date"
+            label="Publish date"
+            helpText="Date-range logic and parsing stay app-owned."
+            value="2026-05-27"
+          />
+          <FileField
+            id="attachment"
+            label="Attachment"
+            helpText="Upload handling and async validation stay in route code."
+            accept=".md,text/markdown"
+          />
+          <RangeField
+            id="confidence"
+            label="Confidence"
+            helpText="Value formatting stays in the app."
+            min={0}
+            max={100}
+            step={5}
+            value={75}
+            valueLabel="75%"
+          />
           <SelectField
             id="status"
             label="Status"
@@ -85,6 +119,13 @@ export const ActionsAndForms: Story = {
             ]}
           />
           <CheckboxField id="featured" label="Featured" helpText="Show in highlighted lists." />
+          <NumberField
+            id="compact-estimate"
+            label="Compact estimate"
+            density="compact"
+            disabled
+            value={2}
+          />
           <RadioGroup
             legend="Format"
             name="format"
@@ -116,6 +157,10 @@ export const ActionsAndForms: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("button", { name: "Save" })).toBeInTheDocument();
+    await expect(canvasElement.querySelector("#estimate")).toHaveAttribute("type", "number");
+    await expect(canvasElement.querySelector("#publish-date")).toHaveAttribute("type", "date");
+    await expect(canvasElement.querySelector("#attachment")).toHaveAttribute("type", "file");
+    await expect(canvasElement.querySelector("#confidence")).toHaveAttribute("type", "range");
     await expect(canvas.getByRole("button", { name: "Search" })).toBeInTheDocument();
     await expect(canvas.getByRole("link", { name: "View examples" })).toBeInTheDocument();
     await expect(canvas.getAllByRole("alert")).toHaveLength(2);

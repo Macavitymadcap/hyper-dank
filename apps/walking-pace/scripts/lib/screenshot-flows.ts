@@ -301,6 +301,19 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0070-fields",
+    label: "HD 0070 Native Fields",
+    description: "Native number, date, file, and range field evidence for hd-0070.",
+    states: [
+      {
+        authUserId: null,
+        label: "Native field wrappers",
+        path: "/storybook/iframe.html?id=components-shared-core-primitives--actions-and-forms",
+        slug: "native-field-wrappers",
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",

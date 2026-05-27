@@ -13,8 +13,10 @@ import {
   Combobox,
   Command,
   Container,
+  DateField,
   Dialog,
   EmptyState,
+  FileField,
   FormField,
   Grid,
   Heading,
@@ -25,11 +27,13 @@ import {
   LinkButton,
   Notice,
   NotificationBanner,
+  NumberField,
   PageHeader,
   Pagination,
   Panel,
   PopoverMenu,
   Prose,
+  RangeField,
   ScrollableTable,
   Separator,
   SideNav,
@@ -177,6 +181,27 @@ describe("component library", () => {
     expect(html).toContain('type="checkbox"');
     expect(html).toContain('class="form-field combobox"');
     expect(html).toContain('class="command"');
+  });
+
+  test("exports native-first expanded field primitives", () => {
+    const html = render(
+      <Panel labelledBy="field-heading">
+        <h2 id="field-heading">Fields</h2>
+        <NumberField id="quantity" label="Quantity" min={1} step={1} />
+        <DateField id="due-date" label="Due date" />
+        <FileField id="attachment" label="Attachment" accept=".csv" />
+        <RangeField id="confidence" label="Confidence" value={75} valueLabel="75%" />
+      </Panel>,
+    );
+
+    expect(html).toContain('class="form-field number-field"');
+    expect(html).toContain('type="number"');
+    expect(html).toContain('class="form-field date-field"');
+    expect(html).toContain('type="date"');
+    expect(html).toContain('class="form-field file-field"');
+    expect(html).toContain('type="file"');
+    expect(html).toContain('class="form-field range-field"');
+    expect(html).toContain('type="range"');
   });
 
   test("exports second-wave layout and navigation primitives", () => {
