@@ -364,6 +364,7 @@ export const screenshotFlows: ScreenshotFlow[] = [
         label: "Component contracts vocabulary",
         path: "/storybook/iframe.html?id=introduction-component-contracts--reference-map",
         slug: "component-contracts-vocabulary",
+        afterLoad: scrollApiVocabularyIntoView,
       },
     ],
   },
@@ -507,6 +508,10 @@ async function scrollStagedFormActionsIntoView({ page }: ScreenshotFlowContext) 
 
 async function scrollQuietSurfaceIntoView({ page }: ScreenshotFlowContext) {
   await page.locator("#quiet-surface-heading").scrollIntoViewIfNeeded();
+}
+
+async function scrollApiVocabularyIntoView({ page }: ScreenshotFlowContext) {
+  await page.locator("#api-vocabulary-heading").scrollIntoViewIfNeeded();
 }
 
 async function openConfirmDialogPrimitive({ page }: ScreenshotFlowContext) {
