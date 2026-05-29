@@ -72,13 +72,15 @@ pipeline; importing the package in server code does not automatically load style
 
 ## Public Exports
 
-- Atoms: `Badge`, `BadgeProps`, `Button`, `ButtonProps`, `Card`, `CardElement`, `CardProps`, `Chip`,
-  `ChipProps`, `Container`, `ContainerElement`, `ContainerProps`, `ContainerWidth`, `Grid`,
-  `GridElement`, `GridProps`, `Heading`, `HeadingLevel`, `HeadingProps`, `Icon`, `IconProps`,
-  `IconButton`, `IconButtonProps`, `Kbd`, `KbdProps`, `Link`, `LinkProps`, `LinkButton`,
-  `LinkButtonProps`, `Panel`, `PanelProps`, `Stack`, `StackAlign`, `StackElement`, `StackProps`,
-  `Switch`, `SwitchProps`, `TableCell`, `TableCellProps`, `Text`, `TextElement`, `TextProps`,
-  `TextSize`, `TextTone`, `TextWeight`, `VisuallyHidden`, `VisuallyHiddenProps`.
+- Atoms: `AspectRatio`, `AspectRatioProps`, `Avatar`, `AvatarProps`, `Badge`, `BadgeProps`,
+  `Button`, `ButtonProps`, `Card`, `CardElement`, `CardProps`, `Chip`, `ChipProps`, `Container`,
+  `ContainerElement`, `ContainerProps`, `ContainerWidth`, `Grid`, `GridElement`, `GridProps`,
+  `Heading`, `HeadingLevel`, `HeadingProps`, `Icon`, `IconProps`, `IconButton`,
+  `IconButtonProps`, `Kbd`, `KbdProps`, `Link`, `LinkProps`, `LinkButton`, `LinkButtonProps`,
+  `Panel`, `PanelProps`, `Separator`, `SeparatorProps`, `Skeleton`, `SkeletonProps`, `Stack`,
+  `StackAlign`, `StackElement`, `StackProps`, `Switch`, `SwitchProps`, `TableCell`,
+  `TableCellProps`, `Text`, `TextElement`, `TextProps`, `TextSize`, `TextTone`, `TextWeight`,
+  `Tooltip`, `TooltipProps`, `VisuallyHidden`, `VisuallyHiddenProps`.
 - Molecules: `Accordion`, `AccordionItem`, `AccordionProps`, `AppShell`, `AppShellProps`,
   `AlertDialog`, `AlertDialogProps`, `AlertDialogTone`, `BasicGraph`, `BasicGraphDatum`,
   `BasicGraphProps`, `Breadcrumbs`, `BreadcrumbItem`, `BreadcrumbsProps`, `ButtonGroup`,
@@ -113,7 +115,9 @@ pipeline; importing the package in server code does not automatically load style
 
 Compatibility coverage exercises these exports in server-app, static blog, dashboard/admin,
 static-demo, and script-consumer compositions. Storybook is the canonical component reference for
-rendered states, accessibility notes, and interaction examples.
+rendered states, accessibility notes, and interaction examples. The public UI docs keep the export
+list and current Storybook grouping aligned; richer visual catalogue work stays with `hd-0045`, and
+deeper Storybook documentation shape work stays with `hd-0053`.
 
 For the public docs API page, see <https://macavitymadcap.github.io/hyper-dank/libraries/ui/>.
 For rendered component contracts, see the published Storybook route at

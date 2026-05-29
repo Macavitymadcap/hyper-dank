@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { sharedStoryCoverage } from "../../../../libs/components/src/stories/storybook-coverage";
 import { normalizePath, root } from "./paths";
 
 const publicDocFiles = [
@@ -81,19 +82,19 @@ describe("public docs", () => {
   test("document public package exports on library API pages", () => {
     const coverage = [
       {
-        docs: "site/libraries-ui.md",
+        docs: ["site/libraries-ui.md", "libs/components/README.md"],
         sources: ["libs/components/src/index.ts"],
       },
       {
-        docs: "site/libraries-data.md",
+        docs: ["site/libraries-data.md"],
         sources: ["libs/database/src/index.ts", "libs/database/src/testing.ts"],
       },
       {
-        docs: "site/libraries-transport.md",
+        docs: ["site/libraries-transport.md"],
         sources: ["libs/http/src/index.ts"],
       },
       {
-        docs: "site/libraries-automation.md",
+        docs: ["site/libraries-automation.md"],
         sources: [
           "libs/scripts/src/browser.ts",
           "libs/scripts/src/github.ts",
@@ -109,17 +110,37 @@ describe("public docs", () => {
     ];
 
     const missingExports = coverage.flatMap(({ docs, sources }) => {
-      const text = readFileSync(path.join(root, docs), "utf8");
-      const documentedNames = documentedCodeNames(text);
+      return docs.flatMap((doc) => {
+        const text = readFileSync(path.join(root, doc), "utf8");
+        const documentedNames = documentedCodeNames(text);
 
-      return sources.flatMap((source) =>
-        publicExportNames(source).flatMap((exportName) =>
-          documentedNames.has(exportName) ? [] : [`${docs}: missing ${exportName} from ${source}`],
-        ),
-      );
+        return sources.flatMap((source) =>
+          publicExportNames(source).flatMap((exportName) =>
+            documentedNames.has(exportName) ? [] : [`${doc}: missing ${exportName} from ${source}`],
+          ),
+        );
+      });
     });
 
     expect(missingExports).toEqual([]);
+  });
+
+  test("align UI API demonstration labels with Storybook coverage", () => {
+    const rows = componentApiRows(readFileSync(path.join(root, "site/libraries-ui.md"), "utf8"));
+
+    const mismatches = Object.entries(sharedStoryCoverage).flatMap(([exportName, storyGroup]) => {
+      const row = rows.find((candidate) => candidate.exports.includes(exportName));
+
+      if (!row) return [`site/libraries-ui.md: missing API row for ${exportName}`];
+
+      return row.demonstration.includes(storyGroup)
+        ? []
+        : [
+            `site/libraries-ui.md: ${exportName} points at ${row.demonstration}, expected ${storyGroup}`,
+          ];
+    });
+
+    expect(mismatches).toEqual([]);
   });
 
   test("keep recipe guidance complete and navigable", () => {
@@ -546,4 +567,29 @@ function publicExportNames(relativePath: string) {
   }
 
   return [...names].sort();
+}
+
+function componentApiRows(text: string) {
+  return text
+    .split("\n")
+    .flatMap((line) => {
+      if (!line.startsWith("| `")) return [];
+
+      const cells = line
+        .split("|")
+        .slice(1, -1)
+        .map((cell) => cell.trim());
+
+      if (cells.length < 3) return [];
+
+      return [
+        {
+          exports: Array.from((cells[0] ?? "").matchAll(/`([^`]+)`/g)).flatMap((match) =>
+            match[1] ? [match[1]] : [],
+          ),
+          demonstration: cells[2] ?? "",
+        },
+      ];
+    })
+    .filter((row) => row.exports.length > 0);
 }

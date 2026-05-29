@@ -81,70 +81,70 @@ padding, and default control rhythm for repeated operational screens.
 | `AlertDialog`, `AlertDialogProps`, `AlertDialogTone` | Native alert dialog wrapper for destructive confirmation with fallback, cancel, confirm, and HTMX form hooks. | `Components/Shared/App Surfaces And Feedback` |
 | `AspectRatio`, `AspectRatioProps` | Fixed-ratio media/content frame with `--aspect-ratio` styling hook. | `Components/Shared/Low State Primitives` |
 | `Avatar`, `AvatarProps` | Compact user identity image or initials fallback with size hooks. | `Components/Shared/Low State Primitives` |
-| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | `Components/Shared` |
-| `Button`, `ButtonProps` | Native button with `primary`, `danger`, `outline`, `text`, and `ghost` variants plus optional HTMX attributes. | `Components/Shared/Button` |
-| `ButtonGroup`, `ButtonGroupProps` | Toolbar-style grouping for related buttons or links. | `Components/Shared` |
-| `Card`, `CardElement`, `CardProps` | Semantic surface rendered as `article`, `div`, `main`, or `section`, with size custom-property hooks. | `Components/Shared/Card` |
-| `Callout`, `CalloutProps` | Highlighted prose block for documentation and product guidance. | `Components/Shared` |
-| `CheckboxField`, `CheckboxFieldProps` | Labelled native checkbox with description and error hooks. | `Components/Shared` |
-| `Chip`, `ChipProps` | Inline status text with optional class hook. | `Components/Shared/Chip` |
-| `CodeBlock`, `CodeBlockProps` | Escaped code sample wrapper with optional language class. | `Components/Shared` |
+| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | `Components/Shared/Existing Primitives` |
+| `Button`, `ButtonProps` | Native button with `primary`, `danger`, `outline`, `text`, and `ghost` variants plus optional HTMX attributes. | `Components/Shared/Core Primitives` |
+| `ButtonGroup`, `ButtonGroupProps` | Toolbar-style grouping for related buttons or links. | `Components/Shared/Core Primitives` |
+| `Card`, `CardElement`, `CardProps` | Semantic surface rendered as `article`, `div`, `main`, or `section`, with size custom-property hooks. | `Components/Shared/Atoms/Card` |
+| `Callout`, `CalloutProps` | Highlighted prose block for documentation and product guidance. | `Components/Shared/App Surfaces And Feedback` |
+| `CheckboxField`, `CheckboxFieldProps` | Labelled native checkbox with description and error hooks. | `Components/Shared/Core Primitives` |
+| `Chip`, `ChipProps` | Inline status text with optional class hook. | `Components/Shared/Atoms/Chip` |
+| `CodeBlock`, `CodeBlockProps` | Escaped code sample wrapper with optional language class. | `Components/Shared/App Surfaces And Feedback` |
 | `Combobox`, `ComboboxOption`, `ComboboxProps` | Labelled native datalist input for app-owned suggestions and validation. | `Components/Shared/Core Primitives` |
 | `Command`, `CommandItem`, `CommandProps` | Search landmark and result options for app-owned command filtering and loading. | `Components/Shared/Core Primitives` |
 | `Container`, `ContainerElement`, `ContainerProps`, `ContainerWidth` | Width-constrained semantic wrapper for small reusable composition regions. | `Components/Shared/Layout And Typography Utilities` |
 | `DateField`, `DateFieldDensity`, `DateFieldProps` | Labelled native date input with hint, error, disabled, and compact-density hooks. | `Components/Shared/Core Primitives` |
-| `Dialog`, `DialogProps` | Native dialog with trigger, close form, fallback content, and HTMX-friendly hooks. | `Components/Shared` |
+| `Dialog`, `DialogProps` | Native dialog with trigger, close form, fallback content, and HTMX-friendly hooks. | `Components/Shared/App Surfaces And Feedback` |
 | `Drawer`, `DrawerPlacement`, `DrawerProps` | Native dialog side panel for compact navigation, filters, and mobile panel composition. | `Components/Shared/App Surfaces And Feedback` |
-| `EmptyState`, `EmptyStateProps` | Blank-state region with optional action slot. | `Components/Shared` |
-| `Fieldset`, `FieldsetProps` | Grouped native controls with legend, hint, and error copy. | `Components/Shared` |
+| `EmptyState`, `EmptyStateProps` | Blank-state region with optional action slot. | `Components/Shared/App Surfaces And Feedback` |
+| `Fieldset`, `FieldsetProps` | Grouped native controls with legend, hint, and error copy. | `Components/Shared/Core Primitives` |
 | `FileField`, `FileFieldDensity`, `FileFieldProps` | Labelled native file input with accept, multiple, capture, hint, error, and disabled hooks. | `Components/Shared/Core Primitives` |
 | `Grid`, `GridElement`, `GridProps` | Simple responsive grid helper with column, gap, and minimum-width custom-property hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `Heading`, `HeadingLevel`, `HeadingProps` | Semantic heading helper with separate visual-level hooks. | `Components/Shared/Layout And Typography Utilities` |
-| `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | `Components/Shared` |
-| `IconButton`, `IconButtonProps` | Icon-only native button with required accessible label. | `Components/Shared` |
+| `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | `Components/Shared/Core Primitives` |
+| `IconButton`, `IconButtonProps` | Icon-only native button with required accessible label. | `Components/Shared/Core Primitives` |
 | `Kbd`, `KbdProps` | Inline keyboard input hint for shortcuts and command help. | `Components/Shared/Low State Primitives` |
 | `Link`, `LinkProps` | Native link helper with current-page and external-link affordances. | `Components/Shared/Layout And Typography Utilities` |
-| `LinkButton`, `LinkButtonProps` | Link styled with button variants while preserving normal navigation. | `Components/Shared` |
-| `LoadingIndicator`, `LoadingIndicatorProps` | Polite loading status text for async regions. | `Components/Shared` |
-| `MetadataList`, `MetadataListItem`, `MetadataListProps` | Definition-list metadata rows for compact summaries. | `Components/Shared` |
+| `LinkButton`, `LinkButtonProps` | Link styled with button variants while preserving normal navigation. | `Components/Shared/Core Primitives` |
+| `LoadingIndicator`, `LoadingIndicatorProps` | Polite loading status text for async regions. | `Components/Shared/App Surfaces And Feedback` |
+| `MetadataList`, `MetadataListItem`, `MetadataListProps` | Definition-list metadata rows for compact summaries. | `Components/Shared/App Surfaces And Feedback` |
 | `NotificationBanner`, `NotificationBannerProps`, `NotificationSeverity` | Page-level feedback banner with severity roles, shape hooks, and static live-region semantics. | `Components/Shared/App Surfaces And Feedback` |
-| `Notice`, `NoticeProps` | Tonal feedback block with appropriate status or alert semantics. | `Components/Shared` |
+| `Notice`, `NoticeProps` | Tonal feedback block with appropriate status or alert semantics. | `Components/Shared/App Surfaces And Feedback` |
 | `NumberField`, `NumberFieldDensity`, `NumberFieldProps` | Labelled native number input with min, max, step, input mode, hint, error, disabled, and compact-density hooks. | `Components/Shared/Core Primitives` |
-| `PageHeader`, `PageHeaderProps` | Page title, description, metadata, and action slots. | `Components/Shared` |
-| `Pagination`, `PaginationProps` | Link-backed page navigation with current-state output. | `Components/Shared` |
-| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | `Components/Shared` |
-| `Progress`, `ProgressProps` | Native progress output with accessible label. | `Components/Shared` |
-| `Prose`, `ProseProps` | Article wrapper for readable documentation or editorial content. | `Components/Shared` |
-| `RadioGroup`, `RadioGroupOption`, `RadioGroupProps` | Fieldset-backed radio options with help and error hooks. | `Components/Shared` |
+| `PageHeader`, `PageHeaderProps` | Page title, description, metadata, and action slots. | `Components/Shared/App Surfaces And Feedback` |
+| `Pagination`, `PaginationProps` | Link-backed page navigation with current-state output. | `Components/Shared/App Surfaces And Feedback` |
+| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | `Components/Shared/Existing Primitives` |
+| `Progress`, `ProgressProps` | Native progress output with accessible label. | `Components/Shared/App Surfaces And Feedback` |
+| `Prose`, `ProseProps` | Article wrapper for readable documentation or editorial content. | `Components/Shared/App Surfaces And Feedback` |
+| `RadioGroup`, `RadioGroupOption`, `RadioGroupProps` | Fieldset-backed radio options with help and error hooks. | `Components/Shared/Core Primitives` |
 | `RangeField`, `RangeFieldDensity`, `RangeFieldProps` | Labelled native range input with optional app-formatted visible value text. | `Components/Shared/Core Primitives` |
-| `SectionHeader`, `SectionHeaderProps` | Section title, optional copy, and action slot. | `Components/Shared` |
-| `SegmentedControl`, `SegmentedControlOption`, `SegmentedControlProps` | Radio-backed mode switcher for mutually exclusive choices. | `Components/Shared` |
-| `SelectField`, `SelectFieldOption`, `SelectFieldProps` | Labelled native select with options, hint, and error hooks. | `Components/Shared` |
-| `SideNav`, `SideNavItem`, `SideNavProps` | Labelled section navigation with current-state output. | `Components/Shared` |
-| `StatBlock`, `StatBlockProps` | Definition-list metric block for dashboard summaries. | `Components/Shared` |
+| `SectionHeader`, `SectionHeaderProps` | Section title, optional copy, and action slot. | `Components/Shared/App Surfaces And Feedback` |
+| `SegmentedControl`, `SegmentedControlOption`, `SegmentedControlProps` | Radio-backed mode switcher for mutually exclusive choices. | `Components/Shared/Core Primitives` |
+| `SelectField`, `SelectFieldOption`, `SelectFieldProps` | Labelled native select with options, hint, and error hooks. | `Components/Shared/Core Primitives` |
+| `SideNav`, `SideNavItem`, `SideNavProps` | Labelled section navigation with current-state output. | `Components/Shared/App Surfaces And Feedback` |
+| `StatBlock`, `StatBlockProps` | Definition-list metric block for dashboard summaries. | `Components/Shared/App Surfaces And Feedback` |
 | `StagedForm`, `StagedFormProps`, `StagedFormStep`, `StagedFormStepStatus` | Ordered multi-stage form layout with current, complete, unavailable, and error step states. | `Components/Shared/App Surfaces And Feedback` |
 | `StatusSymbol`, `StatusSymbolProps`, `StatusTone` | Inline status marker that pairs label, shape, and severity without relying on colour alone. | `Components/Shared/App Surfaces And Feedback` |
-| `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps` | Definition-list status rows for review dashboards. | `Components/Shared` |
-| `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Shared/Switch` |
+| `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps` | Definition-list status rows for review dashboards. | `Components/Shared/App Surfaces And Feedback` |
+| `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Shared/Atoms/Switch` |
 | `TableFilterSummary`, `TableFilterSummaryItem`, `TableFilterSummaryProps` | Polite table status region for result counts, active filters, and reset links. | `Components/Shared/Molecules/ScrollableTable` |
-| `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Shared/TableCell` |
-| `Tabs`, `TabItem`, `TabsProps` | Link-backed tabs with current-state semantics. | `Components/Shared` |
-| `TextareaField`, `TextareaFieldProps` | Labelled native textarea with hint and error hooks. | `Components/Shared` |
-| `TimelineList`, `TimelineListItem`, `TimelineListProps` | Ordered event list with optional time and metadata. | `Components/Shared` |
-| `Toolbar`, `ToolbarProps` | Compact labelled action region for dense screens. | `Components/Shared` |
-| `ValidationSummary`, `ValidationSummaryItem`, `ValidationSummaryProps` | Alert region linking validation messages to form controls. | `Components/Shared` |
+| `TableCell`, `TableCellProps` | Reusable table cell for string and number values. | `Components/Shared/Atoms/TableCell` |
+| `Tabs`, `TabItem`, `TabsProps` | Link-backed tabs with current-state semantics. | `Components/Shared/App Surfaces And Feedback` |
+| `TextareaField`, `TextareaFieldProps` | Labelled native textarea with hint and error hooks. | `Components/Shared/Core Primitives` |
+| `TimelineList`, `TimelineListItem`, `TimelineListProps` | Ordered event list with optional time and metadata. | `Components/Shared/App Surfaces And Feedback` |
+| `Toolbar`, `ToolbarProps` | Compact labelled action region for dense screens. | `Components/Shared/App Surfaces And Feedback` |
+| `ValidationSummary`, `ValidationSummaryItem`, `ValidationSummaryProps` | Alert region linking validation messages to form controls. | `Components/Shared/Core Primitives` |
 | `HtmxProps` | Shared prop interface for supported `hx-*` attributes such as `hx-post`, `hx-target`, `hx-swap`, and `hx-trigger`. | Shared form and control stories |
 | `Accordion`, `AccordionItem`, `AccordionProps` | Grouped `details` disclosure list with optional metadata and controls. | `Components/Shared/Reusable Patterns` |
-| `AppShell`, `AppShellProps` | Landmark shell with header, navigation, and main content slots. | `Components/Shared` |
+| `AppShell`, `AppShellProps` | Landmark shell with header, navigation, and main content slots. | `Components/Shared/App Surfaces And Feedback` |
 | `BasicGraph`, `BasicGraphDatum`, `BasicGraphProps` | Small accessible SVG graph for static dashboard, docs, and content examples. | `Components/Shared/Reusable Patterns` |
-| `Breadcrumbs`, `BreadcrumbItem`, `BreadcrumbsProps` | Ordered breadcrumb navigation for docs and app sections. | `Components/Shared` |
+| `Breadcrumbs`, `BreadcrumbItem`, `BreadcrumbsProps` | Ordered breadcrumb navigation for docs and app sections. | `Components/Shared/Molecules/Breadcrumbs` |
 | `CompactList`, `CompactListItem`, `CompactListProps` | Definition-list style rows for label, value, metadata, and controls. | `Components/Shared/Reusable Patterns` |
-| `FormField`, `FormFieldProps` | Labelled native input wrapper, or a label/control wrapper when children are supplied. | `Components/Shared/FormField` |
-| `HxForm`, `HxFormProps` | Native `action`/`method` form wrapper that also spreads HTMX attributes for enhanced submissions. | `Components/Shared/HxForm` |
-| `InputGroup`, `InputGroupProps` | Labelled input group for compact numeric or text-entry forms. | `Components/Shared/InputGroup` |
-| `LabelledOutput`, `LabelledOutputProps` | Label/value output pair with placeholder behaviour for empty numbers. | `Components/Shared/LabelledOutput` |
+| `FormField`, `FormFieldProps` | Labelled native input wrapper, or a label/control wrapper when children are supplied. | `Components/Shared/Molecules/FormField` |
+| `HxForm`, `HxFormProps` | Native `action`/`method` form wrapper that also spreads HTMX attributes for enhanced submissions. | `Components/Shared/Molecules/HxForm` |
+| `InputGroup`, `InputGroupProps` | Labelled input group for compact numeric or text-entry forms. | `Components/Shared/Molecules/InputGroup` |
+| `LabelledOutput`, `LabelledOutputProps` | Label/value output pair with placeholder behaviour for empty numbers. | `Components/Shared/Molecules/LabelledOutput` |
 | `PopoverMenu`, `PopoverMenuItem`, `PopoverMenuProps` | Button-controlled menu that can render links or small POST forms. | `Components/Shared/Reusable Patterns` |
-| `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Shared/ScrollableTable` |
+| `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Shared/Molecules/ScrollableTable` |
 | `Separator`, `SeparatorProps` | Decorative or semantic separator for grouping dense controls and content. | `Components/Shared/Low State Primitives` |
 | `Skeleton`, `SkeletonProps` | Labelled loading placeholder with line, block, and circle shapes. | `Components/Shared/Low State Primitives` |
 | `Stack`, `StackAlign`, `StackElement`, `StackProps` | Vertical spacing helper for compact local composition. | `Components/Shared/Layout And Typography Utilities` |
@@ -154,6 +154,8 @@ padding, and default control rhythm for repeated operational screens.
 
 Storybook is the canonical rendered reference. Shared package examples are grouped under
 `Components/Shared`, while Walking Pace examples are grouped under `Components/Reference App`.
+This API table stays aligned with the current public exports and Storybook group names; `hd-0045`
+owns the richer visual catalogue, and `hd-0053` owns deeper Storybook documentation shape work.
 Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' | relative_url }}).
 
 ## Composition Patterns
