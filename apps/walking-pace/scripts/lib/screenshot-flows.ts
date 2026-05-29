@@ -473,7 +473,9 @@ async function scrollStagedFormActionsIntoView({ page }: ScreenshotFlowContext) 
 }
 
 async function openConfirmDialogPrimitive({ page }: ScreenshotFlowContext) {
-  await page.getByRole("button", { name: "Review delete" }).scrollIntoViewIfNeeded();
+  await page.evaluate(() => {
+    globalThis.scrollTo(0, 0);
+  });
   await page.evaluate(() => {
     const { document } = globalThis as unknown as BrowserGlobals;
     const dialog = document.querySelector("#delete-draft") as BrowserElement & {
@@ -487,6 +489,9 @@ async function openConfirmDialogPrimitive({ page }: ScreenshotFlowContext) {
 
 async function openDrawerPrimitive({ page }: ScreenshotFlowContext) {
   await page.getByRole("button", { name: "Open sections" }).scrollIntoViewIfNeeded();
+  await page.evaluate(() => {
+    globalThis.scrollTo(0, globalThis.scrollY);
+  });
   await page.evaluate(() => {
     const { document } = globalThis as unknown as BrowserGlobals;
     const dialog = document.querySelector("#mobile-sections") as BrowserElement & {

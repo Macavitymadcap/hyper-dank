@@ -374,6 +374,27 @@
   background-image: var(--hd-surface-gradient);
 }
 
+.button[data-variant="danger"],
+.link-button[data-variant="danger"] {
+  background: var(--hd-status-danger, #b91c1c);
+  border-color: color-mix(in oklab, var(--hd-status-danger, #b91c1c) 82%, CanvasText 18%);
+  color: white;
+}
+
+.button[data-variant="outline"],
+.link-button[data-variant="outline"] {
+  background-image: var(--hd-surface-gradient);
+  color: inherit;
+}
+
+.button[data-variant="text"],
+.link-button[data-variant="text"] {
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  padding-inline: 0;
+}
+
 .callout,
 .code-block,
 .alert-dialog,
@@ -475,9 +496,23 @@
 .alert-dialog,
 .drawer {
   border: 1px solid var(--hd-surface-border);
+  box-sizing: border-box;
   color: inherit;
   margin: auto;
   max-inline-size: min(92vw, 34rem);
+  min-inline-size: 0;
+}
+
+.alert-dialog {
+  inset: auto;
+  inset-block-start: 50dvh;
+  inset-inline-start: 50vw;
+  inline-size: min(92vw, 34rem);
+  margin: 0;
+  max-block-size: calc(100dvh - 2rem);
+  overflow: auto;
+  position: fixed;
+  transform: translate(-50%, -50%);
 }
 
 .alert-dialog::backdrop,
@@ -495,6 +530,7 @@
 .alert-dialog-header {
   display: grid;
   gap: 0.35rem;
+  min-inline-size: 0;
 }
 
 .alert-dialog-header h2,
@@ -508,12 +544,15 @@
 .drawer-header p {
   color: var(--text-muted, color-mix(in oklab, CanvasText 62%, Canvas 38%));
   margin: 0.35rem 0 0;
+  overflow-wrap: anywhere;
 }
 
 .alert-dialog-body,
 .drawer-body {
   display: grid;
   gap: 0.6rem;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
 }
 
 .alert-dialog-actions,
@@ -523,12 +562,6 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: end;
-}
-
-.alert-dialog-confirm[data-tone="danger"] {
-  background: var(--danger, #b42318);
-  border-color: color-mix(in oklab, var(--danger, #b42318) 80%, CanvasText 20%);
-  color: white;
 }
 
 .drawer {

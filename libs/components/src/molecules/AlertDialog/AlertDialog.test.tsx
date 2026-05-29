@@ -22,6 +22,8 @@ describe("AlertDialog", () => {
     );
 
     expect(html).toContain('class="alert-dialog-wrapper"');
+    expect(html).toContain('class="button alert-dialog-trigger"');
+    expect(html).toContain('data-variant="outline"');
     expect(html).toContain('aria-haspopup="dialog"');
     expect(html).toContain('aria-controls="delete-post"');
     expect(html).toContain('role="alertdialog"');
@@ -30,6 +32,8 @@ describe("AlertDialog", () => {
     expect(html).toContain('href="/posts/1/delete"');
     expect(html).toContain('action="/posts/1/delete"');
     expect(html).toContain('formmethod="dialog"');
+    expect(html).toContain('class="button alert-dialog-confirm"');
+    expect(html).toContain('data-variant="danger"');
     expect(html).toContain('name="intent"');
     expect(html).toContain('value="delete"');
   });
@@ -52,6 +56,22 @@ describe("AlertDialog", () => {
     expect(html).toContain('hx-post="/posts/1/archive"');
     expect(html).toContain('hx-target="#post-row-1"');
     expect(html).toContain('hx-swap="outerHTML"');
+  });
+
+  test("can render a non-danger confirm variant", () => {
+    const html = render(
+      <AlertDialog
+        id="restore-post"
+        title="Restore post"
+        triggerLabel="Restore"
+        confirmLabel="Restore"
+        tone="default"
+      >
+        Restore this post.
+      </AlertDialog>,
+    );
+
+    expect(html).toContain('data-variant="primary"');
   });
 
   test("serializes the trigger target id as a JavaScript string literal", () => {

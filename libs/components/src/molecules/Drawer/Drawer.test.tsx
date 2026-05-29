@@ -22,6 +22,8 @@ describe("Drawer", () => {
     );
 
     expect(html).toContain('class="drawer-wrapper"');
+    expect(html).toContain('class="button drawer-trigger"');
+    expect(html).toContain('data-variant="outline"');
     expect(html).toContain('aria-haspopup="dialog"');
     expect(html).toContain('aria-label="Open navigation"');
     expect(html).toContain('aria-controls="mobile-nav"');
@@ -31,6 +33,7 @@ describe("Drawer", () => {
     expect(html).toContain('aria-describedby="mobile-nav-description"');
     expect(html).toContain('href="/navigation"');
     expect(html).toContain('method="dialog"');
+    expect(html).toContain('data-variant="ghost"');
     expect(html).toContain('class="drawer-actions"');
     expect(html).toContain('aria-label="Sections"');
   });

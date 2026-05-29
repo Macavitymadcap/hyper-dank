@@ -39,7 +39,9 @@ export const Drawer = ({
     <div className="drawer-wrapper">
       <button
         type="button"
-        className="drawer-trigger"
+        className="button drawer-trigger"
+        data-size="default"
+        data-variant="outline"
         aria-label={triggerLabel}
         aria-haspopup="dialog"
         aria-controls={id}
@@ -66,7 +68,13 @@ export const Drawer = ({
             {description ? <p id={descriptionId}>{description}</p> : undefined}
           </div>
           <form method="dialog">
-            <button type="submit" aria-label={closeLabel}>
+            <button
+              type="submit"
+              className="button"
+              data-size="compact"
+              data-variant="ghost"
+              aria-label={closeLabel}
+            >
               {closeLabel}
             </button>
           </form>

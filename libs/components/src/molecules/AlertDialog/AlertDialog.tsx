@@ -37,6 +37,7 @@ export const AlertDialog = ({
   ...hxProps
 }: AlertDialogProps) => {
   const classes = ["alert-dialog", className].filter(Boolean).join(" ");
+  const confirmVariant = tone === "danger" ? "danger" : "primary";
   const titleId = `${id}-title`;
   const descriptionId = description ? `${id}-description` : undefined;
   const triggerScript = `document.getElementById(${JSON.stringify(id)})?.showModal()`;
@@ -45,7 +46,9 @@ export const AlertDialog = ({
     <div className="alert-dialog-wrapper">
       <button
         type="button"
-        className="alert-dialog-trigger"
+        className="button alert-dialog-trigger"
+        data-size="default"
+        data-variant="outline"
         aria-haspopup="dialog"
         aria-controls={id}
         onclick={triggerScript}
@@ -75,13 +78,20 @@ export const AlertDialog = ({
           method={method}
           {...htmxAttributes(hxProps)}
         >
-          <button type="submit" formmethod="dialog">
+          <button
+            type="submit"
+            className="button"
+            data-size="compact"
+            data-variant="outline"
+            formmethod="dialog"
+          >
             {cancelLabel}
           </button>
           <button
             type="submit"
-            className="alert-dialog-confirm"
-            data-tone={tone}
+            className="button alert-dialog-confirm"
+            data-size="compact"
+            data-variant={confirmVariant}
             name={confirmName}
             value={confirmValue}
           >
