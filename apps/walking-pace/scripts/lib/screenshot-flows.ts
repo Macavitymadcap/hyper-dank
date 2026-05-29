@@ -355,6 +355,19 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0074-api-vocabulary",
+    label: "HD 0074 API Vocabulary",
+    description: "Shared component API vocabulary evidence for hd-0074.",
+    states: [
+      {
+        authUserId: null,
+        label: "Component contracts vocabulary",
+        path: "/storybook/iframe.html?id=introduction-component-contracts--reference-map",
+        slug: "component-contracts-vocabulary",
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",
