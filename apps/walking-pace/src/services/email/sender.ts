@@ -25,7 +25,7 @@ export class ConsoleEmailSender implements EmailSender {
 
   async sendInvitation(input: InvitationEmailInput): Promise<void> {
     this.sentInvitations.push(input);
-    this.logger.info(`Invitation for ${input.to}: ${input.inviteUrl}`);
+    this.logger.info(`Invitation email prepared for ${input.to}.`);
   }
 }
 

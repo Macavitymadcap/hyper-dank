@@ -10,21 +10,21 @@ describe("EmailSender", () => {
   test("records console invitations for local delivery", async () => {
     const logger = { info: mock(() => {}) };
     const sender = new ConsoleEmailSender(logger);
+    const inviteUrl = "http://localhost/invite/token";
 
     await sender.sendInvitation({
-      inviteUrl: "http://localhost/invite/token",
+      inviteUrl,
       to: "user@example.com",
     });
 
     expect(sender.sentInvitations).toEqual([
       {
-        inviteUrl: "http://localhost/invite/token",
+        inviteUrl,
         to: "user@example.com",
       },
     ]);
-    expect(logger.info).toHaveBeenCalledWith(
-      "Invitation for user@example.com: http://localhost/invite/token",
-    );
+    expect(logger.info).toHaveBeenCalledWith("Invitation email prepared for user@example.com.");
+    expect(logger.info.mock.calls.join("\n")).not.toContain(inviteUrl);
   });
 
   test("sends invitations through Resend", async () => {
