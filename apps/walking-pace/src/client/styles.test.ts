@@ -7,7 +7,10 @@ describe("client styles", () => {
     expect(css).toContain('@import "open-props/style"');
     expect(css).toContain('@import "open-props/normalize"');
     expect(css).toContain(':root[data-theme="dark"]');
+    expect(css).toContain(':where([data-hd-surface="quiet"], .hd-surface-quiet)');
+    expect(css).toContain(':where([data-hd-density="compact"], .hd-density-compact)');
     expect(css).toContain("--theme-duration: 480ms");
+    expect(css).toContain("--hd-button-height: 2.2rem");
     expect(css).toContain("--button-text: var(--blue-9)");
     expect(css).toContain('.button[data-variant="ghost"]');
     expect(css).toContain("--scrollable-table-header-height: 3.5rem");
