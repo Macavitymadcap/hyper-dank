@@ -43,7 +43,7 @@ export const SurfacesAndMetadata: Story = {
         <div class="storybook-doc__grid">
           <section class="storybook-doc__section" aria-labelledby="metadata-preview-heading">
             <h2 id="metadata-preview-heading">Rendered output</h2>
-            <Panel labelledBy="metadata-preview-title">
+            <Panel ariaLabelledBy="metadata-preview-title">
               <h3 id="metadata-preview-title">Metadata</h3>
               <div class="storybook-row">
                 <Badge>Neutral</Badge>
@@ -74,7 +74,7 @@ export const SurfacesAndMetadata: Story = {
 
 export function MetadataPanel() {
   return (
-    <Panel labelledBy="metadata-heading">
+    <Panel ariaLabelledBy="metadata-heading">
       <h2 id="metadata-heading">Metadata</h2>
       <Badge tone="accent">Ready</Badge>
       <CompactList

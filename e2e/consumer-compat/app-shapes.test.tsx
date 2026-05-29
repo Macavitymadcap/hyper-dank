@@ -78,10 +78,10 @@ import {
 describe("Hyper-Dank recipe compatibility", () => {
   test("renders server-app controls through public component imports", () => {
     const html = String(
-      <Panel labelledBy="workspace-heading">
+      <Panel ariaLabelledBy="workspace-heading">
         <h1 id="workspace-heading">Workspace</h1>
         <Badge tone="accent">Active</Badge>
-        <Icon label="Verified" name="workspace_premium" />
+        <Icon ariaLabel="Verified" name="workspace_premium" />
         <Switch
           id="notifications"
           label="Notifications"
@@ -182,7 +182,7 @@ describe("Hyper-Dank recipe compatibility", () => {
   test("renders a static blog composition through public component imports", () => {
     const html = String(
       <Card as="article" className="blog-entry" radius="6px">
-        <Panel labelledBy="article-title">
+        <Panel ariaLabelledBy="article-title">
           <h1 id="article-title">Release notes</h1>
           <Badge tone="neutral">Platform</Badge>
           <CompactList
@@ -215,7 +215,7 @@ describe("Hyper-Dank recipe compatibility", () => {
           />
         }
       >
-        <Panel labelledBy="dashboard-heading">
+        <Panel ariaLabelledBy="dashboard-heading">
           <h2 id="dashboard-heading">Operations</h2>
           <Toolbar ariaLabel="Dashboard tools">
             <Button type="button" variant="ghost">
@@ -276,7 +276,7 @@ describe("Hyper-Dank recipe compatibility", () => {
 
   test("renders a static demo composition without server-only assumptions", () => {
     const html = String(
-      <Panel labelledBy="demo-heading">
+      <Panel ariaLabelledBy="demo-heading">
         <h1 id="demo-heading">Static demo</h1>
         <InputGroup type="number" name="miles" label="Miles" min={0} step={0.1} placeholder="1.2" />
         <LabelledOutput label="Average speed" value={3.8} />
@@ -294,7 +294,7 @@ describe("Hyper-Dank recipe compatibility", () => {
 
   test("renders a server-app composition with progressive actions", () => {
     const html = String(
-      <Panel labelledBy="server-heading">
+      <Panel ariaLabelledBy="server-heading">
         <h1 id="server-heading">Server app</h1>
         <PopoverMenu
           id="server-actions"

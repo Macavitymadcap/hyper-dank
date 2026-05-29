@@ -1,12 +1,30 @@
 export interface PanelProps {
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
   children: unknown;
+  className?: string;
   labelledBy?: string;
   width?: "default" | "narrow";
 }
 
-export const Panel = ({ children, labelledBy, width = "default" }: PanelProps) => {
+export const Panel = ({
+  ariaLabel,
+  ariaLabelledBy,
+  children,
+  className,
+  labelledBy,
+  width = "default",
+}: PanelProps) => {
+  const classes = ["panel", className].filter(Boolean).join(" ");
+  const labelledById = ariaLabelledBy ?? labelledBy;
+
   return (
-    <section className="panel" data-width={width} aria-labelledby={labelledBy}>
+    <section
+      className={classes}
+      data-width={width}
+      aria-label={ariaLabel}
+      aria-labelledby={labelledById}
+    >
       {children}
     </section>
   );

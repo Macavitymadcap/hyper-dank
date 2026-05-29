@@ -70,4 +70,13 @@ describe("screenshot flows", () => {
       "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--quiet-surface-and-density-modes",
     ]);
   });
+
+  test("captures hd-0074 API vocabulary evidence", () => {
+    const [flow] = selectScreenshotFlows(["hd-0074-api-vocabulary"]);
+
+    expect(flow?.states.map((state) => state.slug)).toEqual(["component-contracts-vocabulary"]);
+    expect(flow?.states.map((state) => state.path)).toEqual([
+      "/storybook/iframe.html?id=introduction-component-contracts--reference-map",
+    ]);
+  });
 });

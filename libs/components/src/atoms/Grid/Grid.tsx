@@ -1,6 +1,8 @@
 export type GridElement = "div" | "section" | "ul";
 
 export interface GridProps {
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
   as?: GridElement;
   children: unknown;
   className?: string;
@@ -12,6 +14,8 @@ export interface GridProps {
 }
 
 export const Grid = ({
+  ariaLabel,
+  ariaLabelledBy,
   as = "div",
   children,
   className,
@@ -22,6 +26,7 @@ export const Grid = ({
   minColumnWidth,
 }: GridProps) => {
   const classes = ["grid", className].filter(Boolean).join(" ");
+  const labelledById = ariaLabelledBy ?? labelledBy;
   const customProperties = [
     columns && `--grid-columns: ${columns}`,
     gap && `--grid-gap: ${gap}`,
@@ -30,7 +35,8 @@ export const Grid = ({
     .filter(Boolean)
     .join("; ");
   const props = {
-    "aria-labelledby": labelledBy,
+    "aria-label": ariaLabel,
+    "aria-labelledby": labelledById,
     className: classes,
     id,
     style: customProperties || undefined,

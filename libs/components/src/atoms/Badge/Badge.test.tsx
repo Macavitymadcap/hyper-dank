@@ -7,4 +7,10 @@ describe("Badge", () => {
       '<span class="badge" data-tone="neutral">Ready</span>',
     );
   });
+
+  test("accepts an app styling class hook", () => {
+    expect(String(<Badge className="queue-badge">Ready</Badge>)).toBe(
+      '<span class="badge queue-badge" data-tone="neutral">Ready</span>',
+    );
+  });
 });

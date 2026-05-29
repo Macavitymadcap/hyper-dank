@@ -44,11 +44,11 @@ export const ReuseSet: Story = {
         <div class="storybook-doc__grid">
           <section class="storybook-doc__section" aria-labelledby="reuse-preview-heading">
             <h2 id="reuse-preview-heading">Rendered output</h2>
-            <Panel labelledBy="reuse-preview-title">
+            <Panel ariaLabelledBy="reuse-preview-title">
               <h3 id="reuse-preview-title">Release desk</h3>
               <p>
                 <Badge tone="accent">Live docs</Badge> <Badge tone="warning">4 drafts</Badge>{" "}
-                <Icon label="Ready for package review" name="check" tone="success" />
+                <Icon ariaLabel="Ready for package review" name="check" tone="success" />
               </p>
               <Callout title="Review focus">
                 Release copy, npm links, and consumer smoke checks are ready for sign-off.
@@ -113,7 +113,7 @@ export const ReuseSet: Story = {
 
 export function ReleaseDesk() {
   return (
-    <Panel labelledBy="release-heading">
+    <Panel ariaLabelledBy="release-heading">
       <h2 id="release-heading">Release desk</h2>
       <Badge tone="accent">Live docs</Badge>
       <Callout title="Review focus">

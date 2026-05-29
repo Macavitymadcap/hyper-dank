@@ -3,6 +3,8 @@ export type StackAlign = "start" | "center" | "end" | "stretch";
 
 export interface StackProps {
   align?: StackAlign;
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
   as?: StackElement;
   children: unknown;
   className?: string;
@@ -13,6 +15,8 @@ export interface StackProps {
 
 export const Stack = ({
   align = "stretch",
+  ariaLabel,
+  ariaLabelledBy,
   as = "div",
   children,
   className,
@@ -21,8 +25,10 @@ export const Stack = ({
   labelledBy,
 }: StackProps) => {
   const classes = ["stack", className].filter(Boolean).join(" ");
+  const labelledById = ariaLabelledBy ?? labelledBy;
   const props = {
-    "aria-labelledby": labelledBy,
+    "aria-label": ariaLabel,
+    "aria-labelledby": labelledById,
     className: classes,
     "data-align": align,
     id,
