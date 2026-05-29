@@ -86,6 +86,25 @@
   --input-depth-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), 0 0.35rem 0.9rem rgb(0 0 0 / 18%);
 }
 
+:where([data-hd-surface="quiet"], .hd-surface-quiet) {
+  --border-subtle: color-mix(in oklab, var(--text) 15%, transparent);
+  --control-depth-shadow: 0 0.18rem 0.45rem rgb(15 23 42 / 6%);
+  --control-depth-shadow-hover: 0 0.28rem 0.65rem rgb(15 23 42 / 8%);
+  --input-depth-shadow: inset 0 0 0 transparent;
+  --surface-depth-gradient: linear-gradient(180deg, var(--surface), var(--surface));
+  --surface-depth-shadow: 0 0.18rem 0.5rem rgb(15 23 42 / 5%);
+  --surface-depth-shadow-hover: 0 0.28rem 0.7rem rgb(15 23 42 / 7%);
+  --surface-raised: color-mix(in oklab, var(--surface) 94%, var(--text) 6%);
+}
+
+:where([data-hd-density="compact"], .hd-density-compact) {
+  --hd-button-font-size: var(--font-size-0);
+  --hd-button-height: 2.2rem;
+  --hd-button-padding-inline: var(--size-3);
+  --surface-gap: 0.25rem;
+  --surface-padding: 0.6rem;
+}
+
 body {
   box-sizing: border-box;
   font-family: var(--font-sans);
@@ -148,9 +167,9 @@ body {
   --button-current-bg-hover: var(--button-bg-hover);
   --button-current-border: transparent;
   --button-current-text: var(--button-text);
-  --button-height: 2.75rem;
-  --button-padding-inline: var(--size-4);
-  --button-font-size: var(--font-size-1);
+  --button-height: var(--hd-button-height, 2.75rem);
+  --button-padding-inline: var(--hd-button-padding-inline, var(--size-4));
+  --button-font-size: var(--hd-button-font-size, var(--font-size-1));
   box-sizing: border-box;
   display: inline-grid;
   place-items: center;
@@ -277,6 +296,10 @@ body {
   min-height: var(--card-min-height);
   max-height: var(--card-max-height);
   overflow: hidden;
+}
+
+:where([data-hd-surface="quiet"], .hd-surface-quiet) .card {
+  --card-shadow: var(--surface-depth-shadow);
 }
 
 .card[data-fill="true"] {

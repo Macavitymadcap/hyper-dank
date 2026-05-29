@@ -390,9 +390,9 @@ body {
 .storybook-doc__section {
   display: grid;
   align-content: start;
-  gap: var(--size-3);
+  gap: var(--surface-gap, var(--size-3));
   min-width: 0;
-  padding: var(--size-4);
+  padding: var(--surface-padding, var(--size-4));
   background-image: var(--surface-depth-gradient);
   border: var(--border-size-1) solid var(--border-subtle);
   border-radius: var(--radius-2);
@@ -492,6 +492,12 @@ body {
   margin: 0;
   color: var(--text);
   line-height: var(--font-lineheight-3);
+}
+
+.storybook-surface-mode-card {
+  display: grid;
+  gap: var(--surface-gap, var(--size-3));
+  padding: var(--surface-padding, var(--size-4));
 }
 
 .storybook-doc__table-scroll {

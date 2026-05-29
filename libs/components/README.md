@@ -61,6 +61,10 @@ import "@macavitymadcap/hyper-dank-ui/styles.css";
 The CSS export is intentionally small. It preserves generic class and variant hooks such as
 `.button[data-variant="ghost"]`, `.switch[data-variant="compact"]`, and `.form-field`; consuming apps
 own their product layout and can layer app-specific styling after the package import.
+Dense screens can opt into quieter shared surfaces without swapping component classes by wrapping a
+region in `data-hd-surface="quiet"` and/or `data-hd-density="compact"`. Those attributes tune the
+same surface, border, shadow, gap, padding, and control custom-property hooks used by buttons, cards,
+panels, notices, forms, and low-state primitives.
 
 Vite-backed consumers can import the CSS from their browser entry. Bun/Hono consumers that render
 server-side JSX should still include the CSS through the browser bundle or another static asset
@@ -126,7 +130,9 @@ For rendered component contracts, see the published Storybook route at
   `StatusSummary`, and `BasicGraph` for dense, progressively enhanced screens with small static
   data visualisations. `ScrollableTable` exposes caption, summary, pagination, responsive column,
   action-column, and semantic sort-state hooks; apps still own query construction, sort execution,
-  filter state, column preference storage, row-action mutations, and persistence.
+  filter state, column preference storage, row-action mutations, and persistence. Wrap dense regions
+  in `data-hd-surface="quiet"` or `data-hd-density="compact"` when repeated cards, panels, tables,
+  and form controls need less visual gloss.
 - Overlay and compact-panel flows should use `Dialog` for general modal content, `AlertDialog` for
   destructive or irreversible confirmations, and `Drawer` for mobile side panels or compact
   navigation/filter panels. Focus handling, triggers, close buttons, and fallback links are

@@ -335,6 +335,26 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0072-surface-density",
+    label: "HD 0072 Surface Density",
+    description: "Quiet surface and compact density mode evidence for hd-0072.",
+    states: [
+      {
+        authUserId: null,
+        label: "Quiet dense surfaces",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--quiet-surface-and-density-modes",
+        slug: "quiet-dense-surfaces",
+      },
+      {
+        authUserId: null,
+        label: "Quiet compact mode",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--quiet-surface-and-density-modes",
+        slug: "quiet-compact-mode",
+        afterLoad: scrollQuietSurfaceIntoView,
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",
@@ -470,6 +490,10 @@ async function scrollCommandResultsIntoView({ page }: ScreenshotFlowContext) {
 
 async function scrollStagedFormActionsIntoView({ page }: ScreenshotFlowContext) {
   await page.locator(".staged-form-actions").scrollIntoViewIfNeeded();
+}
+
+async function scrollQuietSurfaceIntoView({ page }: ScreenshotFlowContext) {
+  await page.locator("#quiet-surface-heading").scrollIntoViewIfNeeded();
 }
 
 async function openConfirmDialogPrimitive({ page }: ScreenshotFlowContext) {

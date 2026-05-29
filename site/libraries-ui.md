@@ -59,6 +59,21 @@ The CSS export preserves generic hooks such as `.button[data-variant="ghost"]`,
 `.switch[data-variant="compact"]`, and `.form-field`. Product layout and visual identity should
 layer after the package CSS.
 
+Dense dashboards and admin regions can reduce visual gloss without replacing component CSS:
+
+```tsx
+<section data-hd-surface="quiet" data-hd-density="compact">
+  <Card as="section">
+    <SectionHeader title="Publishing queue" actions={<Button size="compact">Sync</Button>} />
+    <StatusSummary title="Review" items={[{ label: "Checks", value: "Passed", tone: "success" }]} />
+  </Card>
+</section>
+```
+
+`data-hd-surface="quiet"` flattens shared gradients and softens surface, button, card, panel, form,
+and low-state shadows through custom properties. `data-hd-density="compact"` tightens shared gaps,
+padding, and default control rhythm for repeated operational screens.
+
 ## Component API
 
 | Export | Purpose | Demonstration |
@@ -147,7 +162,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | --- | --- | --- |
 | Server apps | `HxForm`, `FormField`, `Button`, `Panel` | Routes, validation, auth, and permissions stay local. |
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
-| Dashboards | `HxForm`, `ScrollableTable`, `TableFilterSummary`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, query construction, sorting, filtering, column preferences, row mutations, live data, analytics rules, and role rules stay local. |
+| Dashboards | `HxForm`, `ScrollableTable`, `TableFilterSummary`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, query construction, sorting, filtering, column preferences, row mutations, live data, analytics rules, and role rules stay local. Add `data-hd-surface="quiet"` or `data-hd-density="compact"` to dense regions when repeated surfaces need less gloss. |
 | Dense forms | `NumberField`, `DateField`, `FileField`, `RangeField`, `SelectField`, `Combobox`, `PopoverMenu`, `Command`, `StagedForm` | Use native controls for common entry types, datalist suggestions for open text, menu actions for compact choices, command search only when the app owns filtering/loading, and staged forms when app routes own sequential step state. Upload handling, date-range logic, formatting/parsing, unit conversion, and async validation stay local. |
 | Overlays and panels | `Dialog`, `AlertDialog`, `Drawer`, `SideNav`, `AppShell` | Use native dialogs for modal content and confirmations, and drawer panels for compact navigation or filters. Routes still own permissions, mutations, redirects, loaded content, and product navigation structure. |
 | Feedback | `StatusSymbol`, `NotificationBanner`, `Notice`, `ValidationSummary`, `Progress`, `StatusSummary`, `Badge` | Status copy, notification timing, toast queues, dismissal, persistence, and escalation rules stay local. |

@@ -57,4 +57,17 @@ describe("screenshot flows", () => {
       "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
     ]);
   });
+
+  test("captures hd-0072 quiet surface and density evidence", () => {
+    const [flow] = selectScreenshotFlows(["hd-0072-surface-density"]);
+
+    expect(flow?.states.map((state) => state.slug)).toEqual([
+      "quiet-dense-surfaces",
+      "quiet-compact-mode",
+    ]);
+    expect(flow?.states.map((state) => state.path)).toEqual([
+      "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--quiet-surface-and-density-modes",
+      "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--quiet-surface-and-density-modes",
+    ]);
+  });
 });

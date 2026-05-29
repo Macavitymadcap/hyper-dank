@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 import { expect, within } from "storybook/test";
 import { Badge } from "../atoms/Badge";
 import { Button } from "../atoms/Button";
+import { Card } from "../atoms/Card";
 import { Icon } from "../atoms/Icon";
 import { AlertDialog } from "../molecules/AlertDialog";
 import { AppShell } from "../molecules/AppShell";
@@ -201,6 +202,97 @@ export function DashboardShell() {
     await expect(canvas.getByRole("button", { name: "Review delete" })).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Open sections" })).toBeInTheDocument();
     await expect(canvas.getByText("Refreshing")).toBeInTheDocument();
+  },
+};
+
+export const QuietSurfaceAndDensityModes: Story = {
+  render: () =>
+    renderStory(
+      <article class="storybook-doc" aria-labelledby="surface-mode-heading">
+        <header class="storybook-doc__header">
+          <p class="storybook-doc__eyebrow">Surface and density contract</p>
+          <h1 id="surface-mode-heading" class="storybook-doc__title">
+            Quiet dense surfaces
+          </h1>
+          <p class="storybook-doc__lede">
+            Wrap dense dashboard or admin regions with app-level attributes when the default raised
+            surfaces are too glossy for repeated operational use.
+          </p>
+        </header>
+        <div class="storybook-doc__grid storybook-doc__grid--two">
+          <section class="storybook-doc__section" aria-labelledby="default-surface-heading">
+            <h2 id="default-surface-heading">Default</h2>
+            <Card as="section" className="storybook-surface-mode-card">
+              <SectionHeader
+                title="Publishing queue"
+                description="Raised treatment for normal app surfaces."
+                actions={<Button size="compact">Sync</Button>}
+              />
+              <MetadataList
+                items={[
+                  { label: "Ready", value: "18" },
+                  { label: "Needs review", value: "6" },
+                ]}
+              />
+              <Notice tone="success" heading="Checks passed">
+                Content checks completed for this batch.
+              </Notice>
+            </Card>
+            <Callout title="Default surface">Use when hierarchy and emphasis matter.</Callout>
+          </section>
+          <section
+            class="storybook-doc__section"
+            data-hd-density="compact"
+            data-hd-surface="quiet"
+            aria-labelledby="quiet-surface-heading"
+          >
+            <h2 id="quiet-surface-heading">Quiet compact</h2>
+            <Card as="section" className="storybook-surface-mode-card">
+              <SectionHeader
+                title="Publishing queue"
+                description="Flatter treatment for dense operational screens."
+                actions={<Button size="compact">Sync</Button>}
+              />
+              <MetadataList
+                items={[
+                  { label: "Ready", value: "18" },
+                  { label: "Needs review", value: "6" },
+                ]}
+              />
+              <Notice tone="success" heading="Checks passed">
+                Content checks completed for this batch.
+              </Notice>
+            </Card>
+            <Callout title="Quiet compact">
+              Use the wrapper attributes without swapping component classes.
+            </Callout>
+          </section>
+        </div>
+        <section class="storybook-doc__section" aria-labelledby="surface-contract-heading">
+          <h2 id="surface-contract-heading">Contract</h2>
+          <ul>
+            <li>
+              <code>data-hd-surface="quiet"</code> flattens gradients and softens shadows through
+              shared surface custom properties.
+            </li>
+            <li>
+              <code>data-hd-density="compact"</code> reduces shared gaps, padding, and default
+              control rhythm for dense regions.
+            </li>
+            <li>
+              Consumers can apply either attribute to a local dashboard, admin panel, or page shell
+              without replacing component CSS.
+            </li>
+          </ul>
+        </section>
+      </article>,
+    ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole("heading", { name: "Default" })).toBeInTheDocument();
+    await expect(canvas.getByRole("heading", { name: "Quiet compact" })).toBeInTheDocument();
+    await expect(canvas.getByText('data-hd-surface="quiet"')).toBeInTheDocument();
+    await expect(canvas.getByText('data-hd-density="compact"')).toBeInTheDocument();
   },
 };
 

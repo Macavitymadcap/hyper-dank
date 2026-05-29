@@ -10,6 +10,12 @@ describe("shared component styles", () => {
     expect(css).toContain(".accordion-item summary span");
     expect(css).toContain(".aspect-ratio");
     expect(css).toContain(".avatar");
+    expect(css).toContain(':where([data-hd-surface="quiet"], .hd-surface-quiet)');
+    expect(css).toContain(':where([data-hd-density="compact"], .hd-density-compact)');
+    expect(css).toContain(
+      "--surface-depth-gradient: linear-gradient(180deg, var(--surface, Canvas), var(--surface, Canvas))",
+    );
+    expect(css).toContain("--surface-padding: 0.6rem");
     expect(css).toContain(".breadcrumbs ol");
     expect(css).toContain(".breadcrumbs li + li::before");
     expect(css).toContain('.breadcrumbs [aria-current="page"]');
@@ -23,6 +29,7 @@ describe("shared component styles", () => {
     expect(css).toContain(".container");
     expect(css).not.toContain(".code-block,\n.container,\n.empty-state");
     expect(css).toContain('.form-field[data-density="compact"]');
+    expect(css).toContain("min-height: var(--hd-control-min-height, 2.35rem)");
     expect(css).toContain(".form-field {\n  min-inline-size: 0;");
     expect(css).toContain(".range-field-value");
     expect(css).toContain(".alert-dialog");
