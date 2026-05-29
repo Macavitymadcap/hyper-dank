@@ -3,12 +3,14 @@ import { expect, within } from "storybook/test";
 import { Badge } from "../atoms/Badge";
 import { Button } from "../atoms/Button";
 import { Icon } from "../atoms/Icon";
+import { AlertDialog } from "../molecules/AlertDialog";
 import { AppShell } from "../molecules/AppShell";
 import { Breadcrumbs } from "../molecules/Breadcrumbs";
 import { ButtonGroup } from "../molecules/ButtonGroup";
 import { Callout } from "../molecules/Callout";
 import { CodeBlock } from "../molecules/CodeBlock";
 import { Dialog } from "../molecules/Dialog";
+import { Drawer } from "../molecules/Drawer";
 import { EmptyState } from "../molecules/EmptyState";
 import { Fieldset } from "../molecules/Fieldset";
 import { FormField } from "../molecules/FormField";
@@ -103,6 +105,36 @@ export const ShellNavigationAndFeedback: Story = {
                 <Dialog id="confirm-sync" title="Sync data" triggerLabel="Open sync dialog">
                   Sync latest records from the server.
                 </Dialog>
+                <AlertDialog
+                  id="delete-draft"
+                  title="Delete draft"
+                  description="Confirm irreversible actions while the route owns permissions and redirects."
+                  triggerLabel="Review delete"
+                  fallbackHref="/drafts/1/delete"
+                  action="/drafts/1/delete"
+                  confirmLabel="Delete draft"
+                  confirmName="intent"
+                  confirmValue="delete"
+                >
+                  This removes the draft from the publishing queue.
+                </AlertDialog>
+                <Drawer
+                  id="mobile-sections"
+                  title="Sections"
+                  description="A native dialog side panel for compact navigation or filters."
+                  triggerLabel="Open sections"
+                  fallbackHref="/dashboard/sections"
+                  placement="start"
+                >
+                  <SideNav
+                    ariaLabel="Mobile sections"
+                    items={[
+                      { current: true, href: "/dashboard", label: "Dashboard" },
+                      { href: "/content", label: "Content" },
+                      { href: "/settings", label: "Settings" },
+                    ]}
+                  />
+                </Drawer>
               </Toolbar>
               <Notice tone="success" heading="Saved">
                 Settings were updated.
@@ -135,6 +167,10 @@ export const ShellNavigationAndFeedback: Story = {
                 Notice, Progress, LoadingIndicator, and StatusSummary expose state accessibly.
               </li>
               <li>
+                AlertDialog handles destructive confirmation semantics; Drawer handles compact
+                side-panel composition without taking over routing.
+              </li>
+              <li>
                 The app owns data freshness, permissions, destructive actions, and route names.
               </li>
             </ul>
@@ -162,6 +198,8 @@ export function DashboardShell() {
     await expect(canvas.getByRole("heading", { name: "Dashboard" })).toBeInTheDocument();
     await expect(canvas.getByRole("navigation", { name: "Sections" })).toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Open sync dialog" })).toBeInTheDocument();
+    await expect(canvas.getByRole("button", { name: "Review delete" })).toBeInTheDocument();
+    await expect(canvas.getByRole("button", { name: "Open sections" })).toBeInTheDocument();
     await expect(canvas.getByText("Refreshing")).toBeInTheDocument();
   },
 };

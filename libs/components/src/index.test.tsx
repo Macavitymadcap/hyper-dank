@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
+  AlertDialog,
   AppShell,
   AspectRatio,
   Avatar,
@@ -15,6 +16,7 @@ import {
   Container,
   DateField,
   Dialog,
+  Drawer,
   EmptyState,
   FileField,
   FormField,
@@ -223,6 +225,17 @@ describe("component library", () => {
         />
         <Toolbar ariaLabel="Tools">
           <IconButton icon="filter" label="Filter" />
+          <AlertDialog
+            id="delete-item"
+            title="Delete item"
+            triggerLabel="Delete"
+            confirmLabel="Delete"
+          >
+            Delete this item.
+          </AlertDialog>
+          <Drawer id="mobile-sections" title="Sections" triggerLabel="Open sections">
+            Mobile section links.
+          </Drawer>
         </Toolbar>
         <Tabs
           ariaLabel="Views"
@@ -237,6 +250,8 @@ describe("component library", () => {
     expect(html).toContain('class="side-nav"');
     expect(html).toContain('<span aria-current="page">Dashboard</span>');
     expect(html).toContain('role="toolbar"');
+    expect(html).toContain('role="alertdialog"');
+    expect(html).toContain('class="drawer"');
     expect(html).toContain('class="pagination"');
   });
 

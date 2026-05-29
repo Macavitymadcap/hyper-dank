@@ -1,4 +1,5 @@
 .accordion,
+.alert-dialog,
 .basic-graph,
 .button,
 .link-button,
@@ -9,6 +10,7 @@
 .code-block,
 .command,
 .command-field,
+.drawer,
 .empty-state,
 .fieldset,
 .form-field,
@@ -351,10 +353,12 @@
 .button,
 .link-button,
 .popover-menu-trigger,
+.alert-dialog,
 .card,
 .panel,
 .callout,
 .code-block,
+.drawer,
 .empty-state,
 .fieldset,
 .labelled-output,
@@ -370,8 +374,31 @@
   background-image: var(--hd-surface-gradient);
 }
 
+.button[data-variant="danger"],
+.link-button[data-variant="danger"] {
+  background: var(--hd-status-danger, #b91c1c);
+  border-color: color-mix(in oklab, var(--hd-status-danger, #b91c1c) 82%, CanvasText 18%);
+  color: white;
+}
+
+.button[data-variant="outline"],
+.link-button[data-variant="outline"] {
+  background-image: var(--hd-surface-gradient);
+  color: inherit;
+}
+
+.button[data-variant="text"],
+.link-button[data-variant="text"] {
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  padding-inline: 0;
+}
+
 .callout,
 .code-block,
+.alert-dialog,
+.drawer,
 .empty-state,
 .fieldset,
 .labelled-output,
@@ -464,6 +491,91 @@
   color: var(--text-muted, color-mix(in oklab, CanvasText 62%, Canvas 38%));
   font-size: 0.875rem;
   font-weight: 700;
+}
+
+.alert-dialog,
+.drawer {
+  border: 1px solid var(--hd-surface-border);
+  box-sizing: border-box;
+  color: inherit;
+  margin: auto;
+  max-inline-size: min(92vw, 34rem);
+  min-inline-size: 0;
+}
+
+.alert-dialog {
+  inset: auto;
+  inset-block-start: 50dvh;
+  inset-inline-start: 50vw;
+  inline-size: min(92vw, 34rem);
+  margin: 0;
+  max-block-size: calc(100dvh - 2rem);
+  overflow: auto;
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+.alert-dialog::backdrop,
+.drawer::backdrop {
+  background: rgb(15 23 42 / 45%);
+}
+
+.drawer-header {
+  align-items: start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.alert-dialog-header {
+  display: grid;
+  gap: 0.35rem;
+  min-inline-size: 0;
+}
+
+.alert-dialog-header h2,
+.drawer-header h2 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.alert-dialog-header p,
+.drawer-header p {
+  color: var(--text-muted, color-mix(in oklab, CanvasText 62%, Canvas 38%));
+  margin: 0.35rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.alert-dialog-body,
+.drawer-body {
+  display: grid;
+  gap: 0.6rem;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.alert-dialog-actions,
+.drawer-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: end;
+}
+
+.drawer {
+  block-size: 100dvh;
+  inline-size: min(92vw, 24rem);
+  margin-block: 0;
+}
+
+.drawer[data-placement="start"] {
+  margin-inline: 0 auto;
+}
+
+.drawer[data-placement="end"] {
+  margin-inline: auto 0;
 }
 
 .basic-graph {
@@ -630,6 +742,8 @@
 .callout,
 .choice-field,
 .code-block,
+.alert-dialog,
+.drawer,
 .empty-state,
 .fieldset,
 .form-field,

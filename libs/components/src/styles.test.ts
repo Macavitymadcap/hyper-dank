@@ -14,6 +14,9 @@ describe("shared component styles", () => {
     expect(css).toContain(".breadcrumbs li + li::before");
     expect(css).toContain('.breadcrumbs [aria-current="page"]');
     expect(css).toContain('.button[data-variant="ghost"]');
+    expect(css).toContain('.button[data-variant="danger"]');
+    expect(css).toContain('.button[data-variant="outline"]');
+    expect(css).toContain('.button[data-variant="text"]');
     expect(css).toContain(".button-group");
     expect(css).toContain(".callout");
     expect(css).toContain(".choice-field");
@@ -22,8 +25,12 @@ describe("shared component styles", () => {
     expect(css).toContain('.form-field[data-density="compact"]');
     expect(css).toContain(".form-field {\n  min-inline-size: 0;");
     expect(css).toContain(".range-field-value");
+    expect(css).toContain(".alert-dialog");
+    expect(css).toContain(".alert-dialog-actions");
     expect(css).toContain(".dialog");
     expect(css).toContain("dialog.dialog:not([open])");
+    expect(css).toContain(".drawer");
+    expect(css).toContain('.drawer[data-placement="end"]');
     expect(css).toContain(".empty-state");
     expect(css).toContain(".grid");
     expect(css).toContain(".heading");

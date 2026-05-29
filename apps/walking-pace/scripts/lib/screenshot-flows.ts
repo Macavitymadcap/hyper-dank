@@ -314,6 +314,27 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0071-overlays",
+    label: "HD 0071 Overlays",
+    description: "Alert dialog and drawer primitive evidence for hd-0071.",
+    states: [
+      {
+        authUserId: null,
+        label: "Confirm dialog primitive",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--shell-navigation-and-feedback",
+        slug: "confirm-dialog-primitive",
+        afterLoad: openConfirmDialogPrimitive,
+      },
+      {
+        authUserId: null,
+        label: "Drawer primitive",
+        path: "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--shell-navigation-and-feedback",
+        slug: "drawer-primitive",
+        afterLoad: openDrawerPrimitive,
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",
@@ -449,6 +470,37 @@ async function scrollCommandResultsIntoView({ page }: ScreenshotFlowContext) {
 
 async function scrollStagedFormActionsIntoView({ page }: ScreenshotFlowContext) {
   await page.locator(".staged-form-actions").scrollIntoViewIfNeeded();
+}
+
+async function openConfirmDialogPrimitive({ page }: ScreenshotFlowContext) {
+  await page.evaluate(() => {
+    globalThis.scrollTo(0, 0);
+  });
+  await page.evaluate(() => {
+    const { document } = globalThis as unknown as BrowserGlobals;
+    const dialog = document.querySelector("#delete-draft") as BrowserElement & {
+      showModal?: () => void;
+    };
+    dialog?.showModal?.();
+  });
+  await page.waitForSelector("#delete-draft[open]");
+  await page.waitForTimeout(120);
+}
+
+async function openDrawerPrimitive({ page }: ScreenshotFlowContext) {
+  await page.getByRole("button", { name: "Open sections" }).scrollIntoViewIfNeeded();
+  await page.evaluate(() => {
+    globalThis.scrollTo(0, globalThis.scrollY);
+  });
+  await page.evaluate(() => {
+    const { document } = globalThis as unknown as BrowserGlobals;
+    const dialog = document.querySelector("#mobile-sections") as BrowserElement & {
+      showModal?: () => void;
+    };
+    dialog?.showModal?.();
+  });
+  await page.waitForSelector("#mobile-sections[open]");
+  await page.waitForTimeout(120);
 }
 
 async function renderDemoInviteNotice({ page, theme }: ScreenshotFlowContext) {
