@@ -137,6 +137,41 @@ export const ReferenceMap: Story = {
           />
         </section>
 
+        <section class="storybook-doc__section" aria-labelledby="api-vocabulary-heading">
+          <h2 id="api-vocabulary-heading">Shared API vocabulary</h2>
+          <CompactList
+            className="storybook-reference-rules"
+            items={[
+              {
+                label: "className",
+                value: "App styling hook on a stable outer element.",
+              },
+              {
+                label: "variant and tone",
+                value: "Variant changes affordance; tone communicates status or emphasis.",
+              },
+              {
+                label: "size and density",
+                value: "Size changes compact visual scale; density tightens repeated form rhythm.",
+              },
+              {
+                label: "ariaLabel and ariaLabelledBy",
+                value:
+                  "Accessible names use ariaLabel, or ariaLabelledBy when a region points at an existing heading.",
+              },
+              {
+                label: "current and disabled",
+                value:
+                  "Current marks navigation or option state; disabled blocks native control interaction.",
+              },
+              {
+                label: "HtmxProps",
+                value: "HTMX props appear only where a component owns native action semantics.",
+              },
+            ]}
+          />
+        </section>
+
         <div class="storybook-doc__table-scroll" tabindex={0}>
           <table class="storybook-doc__table">
             <thead>

@@ -1,11 +1,14 @@
 export interface BadgeProps {
   children: unknown;
+  className?: string;
   tone?: "accent" | "neutral" | "warning";
 }
 
-export const Badge = ({ children, tone = "neutral" }: BadgeProps) => {
+export const Badge = ({ children, className, tone = "neutral" }: BadgeProps) => {
+  const classes = ["badge", className].filter(Boolean).join(" ");
+
   return (
-    <span className="badge" data-tone={tone}>
+    <span className={classes} data-tone={tone}>
       {children}
     </span>
   );

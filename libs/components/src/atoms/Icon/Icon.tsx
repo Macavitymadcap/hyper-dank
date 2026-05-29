@@ -1,16 +1,19 @@
 export interface IconProps {
+  ariaLabel?: string;
+  className?: string;
   label?: string;
   name: string;
   tone?: "muted" | "neutral" | "success" | "warning";
 }
 
-export const Icon = ({ label, name, tone = "neutral" }: IconProps) => {
+export const Icon = ({ ariaLabel, className, label, name, tone = "neutral" }: IconProps) => {
   const icon = getIcon(name);
-  const className = `icon icon-${tone}`;
+  const accessibleLabel = ariaLabel ?? label;
+  const classes = ["icon", `icon-${tone}`, className].filter(Boolean).join(" ");
 
-  if (label) {
+  if (accessibleLabel) {
     return (
-      <span aria-label={label} className={className} data-icon={icon.id} role="img">
+      <span aria-label={accessibleLabel} className={classes} data-icon={icon.id} role="img">
         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
           {icon.paths}
         </svg>
@@ -19,7 +22,7 @@ export const Icon = ({ label, name, tone = "neutral" }: IconProps) => {
   }
 
   return (
-    <span aria-hidden="true" className={className} data-icon={icon.id}>
+    <span aria-hidden="true" className={classes} data-icon={icon.id}>
       <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
         {icon.paths}
       </svg>

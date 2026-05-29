@@ -77,7 +77,7 @@ describe("component library", () => {
 
   test("exports app-builder generic primitives", () => {
     const html = render(
-      <Panel labelledBy="panel-heading">
+      <Panel ariaLabelledBy="panel-heading">
         <h2 id="panel-heading">Panel</h2>
         <PopoverMenu id="menu" label="Open menu" items={[{ href: "/", label: "Home" }]} />
       </Panel>,
@@ -90,7 +90,7 @@ describe("component library", () => {
 
   test("exports low-state utility primitives", () => {
     const html = render(
-      <Panel labelledBy="low-state-heading">
+      <Panel ariaLabelledBy="low-state-heading">
         <h2 id="low-state-heading">Low state</h2>
         <Tooltip id="save-tip" label="Save" content="Save this draft" />
         <Skeleton width="8rem" />
@@ -113,7 +113,7 @@ describe("component library", () => {
 
   test("exports layout and typography utility primitives", () => {
     const html = render(
-      <Container as="main" labelledBy="utilities-heading" width="narrow">
+      <Container as="main" ariaLabelledBy="utilities-heading" width="narrow">
         <Stack gap="1rem">
           <Heading id="utilities-heading" level={1} visualLevel={2}>
             Utilities
@@ -159,7 +159,7 @@ describe("component library", () => {
 
   test("exports app-builder action and form primitives", () => {
     const html = render(
-      <Panel labelledBy="filters-heading">
+      <Panel ariaLabelledBy="filters-heading">
         <h2 id="filters-heading">Filters</h2>
         <ButtonGroup ariaLabel="View actions">
           <IconButton icon="search" label="Search" />
@@ -187,7 +187,7 @@ describe("component library", () => {
 
   test("exports native-first expanded field primitives", () => {
     const html = render(
-      <Panel labelledBy="field-heading">
+      <Panel ariaLabelledBy="field-heading">
         <h2 id="field-heading">Fields</h2>
         <NumberField id="quantity" label="Quantity" min={1} step={1} />
         <DateField id="due-date" label="Due date" />

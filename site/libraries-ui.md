@@ -74,6 +74,21 @@ Dense dashboards and admin regions can reduce visual gloss without replacing com
 and low-state shadows through custom properties. `data-hd-density="compact"` tightens shared gaps,
 padding, and default control rhythm for repeated operational screens.
 
+## Shared API Vocabulary
+
+| Name | Use |
+| --- | --- |
+| `className` | App styling hook on the stable outer element; product layout classes stay in the consumer. |
+| `variant` | Interaction or affordance changes, such as button and link-button visual roles. |
+| `tone` | Status or emphasis, such as metadata, notice, callout, and status-symbol severity. |
+| `size` | Compact visual scale when the component does not alter form density. |
+| `density` | Tighter form rhythm for repeated data-entry controls. |
+| `ariaLabel` | Accessible name when visible text is absent or insufficient. |
+| `ariaLabelledBy` | Accessible region naming through an existing heading id; older `labelledBy` aliases remain supported on `Container`, `Grid`, `Panel`, and `Stack`. |
+| `current` | Navigation or option state for the current page or selection. |
+| `disabled` | Native controls and options that must block interaction. |
+| `HtmxProps` | Progressive action props on components that own native button, link, form, or action semantics. |
+
 ## Component API
 
 | Export | Purpose | Demonstration |
@@ -81,7 +96,7 @@ padding, and default control rhythm for repeated operational screens.
 | `AlertDialog`, `AlertDialogProps`, `AlertDialogTone` | Native alert dialog wrapper for destructive confirmation with fallback, cancel, confirm, and HTMX form hooks. | `Components/Shared/App Surfaces And Feedback` |
 | `AspectRatio`, `AspectRatioProps` | Fixed-ratio media/content frame with `--aspect-ratio` styling hook. | `Components/Shared/Low State Primitives` |
 | `Avatar`, `AvatarProps` | Compact user identity image or initials fallback with size hooks. | `Components/Shared/Low State Primitives` |
-| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone. | `Components/Shared/Existing Primitives` |
+| `Badge`, `BadgeProps` | Compact metadata label with `accent`, `neutral`, or `warning` tone plus a `className` hook. | `Components/Shared/Existing Primitives` |
 | `Button`, `ButtonProps` | Native button with `primary`, `danger`, `outline`, `text`, and `ghost` variants plus optional HTMX attributes. | `Components/Shared/Core Primitives` |
 | `ButtonGroup`, `ButtonGroupProps` | Toolbar-style grouping for related buttons or links. | `Components/Shared/Core Primitives` |
 | `Card`, `CardElement`, `CardProps` | Semantic surface rendered as `article`, `div`, `main`, or `section`, with size custom-property hooks. | `Components/Shared/Atoms/Card` |
@@ -91,16 +106,16 @@ padding, and default control rhythm for repeated operational screens.
 | `CodeBlock`, `CodeBlockProps` | Escaped code sample wrapper with optional language class. | `Components/Shared/App Surfaces And Feedback` |
 | `Combobox`, `ComboboxOption`, `ComboboxProps` | Labelled native datalist input for app-owned suggestions and validation. | `Components/Shared/Core Primitives` |
 | `Command`, `CommandItem`, `CommandProps` | Search landmark and result options for app-owned command filtering and loading. | `Components/Shared/Core Primitives` |
-| `Container`, `ContainerElement`, `ContainerProps`, `ContainerWidth` | Width-constrained semantic wrapper for small reusable composition regions. | `Components/Shared/Layout And Typography Utilities` |
+| `Container`, `ContainerElement`, `ContainerProps`, `ContainerWidth` | Width-constrained semantic wrapper with `ariaLabel`, `ariaLabelledBy`, and `className` hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `DateField`, `DateFieldDensity`, `DateFieldProps` | Labelled native date input with hint, error, disabled, and compact-density hooks. | `Components/Shared/Core Primitives` |
 | `Dialog`, `DialogProps` | Native dialog with trigger, close form, fallback content, and HTMX-friendly hooks. | `Components/Shared/App Surfaces And Feedback` |
 | `Drawer`, `DrawerPlacement`, `DrawerProps` | Native dialog side panel for compact navigation, filters, and mobile panel composition. | `Components/Shared/App Surfaces And Feedback` |
 | `EmptyState`, `EmptyStateProps` | Blank-state region with optional action slot. | `Components/Shared/App Surfaces And Feedback` |
 | `Fieldset`, `FieldsetProps` | Grouped native controls with legend, hint, and error copy. | `Components/Shared/Core Primitives` |
 | `FileField`, `FileFieldDensity`, `FileFieldProps` | Labelled native file input with accept, multiple, capture, hint, error, and disabled hooks. | `Components/Shared/Core Primitives` |
-| `Grid`, `GridElement`, `GridProps` | Simple responsive grid helper with column, gap, and minimum-width custom-property hooks. | `Components/Shared/Layout And Typography Utilities` |
+| `Grid`, `GridElement`, `GridProps` | Responsive grid helper with `ariaLabel`, `ariaLabelledBy`, column, gap, and minimum-width hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `Heading`, `HeadingLevel`, `HeadingProps` | Semantic heading helper with separate visual-level hooks. | `Components/Shared/Layout And Typography Utilities` |
-| `Icon`, `IconProps` | Decorative or labelled icon span with `muted`, `neutral`, `success`, or `warning` tone. | `Components/Shared/Core Primitives` |
+| `Icon`, `IconProps` | Decorative or labelled icon span with `ariaLabel`, `className`, and `muted`, `neutral`, `success`, or `warning` tone. | `Components/Shared/Core Primitives` |
 | `IconButton`, `IconButtonProps` | Icon-only native button with required accessible label. | `Components/Shared/Core Primitives` |
 | `Kbd`, `KbdProps` | Inline keyboard input hint for shortcuts and command help. | `Components/Shared/Low State Primitives` |
 | `Link`, `LinkProps` | Native link helper with current-page and external-link affordances. | `Components/Shared/Layout And Typography Utilities` |
@@ -112,7 +127,7 @@ padding, and default control rhythm for repeated operational screens.
 | `NumberField`, `NumberFieldDensity`, `NumberFieldProps` | Labelled native number input with min, max, step, input mode, hint, error, disabled, and compact-density hooks. | `Components/Shared/Core Primitives` |
 | `PageHeader`, `PageHeaderProps` | Page title, description, metadata, and action slots. | `Components/Shared/App Surfaces And Feedback` |
 | `Pagination`, `PaginationProps` | Link-backed page navigation with current-state output. | `Components/Shared/App Surfaces And Feedback` |
-| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width. | `Components/Shared/Existing Primitives` |
+| `Panel`, `PanelProps` | Labelled section wrapper with default or narrow width, `ariaLabel`, `ariaLabelledBy`, and `className` hooks. | `Components/Shared/Existing Primitives` |
 | `Progress`, `ProgressProps` | Native progress output with accessible label. | `Components/Shared/App Surfaces And Feedback` |
 | `Prose`, `ProseProps` | Article wrapper for readable documentation or editorial content. | `Components/Shared/App Surfaces And Feedback` |
 | `RadioGroup`, `RadioGroupOption`, `RadioGroupProps` | Fieldset-backed radio options with help and error hooks. | `Components/Shared/Core Primitives` |
@@ -147,7 +162,7 @@ padding, and default control rhythm for repeated operational screens.
 | `ScrollableTable`, `ScrollableTableColumn`, `ScrollableTableProps` | Sticky-header, scrollable table shell with responsive column and row sizing hooks. | `Components/Shared/Molecules/ScrollableTable` |
 | `Separator`, `SeparatorProps` | Decorative or semantic separator for grouping dense controls and content. | `Components/Shared/Low State Primitives` |
 | `Skeleton`, `SkeletonProps` | Labelled loading placeholder with line, block, and circle shapes. | `Components/Shared/Low State Primitives` |
-| `Stack`, `StackAlign`, `StackElement`, `StackProps` | Vertical spacing helper for compact local composition. | `Components/Shared/Layout And Typography Utilities` |
+| `Stack`, `StackAlign`, `StackElement`, `StackProps` | Vertical spacing helper with `ariaLabel`, `ariaLabelledBy`, alignment, and gap hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `Text`, `TextElement`, `TextProps`, `TextSize`, `TextTone`, `TextWeight` | Readable text helper with size, tone, and weight hooks. | `Components/Shared/Layout And Typography Utilities` |
 | `Tooltip`, `TooltipProps` | Static contextual help with an explicit text label and focusable described trigger. | `Components/Shared/Low State Primitives` |
 | `VisuallyHidden`, `VisuallyHiddenProps` | Accessible hidden text helper for labels and summaries that should not be visible. | `Components/Shared/Layout And Typography Utilities` |

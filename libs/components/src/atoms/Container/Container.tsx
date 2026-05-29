@@ -2,6 +2,8 @@ export type ContainerElement = "article" | "div" | "main" | "section";
 export type ContainerWidth = "narrow" | "default" | "wide" | "full";
 
 export interface ContainerProps {
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
   as?: ContainerElement;
   children: unknown;
   className?: string;
@@ -12,6 +14,8 @@ export interface ContainerProps {
 }
 
 export const Container = ({
+  ariaLabel,
+  ariaLabelledBy,
   as = "div",
   children,
   className,
@@ -21,8 +25,10 @@ export const Container = ({
   width = "default",
 }: ContainerProps) => {
   const classes = ["container", className].filter(Boolean).join(" ");
+  const labelledById = ariaLabelledBy ?? labelledBy;
   const props = {
-    "aria-labelledby": labelledBy,
+    "aria-label": ariaLabel,
+    "aria-labelledby": labelledById,
     className: classes,
     "data-width": width,
     id,

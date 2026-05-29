@@ -17,6 +17,14 @@ describe("Icon", () => {
     expect(html).toContain('data-icon="check-circle"');
   });
 
+  test("supports ariaLabel and app styling class hooks", () => {
+    const html = String(<Icon ariaLabel="Warning" className="status-icon" name="warning" />);
+
+    expect(html).toContain('role="img"');
+    expect(html).toContain('aria-label="Warning"');
+    expect(html).toContain('class="icon icon-neutral status-icon"');
+  });
+
   test("supports app-builder aliases and catalogue icons", () => {
     const html = String(<Icon name="save" />);
 

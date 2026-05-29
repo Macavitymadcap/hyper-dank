@@ -123,6 +123,23 @@ For the public docs API page, see <https://macavitymadcap.github.io/hyper-dank/l
 For rendered component contracts, see the published Storybook route at
 <https://macavitymadcap.github.io/hyper-dank/storybook/>.
 
+## Shared API Vocabulary
+
+- `className` is the standard app styling hook for shared components that render a stable outer
+  element. Keep product-specific layout classes in the consuming app.
+- `variant` changes interaction or affordance, such as `Button` and `LinkButton` visual roles.
+- `tone` communicates status or emphasis, such as `Badge`, `Notice`, `Callout`, and `StatusSymbol`.
+- `size` changes compact visual scale when the component does not alter form density.
+- `density` tightens form rhythm for repeated data-entry controls, such as `NumberField`,
+  `DateField`, `FileField`, and `RangeField`.
+- `ariaLabel` names controls or regions when visible text is absent or insufficient.
+- `ariaLabelledBy` points regions at an existing heading id. Older `labelledBy` props on
+  `Container`, `Grid`, `Panel`, and `Stack` remain supported as backwards-compatible aliases.
+- `current` marks navigation or option items that represent the current page or selection.
+- `disabled` is reserved for native controls and options that must block interaction.
+- HTMX props use the shared `HtmxProps` shape and appear only on components that own native
+  button, link, form, or progressive action semantics.
+
 ## Composition Patterns
 
 - Server apps should pair `HxForm`, `FormField`, `Button`, and `Panel` with app-owned routes,

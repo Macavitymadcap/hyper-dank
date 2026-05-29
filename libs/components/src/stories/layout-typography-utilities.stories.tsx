@@ -31,7 +31,7 @@ type Story = StoryObj;
 export const UtilityComposition: Story = {
   render: () =>
     renderStory(
-      <Container as="main" width="wide" labelledBy="utility-heading">
+      <Container as="main" width="wide" ariaLabelledBy="utility-heading">
         <Stack gap="1.25rem">
           <header>
             <Text as="span" tone="muted" size="sm" weight="medium">
@@ -115,7 +115,7 @@ export const UtilityComposition: Story = {
 
 export function UtilityLayout() {
   return (
-    <Container as="main" labelledBy="page-title" width="wide">
+    <Container as="main" ariaLabelledBy="page-title" width="wide">
       <Stack gap="1.25rem">
         <Heading id="page-title" level={1}>Release desk</Heading>
         <Text tone="muted">Product copy and route data stay app-owned.</Text>
