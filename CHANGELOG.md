@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.1](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.7.0...hyper-dank-v2.7.1) (2026-05-31)
+
+
+### Bug Fixes
+
+* **automation:** guard script fetch and JSON parsing ([#223](https://github.com/Macavitymadcap/hyper-dank/issues/223)) ([c93e989](https://github.com/Macavitymadcap/hyper-dank/commit/c93e989c5ca1154bbe23d5a5458f239ca1cb72fb))
+* **security:** harden static demo storage rendering ([#222](https://github.com/Macavitymadcap/hyper-dank/issues/222)) ([bd99b07](https://github.com/Macavitymadcap/hyper-dank/commit/bd99b0784f787a071d77dfbf85ee918789340d79))
+* **security:** redact sensitive local logs ([#221](https://github.com/Macavitymadcap/hyper-dank/issues/221)) ([208c223](https://github.com/Macavitymadcap/hyper-dank/commit/208c223907d76efde43893b33b7d5c82e847c273))
+
 ## [2.7.0](https://github.com/Macavitymadcap/hyper-dank/compare/hyper-dank-v2.6.3...hyper-dank-v2.7.0) (2026-05-24)
 
 
