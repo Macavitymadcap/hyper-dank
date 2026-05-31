@@ -2,7 +2,7 @@
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { runAsync, waitForHttp } from "@macavitymadcap/hyper-dank-automation";
-import { LOCAL_DEV_PASSWORD, seedLocalDevPresets } from "../src/envs/local/local-presets";
+import { seedLocalDevPresets } from "../src/envs/local/local-presets";
 import { startInMemoryAppServer } from "./lib/app-server";
 
 const repoRoot = fileURLToPath(new URL("../../..", import.meta.url));
@@ -31,7 +31,7 @@ try {
   await waitForHttp(`${server.url}/healthz`);
 
   console.log(`E2E app server running at ${server.url}`);
-  console.log(`E2E preset password: ${LOCAL_DEV_PASSWORD}`);
+  console.log("E2E preset password: configured local development preset.");
 
   const playwright = Bun.spawn(
     ["bun", "x", "playwright", "test", "--config", playwrightConfig, ...process.argv.slice(2)],
