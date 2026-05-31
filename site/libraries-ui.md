@@ -129,6 +129,9 @@ Import reusable app-region organisms from `@macavitymadcap/hyper-dank-ui/organis
 
 | Export | Purpose | Demonstration |
 | --- | --- | --- |
+| `ActionPanel`, `ActionPanelProps` | Grouped primary, secondary, and destructive workflow actions with app-owned controls and permission copy. | `Components/Shared/Organisms/Workflow` |
+| `CopyField`, `CopyFieldProps` | Labelled read-only value with app-owned copy action hooks and accessible status output. | `Components/Shared/Organisms/Workflow` |
+| `LiveRegionPanel`, `LiveRegionPanelProps` | Stable live-fragment target for HTMX/SSE-refreshed server state with loading and empty states. | `Components/Shared/Organisms/Workflow` |
 | `StagedForm`, `StagedFormProps`, `StagedFormStep`, `StagedFormStepStatus` | Ordered multi-stage form layout with current, complete, unavailable, and error step states. | `Components/Shared/Organisms/StagedForm` |
 
 Storybook is the canonical rendered reference. Shared package examples are grouped under
@@ -143,6 +146,7 @@ Individual Storybook examples are published at [`/storybook/`]({{ '/storybook/' 
 | Static blogs | `Card`, `Panel`, `Badge`, `CompactList` | Content routing and editorial layout stay local. |
 | Dashboards | `HxForm`, `ScrollableTable`, `TableFilterSummary`, `TableCell`, `Badge`, `PopoverMenu`, `Command`, `BasicGraph` | Domain actions, query construction, sorting, filtering, column preferences, row mutations, live data, analytics rules, and role rules stay local. |
 | Dense forms | `SelectField`, `Combobox`, `PopoverMenu`, `Command`, `StagedForm` | Use native selects for short fixed sets, datalist suggestions for open text, menu actions for compact choices, command search only when the app owns filtering/loading, and staged forms when app routes own sequential step state. |
+| Workflow regions | `CopyField`, `ActionPanel`, `LiveRegionPanel` | Share/copy behaviour, route permissions, event streams, persistence, and fragment content stay local. |
 | Feedback | `StatusSymbol`, `NotificationBanner`, `Notice`, `ValidationSummary`, `Progress`, `StatusSummary`, `Badge` | Status copy, notification timing, toast queues, dismissal, persistence, and escalation rules stay local. |
 | Static demos | `InputGroup`, `LabelledOutput`, `Button`, `Panel` | Demo state and calculation logic stay local. |
 

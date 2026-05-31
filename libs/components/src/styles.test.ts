@@ -8,6 +8,8 @@ describe("shared component styles", () => {
     expect(css).toContain("@media (max-width: 48rem)");
     expect(css).toContain(".accordion-item summary");
     expect(css).toContain(".accordion-item summary span");
+    expect(css).toContain(".action-panel");
+    expect(css).toContain(".action-panel-actions-danger");
     expect(css).toContain(".aspect-ratio");
     expect(css).toContain(".avatar");
     expect(css).toContain(".breadcrumbs ol");
@@ -15,11 +17,15 @@ describe("shared component styles", () => {
     expect(css).toContain(".button-group");
     expect(css).toContain(".callout");
     expect(css).toContain(".choice-field");
+    expect(css).toContain(".copy-field");
+    expect(css).toContain(".copy-field-status");
     expect(css).toContain(".dialog");
     expect(css).toContain("dialog.dialog:not([open])");
     expect(css).toContain(".empty-state");
     expect(css).toContain(".icon-button");
     expect(css).toContain(".kbd");
+    expect(css).toContain(".live-region-panel");
+    expect(css).toContain(".live-region-panel-status");
     expect(css).toContain(".metadata-list");
     expect(css).toContain(".notification-banner");
     expect(css).toContain('.notification-banner[data-severity="danger"]');
