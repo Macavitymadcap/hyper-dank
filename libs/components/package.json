@@ -24,11 +24,15 @@
       "types": "./dist/index.d.ts",
       "import": "./src/index.ts"
     },
+    "./organisms": {
+      "types": "./dist/organisms/index.d.ts",
+      "import": "./src/organisms/index.ts"
+    },
     "./styles.css": "./src/styles.css"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "bun -e 'import { rmSync } from \"node:fs\"; rmSync(\"dist\", { recursive: true, force: true })' && tsc -p tsconfig.build.json",
     "pack:local": "bun pm pack --destination ../../.cache/packages"
   },
   "peerDependencies": {

@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { Button } from "../../atoms/Button";
-import { ButtonGroup } from "../ButtonGroup";
-import { Fieldset } from "../Fieldset";
-import { FormField } from "../FormField";
-import { HxForm } from "../HxForm";
-import { ValidationSummary } from "../ValidationSummary";
+import { ButtonGroup } from "../../molecules/ButtonGroup";
+import { Fieldset } from "../../molecules/Fieldset";
+import { FormField } from "../../molecules/FormField";
+import { HxForm } from "../../molecules/HxForm";
+import { ValidationSummary } from "../../molecules/ValidationSummary";
 import { StagedForm } from "./StagedForm";
 
 const render = (node: unknown): string => String(node);

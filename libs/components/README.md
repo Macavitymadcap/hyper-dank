@@ -45,9 +45,9 @@ import {
   HxForm,
   Panel,
   ScrollableTable,
-  StagedForm,
   Switch,
 } from "@macavitymadcap/hyper-dank-ui";
+import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
 ```
 
 The package publishes source for Bun/workspace consumers and declaration files in `dist/`.
@@ -65,6 +65,32 @@ own their product layout and can layer app-specific styling after the package im
 Vite-backed consumers can import the CSS from their browser entry. Bun/Hono consumers that render
 server-side JSX should still include the CSS through the browser bundle or another static asset
 pipeline; importing the package in server code does not automatically load styles in the browser.
+
+## Component Taxonomy
+
+Hyper-Dank uses atomic-design words as a practical vocabulary and import boundary:
+
+- Atoms are the smallest reusable HTML/CSS primitives, such as buttons, badges, chips, panels, and
+  switches.
+- Molecules combine atoms into reusable controls, feedback surfaces, navigation affordances, data
+  summaries, and content helpers.
+- Organisms render reusable app regions with app-provided workflow state. They may know about
+  current, selected, unavailable, validation, staged, filtered, paginated, or live-updated states,
+  but they must not own product schemas, route orchestration, permissions, persistence, domain
+  calculations, content collections, or product copy.
+- Pages and product feature regions stay in consuming apps. Admin forms, account workspaces,
+  domain calculations, role-aware navigation, and static content routing/models are examples of
+  app-owned code.
+
+Organism-shaped workflow components live behind the organism subpath:
+
+```ts
+import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
+```
+
+`StagedForm` is the current reference organism because it renders route-owned step state,
+validation, actions, and HTMX-friendly panel structure while leaving the consuming app in charge of
+routes and decisions.
 
 ## Public Exports
 
@@ -89,13 +115,14 @@ pipeline; importing the package in server code does not automatically load style
   `ScrollableTableProps`, `SectionHeader`, `SectionHeaderProps`, `SegmentedControl`,
   `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
   `SelectFieldProps`, `SideNav`, `SideNavItem`, `SideNavProps`, `StatBlock`, `StatBlockProps`,
-  `StagedForm`, `StagedFormProps`, `StagedFormStep`, `StagedFormStepStatus`, `StatusSymbol`,
-  `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps`,
-  `TableFilterSummary`, `TableFilterSummaryItem`,
+  `StatusSymbol`, `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`,
+  `StatusSummaryProps`, `TableFilterSummary`, `TableFilterSummaryItem`,
   `TableFilterSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
   `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
   `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,
   `ValidationSummaryProps`.
+- Organisms subpath: `@macavitymadcap/hyper-dank-ui/organisms` currently exports `StagedForm`,
+  `StagedFormProps`, `StagedFormStep`, and `StagedFormStepStatus`.
 - Shared types: `HtmxProps`.
 - CSS: `@macavitymadcap/hyper-dank-ui/styles.css`.
 

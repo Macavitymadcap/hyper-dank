@@ -45,7 +45,6 @@ export const sharedStoryCoverage = {
   Separator: "Components/Shared/Low State Primitives",
   SideNav: "Components/Shared/App Surfaces And Feedback",
   Skeleton: "Components/Shared/Low State Primitives",
-  StagedForm: "Components/Shared/App Surfaces And Feedback",
   StatBlock: "Components/Shared/App Surfaces And Feedback",
   StatusSymbol: "Components/Shared/App Surfaces And Feedback",
   StatusSummary: "Components/Shared/App Surfaces And Feedback",

@@ -30,7 +30,6 @@ import {
   Separator,
   SideNav,
   Skeleton,
-  StagedForm,
   StatBlock,
   StatusSymbol,
   TableFilterSummary,
@@ -38,6 +37,7 @@ import {
   Toolbar,
   Tooltip,
 } from "./index";
+import { StagedForm } from "./organisms";
 
 const render = (node: unknown): string => String(node);
 
@@ -201,15 +201,6 @@ describe("component library", () => {
           resultCount={12}
         />
         <Callout>Remember this</Callout>
-        <StagedForm
-          currentStepId="details"
-          steps={[
-            { id: "basics", label: "Basics", status: "complete" },
-            { id: "details", label: "Details" },
-          ]}
-        >
-          Step fields
-        </StagedForm>
       </Prose>,
     );
 
@@ -222,6 +213,20 @@ describe("component library", () => {
     expect(html).toContain('class="stat-block"');
     expect(html).toContain('class="table-filter-summary"');
     expect(html).toContain('class="callout"');
+  });
+
+  test("exports organism workflow regions from the organism boundary", () => {
+    const steps = [
+      { id: "details", label: "Details", status: "current" as const },
+      { id: "review", label: "Review", status: "available" as const },
+    ];
+    const html = render(
+      <StagedForm currentStepId="details" steps={steps}>
+        Organism import
+      </StagedForm>,
+    );
+
     expect(html).toContain('class="staged-form"');
+    expect(html).toContain("Organism import");
   });
 });

@@ -162,6 +162,7 @@ import {
 import { type RepositoryHarness, runRepositoryHarness } from "@macavitymadcap/hyper-dank-data/testing";
 import { FormValues, HttpResponder, isHtmxRequest } from "@macavitymadcap/hyper-dank-transport";
 import { Button, Panel } from "@macavitymadcap/hyper-dank-ui";
+import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
 
 async function fetchWithTimeout(url: string, timeoutMs = 10_000) {
   const controller = new AbortController();
@@ -194,11 +195,18 @@ const html = String(
     <Button type="button" variant="ghost">
       Save
     </Button>
+    <StagedForm currentStepId="details" steps={[{ id: "details", label: "Details" }]}>
+      Step body
+    </StagedForm>
   </Panel>,
 );
 
-if (!html.includes("Package smoke") || !html.includes('data-variant="ghost"')) {
-  throw new Error("Expected UI components to render through public package imports.");
+if (
+  !html.includes("Package smoke") ||
+  !html.includes('data-variant="ghost"') ||
+  !html.includes('class="staged-form"')
+) {
+  throw new Error("Expected UI components and organisms to render through public package imports.");
 }
 
 const applied: string[] = [];
