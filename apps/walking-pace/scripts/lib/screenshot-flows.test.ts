@@ -57,4 +57,17 @@ describe("screenshot flows", () => {
       "/storybook/iframe.html?id=components-shared-app-surfaces-and-feedback--staged-form-workflow",
     ]);
   });
+
+  test("captures hd-0085 workflow organism examples", () => {
+    const [flow] = selectScreenshotFlows(["hd-0085-workflow-organisms"]);
+
+    expect(flow?.states.map((state) => state.slug)).toEqual([
+      "workflow-organisms",
+      "workflow-actions-live",
+    ]);
+    expect(flow?.states.map((state) => state.path)).toEqual([
+      "/storybook/iframe.html?id=components-shared-organisms-workflow--share-actions-and-live-fragment",
+      "/storybook/iframe.html?id=components-shared-organisms-workflow--share-actions-and-live-fragment",
+    ]);
+  });
 });

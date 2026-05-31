@@ -275,6 +275,26 @@ export const screenshotFlows: ScreenshotFlow[] = [
     ],
   },
   {
+    id: "hd-0085-workflow-organisms",
+    label: "HD 0085 Workflow Organisms",
+    description: "Copy field, action panel, and live fragment organism examples for hd-0085.",
+    states: [
+      {
+        authUserId: null,
+        label: "Workflow organisms",
+        path: "/storybook/iframe.html?id=components-shared-organisms-workflow--share-actions-and-live-fragment",
+        slug: "workflow-organisms",
+      },
+      {
+        authUserId: null,
+        label: "Workflow actions and live fragment",
+        path: "/storybook/iframe.html?id=components-shared-organisms-workflow--share-actions-and-live-fragment",
+        slug: "workflow-actions-live",
+        afterLoad: scrollWorkflowActionsIntoView,
+      },
+    ],
+  },
+  {
     id: "hd-0010-storybook-groups",
     label: "HD 0010 Storybook Groups",
     description: "Visual review evidence for the shared Storybook groups rewritten in hd-0004.",
@@ -410,6 +430,10 @@ async function scrollCommandResultsIntoView({ page }: ScreenshotFlowContext) {
 
 async function scrollStagedFormActionsIntoView({ page }: ScreenshotFlowContext) {
   await page.locator(".staged-form-actions").scrollIntoViewIfNeeded();
+}
+
+async function scrollWorkflowActionsIntoView({ page }: ScreenshotFlowContext) {
+  await page.locator(".action-panel").scrollIntoViewIfNeeded();
 }
 
 async function renderDemoInviteNotice({ page, theme }: ScreenshotFlowContext) {
