@@ -1,4 +1,5 @@
 .accordion,
+.action-panel,
 .basic-graph,
 .button,
 .link-button,
@@ -9,11 +10,13 @@
 .code-block,
 .command,
 .command-field,
+.copy-field,
 .empty-state,
 .fieldset,
 .form-field,
 .input-group,
 .labelled-output,
+.live-region-panel,
 .metadata-list,
 .notice,
 .notification-banner,
@@ -351,13 +354,16 @@
 .button,
 .link-button,
 .popover-menu-trigger,
+.action-panel,
 .card,
 .panel,
 .callout,
 .code-block,
+.copy-field,
 .empty-state,
 .fieldset,
 .labelled-output,
+.live-region-panel,
 .metadata-list,
 .notice,
 .notification-banner,
@@ -370,11 +376,14 @@
   background-image: var(--hd-surface-gradient);
 }
 
+.action-panel,
 .callout,
 .code-block,
+.copy-field,
 .empty-state,
 .fieldset,
 .labelled-output,
+.live-region-panel,
 .metadata-list,
 .notice,
 .notification-banner,
@@ -399,6 +408,7 @@
 }
 
 .command input,
+.copy-field input,
 .form-field :where(input, select, textarea),
 .input-group input,
 .textarea-field textarea {
@@ -567,14 +577,23 @@
   text-underline-offset: 0.18em;
 }
 
+.action-panel,
+.action-panel-body,
+.action-panel-copy,
+.action-panel-header,
 .callout,
 .choice-field,
 .code-block,
 .empty-state,
+.copy-field,
+.copy-field-header,
 .fieldset,
 .form-field,
 .input-group,
 .labelled-output,
+.live-region-panel,
+.live-region-panel-body,
+.live-region-panel-header,
 .loading-indicator,
 .metadata-list,
 .notice,
@@ -589,6 +608,76 @@
 .timeline-list {
   display: grid;
   gap: 0.35rem;
+}
+
+.action-panel,
+.copy-field,
+.live-region-panel {
+  gap: 0.75rem;
+}
+
+.action-panel-header {
+  align-items: start;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.action-panel h2,
+.copy-field label,
+.live-region-panel h2 {
+  font-weight: 800;
+  margin: 0;
+}
+
+.action-panel-meta,
+.copy-field-help,
+.copy-field-status,
+.live-region-panel-status {
+  color: var(--hd-muted-text, currentColor);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.action-panel-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.action-panel-actions-primary,
+.action-panel-actions-secondary,
+.action-panel-actions-danger {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.action-panel-actions-danger {
+  margin-inline-start: auto;
+}
+
+.copy-field-control {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.copy-field input {
+  min-width: 0;
+}
+
+@media (max-width: 36rem) {
+  .action-panel-header,
+  .copy-field-control {
+    grid-template-columns: 1fr;
+  }
+
+  .action-panel-actions,
+  .action-panel-actions-danger {
+    justify-content: flex-start;
+    margin-inline-start: 0;
+  }
 }
 
 .notification-banner {

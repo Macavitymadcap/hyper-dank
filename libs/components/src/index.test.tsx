@@ -37,7 +37,7 @@ import {
   Toolbar,
   Tooltip,
 } from "./index";
-import { StagedForm } from "./organisms";
+import { ActionPanel, CopyField, LiveRegionPanel, StagedForm } from "./organisms";
 
 const render = (node: unknown): string => String(node);
 
@@ -228,5 +228,22 @@ describe("component library", () => {
 
     expect(html).toContain('class="staged-form"');
     expect(html).toContain("Organism import");
+  });
+
+  test("exports workflow organisms for copy, actions, and live fragments", () => {
+    const html = render(
+      <>
+        <CopyField id="share" label="Share" value="https://example.test/share" />
+        <ActionPanel title="Actions" primaryActions={<Button>Save</Button>} />
+        <LiveRegionPanel id="live" status="Updated">
+          Live content
+        </LiveRegionPanel>
+      </>,
+    );
+
+    expect(html).toContain('class="copy-field"');
+    expect(html).toContain('class="action-panel"');
+    expect(html).toContain('class="live-region-panel"');
+    expect(html).toContain("Live content");
   });
 });

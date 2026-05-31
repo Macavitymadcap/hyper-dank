@@ -121,8 +121,10 @@ routes and decisions.
   `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
   `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,
   `ValidationSummaryProps`.
-- Organisms subpath: `@macavitymadcap/hyper-dank-ui/organisms` currently exports `StagedForm`,
-  `StagedFormProps`, `StagedFormStep`, and `StagedFormStepStatus`.
+- Organisms subpath: `@macavitymadcap/hyper-dank-ui/organisms` currently exports `ActionPanel`,
+  `ActionPanelProps`, `CopyField`, `CopyFieldProps`, `LiveRegionPanel`,
+  `LiveRegionPanelProps`, `StagedForm`, `StagedFormProps`, `StagedFormStep`, and
+  `StagedFormStepStatus`.
 - Shared types: `HtmxProps`.
 - CSS: `@macavitymadcap/hyper-dank-ui/styles.css`.
 
@@ -155,6 +157,10 @@ For rendered component contracts, see the published Storybook route at
   `Command` for app-wide command search where filtering and loading stay in the consuming app.
   Use `StagedForm` inside `HxForm` when route-owned sequential steps, validation, and redirects
   need a shared progress and panel layout.
+- Workflow regions should use `CopyField` for app-owned share/read-only values, `ActionPanel` for
+  grouped primary, secondary, and destructive actions, and `LiveRegionPanel` for stable
+  HTMX/SSE-refreshed fragments. Clipboard wiring, route permissions, event streams, and persistence
+  stay in the consuming app.
 - Static demos can use `InputGroup`, `LabelledOutput`, `Button`, and `Panel` without importing
   server-only app code.
 - Docs and static blogs can use `Prose`, `CodeBlock`, `Callout`, `MetadataList`, `TimelineList`,

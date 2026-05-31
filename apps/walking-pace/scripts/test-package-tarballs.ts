@@ -162,7 +162,12 @@ import {
 import { type RepositoryHarness, runRepositoryHarness } from "@macavitymadcap/hyper-dank-data/testing";
 import { FormValues, HttpResponder, isHtmxRequest } from "@macavitymadcap/hyper-dank-transport";
 import { Button, Panel } from "@macavitymadcap/hyper-dank-ui";
-import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
+import {
+  ActionPanel,
+  CopyField,
+  LiveRegionPanel,
+  StagedForm,
+} from "@macavitymadcap/hyper-dank-ui/organisms";
 
 async function fetchWithTimeout(url: string, timeoutMs = 10_000) {
   const controller = new AbortController();
@@ -198,13 +203,21 @@ const html = String(
     <StagedForm currentStepId="details" steps={[{ id: "details", label: "Details" }]}>
       Step body
     </StagedForm>
+    <CopyField id="share-link" label="Share link" value="https://example.test/share" />
+    <ActionPanel title="Actions" primaryActions={<Button type="button">Approve</Button>} />
+    <LiveRegionPanel id="live-fragment" status="Updated">
+      Live body
+    </LiveRegionPanel>
   </Panel>,
 );
 
 if (
   !html.includes("Package smoke") ||
   !html.includes('data-variant="ghost"') ||
-  !html.includes('class="staged-form"')
+  !html.includes('class="staged-form"') ||
+  !html.includes('class="copy-field"') ||
+  !html.includes('class="action-panel"') ||
+  !html.includes('class="live-region-panel"')
 ) {
   throw new Error("Expected UI components and organisms to render through public package imports.");
 }
