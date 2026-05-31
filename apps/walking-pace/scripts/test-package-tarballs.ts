@@ -1,8 +1,9 @@
 #!/usr/bin/env bun
-import { mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { root } from "./lib/paths";
+import { readJsonFile } from "./lib/script-guards";
 
 const packageCacheDir = path.join(root, ".cache", "packages");
 const temporaryParent =
@@ -28,11 +29,11 @@ try {
 }
 
 async function discoverPackageTarballs() {
-  const packageJson = JSON.parse(await readFile(path.join(root, "package.json"), "utf8")) as {
+  const packageJson = await readJsonFile<{
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;
     peerDependencies: Record<string, string>;
-  };
+  }>(path.join(root, "package.json"));
   const entries = await readdir(packageCacheDir);
   const tarballs = Object.fromEntries(
     entries
@@ -162,8 +163,26 @@ import { type RepositoryHarness, runRepositoryHarness } from "@macavitymadcap/hy
 import { FormValues, HttpResponder, isHtmxRequest } from "@macavitymadcap/hyper-dank-transport";
 import { Button, Panel } from "@macavitymadcap/hyper-dank-ui";
 
+async function fetchWithTimeout(url: string, timeoutMs = 10_000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (controller.signal.aborted) {
+      throw new Error(\`Could not fetch \${url} within \${timeoutMs}ms.\`);
+    }
+
+    throw new Error(\`Could not fetch \${url}: \${message}\`);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 const cssUrl = import.meta.resolve("@macavitymadcap/hyper-dank-ui/styles.css");
-const cssResponse = await fetch(cssUrl);
+const cssResponse = await fetchWithTimeout(cssUrl);
 
 if (!cssResponse.ok) {
   throw new Error("Expected the UI CSS export to resolve to a real file.");

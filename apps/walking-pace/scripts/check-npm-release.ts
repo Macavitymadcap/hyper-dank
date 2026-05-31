@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
-import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { root } from "./lib/paths";
+import { fetchWithTimeout, readJsonFile, responseJson } from "./lib/script-guards";
 
 const packageDirs = ["libs/components", "libs/database", "libs/http", "libs/scripts"] as const;
 const registryBaseUrl = process.env.NPM_REGISTRY_URL ?? "https://registry.npmjs.org";
@@ -21,7 +21,7 @@ interface RegistryPackument {
 const packageManifests = await Promise.all(
   packageDirs.map(async (dir) => {
     const packagePath = path.join(root, dir, "package.json");
-    const manifest = JSON.parse(await readFile(packagePath, "utf8")) as PackageManifest;
+    const manifest = await readJsonFile<PackageManifest>(packagePath);
     return { dir, manifest };
   }),
 );
@@ -112,7 +112,7 @@ async function fetchRegistryPackage(packageName: string) {
   let response: Response;
 
   try {
-    response = await fetch(registryUrl, {
+    response = await fetchWithTimeout(registryUrl, {
       headers: {
         Accept: "application/vnd.npm.install-v1+json, application/json",
       },
@@ -130,7 +130,7 @@ async function fetchRegistryPackage(packageName: string) {
     throw new Error(`npm registry returned ${response.status} for ${packageName}.`);
   }
 
-  const packument = (await response.json()) as RegistryPackument;
+  const packument = await responseJson<RegistryPackument>(response, registryUrl);
   return {
     latestVersion: packument["dist-tags"]?.latest ?? null,
     versions: new Set(Object.keys(packument.versions ?? {})),
