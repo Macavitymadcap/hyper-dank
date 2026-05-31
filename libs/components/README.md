@@ -78,9 +78,9 @@ Hyper-Dank uses atomic-design words as a practical vocabulary, not as a breaking
   current, selected, unavailable, validation, staged, filtered, paginated, or live-updated states,
   but they must not own product schemas, route orchestration, permissions, persistence, domain
   calculations, content collections, or product copy.
-- Pages and product feature regions stay in consuming apps. Walking Pace walk/admin forms, Campaign
-  Ledger character-sheet workspaces, dice logic, role-aware navigation, and blog routing/content
-  models are examples of app-owned code.
+- Pages and product feature regions stay in consuming apps. Admin forms, account workspaces,
+  domain calculations, role-aware navigation, and static content routing/models are examples of
+  app-owned code.
 
 The organism boundary is additive. Existing root imports continue to work, even when documentation
 describes a component as organism-shaped. New app-level workflow code may prefer the organism
