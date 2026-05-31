@@ -2,6 +2,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { root } from "./lib/paths";
+import { readJsonFile } from "./lib/script-guards";
 
 const packageDirs = ["libs/components", "libs/database", "libs/http", "libs/scripts"] as const;
 
@@ -21,7 +22,7 @@ const packageJsons = await Promise.all(
     const packagePath = path.join(root, dir, "package.json");
     return {
       dir,
-      json: JSON.parse(await readFile(packagePath, "utf8")) as Record<string, unknown>,
+      json: await readJsonFile<Record<string, unknown>>(packagePath),
       packagePath,
     };
   }),
@@ -89,15 +90,13 @@ if (!workflowFiles.includes("publish-npm.yml")) {
   errors.push("Missing .github/workflows/publish-npm.yml.");
 }
 
-const releaseConfig = JSON.parse(
-  await readFile(path.join(root, ".release-please-config.json"), "utf8"),
-) as {
+const releaseConfig = await readJsonFile<{
   packages?: Record<string, Record<string, unknown>>;
   plugins?: Array<Record<string, unknown>>;
-};
-const releaseManifest = JSON.parse(
-  await readFile(path.join(root, ".release-please-manifest.json"), "utf8"),
-) as Record<string, string>;
+}>(path.join(root, ".release-please-config.json"));
+const releaseManifest = await readJsonFile<Record<string, string>>(
+  path.join(root, ".release-please-manifest.json"),
+);
 
 const linkedLibraryPlugin = releaseConfig.plugins?.find(
   (plugin) => plugin.type === "linked-versions" && plugin.groupName === "hyper-dank-libraries",
