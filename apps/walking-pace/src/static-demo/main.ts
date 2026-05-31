@@ -74,18 +74,13 @@ function renderStats() {
   if (!stats) return;
 
   const current = provider.getStats();
-  stats.innerHTML = `
-    <div class="stats-grid">
-      <div class="labelled-output">
-        <span class="labelled-output-label">Avg mph</span>
-        <output class="labelled-output-value">${formatMetric(current.avgSpeed)}</output>
-      </div>
-      <div class="labelled-output">
-        <span class="labelled-output-label">Median pace</span>
-        <output class="labelled-output-value">${formatMetric(current.medianPace)}</output>
-      </div>
-    </div>
-  `;
+  const grid = createElement("div", { className: "stats-grid" });
+  grid.append(
+    renderLabelledOutput("Avg mph", formatMetric(current.avgSpeed)),
+    renderLabelledOutput("Median pace", formatMetric(current.medianPace)),
+  );
+
+  stats.replaceChildren(grid);
 }
 
 function renderWalks() {
@@ -93,73 +88,141 @@ function renderWalks() {
 
   const walks = provider.getAllWalks();
   const countLabel = `${walks.length} ${walks.length === 1 ? "walk" : "walks"}`;
+  const history = createElement("div", { className: "walks-history" });
+  history.append(renderHistoryHeader(countLabel, walks.length > 0));
 
   if (walks.length === 0) {
-    walksList.innerHTML = `
-      <div class="walks-history">
-        <div class="table-header">
-          <h2 id="history-heading" class="section-title">Walk history</h2>
-          <span class="chip history-count">0 walks</span>
-        </div>
-        <p class="empty-state">No walks recorded yet. Add your first walk above!</p>
-      </div>
-    `;
+    history.append(
+      createElement("p", {
+        className: "empty-state",
+        text: "No walks recorded yet. Add your first walk above!",
+      }),
+    );
+    walksList.replaceChildren(history);
     return;
   }
 
-  walksList.innerHTML = `
-    <div class="walks-history">
-      <div class="table-header">
-        <h2 id="history-heading" class="section-title">Walk history</h2>
-        <div class="static-demo-actions">
-          <span class="chip history-count">${countLabel}</span>
-          <button class="button clear-walks-btn" type="button" data-size="compact" data-variant="danger" data-clear-walks>
-            Clear all
-          </button>
-        </div>
-      </div>
-        <div
-        class="scrollable-table-container"
-        ${walks.length > 3 ? 'data-scrollable="true"' : ""}
-        style="--scrollable-table-columns: ${tableColumnsTemplate}; --scrollable-table-mobile-columns: ${tableMobileColumnsTemplate}; --scrollable-table-row-height: ${WALK_HISTORY_ROW_HEIGHT}; --scrollable-table-mobile-row-height: ${WALK_HISTORY_MOBILE_ROW_HEIGHT}; --scrollable-table-scroll-body-rows: 4; --scrollable-table-mobile-scroll-body-rows: 3"
-      >
-        <table class="scrollable-table walks-table">
-          <thead>
-            <tr class="scrollable-table-row walks-row">
-            <th scope="col">Date</th>
-            <th scope="col">Mi</th>
-            <th scope="col">Min</th>
-            <th scope="col">Sec</th>
-            <th scope="col">Mph</th>
-            <th scope="col">Pace</th>
-            <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody ${walks.length > 3 ? 'tabindex="0"' : ""}>
-            ${walks.map(renderWalkRow).join("")}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `;
+  history.append(renderWalksTable(walks));
+  walksList.replaceChildren(history);
+}
+
+function renderLabelledOutput(label: string, value: string) {
+  const wrapper = createElement("div", { className: "labelled-output" });
+  wrapper.append(
+    createElement("span", { className: "labelled-output-label", text: label }),
+    createElement("output", { className: "labelled-output-value", text: value }),
+  );
+
+  return wrapper;
+}
+
+function renderHistoryHeader(countLabel: string, canClear: boolean) {
+  const header = createElement("div", { className: "table-header" });
+  const heading = createElement("h2", {
+    className: "section-title",
+    text: "Walk history",
+  });
+  heading.id = "history-heading";
+
+  if (!canClear) {
+    header.append(
+      heading,
+      createElement("span", { className: "chip history-count", text: countLabel }),
+    );
+    return header;
+  }
+
+  const actions = createElement("div", { className: "static-demo-actions" });
+  const clearButton = createElement("button", {
+    className: "button clear-walks-btn",
+    text: "Clear all",
+  });
+  clearButton.type = "button";
+  clearButton.dataset.clearWalks = "";
+  clearButton.dataset.size = "compact";
+  clearButton.dataset.variant = "danger";
+  actions.append(
+    createElement("span", { className: "chip history-count", text: countLabel }),
+    clearButton,
+  );
+  header.append(heading, actions);
+
+  return header;
+}
+
+function renderWalksTable(walks: WalkWithStats[]) {
+  const container = createElement("div", { className: "scrollable-table-container" });
+  container.style.setProperty("--scrollable-table-columns", tableColumnsTemplate);
+  container.style.setProperty("--scrollable-table-mobile-columns", tableMobileColumnsTemplate);
+  container.style.setProperty("--scrollable-table-row-height", WALK_HISTORY_ROW_HEIGHT);
+  container.style.setProperty(
+    "--scrollable-table-mobile-row-height",
+    WALK_HISTORY_MOBILE_ROW_HEIGHT,
+  );
+  container.style.setProperty("--scrollable-table-scroll-body-rows", "4");
+  container.style.setProperty("--scrollable-table-mobile-scroll-body-rows", "3");
+  if (walks.length > 3) container.dataset.scrollable = "true";
+
+  const table = createElement("table", { className: "scrollable-table walks-table" });
+  const thead = document.createElement("thead");
+  const headerRow = createElement("tr", { className: "scrollable-table-row walks-row" });
+  for (const label of ["Date", "Mi", "Min", "Sec", "Mph", "Pace", "Action"]) {
+    const header = createElement("th", { text: label });
+    header.scope = "col";
+    headerRow.append(header);
+  }
+  thead.append(headerRow);
+
+  const tbody = document.createElement("tbody");
+  if (walks.length > 3) tbody.tabIndex = 0;
+  tbody.append(...walks.map(renderWalkRow));
+
+  table.append(thead, tbody);
+  container.append(table);
+
+  return container;
 }
 
 function renderWalkRow(walk: WalkWithStats) {
-  return `
-    <tr class="scrollable-table-row walks-row">
-      <td class="walks-cell"><time class="walk-created-at" datetime="${escapeAttribute(walk.created_at)}">${formatDate(walk.created_at)}</time></td>
-      <td class="table-cell walks-cell">${walk.miles.toFixed(1)}</td>
-      <td class="table-cell walks-cell">${walk.minutes}</td>
-      <td class="table-cell walks-cell">${walk.seconds}</td>
-      <td class="table-cell walks-cell">${formatMetric(walk.speed)}</td>
-      <td class="table-cell walks-cell">${formatMetric(walk.pace)}</td>
-      <td class="walks-cell">
-        <button class="button clear-walk-btn" type="button" data-size="compact" data-variant="danger" data-delete-walk="${walk.id}">
-          Clear
-        </button>
-      </td>
-    </tr>
-  `;
+  const row = createElement("tr", { className: "scrollable-table-row walks-row" });
+  const dateCell = createElement("td", { className: "walks-cell" });
+  const time = createElement("time", {
+    className: "walk-created-at",
+    text: formatDate(walk.created_at),
+  });
+  time.dateTime = walk.created_at;
+  dateCell.append(time);
+
+  row.append(
+    dateCell,
+    tableCell(walk.miles.toFixed(1)),
+    tableCell(String(walk.minutes)),
+    tableCell(String(walk.seconds)),
+    tableCell(formatMetric(walk.speed)),
+    tableCell(formatMetric(walk.pace)),
+    actionCell(walk.id),
+  );
+
+  return row;
+}
+
+function tableCell(text: string) {
+  return createElement("td", { className: "table-cell walks-cell", text });
+}
+
+function actionCell(id: number) {
+  const cell = createElement("td", { className: "walks-cell" });
+  const button = createElement("button", {
+    className: "button clear-walk-btn",
+    text: "Clear",
+  });
+  button.type = "button";
+  button.dataset.deleteWalk = String(id);
+  button.dataset.size = "compact";
+  button.dataset.variant = "danger";
+  cell.append(button);
+
+  return cell;
 }
 
 function showError(message: string) {
@@ -182,16 +245,14 @@ function formatMetric(value: number | undefined) {
 
 function formatDate(value: string) {
   const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return "Unknown";
+
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
     month: "short",
   }).format(date);
-}
-
-function escapeAttribute(value: string) {
-  return value.replaceAll('"', "&quot;");
 }
 
 function syncThemeToggle() {
@@ -214,3 +275,14 @@ function applyTheme(theme: "light" | "dark") {
 window.addEventListener("storage", (event) => {
   if (event.key === DEMO_STORAGE_KEY) render();
 });
+
+function createElement<K extends keyof HTMLElementTagNameMap>(
+  tagName: K,
+  options: { className?: string; text?: string } = {},
+) {
+  const element = document.createElement(tagName);
+  if (options.className) element.className = options.className;
+  if (options.text !== undefined) element.textContent = options.text;
+
+  return element;
+}

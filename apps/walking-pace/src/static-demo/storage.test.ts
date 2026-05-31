@@ -67,6 +67,44 @@ describe("LocalStoragePaceProvider", () => {
     expect(storage.getItem(DEMO_STORAGE_KEY)).toBe("[]");
   });
 
+  test("keeps valid stored walks and drops malformed records", () => {
+    const storage = new MemoryStorage();
+    storage.setItem(
+      DEMO_STORAGE_KEY,
+      JSON.stringify([
+        {
+          created_at: "2026-05-18T12:00:00.000Z",
+          id: 1,
+          miles: 1.2,
+          minutes: 18,
+          seconds: 55,
+        },
+        {
+          created_at: `2026-05-18"><img src=x onerror=alert(1)>`,
+          id: 2,
+          miles: 1,
+          minutes: 10,
+          seconds: 0,
+        },
+      ]),
+    );
+
+    const provider = new LocalStoragePaceProvider({ storage });
+
+    expect(provider.getAllWalks()).toHaveLength(1);
+    expect(storage.getItem(DEMO_STORAGE_KEY)).toBe(
+      JSON.stringify([
+        {
+          created_at: "2026-05-18T12:00:00.000Z",
+          id: 1,
+          miles: 1.2,
+          minutes: 18,
+          seconds: 55,
+        },
+      ]),
+    );
+  });
+
   test("recovers from invalid JSON", () => {
     const storage = new MemoryStorage();
     storage.setItem(DEMO_STORAGE_KEY, "not-json");
