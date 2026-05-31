@@ -2,6 +2,7 @@
 import { existsSync } from "node:fs";
 import { extname, relative, resolve } from "node:path";
 import { runAsync, smokeStaticSite } from "@macavitymadcap/hyper-dank-automation";
+import { DEMO_STORAGE_KEY } from "../src/static-demo/storage";
 import { appRoot } from "./lib/paths";
 
 const staticRoot = resolve(appRoot, "dist/static-demo");
@@ -52,7 +53,44 @@ try {
   });
 
   await page.goto(`${baseUrl}/pace/`);
+  await page.evaluate((storageKey) => {
+    window.localStorage.setItem(storageKey, "not-json");
+  }, DEMO_STORAGE_KEY);
+  await page.reload();
   await expect(page.getByRole("heading", { name: "Walking Pace Demo" })).toBeVisible();
+  await expect(page.getByText("No walks recorded yet")).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((storageKey) => window.localStorage.getItem(storageKey), DEMO_STORAGE_KEY),
+    )
+    .toBe("[]");
+
+  await page.evaluate((storageKey) => {
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify([
+        {
+          created_at: "2026-05-18T12:00:00.000Z",
+          id: 1,
+          miles: 1.2,
+          minutes: 18,
+          seconds: 55,
+        },
+        {
+          created_at: `2026-05-18"><img src=x onerror=alert(1)>`,
+          id: 2,
+          miles: 1,
+          minutes: 10,
+          seconds: 0,
+        },
+      ]),
+    );
+  }, DEMO_STORAGE_KEY);
+  await page.reload();
+  await expect(page.locator("#walks-list")).toContainText("1 walk");
+  await expect(page.locator("#walks-list")).toContainText("1.2");
+  await expect(page.locator("#walks-list img")).toHaveCount(0);
+  await page.getByRole("button", { name: "Clear all" }).click();
   await expect(page.getByText("No walks recorded yet")).toBeVisible();
 
   await page.getByRole("spinbutton", { exact: true, name: "Mi" }).fill("1.2");

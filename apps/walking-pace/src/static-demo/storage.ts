@@ -142,6 +142,7 @@ function isStaticDemoWalk(value: unknown): value is StaticDemoWalk {
     Number.isInteger(walk.id) &&
     Number(walk.id) > 0 &&
     typeof walk.created_at === "string" &&
+    Number.isFinite(Date.parse(walk.created_at)) &&
     Number.isFinite(walk.miles) &&
     Number(walk.miles) > 0 &&
     Number.isInteger(walk.minutes) &&
