@@ -68,6 +68,73 @@ Useful inputs:
   [#195](https://github.com/Macavitymadcap/hyper-dank/issues/195) are adjacent context and should
   be linked, not duplicated.
 
+## hd-0083 Audit Findings
+
+Audit date: 2026-05-31.
+
+Local evidence inspected:
+
+- Hyper-Dank shared UI exports in `libs/components/src/index.ts` and the current
+  `libs/components/src/molecules/*` implementations.
+- Walking Pace app organisms in `apps/walking-pace/src/components/organisms/*`.
+- Campaign Ledger consumer components under
+  `/Users/dank/Code/personal/web/campaign-ledger/src/components`.
+- Astro Blog components and layouts under `/Users/dank/Code/personal/web/astro-blog/src`.
+
+Planning Poker evidence is not available in the local checkout set, so the later compatibility pass
+should either locate that project or treat Planning Poker as a design target that must be proven by
+a new neutral example inside Hyper-Dank.
+
+### Promotion Matrix
+
+| Candidate | Classification | Evidence | Follow-up |
+| --- | --- | --- | --- |
+| `StagedForm` | Document as organism, keep existing molecule export for compatibility | It renders route-owned step state, status, validation, actions, and HTMX hooks in `libs/components/src/molecules/StagedForm/StagedForm.tsx`. It is already the clearest example of server-owned workflow state. | `hd-0084` should use it as the reference organism boundary. `hd-0088` should document it as an organism without moving the import path in this epic. |
+| `Tabs`, `SideNav`, `Pagination` | Keep molecule, document as low-state navigation patterns | They expose current page/step state, but the component work is navigation affordance rather than a reusable feature region. Campaign Ledger `SheetTabs` proves that app tab workspaces need stronger routing/domain context than shared `Tabs` should own. | `hd-0084` should name these as low-state molecules. Do not promote them in `hd-0085` through `hd-0087`. |
+| `Command`, `Combobox`, `RadioGroup`, `SegmentedControl`, `TableFilterSummary` | Keep molecule; use as building blocks for future selection/filter organisms | They model selected/current/query/filter state, but remain generic controls or summaries. Repeated app evidence exists for selection and filter state, not for a single shared feature region yet. | `hd-0086` may compose these into a neutral `ChoiceDeck` or status/selection organism only if the API avoids app routes and domain nouns. |
+| `StatusSummary`, `StatBlock`, `LabelledOutput`, `Progress`, `ValidationSummary` | Keep molecule; possible result/status organism building blocks | Walking Pace `Stats` and admin score panels use labelled metrics; Campaign Ledger action/resource panels use compact status sections; shared components already cover the smaller display units. | `hd-0086` should prefer a small `ResultSummary`/`StatusList` wrapper over duplicating the metric atoms. |
+| `AppShell`, `Toolbar`, `PageHeader`, `PopoverMenu` | Document as shell/chrome molecules; add organism only if audit-backed | `AppShell` and `Toolbar` are structural. Campaign Ledger `SiteHeader` adds user/session/role logic and menu routing, so it is app-owned. Astro Blog `Navigation` is static site chrome. | `hd-0087` should narrow "app chrome organisms" to app-neutral layout/chrome slots, not authenticated navigation logic. |
+| `Card`, `Panel`, `CompactList`, `MetadataList`, `TimelineList`, `Prose` | Keep molecule/atom; use for content organisms if needed | Astro Blog `BlogLink` and Markdown layouts show reusable content-card and metadata shapes, while Campaign Ledger compact sections show repeated list/detail regions. | `hd-0087` can add `ArticleCard`/`PostSummary` only after keeping blog routing, collections, and voice app-owned. |
+| `HxForm`, `ButtonGroup`, `Dialog`, `PopoverMenu` | Keep molecule; compose into workflow organisms | These provide progressive enhancement and interaction affordances, but do not own workflow state on their own. Walking Pace delete/clear actions and Campaign Ledger dice/rest forms show repeated action-region needs. | `hd-0085` should focus on neutral action panels and live fragments that accept app-provided copy, actions, status, and HTMX attributes. |
+| Walking Pace admin/walk organisms | Leave app-owned, mine for shape evidence | `AdminDashboard`, `WalksTable`, `WalkForm`, invite/user lists, score panels, and stats carry walk/admin nouns, repository state, permissions, and route paths. | Use as compatibility examples in `hd-0089`; do not move them into the shared UI package. |
+| Campaign Ledger sheet workspace and tabs | Leave app-owned, mine for state contracts | `SheetTabWorkspace`, `SheetTabs`, and `SheetTabPanel` combine character sheet data, tab routing, HTMX fragments, and campaign-specific rule panels. | Use them to prove tab-panel/live-fragment contracts; keep character sheet tab IDs and rule data outside Hyper-Dank. |
+| Campaign Ledger dice roller | Leave app-owned | `DiceRoller` depends on character slug routes, d20 modes, ability modifiers, proficiency, and roll output semantics. | Explicitly exclude from shared organisms. A future generic `ActionPanel` may host an app-owned roller, but should not implement dice logic. |
+| Campaign Ledger site header | Leave app-owned, possible chrome evidence | `SiteHeader` combines auth state, campaign roles, admin capabilities, theme toggle, and route-specific menu links. | `hd-0087` should not add role-aware navigation. Shared chrome should accept slots/items, not compute access. |
+| Astro Blog navigation, blog link, Markdown layout | Mine for content/chrome evidence, leave content model app-owned | `BlogLink`, `Navigation`, and `MarkdownPostLayout` show post summary, tag/navigation, and layout needs without server workflow state. | Good evidence for `ArticleCard`/`PostSummary` and static chrome slots; keep content collections, routes, tags, RSS/search, and editorial voice app-owned. |
+
+### Repeated State Contracts
+
+- Current/selected: shared `Tabs`, `SideNav`, `Command`, `RadioGroup`, and Campaign Ledger
+  `SheetTabs`.
+- Available/disabled/unavailable: shared `StagedForm`, `Pagination`, controls, and app action
+  panels.
+- Error/validation: shared `ValidationSummary`, `StagedForm`, Walking Pace admin notices, and form
+  organisms.
+- Filtered/paginated: shared `TableFilterSummary`, `Pagination`, and Walking Pace table regions.
+- Live-updated fragments: shared HTMX props, `HxForm`, `StagedForm`, Walking Pace `WalksTable`, and
+  Campaign Ledger sheet tab panels.
+- Role/admin/host-only: Walking Pace admin dashboard and Campaign Ledger site header prove the
+  state contract, but the permission decisions must remain app-owned.
+- Revealed/hidden/copied: not proven strongly in local consumers. Treat copy/reveal examples in
+  `hd-0085` as optional unless Planning Poker or a new compatibility example supplies evidence.
+
+### Ticket Impact
+
+- `hd-0084` should explicitly define organisms as app-region renderers of app-owned state, then
+  document `StagedForm` as the existing organism-shaped component while preserving its current
+  export.
+- `hd-0085` should continue with workflow organisms, but scope them around neutral `ActionPanel`
+  and `LiveRegionPanel` shapes. `CopyField` should be conditional on additional evidence.
+- `hd-0086` should continue, using `ChoiceDeck`, `StatusList`, and `ResultSummary` as wrappers
+  around existing lower-level controls and summaries.
+- `hd-0087` should narrow app chrome to slot-based/static chrome and content-summary components.
+  Do not add role-aware headers, character-sheet workspaces, or route-generating tab systems.
+- `hd-0088` should document the "organism by behaviour, compatible export by path" rule so current
+  molecule imports remain valid.
+- `hd-0089` must include compatibility examples for Walking Pace admin/table panels, Campaign
+  Ledger sheet/live-tab shapes, and Astro Blog post-summary/chrome shapes. Planning Poker remains a
+  gap unless a local source or neutral room example is added.
+
 ## Ticket Plan
 
 | Ticket | Issue | Branch | Scope | Acceptance Criteria |
