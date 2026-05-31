@@ -24,6 +24,10 @@
       "types": "./dist/index.d.ts",
       "import": "./src/index.ts"
     },
+    "./organisms": {
+      "types": "./dist/organisms/index.d.ts",
+      "import": "./src/organisms/index.ts"
+    },
     "./styles.css": "./src/styles.css"
   },
   "types": "./dist/index.d.ts",

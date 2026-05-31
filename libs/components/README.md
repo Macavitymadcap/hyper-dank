@@ -66,6 +66,35 @@ Vite-backed consumers can import the CSS from their browser entry. Bun/Hono cons
 server-side JSX should still include the CSS through the browser bundle or another static asset
 pipeline; importing the package in server code does not automatically load styles in the browser.
 
+## Component Taxonomy
+
+Hyper-Dank uses atomic-design words as a practical vocabulary, not as a breaking import policy:
+
+- Atoms are the smallest reusable HTML/CSS primitives, such as buttons, badges, chips, panels, and
+  switches.
+- Molecules combine atoms into reusable controls, feedback surfaces, navigation affordances, data
+  summaries, and content helpers.
+- Organisms render reusable app regions with app-provided workflow state. They may know about
+  current, selected, unavailable, validation, staged, filtered, paginated, or live-updated states,
+  but they must not own product schemas, route orchestration, permissions, persistence, domain
+  calculations, content collections, or product copy.
+- Pages and product feature regions stay in consuming apps. Walking Pace walk/admin forms, Campaign
+  Ledger character-sheet workspaces, dice logic, role-aware navigation, and blog routing/content
+  models are examples of app-owned code.
+
+The organism boundary is additive. Existing root imports continue to work, even when documentation
+describes a component as organism-shaped. New app-level workflow code may prefer the organism
+subpath when it exists:
+
+```ts
+import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
+```
+
+`StagedForm` remains available from `@macavitymadcap/hyper-dank-ui` for backwards compatibility.
+It is documented as the current reference organism because it renders route-owned step state,
+validation, actions, and HTMX-friendly panel structure while leaving the consuming app in charge of
+routes and decisions.
+
 ## Public Exports
 
 - Atoms: `Badge`, `BadgeProps`, `Button`, `ButtonProps`, `Card`, `CardElement`, `CardProps`, `Chip`,
@@ -96,6 +125,8 @@ pipeline; importing the package in server code does not automatically load style
   `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
   `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,
   `ValidationSummaryProps`.
+- Organisms subpath: `@macavitymadcap/hyper-dank-ui/organisms` currently exports `StagedForm`,
+  `StagedFormProps`, `StagedFormStep`, and `StagedFormStepStatus`.
 - Shared types: `HtmxProps`.
 - CSS: `@macavitymadcap/hyper-dank-ui/styles.css`.
 

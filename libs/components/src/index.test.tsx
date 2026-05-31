@@ -38,6 +38,7 @@ import {
   Toolbar,
   Tooltip,
 } from "./index";
+import { StagedForm as OrganismStagedForm } from "./organisms";
 
 const render = (node: unknown): string => String(node);
 
@@ -223,5 +224,26 @@ describe("component library", () => {
     expect(html).toContain('class="table-filter-summary"');
     expect(html).toContain('class="callout"');
     expect(html).toContain('class="staged-form"');
+  });
+
+  test("keeps molecule imports while exposing additive organism imports", () => {
+    const steps = [
+      { id: "details", label: "Details", status: "current" as const },
+      { id: "review", label: "Review", status: "available" as const },
+    ];
+    const moleculeHtml = render(
+      <StagedForm currentStepId="details" steps={steps}>
+        Molecule import
+      </StagedForm>,
+    );
+    const organismHtml = render(
+      <OrganismStagedForm currentStepId="details" steps={steps}>
+        Organism import
+      </OrganismStagedForm>,
+    );
+
+    expect(moleculeHtml).toContain('class="staged-form"');
+    expect(organismHtml).toContain('class="staged-form"');
+    expect(organismHtml).toContain("Organism import");
   });
 });

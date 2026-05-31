@@ -168,13 +168,14 @@ export const StagedFormWorkflow: Story = {
     renderStory(
       <article class="storybook-doc" aria-labelledby="staged-form-heading">
         <header class="storybook-doc__header">
-          <p class="storybook-doc__eyebrow">Sequential form contract</p>
+          <p class="storybook-doc__eyebrow">Sequential organism contract</p>
           <h1 id="staged-form-heading" class="storybook-doc__title">
             Staged form workflow
           </h1>
           <p class="storybook-doc__lede">
-            Split long server-rendered forms into ordered stages while routes keep validation,
-            dependency rules, persistence, redirects, and HTMX fragment responses.
+            Split long server-rendered forms into ordered stages with the shared organism boundary
+            while routes keep validation, dependency rules, persistence, redirects, and HTMX
+            fragment responses.
           </p>
         </header>
         <div class="storybook-doc__grid storybook-doc__grid--two">
@@ -259,7 +260,8 @@ export const StagedFormWorkflow: Story = {
           <CodeBlock
             className="storybook-doc__section storybook-doc__section--span-all"
             language="tsx"
-            code={`import { Button, ButtonGroup, FormField, HxForm, StagedForm } from "@macavitymadcap/hyper-dank-ui";
+            code={`import { Button, ButtonGroup, FormField, HxForm } from "@macavitymadcap/hyper-dank-ui";
+import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
 
 export function ArticleStage({ stage }) {
   return (
