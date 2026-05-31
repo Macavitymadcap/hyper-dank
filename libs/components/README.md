@@ -45,9 +45,9 @@ import {
   HxForm,
   Panel,
   ScrollableTable,
-  StagedForm,
   Switch,
 } from "@macavitymadcap/hyper-dank-ui";
+import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
 ```
 
 The package publishes source for Bun/workspace consumers and declaration files in `dist/`.
@@ -68,7 +68,7 @@ pipeline; importing the package in server code does not automatically load style
 
 ## Component Taxonomy
 
-Hyper-Dank uses atomic-design words as a practical vocabulary, not as a breaking import policy:
+Hyper-Dank uses atomic-design words as a practical vocabulary and import boundary:
 
 - Atoms are the smallest reusable HTML/CSS primitives, such as buttons, badges, chips, panels, and
   switches.
@@ -82,16 +82,13 @@ Hyper-Dank uses atomic-design words as a practical vocabulary, not as a breaking
   domain calculations, role-aware navigation, and static content routing/models are examples of
   app-owned code.
 
-The organism boundary is additive. Existing root imports continue to work, even when documentation
-describes a component as organism-shaped. New app-level workflow code may prefer the organism
-subpath when it exists:
+Organism-shaped workflow components live behind the organism subpath:
 
 ```ts
 import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
 ```
 
-`StagedForm` remains available from `@macavitymadcap/hyper-dank-ui` for backwards compatibility.
-It is documented as the current reference organism because it renders route-owned step state,
+`StagedForm` is the current reference organism because it renders route-owned step state,
 validation, actions, and HTMX-friendly panel structure while leaving the consuming app in charge of
 routes and decisions.
 
@@ -118,9 +115,8 @@ routes and decisions.
   `ScrollableTableProps`, `SectionHeader`, `SectionHeaderProps`, `SegmentedControl`,
   `SegmentedControlOption`, `SegmentedControlProps`, `SelectField`, `SelectFieldOption`,
   `SelectFieldProps`, `SideNav`, `SideNavItem`, `SideNavProps`, `StatBlock`, `StatBlockProps`,
-  `StagedForm`, `StagedFormProps`, `StagedFormStep`, `StagedFormStepStatus`, `StatusSymbol`,
-  `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps`,
-  `TableFilterSummary`, `TableFilterSummaryItem`,
+  `StatusSymbol`, `StatusSymbolProps`, `StatusTone`, `StatusSummary`, `StatusSummaryItem`,
+  `StatusSummaryProps`, `TableFilterSummary`, `TableFilterSummaryItem`,
   `TableFilterSummaryProps`, `Tabs`, `TabItem`, `TabsProps`,
   `TextareaField`, `TextareaFieldProps`, `TimelineList`, `TimelineListItem`,
   `TimelineListProps`, `Toolbar`, `ToolbarProps`, `ValidationSummary`, `ValidationSummaryItem`,

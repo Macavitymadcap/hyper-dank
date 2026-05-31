@@ -116,7 +116,7 @@ export const WorkflowRegion: Story = {
               <li>Owns: reusable region markup, step navigation, panel slots, and ARIA state.</li>
               <li>Receives: current step, validation, actions, links, and HTMX attributes.</li>
               <li>Leaves to apps: schemas, branching rules, saves, permissions, and redirects.</li>
-              <li>Importing from the organism subpath is additive; root imports still work.</li>
+              <li>Import from the organism subpath when composing staged workflow regions.</li>
             </ul>
           </section>
           <CodeBlock

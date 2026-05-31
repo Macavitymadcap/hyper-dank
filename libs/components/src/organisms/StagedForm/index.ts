@@ -3,4 +3,4 @@ export {
   type StagedFormProps,
   type StagedFormStep,
   type StagedFormStepStatus,
-} from "../../molecules/StagedForm";
+} from "./StagedForm";

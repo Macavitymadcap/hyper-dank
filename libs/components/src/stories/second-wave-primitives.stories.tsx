@@ -23,7 +23,6 @@ import { Progress } from "../molecules/Progress";
 import { Prose } from "../molecules/Prose";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { SideNav } from "../molecules/SideNav";
-import { StagedForm } from "../molecules/StagedForm";
 import { StatBlock } from "../molecules/StatBlock";
 import { StatusSummary } from "../molecules/StatusSummary";
 import { StatusSymbol } from "../molecules/StatusSymbol";
@@ -31,6 +30,7 @@ import { Tabs } from "../molecules/Tabs";
 import { TimelineList } from "../molecules/TimelineList";
 import { Toolbar } from "../molecules/Toolbar";
 import { ValidationSummary } from "../molecules/ValidationSummary";
+import { StagedForm } from "../organisms/StagedForm";
 import { renderStory } from "./render";
 
 const meta = {

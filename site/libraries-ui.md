@@ -39,7 +39,7 @@ Import components from server JSX and import the CSS through the browser asset p
 component in server code does not automatically load browser styles.
 
 ```ts
-import { Button, Card, FormField, HxForm, StagedForm, Switch } from "@macavitymadcap/hyper-dank-ui";
+import { Button, Card, FormField, HxForm, Switch } from "@macavitymadcap/hyper-dank-ui";
 import "@macavitymadcap/hyper-dank-ui/styles.css";
 
 export function SettingsForm() {
@@ -97,7 +97,6 @@ layer after the package CSS.
 | `SelectField`, `SelectFieldOption`, `SelectFieldProps` | Labelled native select with options, hint, and error hooks. | `Components/Shared` |
 | `SideNav`, `SideNavItem`, `SideNavProps` | Labelled section navigation with current-state output. | `Components/Shared` |
 | `StatBlock`, `StatBlockProps` | Definition-list metric block for dashboard summaries. | `Components/Shared` |
-| `StagedForm`, `StagedFormProps`, `StagedFormStep`, `StagedFormStepStatus` | Ordered multi-stage form layout with current, complete, unavailable, and error step states. | `Components/Shared/App Surfaces And Feedback` |
 | `StatusSymbol`, `StatusSymbolProps`, `StatusTone` | Inline status marker that pairs label, shape, and severity without relying on colour alone. | `Components/Shared/App Surfaces And Feedback` |
 | `StatusSummary`, `StatusSummaryItem`, `StatusSummaryProps` | Definition-list status rows for review dashboards. | `Components/Shared` |
 | `Switch`, `SwitchProps` | Checkbox-backed icon toggle for themes, preferences, and HTMX-enhanced settings. | `Components/Shared/Switch` |
@@ -123,6 +122,14 @@ layer after the package CSS.
 | `Separator`, `SeparatorProps` | Decorative or semantic separator for grouping dense controls and content. | `Components/Shared/Low State Primitives` |
 | `Skeleton`, `SkeletonProps` | Labelled loading placeholder with line, block, and circle shapes. | `Components/Shared/Low State Primitives` |
 | `Tooltip`, `TooltipProps` | Static contextual help with an explicit text label and focusable described trigger. | `Components/Shared/Low State Primitives` |
+
+## Organism API
+
+Import reusable app-region organisms from `@macavitymadcap/hyper-dank-ui/organisms`.
+
+| Export | Purpose | Demonstration |
+| --- | --- | --- |
+| `StagedForm`, `StagedFormProps`, `StagedFormStep`, `StagedFormStepStatus` | Ordered multi-stage form layout with current, complete, unavailable, and error step states. | `Components/Shared/Organisms/StagedForm` |
 
 Storybook is the canonical rendered reference. Shared package examples are grouped under
 `Components/Shared`, while Walking Pace examples are grouped under `Components/Reference App`.
@@ -164,6 +171,8 @@ The current panel can compose `Fieldset`, `FormField`, `ValidationSummary`, `But
 native submit buttons.
 
 ```tsx
+import { StagedForm } from "@macavitymadcap/hyper-dank-ui/organisms";
+
 <HxForm action="/articles/new" method="post" hx-post="/articles/new/stage" hx-target="#stages">
   <StagedForm
     id="stages"
