@@ -3,7 +3,6 @@ import type { Database } from "bun:sqlite";
 import { createAuthProvider } from "../src/auth";
 import { createDatabaseProvider, type DatabaseProvider } from "../src/db";
 import {
-  LOCAL_DEV_PASSWORD,
   resetSqliteLocalDevPresetUsers,
   seedLocalDevPresets,
 } from "../src/envs/local/local-presets";
@@ -36,7 +35,7 @@ try {
   });
 
   console.info(`Seeded ${results.length} local dev users.`);
-  console.info(`Shared password: ${LOCAL_DEV_PASSWORD}`);
+  console.info("Shared password: configured local development preset.");
 
   for (const result of results) {
     const status = result.user.banned ? "banned" : result.user.role;
